@@ -1,4 +1,5 @@
 import { ThemeProvider } from '@/components/theme-provider'
+import { Toaster } from '@/components/ui/sonner'
 import { primaryFont, secondaryFont } from '@/config/fonts.config'
 import { cn } from '@/lib/utils'
 import type { Metadata } from 'next'
@@ -41,15 +42,16 @@ export default function RootLayout({
 	children: React.ReactNode
 }>) {
 	return (
-		<html lang='es' suppressHydrationWarning>
+		<html lang='es'>
 			<body className={cn(primaryFont.variable, secondaryFont.variable)}>
 				<ThemeProvider
 					attribute='class'
-					defaultTheme='system'
+					defaultTheme='light'
 					enableSystem
 					disableTransitionOnChange>
 					{children}
 				</ThemeProvider>
+				<Toaster richColors />
 			</body>
 		</html>
 	)

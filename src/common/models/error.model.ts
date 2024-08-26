@@ -1,0 +1,5 @@
+export interface ErrorModel {
+	message: string
+	statusCode: number
+	error: string
+}
