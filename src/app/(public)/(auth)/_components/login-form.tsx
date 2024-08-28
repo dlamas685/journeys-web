@@ -1,6 +1,10 @@
 'use client'
-import { authenticate } from '@/common/actions/auth.action'
+import {
+	loginWithCredentials,
+	loginWithGoogle,
+} from '@/common/actions/auth.action'
 import InputPassword from '@/common/components/ui/form/input-password'
+import GoogleIcon from '@/common/components/ui/icons/google-icon'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -12,16 +16,22 @@ import {
 	FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Separator } from '@/components/ui/separator'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LoaderCircle } from 'lucide-react'
-import { AuthError } from 'next-auth'
+import { useRouter } from 'next/navigation'
 import { useForm, useFormState } from 'react-hook-form'
 import { toast } from 'sonner'
-import { LoginSchema, loginSchema } from '../_schemas/login.schema'
+import {
+	CredentialsSchema,
+	credentialsSchema,
+} from '../_schemas/credentials.schema'
 
 const LoginForm = () => {
-	const form = useForm<LoginSchema>({
-		resolver: zodResolver(loginSchema),
+	const router = useRouter()
+
+	const form = useForm<CredentialsSchema>({
+		resolver: zodResolver(credentialsSchema),
 		defaultValues: {
 			email: '',
 			password: '',
@@ -31,18 +41,18 @@ const LoginForm = () => {
 
 	const { isSubmitting } = useFormState(form)
 
-	const handleSubmit = async (values: LoginSchema) => {
-		const formData = new FormData()
-		formData.append('email', values.email)
-		formData.append('password', values.password)
-		formData.append('rememberMe', values.rememberMe.toString())
-		await authenticate(formData).catch((error: AuthError) => {
-			toast.error(error.name, {
-				duration: 3000,
-				description: error.message,
-				position: 'top-right',
+	const handleSubmit = async (values: CredentialsSchema) => {
+		await loginWithCredentials(values)
+			.then(() => {
+				router.push('/home')
 			})
-		})
+			.catch(error => {
+				toast.error(error.name, {
+					duration: 3000,
+					description: error.message,
+					position: 'top-right',
+				})
+			})
 	}
 
 	return (
@@ -59,6 +69,7 @@ const LoginForm = () => {
 								<Input
 									{...field}
 									placeholder='Ingresa tu dirección de correo electrónico'
+									type='email'
 								/>
 							</FormControl>
 							<FormMessage className='max-w-sm' />
@@ -94,12 +105,14 @@ const LoginForm = () => {
 				/>
 				<Button type='submit' disabled={isSubmitting}>
 					{isSubmitting ? (
-						<LoaderCircle className='w-6 h-6 animate-spin' />
-					) : null}
+						<LoaderCircle className='w-6 h-6 mr-1 animate-spin' />
+					) : (
+						<div className='w-6 h-6 mr-1' />
+					)}
 					Iniciar sesión
 				</Button>
 
-				{/* <div className='grid grid-cols-[1fr_auto_1fr] items-center my-4'>
+				<div className='grid grid-cols-[1fr_auto_1fr] items-center my-4'>
 					<Separator />
 					<span className='font-secondary text-sm font-extralight px-3'>
 						O CONTINUAR CON
@@ -107,10 +120,15 @@ const LoginForm = () => {
 					<Separator />
 				</div>
 
-				<Button variant='outline'>
+				<Button
+					variant='outline'
+					type='button'
+					onClick={async () => {
+						await loginWithGoogle()
+					}}>
 					<GoogleIcon />
 					<span className='ml-2'>Google</span>
-				</Button> */}
+				</Button>
 			</form>
 		</Form>
 	)

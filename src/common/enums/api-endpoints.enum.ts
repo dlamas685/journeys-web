@@ -1,4 +1,5 @@
 export enum ApiEndpoints {
-	AUTH = 'auth',
-	LOGIN = 'login',
+	LOGIN = 'auth/login',
+	GOOGLE_LOGIN = 'auth/google/login',
+	TOKEN_VALIDATION = 'auth/token-validation',
 }
