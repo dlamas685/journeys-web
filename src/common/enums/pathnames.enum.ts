@@ -3,4 +3,5 @@ export enum Pathnames {
 	SIGN_UP = 'sign-up',
 	ERROR = 'error',
 	HOME = 'home',
+	PROVIDERS = 'providers',
 }

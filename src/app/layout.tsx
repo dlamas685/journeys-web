@@ -1,3 +1,4 @@
+import Spinner from '@/common/components/ui/misc/spinner'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
 import { primaryFont, secondaryFont } from '@/config/fonts.config'
@@ -42,7 +43,7 @@ export default function RootLayout({
 	children: React.ReactNode
 }>) {
 	return (
-		<html lang='es'>
+		<html lang='es' suppressHydrationWarning>
 			<body className={cn(primaryFont.variable, secondaryFont.variable)}>
 				<ThemeProvider
 					attribute='class'
@@ -52,6 +53,7 @@ export default function RootLayout({
 					{children}
 				</ThemeProvider>
 				<Toaster richColors />
+				<Spinner />
 			</body>
 		</html>
 	)

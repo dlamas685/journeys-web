@@ -1,14 +1,17 @@
 'use server'
-import { signIn } from '@/auth'
-import { CredentialsSignin, User } from 'next-auth'
+import { ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 import { ApiEndpoints } from '../enums'
-import { CredentialsModel } from '../models'
+import { AuthModel, CredentialsModel } from '../models'
 
 const API_URL = process.env.API_URL
 
-export const logIn = async (credentials: CredentialsModel) => {
+export const loginWithCredentials = async (credentials: CredentialsModel) => {
 	try {
-		const URL = `${API_URL}/${ApiEndpoints.AUTH}/${ApiEndpoints.LOGIN}`
+		const cookiesStore = cookies()
+
+		const URL = `${API_URL}/${ApiEndpoints.LOGIN}`
 
 		const response = await fetch(URL, {
 			method: 'POST',
@@ -18,21 +21,70 @@ export const logIn = async (credentials: CredentialsModel) => {
 			body: JSON.stringify(credentials),
 		})
 
-		if (response.status === 401 || response.status === 404) {
-			throw new CredentialsSignin('Credenciales incorrectas.')
+		if (!response.ok) {
+			if (response.status === 401) {
+				throw new Error('Credenciales inválidas')
+			} else {
+				throw new Error('Algo salió mal')
+			}
 		}
 
-		const user = (await response.json()) as User
+		const auth = (await response.json()) as AuthModel
 
-		return user
+		const options: Partial<ResponseCookie> = {
+			httpOnly: true,
+			secure: process.env.NODE_ENV === 'production',
+			sameSite: 'lax',
+			expires: new Date(auth.expires * 1000),
+		}
+
+		cookiesStore.set('session.token', auth.accessToken, options)
+
+		cookiesStore.set('session.user', JSON.stringify(auth.user), options)
+
+		return auth
 	} catch (error) {
 		throw error
 	}
 }
 
-export const authenticate = async (formData: FormData) => {
+export const loginWithGoogle = async () => {
+	redirect(`${API_URL}/${ApiEndpoints.GOOGLE_LOGIN}`)
+}
+
+export const validateToken = async (token: string) => {
 	try {
-		await signIn('credentials', formData)
+		const cookiesStore = cookies()
+
+		const URL = `${API_URL}/${ApiEndpoints.TOKEN_VALIDATION}`
+
+		const response = await fetch(URL, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+
+			body: JSON.stringify({ token }),
+		})
+
+		if (!response.ok) {
+			throw new Error('Token inválido')
+		}
+
+		const auth = (await response.json()) as AuthModel
+
+		const options: Partial<ResponseCookie> = {
+			httpOnly: true,
+			secure: process.env.NODE_ENV === 'production',
+			sameSite: 'lax',
+			expires: new Date(auth.expires * 1000),
+		}
+
+		cookiesStore.set('session.token', auth.accessToken, options)
+
+		cookiesStore.set('session.user', JSON.stringify(auth.user), options)
+
+		return auth
 	} catch (error) {
 		throw error
 	}
