@@ -5,6 +5,7 @@ import {
 } from '@/common/actions/auth.action'
 import InputPassword from '@/common/components/ui/form/input-password'
 import GoogleIcon from '@/common/components/ui/icons/google-icon'
+import { Pathnames } from '@/common/enums'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -19,6 +20,7 @@ import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LoaderCircle } from 'lucide-react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useForm, useFormState } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -44,7 +46,7 @@ const LoginForm = () => {
 	const handleSubmit = async (values: CredentialsSchema) => {
 		await loginWithCredentials(values)
 			.then(() => {
-				router.push('/home')
+				router.push(`/${Pathnames.HOME}`)
 			})
 			.catch(error => {
 				toast.error(error.name, {
@@ -88,27 +90,34 @@ const LoginForm = () => {
 						</FormItem>
 					)}
 				/>
-				<FormField
-					control={form.control}
-					name='rememberMe'
-					render={({ field }) => (
-						<FormItem className='flex flex-row items-start space-x-3 space-y-0'>
-							<FormControl>
-								<Checkbox
-									checked={field.value}
-									onCheckedChange={field.onChange}
-								/>
-							</FormControl>
-							<FormLabel className='font-normal'>Recordarme</FormLabel>
-						</FormItem>
-					)}
-				/>
+
+				<section className='flex justify-between items-center'>
+					<FormField
+						control={form.control}
+						name='rememberMe'
+						render={({ field }) => (
+							<FormItem className='flex flex-row items-start space-x-3 space-y-0'>
+								<FormControl>
+									<Checkbox
+										checked={field.value}
+										onCheckedChange={field.onChange}
+									/>
+								</FormControl>
+								<FormLabel className='font-normal'>Recordarme</FormLabel>
+							</FormItem>
+						)}
+					/>
+					<Button variant='link' asChild>
+						<Link href={`/${Pathnames.FORGOT_PASSWORD}`}>
+							¿Olvidaste tu contraseña?
+						</Link>
+					</Button>
+				</section>
+
 				<Button type='submit' disabled={isSubmitting}>
 					{isSubmitting ? (
 						<LoaderCircle className='w-6 h-6 mr-1 animate-spin' />
-					) : (
-						<div className='w-6 h-6 mr-1' />
-					)}
+					) : null}
 					Iniciar sesión
 				</Button>
 

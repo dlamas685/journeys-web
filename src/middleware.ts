@@ -5,6 +5,8 @@ const publicPaths = [
 	`/${Pathnames.LOGIN}`,
 	`/${Pathnames.SIGN_UP}`,
 	`/${Pathnames.PROVIDERS}`,
+	`/${Pathnames.FORGOT_PASSWORD}`,
+	`/${Pathnames.RESET_PASSWORD}`,
 ]
 
 export const middleware = async ({ cookies, nextUrl }: NextRequest) => {

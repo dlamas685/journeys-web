@@ -3,7 +3,7 @@ import { ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { ApiEndpoints } from '../enums'
-import { AuthModel, CredentialsModel } from '../models'
+import { AuthModel, CredentialsModel, ResetPasswordModel } from '../models'
 
 const API_URL = process.env.API_URL
 
@@ -85,6 +85,62 @@ export const validateToken = async (token: string) => {
 		cookiesStore.set('session.user', JSON.stringify(auth.user), options)
 
 		return auth
+	} catch (error) {
+		throw error
+	}
+}
+
+export const requestPasswordReset = async (email: string) => {
+	try {
+		const URL = `${API_URL}/${ApiEndpoints.PASSWORD_RESET_REQUEST}`
+
+		const response = await fetch(URL, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ email }),
+		})
+
+		if (!response.ok) {
+			if (response.status === 404) {
+				throw new Error('Usted no está registrado')
+			}
+
+			throw new Error('Algo salió mal')
+		}
+
+		return true
+	} catch (error) {
+		throw error
+	}
+}
+
+export const resetPassword = async (resetPassword: ResetPasswordModel) => {
+	try {
+		const URL = `${API_URL}/${ApiEndpoints.PASSWORD_RESETS}`
+
+		const response = await fetch(URL, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(resetPassword),
+		})
+
+		if (!response.ok) {
+			if (response.status === 401) {
+				throw new Error('El enlace ha expirado')
+			}
+
+			if (response.status === 404) {
+				throw new Error('Usuario no encontrado')
+			}
+
+			throw new Error('Algo salió mal')
+		}
+
+		return true
 	} catch (error) {
 		throw error
 	}
