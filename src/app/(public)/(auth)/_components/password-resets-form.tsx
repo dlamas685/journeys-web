@@ -1,8 +1,10 @@
 'use client'
 
 import { resetPassword } from '@/common/actions/auth.action'
+import { ApiError } from '@/common/classes/api-error.class'
 import InputPassword from '@/common/components/ui/form/input-password'
 import { Pathnames } from '@/common/enums'
+import useResponse from '@/common/hooks/use-response'
 import { Button } from '@/components/ui/button'
 import {
 	Form,
@@ -13,22 +15,25 @@ import {
 } from '@/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LoaderCircle } from 'lucide-react'
-import Link from 'next/link'
-import { useForm, useFormState } from 'react-hook-form'
-import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
 import {
-	ResetPasswordSchema,
-	resetPasswordSchema,
-} from '../_schemas/reset-password.schema'
+	PasswordResetsSchema,
+	passwordResetsSchema,
+} from '../_schemas/password-resets.schema'
 
 type Props = {
 	token: string
 	email: string
 }
 
-const ResetPasswordForm = ({ token, email }: Readonly<Props>) => {
-	const form = useForm({
-		resolver: zodResolver(resetPasswordSchema),
+const PasswordResetsForm = ({ token, email }: Readonly<Props>) => {
+	const router = useRouter()
+
+	const response = useResponse()
+
+	const form = useForm<PasswordResetsSchema>({
+		resolver: zodResolver(passwordResetsSchema),
 		defaultValues: {
 			token,
 			email,
@@ -37,33 +42,31 @@ const ResetPasswordForm = ({ token, email }: Readonly<Props>) => {
 		},
 	})
 
-	const { isSubmitting } = useFormState(form)
+	const { isSubmitting } = form.formState
 
 	const handleSubmit = async ({
 		password,
 		email,
 		token,
-	}: ResetPasswordSchema) => {
+	}: PasswordResetsSchema) => {
 		await resetPassword({
 			email,
 			password,
 			token,
 		})
-			.then(() => {
-				toast.success('Contraseña reestablecida', {
-					duration: 3000,
-					description: 'Inicia sesión con tu nueva contraseña',
-					position: 'top-right',
-				})
-				form.reset()
-			})
-			.catch(error => {
-				toast.error(error.name, {
-					duration: 3000,
-					description: error.message,
-					position: 'top-right',
+			.then(resp => {
+				if (typeof resp !== 'boolean') {
+					throw new ApiError(resp)
+				}
+
+				router.push(`/${Pathnames.LOGIN}`)
+
+				response.success({
+					title: 'Contraseña reestablecida',
+					description: 'Inicia sesión con tu nueva contraseña.',
 				})
 			})
+			.catch(response.error)
 	}
 
 	return (
@@ -109,15 +112,9 @@ const ResetPasswordForm = ({ token, email }: Readonly<Props>) => {
 					) : null}
 					Reestablecer
 				</Button>
-				<p className='text-sm text-center font-secondary'>
-					¿Recuerdas tu contraseña?
-					<Button className='px-1' variant='link' asChild>
-						<Link href={`/${Pathnames.LOGIN}`}>Iniciar sesión</Link>
-					</Button>
-				</p>
 			</form>
 		</Form>
 	)
 }
 
-export default ResetPasswordForm
+export default PasswordResetsForm

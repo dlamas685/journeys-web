@@ -1,5 +1,5 @@
 export interface ErrorModel {
-	message: string
 	statusCode: number
+	message: string | string[]
 	error: string
 }

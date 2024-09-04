@@ -1,28 +1,28 @@
 'use server'
 
-import { notFound } from 'next/navigation'
 import { ApiEndpoints } from '../enums'
 
 const API_URL = process.env.API_URL
 
 export const validateLink = async (token: string, email: string) => {
 	try {
-		const URL = `${API_URL}/${ApiEndpoints.LINK_VALIDATION}`
+		const searchParams = new URLSearchParams()
+
+		searchParams.set('token', token)
+		searchParams.set('email', email)
+
+		const URL = `${API_URL}/${ApiEndpoints.LINK_VALIDATION}?${searchParams.toString()}`
 
 		const response = await fetch(URL, {
-			method: 'POST',
+			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({ token, email }),
+			cache: 'no-cache',
 		})
 
 		if (!response.ok) {
-			if (response.status === 401) {
-				notFound()
-			}
-
-			throw new Error('Algo salió mal')
+			return false
 		}
 
 		return true

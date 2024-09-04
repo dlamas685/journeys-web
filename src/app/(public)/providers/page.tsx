@@ -1,6 +1,7 @@
 'use client'
 
-import { validateToken } from '@/common/actions/auth.action'
+import { validateAccessToken } from '@/common/actions/auth.action'
+import { ApiError } from '@/common/classes/api-error.class'
 import { Pathnames } from '@/common/enums'
 import { SearchParams } from '@/common/types'
 import { useRouter } from 'next/navigation'
@@ -18,8 +19,11 @@ export default function ProvidersPage({ searchParams }: Readonly<Props>) {
 
 	useEffect(() => {
 		if (token) {
-			validateToken(token)
-				.then(() => {
+			validateAccessToken(token)
+				.then(resp => {
+					if ('error' in resp) {
+						throw new ApiError(resp)
+					}
 					router.push(`/${Pathnames.HOME}`)
 				})
 				.catch(() => {
