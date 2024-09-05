@@ -3,9 +3,11 @@ import {
 	loginWithCredentials,
 	loginWithGoogle,
 } from '@/common/actions/auth.action'
+import { ApiError } from '@/common/classes/api-error.class'
 import InputPassword from '@/common/components/ui/form/input-password'
 import GoogleIcon from '@/common/components/ui/icons/google-icon'
 import { Pathnames } from '@/common/enums'
+import useResponse from '@/common/hooks/use-response'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -22,8 +24,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { LoaderCircle } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useForm, useFormState } from 'react-hook-form'
-import { toast } from 'sonner'
+import { useForm } from 'react-hook-form'
 import {
 	CredentialsSchema,
 	credentialsSchema,
@@ -31,6 +32,7 @@ import {
 
 const LoginForm = () => {
 	const router = useRouter()
+	const response = useResponse()
 
 	const form = useForm<CredentialsSchema>({
 		resolver: zodResolver(credentialsSchema),
@@ -41,27 +43,25 @@ const LoginForm = () => {
 		},
 	})
 
-	const { isSubmitting } = useFormState(form)
+	const { isSubmitting } = form.formState
 
-	const handleSubmit = async (values: CredentialsSchema) => {
+	const handleSumbit = async (values: CredentialsSchema) => {
 		await loginWithCredentials(values)
-			.then(() => {
+			.then(resp => {
+				if ('error' in resp) {
+					throw new ApiError(resp)
+				}
+
 				router.push(`/${Pathnames.HOME}`)
 			})
-			.catch(error => {
-				toast.error(error.name, {
-					duration: 3000,
-					description: error.message,
-					position: 'top-right',
-				})
-			})
+			.catch(response.error)
 	}
 
 	return (
 		<Form {...form}>
 			<form
 				className='flex flex-col gap-4 mt-6 w-full'
-				onSubmit={form.handleSubmit(handleSubmit)}>
+				onSubmit={form.handleSubmit(handleSumbit)}>
 				<FormField
 					control={form.control}
 					name='email'
@@ -108,7 +108,7 @@ const LoginForm = () => {
 						)}
 					/>
 					<Button variant='link' asChild>
-						<Link href={`/${Pathnames.FORGOT_PASSWORD}`}>
+						<Link href={`/${Pathnames.PASSWORD_RESET_REQUEST}`}>
 							¿Olvidaste tu contraseña?
 						</Link>
 					</Button>

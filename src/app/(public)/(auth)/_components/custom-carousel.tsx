@@ -28,38 +28,42 @@ const CustomCarousel = () => {
 				<CarouselContent>
 					<CarouselItem>
 						<Image
-							src='/illustrations/travel-plans.svg'
+							src='/illustrations/presentation/travel-plans.svg'
 							alt='Travel Plans'
 							width={512}
 							height={512}
 							className='h-96'
+							priority
 						/>
 					</CarouselItem>
 					<CarouselItem>
 						<Image
-							src='/illustrations/next-tasks.svg'
+							src='/illustrations/presentation/next-tasks.svg'
 							alt='Next Tasks'
 							width={512}
 							height={512}
 							className='h-96'
+							priority
 						/>
 					</CarouselItem>
 					<CarouselItem>
 						<Image
-							src='/illustrations/deliveries.svg'
+							src='/illustrations/presentation/deliveries.svg'
 							alt='Deliveries'
 							width={512}
 							height={512}
 							className='h-96'
+							priority
 						/>
 					</CarouselItem>
 					<CarouselItem>
 						<Image
-							src='/illustrations/process.svg'
+							src='/illustrations/presentation/process.svg'
 							alt='Process'
 							width={512}
 							height={512}
 							className='h-96'
+							priority
 						/>
 					</CarouselItem>
 				</CarouselContent>

@@ -3,7 +3,14 @@ import { ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { ApiEndpoints } from '../enums'
-import { AuthModel, CredentialsModel, ResetPasswordModel } from '../models'
+import {
+	AuthModel,
+	CredentialsModel,
+	ErrorModel,
+	ResetPasswordModel,
+	UserModel,
+} from '../models'
+import { CreateUserWithProfileModel } from '../models/create-user-with-profile.model'
 
 const API_URL = process.env.API_URL
 
@@ -22,11 +29,8 @@ export const loginWithCredentials = async (credentials: CredentialsModel) => {
 		})
 
 		if (!response.ok) {
-			if (response.status === 401) {
-				throw new Error('Credenciales inválidas')
-			} else {
-				throw new Error('Algo salió mal')
-			}
+			const error = (await response.json()) as ErrorModel
+			return error
 		}
 
 		const auth = (await response.json()) as AuthModel
@@ -34,7 +38,7 @@ export const loginWithCredentials = async (credentials: CredentialsModel) => {
 		const options: Partial<ResponseCookie> = {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === 'production',
-			sameSite: 'lax',
+			sameSite: 'strict',
 			expires: new Date(auth.expires * 1000),
 		}
 
@@ -52,11 +56,11 @@ export const loginWithGoogle = async () => {
 	redirect(`${API_URL}/${ApiEndpoints.GOOGLE_LOGIN}`)
 }
 
-export const validateToken = async (token: string) => {
+export const validateAccessToken = async (token: string) => {
 	try {
 		const cookiesStore = cookies()
 
-		const URL = `${API_URL}/${ApiEndpoints.TOKEN_VALIDATION}`
+		const URL = `${API_URL}/${ApiEndpoints.ACCESS_TOKEN_VALIDATION}`
 
 		const response = await fetch(URL, {
 			method: 'POST',
@@ -68,7 +72,8 @@ export const validateToken = async (token: string) => {
 		})
 
 		if (!response.ok) {
-			throw new Error('Token inválido')
+			const error = (await response.json()) as ErrorModel
+			return error
 		}
 
 		const auth = (await response.json()) as AuthModel
@@ -76,7 +81,7 @@ export const validateToken = async (token: string) => {
 		const options: Partial<ResponseCookie> = {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === 'production',
-			sameSite: 'lax',
+			sameSite: 'strict',
 			expires: new Date(auth.expires * 1000),
 		}
 
@@ -103,11 +108,8 @@ export const requestPasswordReset = async (email: string) => {
 		})
 
 		if (!response.ok) {
-			if (response.status === 404) {
-				throw new Error('Usted no está registrado')
-			}
-
-			throw new Error('Algo salió mal')
+			const error = (await response.json()) as ErrorModel
+			return error
 		}
 
 		return true
@@ -129,18 +131,76 @@ export const resetPassword = async (resetPassword: ResetPasswordModel) => {
 		})
 
 		if (!response.ok) {
-			if (response.status === 401) {
-				throw new Error('El enlace ha expirado')
-			}
-
-			if (response.status === 404) {
-				throw new Error('Usuario no encontrado')
-			}
-
-			throw new Error('Algo salió mal')
+			const error = (await response.json()) as ErrorModel
+			return error
 		}
 
 		return true
+	} catch (error) {
+		throw error
+	}
+}
+
+export const signUp = async (
+	createUserWithProfile: CreateUserWithProfileModel
+) => {
+	try {
+		const cookiesStore = cookies()
+
+		const URL = `${API_URL}/${ApiEndpoints.SIGN_UP}`
+
+		const response = await fetch(URL, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(createUserWithProfile),
+		})
+
+		if (!response.ok) {
+			const error = (await response.json()) as ErrorModel
+			return error
+		}
+
+		const auth = (await response.json()) as AuthModel
+
+		const options: Partial<ResponseCookie> = {
+			httpOnly: true,
+			secure: process.env.NODE_ENV === 'production',
+			sameSite: 'strict',
+			expires: new Date(auth.expires * 1000),
+		}
+
+		cookiesStore.set('session.token', auth.accessToken, options)
+
+		cookiesStore.set('session.user', JSON.stringify(auth.user), options)
+
+		return auth
+	} catch (error) {
+		throw error
+	}
+}
+
+export const verifyEmail = async (token: string, email: string) => {
+	try {
+		const URL = `${API_URL}/${ApiEndpoints.EMAIL_VERIFICATION}`
+
+		const response = await fetch(URL, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ token, email }),
+		})
+
+		if (!response.ok) {
+			const error = (await response.json()) as ErrorModel
+			return error
+		}
+
+		const user = (await response.json()) as UserModel
+
+		return user
 	} catch (error) {
 		throw error
 	}

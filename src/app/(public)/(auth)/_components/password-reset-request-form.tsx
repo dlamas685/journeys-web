@@ -1,6 +1,7 @@
 'use client'
 import { requestPasswordReset } from '@/common/actions/auth.action'
-import { Pathnames } from '@/common/enums'
+import { ApiError } from '@/common/classes/api-error.class'
+import useResponse from '@/common/hooks/use-response'
 import { Button } from '@/components/ui/button'
 import {
 	Form,
@@ -12,41 +13,39 @@ import {
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LoaderCircle } from 'lucide-react'
-import Link from 'next/link'
-import { useForm, useFormState } from 'react-hook-form'
-import { toast } from 'sonner'
+import { useForm } from 'react-hook-form'
 import {
-	ForgotPasswordSchema,
-	forgotPasswordSchema,
-} from '../_schemas/forgot-password.schema'
+	PasswordResetRequestSchema,
+	passwordResetRequestSchema,
+} from '../_schemas/password-reset-request.schema'
 
-const ForgotPasswordForm = () => {
-	const form = useForm({
-		resolver: zodResolver(forgotPasswordSchema),
+const PasswordResetRequestForm = () => {
+	const response = useResponse()
+
+	const form = useForm<PasswordResetRequestSchema>({
+		resolver: zodResolver(passwordResetRequestSchema),
 		defaultValues: {
 			email: '',
 		},
 	})
 
-	const { isSubmitting } = useFormState(form)
+	const { isSubmitting } = form.formState
 
-	const handleSubmit = async ({ email }: ForgotPasswordSchema) => {
+	const handleSubmit = async ({ email }: PasswordResetRequestSchema) => {
 		await requestPasswordReset(email)
-			.then(() => {
-				toast.success('Enlace enviado', {
-					duration: 3000,
+			.then(resp => {
+				if (typeof resp !== 'boolean') {
+					throw new ApiError(resp)
+				}
+
+				response.success({
+					title: 'Enlace enviado',
 					description: 'Revisa tu bandeja de entrada',
-					position: 'top-right',
 				})
+
 				form.reset()
 			})
-			.catch(error => {
-				toast.error(error.name, {
-					duration: 3000,
-					description: error.message,
-					position: 'top-right',
-				})
-			})
+			.catch(response.error)
 	}
 
 	return (
@@ -77,16 +76,9 @@ const ForgotPasswordForm = () => {
 					) : null}
 					Enviar enlace
 				</Button>
-
-				<p className='text-sm text-center font-secondary'>
-					¿Recuerdas tu contraseña?
-					<Button className='px-1' variant='link' asChild>
-						<Link href={`/${Pathnames.LOGIN}`}>Iniciar sesión</Link>
-					</Button>
-				</p>
 			</form>
 		</Form>
 	)
 }
 
-export default ForgotPasswordForm
+export default PasswordResetRequestForm
