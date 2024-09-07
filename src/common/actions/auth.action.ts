@@ -205,3 +205,19 @@ export const verifyEmail = async (token: string, email: string) => {
 		throw error
 	}
 }
+
+export const logOut = async () => {
+	try {
+		const cookiesStore = cookies()
+
+		cookiesStore.delete('session.token')
+
+		cookiesStore.delete('session.user')
+
+		redirect('/')
+
+		return true
+	} catch (error) {
+		throw error
+	}
+}
