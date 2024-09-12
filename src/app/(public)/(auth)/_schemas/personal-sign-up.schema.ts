@@ -1,7 +1,7 @@
 import { PASSWORD_REGEX } from '@/common/constants'
 import { z } from 'zod'
 
-export const personalSignupSchema = z
+export const personalSignUpSchema = z
 	.object({
 		firstName: z
 			.string()
@@ -33,4 +33,4 @@ export const personalSignupSchema = z
 		path: ['confirm'],
 	})
 
-export type PersonalSignupSchema = z.infer<typeof personalSignupSchema>
+export type PersonalSignUpSchema = z.infer<typeof personalSignUpSchema>

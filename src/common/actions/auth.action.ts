@@ -5,12 +5,12 @@ import { redirect } from 'next/navigation'
 import { ApiEndpoints } from '../enums'
 import {
 	AuthModel,
+	CreateUserModel,
 	CredentialsModel,
 	ErrorModel,
 	ResetPasswordModel,
 	UserModel,
 } from '../models'
-import { CreateUserWithProfileModel } from '../models/create-user-with-profile.model'
 
 const API_URL = process.env.API_URL
 
@@ -45,6 +45,8 @@ export const loginWithCredentials = async (credentials: CredentialsModel) => {
 		cookiesStore.set('session.token', auth.accessToken, options)
 
 		cookiesStore.set('session.user', JSON.stringify(auth.user), options)
+
+		cookiesStore.set('session.expires', auth.expires.toString(), options)
 
 		return auth
 	} catch (error) {
@@ -88,6 +90,8 @@ export const validateAccessToken = async (token: string) => {
 		cookiesStore.set('session.token', auth.accessToken, options)
 
 		cookiesStore.set('session.user', JSON.stringify(auth.user), options)
+
+		cookiesStore.set('session.expires', auth.expires.toString(), options)
 
 		return auth
 	} catch (error) {
@@ -141,9 +145,7 @@ export const resetPassword = async (resetPassword: ResetPasswordModel) => {
 	}
 }
 
-export const signUp = async (
-	createUserWithProfile: CreateUserWithProfileModel
-) => {
+export const signUp = async (user: CreateUserModel) => {
 	try {
 		const cookiesStore = cookies()
 
@@ -154,11 +156,12 @@ export const signUp = async (
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify(createUserWithProfile),
+			body: JSON.stringify(user),
 		})
 
 		if (!response.ok) {
 			const error = (await response.json()) as ErrorModel
+			console.log(error)
 			return error
 		}
 
@@ -174,6 +177,8 @@ export const signUp = async (
 		cookiesStore.set('session.token', auth.accessToken, options)
 
 		cookiesStore.set('session.user', JSON.stringify(auth.user), options)
+
+		cookiesStore.set('session.expires', auth.expires.toString(), options)
 
 		return auth
 	} catch (error) {
@@ -214,9 +219,9 @@ export const logOut = async () => {
 
 		cookiesStore.delete('session.user')
 
-		redirect('/')
+		cookiesStore.delete('session.expires')
 
-		return true
+		redirect('/')
 	} catch (error) {
 		throw error
 	}

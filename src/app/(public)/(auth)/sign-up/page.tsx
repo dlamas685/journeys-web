@@ -18,7 +18,9 @@ export default function SignUpPage() {
 			redirectText='¿Ya tienes una cuenta?'
 			redirectLabel='Iniciar sesión'
 			redirectTo={`/${Pathnames.LOGIN}`}>
-			<Tabs defaultValue='personal' className='w-[400px] mt-4'>
+			<Tabs
+				defaultValue='personal'
+				className='mt-3 flex flex-col gap-2 w-full sm:gap-3'>
 				<TabsList className='grid w-full grid-cols-2'>
 					<TabsTrigger value='personal'>Personal</TabsTrigger>
 					<TabsTrigger value='company'>Empresa</TabsTrigger>

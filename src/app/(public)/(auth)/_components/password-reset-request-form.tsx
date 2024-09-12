@@ -51,7 +51,7 @@ const PasswordResetRequestForm = () => {
 	return (
 		<Form {...form}>
 			<form
-				className='flex flex-col gap-4 mt-6 w-full'
+				className='flex flex-col gap-3 mt-3 w-full'
 				onSubmit={form.handleSubmit(handleSubmit)}>
 				<FormField
 					control={form.control}
@@ -70,7 +70,7 @@ const PasswordResetRequestForm = () => {
 					)}
 				/>
 
-				<Button type='submit' disabled={isSubmitting}>
+				<Button className='mt-2' type='submit' disabled={isSubmitting}>
 					{isSubmitting ? (
 						<LoaderCircle className='w-6 h-6 mr-1 animate-spin' />
 					) : null}

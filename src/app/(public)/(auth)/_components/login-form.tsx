@@ -60,7 +60,7 @@ const LoginForm = () => {
 	return (
 		<Form {...form}>
 			<form
-				className='flex flex-col gap-4 mt-6 w-full'
+				className='flex flex-col gap-3 w-full mt-3'
 				onSubmit={form.handleSubmit(handleSumbit)}>
 				<FormField
 					control={form.control}

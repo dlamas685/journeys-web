@@ -6,6 +6,6 @@ export interface CreateUserModel {
 	email: string
 	password: string
 	userType: UserTypes
-	companyProfile?: CreateCompanyProfileModel | null
-	personalProfile?: CreatePersonalProfileModel | null
+	companyProfile?: CreateCompanyProfileModel
+	personalProfile?: CreatePersonalProfileModel
 }
