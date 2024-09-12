@@ -8,4 +8,6 @@ export enum ApiEndpoints {
 	EMAIL_VERIFICATION = 'auth/email-verification',
 
 	LINK_VALIDATION = 'verification-tokens/link-validation',
+
+	USERS = 'users',
 }

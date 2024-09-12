@@ -6,11 +6,7 @@ import InputMask from '@/common/components/ui/form/input-mask'
 import InputPassword from '@/common/components/ui/form/input-password'
 import { Pathnames, UserTypes } from '@/common/enums'
 import useResponse from '@/common/hooks/use-response'
-import {
-	CreateCompanyProfileModel,
-	CreateUserModel,
-	CreateUserWithProfileModel,
-} from '@/common/models'
+import { CreateUserModel } from '@/common/models'
 import { Button } from '@/components/ui/button'
 import {
 	Form,
@@ -25,20 +21,21 @@ import { LoaderCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import {
-	companySignupSchema,
-	CompanySignupSchema,
-} from '../_schemas/company-signup.schema'
+	companySignUpSchema,
+	CompanySignUpSchema,
+} from '../_schemas/company-sign-up.schema'
 
 const CompanySignUpForm = () => {
 	const response = useResponse()
 	const router = useRouter()
 
-	const form = useForm<CompanySignupSchema>({
-		resolver: zodResolver(companySignupSchema),
+	const form = useForm<CompanySignUpSchema>({
+		resolver: zodResolver(companySignUpSchema),
 		defaultValues: {
 			name: '',
 			cuit: '',
 			email: '',
+			manager: '',
 			password: '',
 			confirm: '',
 		},
@@ -47,27 +44,19 @@ const CompanySignUpForm = () => {
 	const { isSubmitting } = form.formState
 
 	const handleSubmit = async ({
-		cuit,
-		name,
+		email,
+		password,
 		confirm,
 		...rest
-	}: CompanySignupSchema) => {
+	}: CompanySignUpSchema) => {
 		const user: CreateUserModel = {
-			...rest,
+			email,
+			password,
 			userType: UserTypes.COMPANY,
+			companyProfile: { ...rest },
 		}
 
-		const companyProfile: CreateCompanyProfileModel = {
-			cuit,
-			name,
-		}
-
-		const createUserWithProfile: CreateUserWithProfileModel = {
-			user,
-			companyProfile,
-		}
-
-		await signUp(createUserWithProfile)
+		await signUp(user)
 			.then(resp => {
 				if ('error' in resp) {
 					throw new ApiError(resp)
@@ -87,54 +76,52 @@ const CompanySignUpForm = () => {
 	return (
 		<Form {...form}>
 			<form
-				className='flex flex-col gap-4 mt-6 w-full'
+				className='grid grid-cols-1 gap-3 w-full md:grid-cols-2'
 				onSubmit={form.handleSubmit(handleSubmit)}>
-				<section className='flex gap-4'>
-					<FormField
-						control={form.control}
-						name='name'
-						render={({ field }) => (
-							<FormItem className='flex-grow'>
-								<FormControl>
-									<Input
-										{...field}
-										placeholder='Ingresa tu razón social'
-										type='text'
-									/>
-								</FormControl>
-								<FormMessage className='max-w-sm' />
-							</FormItem>
-						)}
-					/>
+				<FormField
+					control={form.control}
+					name='name'
+					render={({ field }) => (
+						<FormItem>
+							<FormControl>
+								<Input
+									{...field}
+									placeholder='Ingresa tu razón social'
+									type='text'
+								/>
+							</FormControl>
+							<FormMessage className='max-w-sm' />
+						</FormItem>
+					)}
+				/>
 
-					<FormField
-						control={form.control}
-						name='cuit'
-						render={({ field }) => (
-							<FormItem className='flex-grow'>
-								<FormControl>
-									<InputMask
-										{...field}
-										placeholder='Ingresa tu CUIT'
-										type='text'
-										options={{
-											numericOnly: true,
-											blocks: [2, 8, 1],
-											delimiter: '-',
-										}}
-									/>
-								</FormControl>
-								<FormMessage className='max-w-sm' />
-							</FormItem>
-						)}
-					/>
-				</section>
+				<FormField
+					control={form.control}
+					name='cuit'
+					render={({ field }) => (
+						<FormItem>
+							<FormControl>
+								<InputMask
+									{...field}
+									placeholder='Ingresa tu CUIT'
+									type='text'
+									options={{
+										numericOnly: true,
+										blocks: [2, 8, 1],
+										delimiter: '-',
+									}}
+								/>
+							</FormControl>
+							<FormMessage className='max-w-sm' />
+						</FormItem>
+					)}
+				/>
 
 				<FormField
 					control={form.control}
 					name='email'
 					render={({ field }) => (
-						<FormItem>
+						<FormItem className='col-span-full'>
 							<FormControl>
 								<Input
 									{...field}
@@ -146,11 +133,29 @@ const CompanySignUpForm = () => {
 						</FormItem>
 					)}
 				/>
+
+				<FormField
+					control={form.control}
+					name='manager'
+					render={({ field }) => (
+						<FormItem className='col-span-full'>
+							<FormControl>
+								<Input
+									{...field}
+									placeholder='Ingresa el nombre del responsable'
+									type='text'
+								/>
+							</FormControl>
+							<FormMessage className='max-w-sm' />
+						</FormItem>
+					)}
+				/>
+
 				<FormField
 					control={form.control}
 					name='password'
 					render={({ field }) => (
-						<FormItem>
+						<FormItem className='col-span-full'>
 							<FormControl>
 								<InputPassword
 									{...field}
@@ -166,7 +171,7 @@ const CompanySignUpForm = () => {
 					control={form.control}
 					name='confirm'
 					render={({ field }) => (
-						<FormItem>
+						<FormItem className='col-span-full'>
 							<FormControl>
 								<InputPassword {...field} placeholder='Repite tu contraseña' />
 							</FormControl>
@@ -175,7 +180,10 @@ const CompanySignUpForm = () => {
 					)}
 				/>
 
-				<Button type='submit' disabled={isSubmitting}>
+				<Button
+					className='col-span-full mt-2'
+					type='submit'
+					disabled={isSubmitting}>
 					{isSubmitting ? (
 						<LoaderCircle className='w-6 h-6 mr-1 animate-spin' />
 					) : null}

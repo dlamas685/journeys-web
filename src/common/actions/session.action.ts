@@ -9,6 +9,7 @@ import { UserModel } from '../models'
  */
 export const getServerToken = async () => {
 	const token = cookies().get('session.token')?.value
+
 	return token
 }
 
@@ -24,4 +25,10 @@ export const getServerUser = async () => {
 	}
 
 	return JSON.parse(user) as UserModel
+}
+
+export const getServerExpires = async () => {
+	const expires = cookies().get('session.expires')?.value
+
+	return Number(expires)
 }

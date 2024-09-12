@@ -60,5 +60,5 @@
 }
 
 body {
-	@apply min-h-screen w-full;
+	@apply h-full w-full p-0 m-0;
 }

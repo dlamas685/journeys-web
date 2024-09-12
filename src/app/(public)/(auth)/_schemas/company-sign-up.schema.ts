@@ -1,19 +1,24 @@
 import { PASSWORD_REGEX } from '@/common/constants'
 import { z } from 'zod'
 
-export const companySignupSchema = z
+export const companySignUpSchema = z
 	.object({
 		name: z
 			.string()
 			.trim()
 			.min(1, 'Por favor, ingresa tu razón social.')
 			.max(255, 'La razón social es demasiado larga.'),
-		cuit: z.string().trim().min(1, 'Por favor, ingresa tu CUIT.'),
+		cuit: z.string().trim().length(13, 'Por favor, ingresa tu CUIT.'),
 		email: z
 			.string()
 			.trim()
 			.min(1, 'Por favor, ingresa una dirección de correo electrónico.')
 			.email('La dirección de correo electrónico no es válida.'),
+		manager: z
+			.string()
+			.trim()
+			.min(1, 'Por favor, ingresa el nombre del responsable')
+			.max(255, 'El nombre del responsable es demasiado largo'),
 		password: z
 			.string()
 			.trim()
@@ -29,4 +34,4 @@ export const companySignupSchema = z
 		path: ['confirm'],
 	})
 
-export type CompanySignupSchema = z.infer<typeof companySignupSchema>
+export type CompanySignUpSchema = z.infer<typeof companySignUpSchema>
