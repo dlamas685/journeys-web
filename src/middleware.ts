@@ -9,6 +9,7 @@ const publicPaths = [
 	`/${Pathnames.PASSWORD_RESET_REQUEST}`,
 	`/${Pathnames.PASSWORD_RESETS}`,
 	`/${Pathnames.EMAIL_VERIFICATION}`,
+	`/${Pathnames.FIRST_STEPS}`,
 	`/${Pathnames.ERROR}`,
 ]
 
@@ -24,15 +25,15 @@ export const middleware = async ({ cookies, nextUrl }: NextRequest) => {
 	const isPublic = publicPaths.includes(pathname)
 
 	if (isLoggedIn) {
-		if (!isFirstSteps && !user.userType) {
-			return NextResponse.redirect(
-				new URL(`/${Pathnames.FIRST_STEPS}`, nextUrl)
-			)
-		}
+		// if (!isFirstSteps && !user.userType) {
+		// 	return NextResponse.redirect(
+		// 		new URL(`/${Pathnames.FIRST_STEPS}`, nextUrl)
+		// 	)
+		// }
 
-		if (isFirstSteps && user.userType) {
-			return NextResponse.redirect(new URL(`/${Pathnames.HOME}`, nextUrl))
-		}
+		// if (isFirstSteps && user.userType) {
+		// 	return NextResponse.redirect(new URL(`/${Pathnames.HOME}`, nextUrl))
+		// }
 
 		if (isOnLogin) {
 			// Si está logueado y está en la página de login, redirige a la página de inicio

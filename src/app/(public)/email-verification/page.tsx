@@ -1,4 +1,3 @@
-import { verifyEmail } from '@/common/actions/auth.action'
 import Copyright from '@/common/components/ui/misc/copyright'
 import { SearchParams } from '@/common/types'
 import { Button } from '@/components/ui/button'
@@ -6,7 +5,6 @@ import { Waypoints } from 'lucide-react'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
 
 export const metadata: Metadata = {
 	title: 'Journeys • Verificación de Correo Electrónico',
@@ -23,9 +21,9 @@ export default async function EmailVerificationPage({
 	const token = searchParams['token']
 	const email = searchParams['email']
 
-	const resp = await verifyEmail(token, email)
+	// const resp = await verifyEmail(token, email)
 
-	if ('error' in resp) notFound()
+	// if ('error' in resp) notFound()
 
 	return (
 		<section className='relative flex flex-col justify-center items-center w-full h-screen bg-gradient-to-r from-orange-50 via-white to-orange-50'>
@@ -34,7 +32,7 @@ export default async function EmailVerificationPage({
 				<span className='font-secondary font-bold'>JOURNEYS</span>
 			</section>
 
-			<div className='flex flex-col flex-grow justify-center items-center gap-3 max-w-xs sm:max-w-md'>
+			<div className='flex flex-col flex-grow justify-center items-center gap-1 max-w-xs sm:gap-3 sm:max-w-md'>
 				<Image
 					className='mb-5 size-64 md:size-80'
 					src='/illustrations/presentation/email-verification-01.svg'
@@ -42,13 +40,13 @@ export default async function EmailVerificationPage({
 					width={200}
 					height={200}
 				/>
-				<h1 className='font-secondary text-xl font-extrabold text-center sm:text-2xl md:text-3xl'>
+				<h1 className='font-secondary text-xl font-extrabold text-center sm:text-3xl'>
 					¡Verificación completada!
 				</h1>
-				<h2 className='font-secondary text-base font-semibold text-center sm:text-lg md:text-xl'>
+				<h2 className='font-secondary text-lg font-semibold text-center sm:text-xl'>
 					¡Tu correo electrónico ha sido verificado con éxito!
 				</h2>
-				<p className='font-secondart text-xs font-medium text-center text-zinc-500 sm:text-sm md:max-w-2xl md:text-base'>
+				<p className='font-secondart text-sm font-medium text-center text-zinc-500 md:max-w-2xl sm:text-base'>
 					Ahora solo queda completar tu perfil para disfrutar de todas las
 					funcionalidades avanzadas de Journeys.
 				</p>

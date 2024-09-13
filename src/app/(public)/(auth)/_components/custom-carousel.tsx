@@ -84,28 +84,28 @@ const CustomCarousel = () => {
 				}}>
 				<CarouselContent>
 					<CarouselItem>
-						<p className='font-primary italic text-lg'>
+						<p className='font-primary italic text-base font-medium'>
 							&quot;Planifica tus viajes con una combinación perfecta de
 							funciones básicas y avanzadas que te permiten personalizar cada
 							detalle según tus necesidades.&quot;
 						</p>
 					</CarouselItem>
 					<CarouselItem>
-						<p className='font-primary text-lg'>
+						<p className='font-primary text-base font-medium'>
 							&quot;Incorpora fácilmente todas las actividades que realizarás
 							durante tu viaje, asegurando que cada momento esté perfectamente
 							organizado.&quot;
 						</p>
 					</CarouselItem>
 					<CarouselItem>
-						<p className='font-primary text-lg'>
+						<p className='font-primary text-base font-medium'>
 							&quot;Obtén ingresos adicionales publicando tus viajes y aceptando
 							encargos de entrega. Convierte el final del trayecto en una
 							oportunidad para ganar, mientras ayudas a otros.&quot;
 						</p>
 					</CarouselItem>
 					<CarouselItem>
-						<p className='font-primary text-lgz'>
+						<p className='font-primary text-base font-medium'>
 							&quot;Da el primer paso para transformar tu negocio en una empresa
 							exitosa con nuestra plataforma. Incorpora un monitoreo a tus hojas
 							de rutas y planifica tus entregas.&quot;

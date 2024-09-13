@@ -60,13 +60,13 @@ const LoginForm = () => {
 	return (
 		<Form {...form}>
 			<form
-				className='flex flex-col gap-3 w-full mt-3'
+				className='grid grid-cols-2 gap-3 items-center w-full mt-3'
 				onSubmit={form.handleSubmit(handleSumbit)}>
 				<FormField
 					control={form.control}
 					name='email'
 					render={({ field }) => (
-						<FormItem>
+						<FormItem className='col-span-full'>
 							<FormControl>
 								<Input
 									{...field}
@@ -82,7 +82,7 @@ const LoginForm = () => {
 					control={form.control}
 					name='password'
 					render={({ field }) => (
-						<FormItem>
+						<FormItem className='col-span-full'>
 							<FormControl>
 								<InputPassword {...field} placeholder='Ingresa tu contraseña' />
 							</FormControl>
@@ -91,37 +91,36 @@ const LoginForm = () => {
 					)}
 				/>
 
-				<section className='flex justify-between items-center'>
-					<FormField
-						control={form.control}
-						name='rememberMe'
-						render={({ field }) => (
-							<FormItem className='flex flex-row items-start space-x-3 space-y-0'>
-								<FormControl>
-									<Checkbox
-										checked={field.value}
-										onCheckedChange={field.onChange}
-									/>
-								</FormControl>
-								<FormLabel className='font-normal'>Recordarme</FormLabel>
-							</FormItem>
-						)}
-					/>
-					<Button variant='link' asChild>
-						<Link href={`/${Pathnames.PASSWORD_RESET_REQUEST}`}>
-							¿Olvidaste tu contraseña?
-						</Link>
-					</Button>
-				</section>
+				<FormField
+					control={form.control}
+					name='rememberMe'
+					render={({ field }) => (
+						<FormItem className='col-span-1 flex flex-row items-start space-x-3 space-y-0'>
+							<FormControl>
+								<Checkbox
+									checked={field.value}
+									onCheckedChange={field.onChange}
+								/>
+							</FormControl>
+							<FormLabel className='font-normal'>Recordarme</FormLabel>
+						</FormItem>
+					)}
+				/>
 
-				<Button type='submit' disabled={isSubmitting}>
+				<Button className='col-span-1' variant='link' asChild>
+					<Link href={`/${Pathnames.PASSWORD_RESET_REQUEST}`}>
+						¿Olvidaste tu contraseña?
+					</Link>
+				</Button>
+
+				<Button className='col-span-full' type='submit' disabled={isSubmitting}>
 					{isSubmitting ? (
 						<LoaderCircle className='w-6 h-6 mr-1 animate-spin' />
 					) : null}
 					Iniciar sesión
 				</Button>
 
-				<div className='grid grid-cols-[1fr_auto_1fr] items-center my-4'>
+				<div className='col-span-full grid grid-cols-[1fr_auto_1fr] items-center my-4'>
 					<Separator />
 					<span className='font-secondary text-sm font-extralight px-3'>
 						O CONTINUAR CON
@@ -130,6 +129,7 @@ const LoginForm = () => {
 				</div>
 
 				<Button
+					className='col-span-full'
 					variant='outline'
 					type='button'
 					onClick={async () => {

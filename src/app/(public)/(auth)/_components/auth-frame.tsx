@@ -21,12 +21,14 @@ const AuthFrame = ({
 }: Readonly<Props>) => {
 	return (
 		<section className='w-full flex flex-col items-center gap-1 max-w-xs sm:max-w-md md:max-w-sm'>
-			<h1 className='font-secondary font-semibold text-2xl'>{title} </h1>
+			<h1 className='font-secondary font-semibold text-xl sm:text-2xl'>
+				{title}
+			</h1>
 			<p className='font-secondary max-w-sm text-center text-sm text-foreground'>
 				{description}
 			</p>
 			{children}
-			<p className='text-sm text-center font-secondary mt-3'>
+			<p className='text-sm text-center font-secondary mt-1 sm:mt-3'>
 				{redirectText}
 				<Button className='px-1' variant='link' asChild>
 					<Link href={redirectTo}>{redirectLabel}</Link>

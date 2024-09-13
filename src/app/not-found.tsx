@@ -18,7 +18,7 @@ export default function NotFound() {
 					<h1 className='text-center text-xl font-extrabold sm:text-2xl md:text-3xl'>
 						¡Ups! Página no encontrada
 					</h1>
-					<p className='text-center text-xs font-medium text-zinc-500 sm:text-sm md:text-base'>
+					<p className='text-center text-sm font-medium text-zinc-500 sm:text-sm md:text-base'>
 						Es posible que la página que buscas haya sido eliminada, que haya
 						cambiado de nombre o que no esté disponible temporalmente.
 					</p>

@@ -30,7 +30,7 @@ export default function Error({
 					<h1 className='text-center text-xl font-extrabold sm:text-2xl md:text-3xl'>
 						¡Ups! Error interno del servidor
 					</h1>
-					<p className='text-center text-xs sm:text-sm md:text-base font-medium text-zinc-500'>
+					<p className='text-center text-sm sm:text-sm md:text-base font-medium text-zinc-500'>
 						Algo salió mal. Por favor, intenta de nuevo o regresa más tarde.
 					</p>
 				</section>

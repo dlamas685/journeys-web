@@ -72,6 +72,8 @@ const CompanyProfileForm = () => {
 							<FormItem>
 								<FormControl>
 									<Input
+										transparent
+										muted={false}
 										{...field}
 										placeholder='Ingresa tu razón social'
 										type='text'
@@ -89,6 +91,8 @@ const CompanyProfileForm = () => {
 							<FormItem>
 								<FormControl>
 									<InputMask
+										muted={false}
+										transparent
 										{...field}
 										placeholder='Ingresa tu CUIT'
 										type='text'
@@ -111,6 +115,8 @@ const CompanyProfileForm = () => {
 							<FormItem>
 								<FormControl>
 									<InputMask
+										transparent
+										muted={false}
 										{...field}
 										type='text'
 										placeholder='Ingresa tu teléfono sin +54 (opcional)'
@@ -132,6 +138,8 @@ const CompanyProfileForm = () => {
 							<FormItem>
 								<FormControl>
 									<InputPlace
+										transparent
+										muted={false}
 										value={field.value}
 										placeholder='Buscar dirección fiscal (opcional)'
 										searchPlaceholder='Ingresa tu dirección fiscal'
@@ -156,6 +164,8 @@ const CompanyProfileForm = () => {
 							<FormItem>
 								<FormControl>
 									<Input
+										transparent
+										muted={false}
 										{...field}
 										placeholder='Ingresa su nombre completo'
 										type='text'
@@ -173,6 +183,8 @@ const CompanyProfileForm = () => {
 							<FormItem>
 								<FormControl>
 									<InputMask
+										transparent
+										muted={false}
 										{...field}
 										placeholder='Ingresa su teléfono sin +54 (opcional)'
 										type='text'
@@ -194,6 +206,8 @@ const CompanyProfileForm = () => {
 							<FormItem>
 								<FormControl>
 									<Input
+										transparent
+										muted={false}
 										{...field}
 										placeholder='Ingresa su correo electrónico (opcional)'
 										type='email'

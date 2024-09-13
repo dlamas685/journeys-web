@@ -65,7 +65,13 @@ const PersonalProfileForm = () => {
 					render={({ field }) => (
 						<FormItem>
 							<FormControl>
-								<Input {...field} placeholder='Ingresa tu nombre' type='text' />
+								<Input
+									{...field}
+									transparent
+									muted={false}
+									placeholder='Ingresa tu nombre'
+									type='text'
+								/>
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -80,6 +86,8 @@ const PersonalProfileForm = () => {
 							<FormControl>
 								<Input
 									{...field}
+									transparent
+									muted={false}
 									placeholder='Ingresa tu apellido'
 									type='text'
 								/>
@@ -96,6 +104,8 @@ const PersonalProfileForm = () => {
 							<FormControl>
 								<InputMask
 									{...field}
+									transparent
+									muted={false}
 									placeholder='Ingresa tu DNI (opcional)'
 									options={{
 										numericOnly: true,
@@ -117,6 +127,8 @@ const PersonalProfileForm = () => {
 							<FormControl>
 								<InputMask
 									{...field}
+									transparent
+									muted={false}
 									placeholder='Ingresa tu fecha de nacimiento (opcional)'
 									options={{
 										date: true,
@@ -139,6 +151,8 @@ const PersonalProfileForm = () => {
 							<FormControl>
 								<InputMask
 									{...field}
+									transparent
+									muted={false}
 									type='text'
 									placeholder='Ingresa tu teléfono sin +54 (opcional)'
 									options={{
@@ -159,6 +173,8 @@ const PersonalProfileForm = () => {
 						<FormItem>
 							<FormControl>
 								<InputPlace
+									transparent
+									muted={false}
 									value={field.value}
 									placeholder='Buscar dirección (opcional)'
 									searchPlaceholder='Ingresa tu dirección'
