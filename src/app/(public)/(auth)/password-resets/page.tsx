@@ -1,6 +1,8 @@
+import { validateLink } from '@/common/actions/verification-tokens.action'
 import { Pathnames } from '@/common/enums'
 import { SearchParams } from '@/common/types'
 import { Metadata } from 'next'
+import { notFound } from 'next/navigation'
 import AuthFrame from '../_components/auth-frame'
 import PasswordResetsForm from '../_components/password-resets-form'
 
@@ -20,11 +22,11 @@ export default async function PasswordResetsPage({
 	const token = searchParams['token']
 	const email = searchParams['email']
 
-	// if (!token || !email) notFound()
+	if (!token || !email) notFound()
 
-	// const isValid = await validateLink(token, email)
+	const isValid = await validateLink(token, email)
 
-	// if (!isValid) notFound()
+	if (!isValid) notFound()
 
 	return (
 		<AuthFrame

@@ -1,3 +1,4 @@
+import { verifyEmail } from '@/common/actions/auth.action'
 import Copyright from '@/common/components/ui/misc/copyright'
 import { SearchParams } from '@/common/types'
 import { Button } from '@/components/ui/button'
@@ -5,6 +6,7 @@ import { Waypoints } from 'lucide-react'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 
 export const metadata: Metadata = {
 	title: 'Journeys • Verificación de Correo Electrónico',
@@ -21,9 +23,9 @@ export default async function EmailVerificationPage({
 	const token = searchParams['token']
 	const email = searchParams['email']
 
-	// const resp = await verifyEmail(token, email)
+	const resp = await verifyEmail(token, email)
 
-	// if ('error' in resp) notFound()
+	if ('error' in resp) notFound()
 
 	return (
 		<section className='relative flex flex-col justify-center items-center w-full h-screen bg-gradient-to-r from-orange-50 via-white to-orange-50'>
