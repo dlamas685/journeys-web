@@ -72,7 +72,7 @@ const PasswordResetsForm = ({ token, email }: Readonly<Props>) => {
 	return (
 		<Form {...form}>
 			<form
-				className='flex flex-col gap-3 mt-3 w-full'
+				className='mt-3 flex w-full flex-col gap-3'
 				onSubmit={form.handleSubmit(handleSubmit)}>
 				<FormField
 					control={form.control}
@@ -108,7 +108,7 @@ const PasswordResetsForm = ({ token, email }: Readonly<Props>) => {
 
 				<Button className='mt-2' type='submit' disabled={isSubmitting}>
 					{isSubmitting ? (
-						<LoaderCircle className='w-6 h-6 mr-1 animate-spin' />
+						<LoaderCircle className='mr-1 h-6 w-6 animate-spin' />
 					) : null}
 					Reestablecer
 				</Button>

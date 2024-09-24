@@ -52,7 +52,7 @@ const LoginForm = () => {
 					throw new ApiError(resp)
 				}
 
-				router.push(`/${Pathnames.HOME}`)
+				router.replace(`/${Pathnames.HOME}`)
 			})
 			.catch(response.error)
 	}
@@ -60,7 +60,7 @@ const LoginForm = () => {
 	return (
 		<Form {...form}>
 			<form
-				className='grid grid-cols-2 gap-3 items-center w-full mt-3'
+				className='mt-3 grid w-full grid-cols-2 items-center gap-3'
 				onSubmit={form.handleSubmit(handleSumbit)}>
 				<FormField
 					control={form.control}
@@ -115,14 +115,14 @@ const LoginForm = () => {
 
 				<Button className='col-span-full' type='submit' disabled={isSubmitting}>
 					{isSubmitting ? (
-						<LoaderCircle className='w-6 h-6 mr-1 animate-spin' />
+						<LoaderCircle className='mr-1 h-6 w-6 animate-spin' />
 					) : null}
 					Iniciar sesión
 				</Button>
 
-				<div className='col-span-full grid grid-cols-[1fr_auto_1fr] items-center my-4'>
+				<div className='col-span-full my-4 grid grid-cols-[1fr_auto_1fr] items-center'>
 					<Separator />
-					<span className='font-secondary text-sm font-extralight px-3'>
+					<span className='px-3 font-secondary text-sm font-extralight'>
 						O CONTINUAR CON
 					</span>
 					<Separator />

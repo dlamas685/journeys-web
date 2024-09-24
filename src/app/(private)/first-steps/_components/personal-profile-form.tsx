@@ -57,7 +57,7 @@ const PersonalProfileForm = () => {
 	return (
 		<Form {...form}>
 			<form
-				className='grid grid-cols-1 gap-2 w-full sm:gap-3'
+				className='grid w-full grid-cols-1 gap-2 sm:gap-3'
 				onSubmit={form.handleSubmit(handleSubmit)}>
 				<FormField
 					control={form.control}
@@ -189,11 +189,11 @@ const PersonalProfileForm = () => {
 				/>
 
 				<Button
-					className='w-full max-w-xs col-span-full justify-self-center mt-3s sm:mt-2 sm:max-w-[12.5rem]'
+					className='mt-3s col-span-full w-full max-w-xs justify-self-center sm:mt-2 sm:max-w-[12.5rem]'
 					type='submit'
 					disabled={isSubmitting}>
 					{isSubmitting ? (
-						<LoaderCircle className='w-6 h-6 mr-1 animate-spin' />
+						<LoaderCircle className='mr-1 h-6 w-6 animate-spin' />
 					) : null}
 					Continuar
 				</Button>

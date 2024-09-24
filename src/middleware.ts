@@ -26,25 +26,62 @@ export const middleware = async ({ cookies, nextUrl }: NextRequest) => {
 	if (isLoggedIn) {
 		if (!isFirstSteps && !user.userType) {
 			return NextResponse.redirect(
-				new URL(`/${Pathnames.FIRST_STEPS}`, nextUrl)
+				new URL(`/${Pathnames.FIRST_STEPS}`, nextUrl),
+				{
+					headers: {
+						'Cache-Control': 'no-store',
+					},
+				}
 			)
 		}
 
 		if (isFirstSteps && user.userType) {
-			return NextResponse.redirect(new URL(`/${Pathnames.HOME}`, nextUrl))
+			return NextResponse.redirect(
+				new URL(`/${user.userType.toLowerCase()}/${Pathnames.HOME}`, nextUrl),
+				{
+					headers: {
+						'Cache-Control': 'no-store',
+					},
+				}
+			)
 		}
 
 		if (isOnLogin) {
 			// Si está logueado y está en la página de login, redirige a la página de inicio
-			return NextResponse.redirect(new URL(`/${Pathnames.HOME}`, nextUrl))
+			return NextResponse.redirect(
+				new URL(`/${user.userType?.toLowerCase()}/${Pathnames.HOME}`, nextUrl),
+				{
+					headers: {
+						'Cache-Control': 'no-store',
+						'X-Router-Replace': 'true',
+					},
+				}
+			)
 		}
+
+		if (!pathname.includes(`/${user.userType?.toLowerCase()}`)) {
+			return NextResponse.redirect(
+				new URL(`/${user.userType?.toLowerCase()}/${Pathnames.HOME}`, nextUrl),
+				{
+					headers: {
+						'Cache-Control': 'no-store',
+						'X-Router-Replace': 'true',
+					},
+				}
+			)
+		}
+
 		// Si está logueado y la ruta es privada, permite el acceso
 		return NextResponse.next()
 	}
 
 	// Si no está logueado y la ruta no es pública, redirige al login
 	if (!isPublic) {
-		return NextResponse.redirect(new URL(`/${Pathnames.LOGIN}`, nextUrl))
+		return NextResponse.redirect(new URL(`/${Pathnames.LOGIN}`, nextUrl), {
+			headers: {
+				'Cache-Control': 'no-store',
+			},
+		})
 	}
 
 	// Permitir el acceso a rutas públicas o login si no está logueado

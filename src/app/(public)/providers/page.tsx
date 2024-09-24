@@ -35,8 +35,8 @@ export default function ProvidersPage({ searchParams }: Readonly<Props>) {
 	}, [router, token])
 
 	return (
-		<section className='flex justify-center items-center w-full min-h-screen bg-white'>
-			<section className='flex justify-center items-center absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]'>
+		<section className='flex min-h-screen w-full items-center justify-center bg-white'>
+			<section className='absolute flex h-full w-full items-center justify-center bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]'>
 				<RiseLoader loading={true} />
 			</section>
 		</section>

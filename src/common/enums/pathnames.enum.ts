@@ -8,4 +8,25 @@ export enum Pathnames {
 	HOME = 'home',
 	PROVIDERS = 'providers',
 	FIRST_STEPS = 'first-steps',
+
+	// Personal
+
+	FAVORITE_PLACES = 'favorite-places',
+	FAVORITE_ADDRESSES = 'favorite-addresses',
+	TRIPS = 'trips',
+	PUBLICATIONS = 'publications',
+
+	// Company
+	FLEETS = 'fleets',
+	VEHICLES = 'vehicles',
+	EMPLOYEES = 'employees',
+	ROADMAPS = 'roadmaps', //trips
+
+	// Common
+
+	TASK_TEMPLATES = 'task-templates',
+	OPTIMIZATION = 'optimization',
+	PAYMENTS = 'payments',
+	PROFILE = 'profile',
+	NOTIFICATIONS = 'notifications',
 }

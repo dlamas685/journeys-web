@@ -6,7 +6,7 @@ import Link from 'next/link'
 export default function NotFound() {
 	return (
 		<section className='relative h-screen w-full bg-gradient-to-r from-orange-50 via-white to-orange-50'>
-			<section className='flex flex-col gap-10 justify-center items-center h-full'>
+			<section className='flex h-full flex-col items-center justify-center gap-10'>
 				<Image
 					src='/illustrations/errors/not-found-01.svg'
 					alt='Not Found'
@@ -14,7 +14,7 @@ export default function NotFound() {
 					height={512}
 					className='size-56 sm:size-96'
 				/>
-				<section className='flex flex-col gap-2 max-w-xs items-center sm:max-w-sm md:max-w-lg'>
+				<section className='flex max-w-xs flex-col items-center gap-2 sm:max-w-sm md:max-w-lg'>
 					<h1 className='text-center text-xl font-extrabold sm:text-2xl md:text-3xl'>
 						¡Ups! Página no encontrada
 					</h1>

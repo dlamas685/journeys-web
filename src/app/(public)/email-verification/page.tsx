@@ -28,13 +28,13 @@ export default async function EmailVerificationPage({
 	if ('error' in resp) notFound()
 
 	return (
-		<section className='relative flex flex-col justify-center items-center w-full h-screen bg-gradient-to-r from-orange-50 via-white to-orange-50'>
-			<section className='absolute top-1 left-1 w-full flex items-center gap-2 p-5 text-orange-600 sm:top-2 sm:left-2'>
+		<section className='relative flex h-screen w-full flex-col items-center justify-center bg-gradient-to-r from-orange-50 via-white to-orange-50'>
+			<section className='absolute left-1 top-1 flex w-full items-center gap-2 p-5 text-orange-600 sm:left-2 sm:top-2'>
 				<Waypoints className='size-5' />
 				<span className='font-secondary font-bold'>JOURNEYS</span>
 			</section>
 
-			<div className='flex flex-col flex-grow justify-center items-center gap-1 max-w-xs sm:gap-3 sm:max-w-md'>
+			<div className='flex max-w-xs flex-grow flex-col items-center justify-center gap-1 sm:max-w-md sm:gap-3'>
 				<Image
 					className='mb-5 size-64 md:size-80'
 					src='/illustrations/presentation/email-verification-01.svg'
@@ -42,18 +42,18 @@ export default async function EmailVerificationPage({
 					width={200}
 					height={200}
 				/>
-				<h1 className='font-secondary text-xl font-extrabold text-center sm:text-3xl'>
+				<h1 className='text-center font-secondary text-xl font-extrabold sm:text-3xl'>
 					¡Verificación completada!
 				</h1>
-				<h2 className='font-secondary text-lg font-semibold text-center sm:text-xl'>
+				<h2 className='text-center font-secondary text-lg font-semibold sm:text-xl'>
 					¡Tu correo electrónico ha sido verificado con éxito!
 				</h2>
-				<p className='font-secondart text-sm font-medium text-center text-zinc-500 md:max-w-2xl sm:text-base'>
+				<p className='font-secondart text-center text-sm font-medium text-zinc-500 sm:text-base md:max-w-2xl'>
 					Ahora solo queda completar tu perfil para disfrutar de todas las
 					funcionalidades avanzadas de Journeys.
 				</p>
 				<Button variant='link' asChild>
-					<Link className='font-semibold text-base' href='/login'>
+					<Link className='text-base font-semibold' href='/login'>
 						Ir a mi perfil
 					</Link>
 				</Button>

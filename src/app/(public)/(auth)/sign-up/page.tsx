@@ -20,7 +20,7 @@ export default function SignUpPage() {
 			redirectTo={`/${Pathnames.LOGIN}`}>
 			<Tabs
 				defaultValue='personal'
-				className='mt-3 flex flex-col gap-2 w-full sm:gap-3'>
+				className='mt-3 flex w-full flex-col gap-2 sm:gap-3'>
 				<TabsList className='grid w-full grid-cols-2'>
 					<TabsTrigger value='personal'>Personal</TabsTrigger>
 					<TabsTrigger value='company'>Empresa</TabsTrigger>

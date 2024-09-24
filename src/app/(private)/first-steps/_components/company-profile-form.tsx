@@ -60,7 +60,7 @@ const CompanyProfileForm = () => {
 	return (
 		<Form {...form}>
 			<form
-				className='grid grid-cols-1 gap-x-5 gap-y-3 w-full sm:gap-x-10 sm:gap-y-5 sm:px-2 md:px-4'
+				className='grid w-full grid-cols-1 gap-x-5 gap-y-3 sm:gap-x-10 sm:gap-y-5 sm:px-2 md:px-4'
 				onSubmit={form.handleSubmit(handleSubmit)}>
 				<Fieldset
 					legend='Datos Empresariales'
@@ -220,11 +220,11 @@ const CompanyProfileForm = () => {
 				</Fieldset>
 
 				<Button
-					className='w-full max-w-xs mt-2 sm:mt-0 sm:max-w-[12.5rem] col-span-full justify-self-center'
+					className='col-span-full mt-2 w-full max-w-xs justify-self-center sm:mt-0 sm:max-w-[12.5rem]'
 					type='submit'
 					disabled={isSubmitting}>
 					{isSubmitting ? (
-						<LoaderCircle className='w-6 h-6 mr-1 animate-spin' />
+						<LoaderCircle className='mr-1 h-6 w-6 animate-spin' />
 					) : null}
 					Continuar
 				</Button>

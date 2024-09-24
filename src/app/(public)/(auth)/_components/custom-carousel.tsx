@@ -12,7 +12,7 @@ const CustomCarousel = () => {
 	return (
 		<>
 			<Carousel
-				className='w-full max-w-sm flex-grow flex items-center'
+				className='flex w-full max-w-sm flex-grow items-center'
 				plugins={[
 					Autoplay({
 						delay: 5000,
@@ -84,7 +84,7 @@ const CustomCarousel = () => {
 				}}>
 				<CarouselContent>
 					<CarouselItem>
-						<p className='font-primary italic text-base font-medium'>
+						<p className='font-primary text-base font-medium italic'>
 							&quot;Planifica tus viajes con una combinación perfecta de
 							funciones básicas y avanzadas que te permiten personalizar cada
 							detalle según tus necesidades.&quot;

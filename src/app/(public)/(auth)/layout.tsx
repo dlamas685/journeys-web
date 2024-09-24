@@ -9,16 +9,16 @@ type Props = {
 
 export default function AuthLayout({ children }: Readonly<Props>) {
 	return (
-		<section className='flex h-full md:max-w-[82.5rem] mx-auto'>
-			<section className='hidden w-2/4 md:flex md:flex-col md:justify-center md:items-center bg-orange-50'>
-				<section className='w-full flex items-center gap-2 p-5 text-orange-600'>
+		<section className='mx-auto flex h-full md:max-w-[82.5rem]'>
+			<section className='hidden w-2/4 bg-orange-50 md:flex md:flex-col md:items-center md:justify-center'>
+				<section className='flex w-full items-center gap-2 p-5 text-orange-600'>
 					<Waypoints size={20} />
 					<span className='font-secondary font-bold'>JOURNEYS</span>
 				</section>
 				<CustomCarousel />
 			</section>
 
-			<section className='w-full min-h-dvh flex flex-col gap-6 items-center md:justify-center bg-white px-8 md:w-2/4'>
+			<section className='flex min-h-dvh w-full flex-col items-center gap-6 bg-white px-8 md:w-2/4 md:justify-center'>
 				<Image
 					src='/brand/isotype-v1.png'
 					alt='Journeys'

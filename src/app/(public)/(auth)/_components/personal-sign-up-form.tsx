@@ -78,7 +78,7 @@ const PersonalSignUpForm = () => {
 	return (
 		<Form {...form}>
 			<form
-				className='grid grid-cols-1 gap-3 w-full md:grid-cols-2'
+				className='grid w-full grid-cols-1 gap-3 md:grid-cols-2'
 				onSubmit={form.handleSubmit(handleSubmit)}>
 				<FormField
 					control={form.control}
@@ -160,7 +160,7 @@ const PersonalSignUpForm = () => {
 					type='submit'
 					disabled={isSubmitting}>
 					{isSubmitting ? (
-						<LoaderCircle className='w-6 h-6 mr-1 animate-spin' />
+						<LoaderCircle className='mr-1 h-6 w-6 animate-spin' />
 					) : null}
 					Registrarse
 				</Button>

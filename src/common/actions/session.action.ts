@@ -21,7 +21,7 @@ export const getServerUser = async () => {
 	const user = cookies().get('session.user')?.value
 
 	if (!user) {
-		return null
+		return undefined
 	}
 
 	return JSON.parse(user) as UserModel
