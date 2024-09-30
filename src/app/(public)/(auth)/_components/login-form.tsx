@@ -45,7 +45,7 @@ const LoginForm = () => {
 
 	const { isSubmitting } = form.formState
 
-	const handleSumbit = async (values: CredentialsSchema) => {
+	const handleSubmit = async (values: CredentialsSchema) => {
 		await loginWithCredentials(values)
 			.then(resp => {
 				if ('error' in resp) {
@@ -61,7 +61,7 @@ const LoginForm = () => {
 		<Form {...form}>
 			<form
 				className='mt-3 grid w-full grid-cols-2 items-center gap-3'
-				onSubmit={form.handleSubmit(handleSumbit)}>
+				onSubmit={form.handleSubmit(handleSubmit)}>
 				<FormField
 					control={form.control}
 					name='email'
@@ -95,7 +95,7 @@ const LoginForm = () => {
 					control={form.control}
 					name='rememberMe'
 					render={({ field }) => (
-						<FormItem className='col-span-1 flex flex-row items-start space-x-3 space-y-0'>
+						<FormItem className='col-span-1 flex flex-row items-center space-x-3 space-y-0'>
 							<FormControl>
 								<Checkbox
 									checked={field.value}

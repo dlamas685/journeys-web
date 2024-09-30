@@ -72,7 +72,16 @@ export default async function InternalLayout({ children }: Readonly<Props>) {
 			icon: <Route />,
 			label: 'Optimización',
 			href: `/${pathRoot}/${Pathnames.OPTIMIZATION}`,
+			userType: UserTypes.PERSONAL,
 		},
+		{
+			id: uuid(),
+			icon: <Route />,
+			label: 'Hojas de ruta',
+			href: `/${pathRoot}/${Pathnames.ROADMAPS}`,
+			userType: UserTypes.COMPANY,
+		},
+
 		{
 			id: uuid(),
 			icon: <Newspaper />,
