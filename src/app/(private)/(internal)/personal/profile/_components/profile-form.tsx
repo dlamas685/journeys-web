@@ -1,11 +1,10 @@
 'use client'
-
 import { updateProfile } from '@/common/actions/options.action'
 import { ApiError } from '@/common/classes/api-error.class'
 import InputMask from '@/common/components/ui/form/input-mask'
 import InputPlace from '@/common/components/ui/google/input-place'
-import { Pathnames, UserTypes } from '@/common/enums'
 import useResponse from '@/common/hooks/use-response'
+import { UserModel } from '@/common/models'
 import { UpdateUserModel } from '@/common/models/update-user.model'
 import { Button } from '@/components/ui/button'
 import {
@@ -13,34 +12,47 @@ import {
 	FormControl,
 	FormField,
 	FormItem,
+	FormLabel,
 	FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import 'cleave.js/dist/addons/cleave-phone.ar'
+import { format } from 'date-fns'
 import { LoaderCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
-import { PersonalProfileSchema, personalProfileSchema } from '../_schemas'
+import { profileSchema, ProfileSchema } from '../_schemas/profile.schema'
 
-const PersonalProfileForm = () => {
+type Props = {
+	user: UserModel
+}
+
+const ProfileForm = ({ user }: Readonly<Props>) => {
 	const router = useRouter()
 	const response = useResponse()
 
-	const form = useForm<PersonalProfileSchema>({
-		resolver: zodResolver(personalProfileSchema),
+	const form = useForm<ProfileSchema>({
+		resolver: zodResolver(profileSchema),
 		defaultValues: {
-			firstName: '',
-			lastName: '',
+			firstName: user.personalProfile?.firstName ?? '',
+			lastName: user.personalProfile?.lastName ?? '',
+			email: user.email,
+			dni: user.personalProfile?.dni ?? undefined,
+			birthDate: user.personalProfile?.birthDate
+				? format(user.personalProfile?.birthDate, 'dd/MM/yyyy')
+				: undefined,
+			phone: user.personalProfile?.phone ?? undefined,
+			address: user.personalProfile?.address ?? undefined,
 		},
 	})
 
 	const { isSubmitting } = form.formState
 
-	const handleSubmit = async (personalProfile: PersonalProfileSchema) => {
+	const handleSubmit = async ({ email, ...restValues }: ProfileSchema) => {
 		const user: UpdateUserModel = {
-			userType: UserTypes.PERSONAL,
-			personalProfile,
+			email,
+			personalProfile: restValues,
 		}
 
 		await updateProfile(user)
@@ -49,7 +61,12 @@ const PersonalProfileForm = () => {
 					throw new ApiError(resp)
 				}
 
-				router.push(`/${Pathnames.HOME}`)
+				response.success({
+					title: 'Mi perfil',
+					description: 'Tu perfil se ha actualizado correctamente.',
+				})
+
+				router.refresh()
 			})
 			.catch(response.error)
 	}
@@ -57,21 +74,39 @@ const PersonalProfileForm = () => {
 	return (
 		<Form {...form}>
 			<form
-				className='grid w-full grid-cols-1 gap-2 sm:gap-3'
+				className='grid w-full max-w-sm grid-cols-1 gap-x-4 gap-y-2 sm:max-w-lg sm:grid-cols-2'
 				onSubmit={form.handleSubmit(handleSubmit)}>
+				<FormField
+					control={form.control}
+					name='email'
+					render={({ field }) => (
+						<FormItem className='col-span-full'>
+							<FormLabel>
+								Correo electrónico<span className='text-destructive'>*</span>
+							</FormLabel>
+							<FormControl>
+								<Input
+									{...field}
+									placeholder='Ingresa tu dirección de correo electrónico'
+									type='email'
+									disabled
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
 				<FormField
 					control={form.control}
 					name='firstName'
 					render={({ field }) => (
 						<FormItem>
+							<FormLabel>
+								Nombre<span className='text-destructive'>*</span>
+							</FormLabel>
 							<FormControl>
-								<Input
-									{...field}
-									transparent
-									muted={false}
-									placeholder='Ingresa tu nombre'
-									type='text'
-								/>
+								<Input {...field} placeholder='Ingresa tu nombre' type='text' />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -83,11 +118,13 @@ const PersonalProfileForm = () => {
 					name='lastName'
 					render={({ field }) => (
 						<FormItem>
+							<FormLabel>
+								Apellido<span className='text-destructive'>*</span>
+							</FormLabel>
+
 							<FormControl>
 								<Input
 									{...field}
-									transparent
-									muted={false}
 									placeholder='Ingresa tu apellido'
 									type='text'
 								/>
@@ -101,12 +138,11 @@ const PersonalProfileForm = () => {
 					name='dni'
 					render={({ field }) => (
 						<FormItem>
+							<FormLabel>DNI</FormLabel>
 							<FormControl>
 								<InputMask
 									{...field}
-									transparent
-									muted={false}
-									placeholder='Ingresa tu DNI (opcional)'
+									placeholder='Ingresa tu DNI'
 									options={{
 										numericOnly: true,
 									}}
@@ -124,12 +160,11 @@ const PersonalProfileForm = () => {
 					name='birthDate'
 					render={({ field }) => (
 						<FormItem>
+							<FormLabel>Fecha de nacimiento</FormLabel>
 							<FormControl>
 								<InputMask
 									{...field}
-									transparent
-									muted={false}
-									placeholder='Ingresa tu fecha de nacimiento (opcional)'
+									placeholder='Ingresa tu fecha de nacimiento'
 									options={{
 										date: true,
 										numericOnly: true,
@@ -148,13 +183,12 @@ const PersonalProfileForm = () => {
 					name='phone'
 					render={({ field }) => (
 						<FormItem>
+							<FormLabel>Teléfono</FormLabel>
 							<FormControl>
 								<InputMask
 									{...field}
-									transparent
-									muted={false}
 									type='text'
-									placeholder='Ingresa tu teléfono sin +54 (opcional)'
+									placeholder='Ingresa tu teléfono sin +54'
 									options={{
 										phone: true,
 										phoneRegionCode: 'AR',
@@ -171,33 +205,33 @@ const PersonalProfileForm = () => {
 					name='address'
 					render={({ field }) => (
 						<FormItem>
+							<FormLabel>Dirección</FormLabel>
 							<InputPlace
-								transparent
-								muted={false}
 								value={field.value}
-								placeholder='Buscar dirección (opcional)'
+								placeholder='Buscar dirección'
 								searchPlaceholder='Ingresa tu dirección'
 								onPlaceSelect={place => {
 									field.onChange(place?.formatted_address)
 								}}
 							/>
+
 							<FormMessage />
 						</FormItem>
 					)}
 				/>
 
 				<Button
-					className='mt-3s col-span-full w-full max-w-xs justify-self-center sm:mt-2 sm:max-w-[12.5rem]'
+					className='col-span-full mt-2 w-full sm:mt-6'
 					type='submit'
 					disabled={isSubmitting}>
 					{isSubmitting ? (
 						<LoaderCircle className='mr-1 h-6 w-6 animate-spin' />
 					) : null}
-					Continuar
+					Guardar
 				</Button>
 			</form>
 		</Form>
 	)
 }
 
-export default PersonalProfileForm
+export default ProfileForm

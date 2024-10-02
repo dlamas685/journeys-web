@@ -2,28 +2,24 @@
 
 import { ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies'
 import { cookies } from 'next/headers'
+import { notFound } from 'next/navigation'
+import { ApiError } from '../classes/api-error.class'
 import { ApiEndpoints } from '../enums'
 import { ErrorModel, UserModel } from '../models'
 import { UpdateUserModel } from '../models/update-user.model'
-import {
-	getServerExpires,
-	getServerToken,
-	getServerUser,
-} from './session.action'
+import { getServerExpires, getServerToken } from './session.action'
 
 const API_URL = process.env.API_URL
 
-export const update = async (updateUser: UpdateUserModel) => {
+export const updateProfile = async (updateUser: UpdateUserModel) => {
 	try {
 		const cookiesStore = cookies()
 
 		const token = await getServerToken()
 
-		const user = await getServerUser()
-
 		const expires = await getServerExpires()
 
-		const URL = `${API_URL}/${ApiEndpoints.USERS}/${user?.id}`
+		const URL = `${API_URL}/${ApiEndpoints.OPTIONS_PROFILE}`
 
 		const response = await fetch(URL, {
 			method: 'PATCH',
@@ -44,13 +40,43 @@ export const update = async (updateUser: UpdateUserModel) => {
 		const options: Partial<ResponseCookie> = {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === 'production',
-			sameSite: 'strict',
+			sameSite: 'lax',
 			expires: new Date(expires * 1000),
 		}
 
-		cookiesStore.set('session.user', JSON.stringify(updateUser), options)
+		cookiesStore.set('session.user', JSON.stringify(updatedUser), options)
 
 		return updatedUser
+	} catch (error) {
+		throw error
+	}
+}
+
+export const findProfile = async () => {
+	try {
+		const token = await getServerToken()
+
+		const URL = `${API_URL}/${ApiEndpoints.OPTIONS_PROFILE}`
+
+		const response = await fetch(URL, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		})
+
+		if (!response.ok) {
+			const error = (await response.json()) as ErrorModel
+
+			if (error.statusCode === 404) {
+				notFound()
+			}
+
+			throw new ApiError(error)
+		}
+
+		const user = (await response.json()) as UserModel
+
+		return user
 	} catch (error) {
 		throw error
 	}

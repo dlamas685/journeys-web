@@ -118,7 +118,7 @@ export default async function InternalLayout({ children }: Readonly<Props>) {
 
 	return (
 		<section className='mx-auto flex min-h-dvh w-full flex-col md:max-w-[82.5rem]'>
-			<header className='grid grid-cols-[auto_1fr_auto] items-center gap-4 border-b p-4 md:grid-cols-[auto_1fr_repeat(2,auto)] md:p-6'>
+			<header className='grid grid-cols-[auto_1fr_auto] items-center gap-4 border-b p-4 sm:grid-cols-[auto_1fr_repeat(2,auto)] sm:p-6'>
 				<section className='hidden items-center gap-3 sm:flex'>
 					<Image
 						src='/brand/isotype-v1.png'
@@ -142,8 +142,10 @@ export default async function InternalLayout({ children }: Readonly<Props>) {
 				<Notifications className='col-start-1 col-end-2 row-start-1 row-end-2 sm:col-auto sm:row-auto' />
 				<Profile user={user} />
 			</header>
-			<Navbar items={userItems} />
-			<main className='w-full flex-grow px-8 md:px-24'>{children}</main>
+			<main className='relative flex w-full flex-grow flex-col gap-0 p-4 sm:static sm:gap-8 sm:p-8 md:p-10'>
+				<Navbar items={userItems} />
+				{children}
+			</main>
 		</section>
 	)
 }

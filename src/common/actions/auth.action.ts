@@ -38,7 +38,7 @@ export const loginWithCredentials = async (credentials: CredentialsModel) => {
 		const options: Partial<ResponseCookie> = {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === 'production',
-			sameSite: 'strict',
+			sameSite: 'lax',
 			expires: new Date(auth.expires * 1000),
 		}
 
@@ -83,7 +83,7 @@ export const validateAccessToken = async (token: string) => {
 		const options: Partial<ResponseCookie> = {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === 'production',
-			sameSite: 'strict',
+			sameSite: 'lax',
 			expires: new Date(auth.expires * 1000),
 		}
 
@@ -170,7 +170,7 @@ export const signUp = async (user: CreateUserModel) => {
 		const options: Partial<ResponseCookie> = {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === 'production',
-			sameSite: 'strict',
+			sameSite: 'lax',
 			expires: new Date(auth.expires * 1000),
 		}
 

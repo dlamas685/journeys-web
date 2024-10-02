@@ -1,6 +1,6 @@
 'use client'
 
-import { update } from '@/common/actions/users.action'
+import { updateProfile } from '@/common/actions/options.action'
 import { ApiError } from '@/common/classes/api-error.class'
 import Fieldset from '@/common/components/ui/form/field-set'
 import InputMask from '@/common/components/ui/form/input-mask'
@@ -46,7 +46,7 @@ const CompanyProfileForm = () => {
 			companyProfile,
 		}
 
-		await update(user)
+		await updateProfile(user)
 			.then(resp => {
 				if ('error' in resp) {
 					throw new ApiError(resp)
@@ -136,18 +136,16 @@ const CompanyProfileForm = () => {
 						name='taxAddress'
 						render={({ field }) => (
 							<FormItem>
-								<FormControl>
-									<InputPlace
-										transparent
-										muted={false}
-										value={field.value}
-										placeholder='Buscar dirección fiscal (opcional)'
-										searchPlaceholder='Ingresa tu dirección fiscal'
-										onPlaceSelect={place => {
-											field.onChange(place?.formatted_address)
-										}}
-									/>
-								</FormControl>
+								<InputPlace
+									transparent
+									muted={false}
+									value={field.value}
+									placeholder='Buscar dirección fiscal (opcional)'
+									searchPlaceholder='Ingresa tu dirección fiscal'
+									onPlaceSelect={place => {
+										field.onChange(place?.formatted_address)
+									}}
+								/>
 								<FormMessage />
 							</FormItem>
 						)}

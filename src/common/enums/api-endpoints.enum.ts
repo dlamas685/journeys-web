@@ -10,4 +10,10 @@ export enum ApiEndpoints {
 	LINK_VALIDATION = 'verification-tokens/link-validation',
 
 	USERS = 'users',
+
+	FILES_PROFILES = 'files/profile',
+
+	OPTIONS = 'options',
+	OPTIONS_PROFILE = 'options/profile',
+	OPTIONS_SECURITY = 'options/security',
 }

@@ -8,6 +8,7 @@ import {
 	CommandList,
 } from '@/components/ui/command'
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer'
+import { FormControl } from '@/components/ui/form'
 import {
 	Popover,
 	PopoverContent,
@@ -126,21 +127,24 @@ const InputPlace = ({
 		return (
 			<Popover open={open} onOpenChange={setOpen}>
 				<PopoverTrigger asChild>
-					<Button
-						variant='outline'
-						role='combobox'
-						aria-expanded={open}
-						title={inputValue}
-						className={cn(
-							'w-full justify-between font-normal text-muted-foreground px-3 py-5',
-							muted && 'bg-muted  border-none',
-							transparent && 'bg-transparent'
-						)}>
-						<span className='max-w-xs overflow-hidden text-ellipsis'>
-							{inputValue ? inputValue : placeholder}
-						</span>
-						<CaretSortIcon className='ml-2 h-4 w-4 shrink-0 opacity-50' />
-					</Button>
+					<FormControl>
+						<Button
+							type='button'
+							variant='outline'
+							role='combobox'
+							aria-expanded={open}
+							title={inputValue}
+							className={cn(
+								'w-full justify-between px-3 py-5 font-normal text-muted-foreground',
+								muted && 'border-none bg-muted',
+								transparent && 'bg-transparent'
+							)}>
+							<span className='max-w-xs overflow-hidden text-ellipsis'>
+								{inputValue ? inputValue : placeholder}
+							</span>
+							<CaretSortIcon className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+						</Button>
+					</FormControl>
 				</PopoverTrigger>
 				<PopoverContent className='w-full p-0'>
 					<Command shouldFilter={false}>
@@ -178,21 +182,23 @@ const InputPlace = ({
 	return (
 		<Drawer open={open} onOpenChange={setOpen}>
 			<DrawerTrigger asChild>
-				<Button
-					variant='outline'
-					role='combobox'
-					aria-expanded={open}
-					title={inputValue}
-					className={cn(
-						'w-full justify-between font-normal text-muted-foreground px-3 py-5',
-						muted && 'bg-muted  border-none',
-						transparent && 'bg-transparent'
-					)}>
-					<span className='max-w-xs overflow-hidden text-ellipsis'>
-						{inputValue ? inputValue : placeholder}
-					</span>
-					<CaretSortIcon className='ml-2 h-4 w-4 shrink-0 opacity-50' />
-				</Button>
+				<FormControl>
+					<Button
+						variant='outline'
+						role='combobox'
+						aria-expanded={open}
+						title={inputValue}
+						className={cn(
+							'w-full justify-between px-3 py-5 font-normal text-muted-foreground',
+							muted && 'border-none bg-muted',
+							transparent && 'bg-transparent'
+						)}>
+						<span className='max-w-xs overflow-hidden text-ellipsis'>
+							{inputValue ? inputValue : placeholder}
+						</span>
+						<CaretSortIcon className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+					</Button>
+				</FormControl>
 			</DrawerTrigger>
 			<DrawerContent>
 				<Command shouldFilter={false}>

@@ -2,7 +2,12 @@ import { MINIMUM_USER_AGE } from '@/common/constants'
 import { calculateAge } from '@/common/utils'
 import { z } from 'zod'
 
-export const personalProfileSchema = z.object({
+export const profileSchema = z.object({
+	email: z
+		.string()
+		.trim()
+		.min(1, 'Por favor, ingresa una dirección de correo electrónico.')
+		.email('La dirección de correo electrónico no es válida.'),
 	firstName: z
 		.string()
 		.trim()
@@ -13,8 +18,8 @@ export const personalProfileSchema = z.object({
 		.trim()
 		.min(1, 'Por favor, ingresa tu apellido.')
 		.max(255, 'El apellido es demasiado largo.'),
-	phone: z.string().trim().optional(),
-	address: z.string().trim().optional(),
+	phone: z.string().optional(),
+	address: z.string().optional(),
 	dni: z
 		.string()
 		.min(7, 'El DNI no puede tener menos de 7 números')
@@ -26,7 +31,11 @@ export const personalProfileSchema = z.object({
 		.length(10, 'Por favor, ingresa tu fecha de nacimiento.')
 		.transform(value => {
 			const [day, month, year] = value.split('/')
-			const date = new Date(`${year}-${month}-${day}`).toISOString()
+			const date = new Date(
+				parseInt(year),
+				parseInt(month),
+				parseInt(day)
+			).toISOString()
 			return date
 		})
 		.refine(
@@ -36,4 +45,4 @@ export const personalProfileSchema = z.object({
 		.optional(),
 })
 
-export type PersonalProfileSchema = z.infer<typeof personalProfileSchema>
+export type ProfileSchema = z.infer<typeof profileSchema>

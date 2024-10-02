@@ -32,7 +32,7 @@ const Navbar = ({ items }: Readonly<Props>) => {
 	const [open, setOpen] = useState(false)
 
 	return (
-		<nav className='mx-auto w-full p-4 sm:max-w-sm sm:py-6 md:max-w-3xl md:py-10'>
+		<nav className='mx-auto w-full p-0 sm:max-w-sm md:max-w-3xl'>
 			<Carousel className='hidden sm:block'>
 				<CarouselContent className='justify-around gap-4'>
 					{items.map(item => (
@@ -56,7 +56,7 @@ const Navbar = ({ items }: Readonly<Props>) => {
 			<Sheet open={open} onOpenChange={setOpen}>
 				<SheetTrigger asChild>
 					<Button
-						className='sm:hidden'
+						className='absolute sm:hidden'
 						variant='outline'
 						size='icon'
 						onClick={() => {
