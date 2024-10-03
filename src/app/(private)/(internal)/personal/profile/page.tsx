@@ -1,11 +1,14 @@
 import { findProfile } from '@/common/actions/options.action'
+import ProfilePicture from '@/common/components/ui/misc/profile-picture'
+import { getNameInitials } from '@/common/utils'
 import ProfileForm from './_components/profile-form'
-import ProfilePicture from './_components/profile-picture'
 
 export default async function ProfilePage() {
 	const user = await findProfile()
-	const label =
-		`${user.personalProfile?.firstName?.at(0) ?? ''}${user.personalProfile?.lastName.at(0) ?? ''}`.toUpperCase()
+
+	const name = `${user.personalProfile?.firstName} ${user.personalProfile?.lastName}`
+
+	const nameInitials = getNameInitials(name)
 
 	return (
 		<section className='flex w-full flex-grow flex-col items-center gap-3 p-0 sm:gap-5 sm:py-0.5'>
@@ -13,9 +16,9 @@ export default async function ProfilePage() {
 				Mi perfil
 			</h1>
 			<ProfilePicture
-				label={label}
+				label={nameInitials}
 				imageUrl={user.imageUrl}
-				imageAlt={`${user.personalProfile?.firstName} ${user.personalProfile?.lastName}`}
+				imageAlt={name}
 			/>
 			<ProfileForm user={user} />
 		</section>

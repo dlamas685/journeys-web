@@ -2,6 +2,7 @@
 import { logOut } from '@/common/actions/auth.action'
 import { Pathnames, UserTypes } from '@/common/enums'
 import { UserModel } from '@/common/models'
+import { getNameInitials } from '@/common/utils'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
 	DropdownMenu,
@@ -29,11 +30,7 @@ const Profile = ({ user, className }: Readonly<Props>) => {
 			? `${user.personalProfile?.firstName} ${user.personalProfile?.lastName}`
 			: `${user.companyProfile?.name}`
 
-	const [first, ...rest] = name.split(' ')
-
-	const last = rest.pop()
-
-	const label = `${first.at(0)}${last?.at(0)}`.toUpperCase()
+	const nameInitials = getNameInitials(name)
 
 	const pathRoot = user.userType?.toLowerCase()
 
@@ -43,7 +40,7 @@ const Profile = ({ user, className }: Readonly<Props>) => {
 				<Avatar className='size-11 rounded-xl'>
 					<AvatarImage src={user.imageUrl ?? ''} alt={user.email} />
 					<AvatarFallback className='size-11 rounded-xl bg-orange-500/10 font-secondary text-orange-500'>
-						{label}
+						{nameInitials}
 					</AvatarFallback>
 				</Avatar>
 			</DropdownMenuTrigger>
