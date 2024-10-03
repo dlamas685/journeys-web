@@ -263,7 +263,7 @@ const ProfileForm = ({ user }: Readonly<Props>) => {
 					{isSubmitting ? (
 						<LoaderCircle className='mr-1 size-6 animate-spin' />
 					) : (
-						<Save className='mr-1 size-5' />
+						<Save className='mr-1 hidden size-5 sm:block' />
 					)}
 					Guardar
 				</Button>

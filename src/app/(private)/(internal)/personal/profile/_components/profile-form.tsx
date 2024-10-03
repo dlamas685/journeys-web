@@ -19,7 +19,7 @@ import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import 'cleave.js/dist/addons/cleave-phone.ar'
 import { format } from 'date-fns'
-import { LoaderCircle } from 'lucide-react'
+import { LoaderCircle, Save } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { profileSchema, ProfileSchema } from '../_schemas/profile.schema'
@@ -74,7 +74,7 @@ const ProfileForm = ({ user }: Readonly<Props>) => {
 	return (
 		<Form {...form}>
 			<form
-				className='grid w-full max-w-sm grid-cols-1 gap-x-4 gap-y-2 sm:max-w-lg sm:grid-cols-2'
+				className='grid w-full max-w-lg grid-cols-1 gap-x-4 gap-y-2 sm:grid-cols-2 sm:gap-x-5 sm:gap-y-3'
 				onSubmit={form.handleSubmit(handleSubmit)}>
 				<FormField
 					control={form.control}
@@ -221,12 +221,14 @@ const ProfileForm = ({ user }: Readonly<Props>) => {
 				/>
 
 				<Button
-					className='col-span-full mt-2 w-full sm:mt-6'
+					className='col-span-full mt-2 w-full justify-self-start sm:mt-6 sm:w-auto'
 					type='submit'
 					disabled={isSubmitting}>
 					{isSubmitting ? (
-						<LoaderCircle className='mr-1 h-6 w-6 animate-spin' />
-					) : null}
+						<LoaderCircle className='mr-1 size-6 animate-spin' />
+					) : (
+						<Save className='mr-1 hidden size-5 sm:block' />
+					)}
 					Guardar
 				</Button>
 			</form>

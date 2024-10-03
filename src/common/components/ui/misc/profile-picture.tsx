@@ -63,7 +63,7 @@ const ProfilePicture = ({ imageUrl, imageAlt, label }: Readonly<Props>) => {
 	}
 
 	return (
-		<section className='flex flex-col items-center gap-3.5 sm:flex-row'>
+		<section className='flex flex-col items-center gap-6 sm:flex-row sm:gap-3.5'>
 			<Avatar className='size-28 rounded-full'>
 				<AvatarImage src={imageUrl ?? ''} alt={imageAlt} />
 				<AvatarFallback className='size-28 rounded-full bg-orange-500/10 font-secondary text-5xl text-orange-500'>
