@@ -33,8 +33,6 @@ const ProfileForm = ({ user }: Readonly<Props>) => {
 	const router = useRouter()
 	const response = useResponse()
 
-	console.log(user)
-
 	const form = useForm<ProfileSchema>({
 		resolver: zodResolver(profileSchema),
 		defaultValues: {

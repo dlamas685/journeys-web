@@ -13,7 +13,7 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { cn } from '@/lib/utils'
-import { CreditCard, LogOut, UserRoundPen } from 'lucide-react'
+import { CreditCard, LogOut, ShieldCheck, UserRoundPen } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -60,6 +60,19 @@ const Profile = ({ user, className }: Readonly<Props>) => {
 						as={`/${pathRoot}/${Pathnames.PROFILE}`}>
 						<UserRoundPen className='size-4' />
 						Mi perfil
+					</Link>
+				</DropdownMenuItem>
+				<DropdownMenuItem className='cursor-pointer gap-1' asChild>
+					<Link
+						href={`/${pathRoot}/${Pathnames.SECURITY}`}
+						className={cn(
+							pathname.includes(Pathnames.SECURITY)
+								? 'text-orange-500'
+								: 'text-black'
+						)}
+						as={`/${pathRoot}/${Pathnames.SECURITY}`}>
+						<ShieldCheck className='size-4' />
+						Seguridad
 					</Link>
 				</DropdownMenuItem>
 				<DropdownMenuItem className='cursor-pointer gap-1' asChild>

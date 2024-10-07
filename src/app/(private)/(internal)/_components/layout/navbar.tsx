@@ -21,7 +21,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
-import { MenuItem } from '../_types/menu-item.type'
+import { MenuItem } from '../../_types/menu-item.type'
 
 type Props = {
 	items: MenuItem[]

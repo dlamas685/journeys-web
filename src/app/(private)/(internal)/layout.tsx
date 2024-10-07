@@ -16,10 +16,10 @@ import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { ReactNode } from 'react'
 import { v4 as uuid } from 'uuid'
-import Navbar from './_components/navbar'
-import Notifications from './_components/notifications'
-import Profile from './_components/profile'
-import SearchBox from './_components/search-box'
+import Navbar from './_components/layout/navbar'
+import Notifications from './_components/layout/notifications'
+import Profile from './_components/layout/profile'
+import SearchBox from './_components/layout/search-box'
 import { MenuItem } from './_types/menu-item.type'
 
 type Props = {
@@ -81,7 +81,6 @@ export default async function InternalLayout({ children }: Readonly<Props>) {
 			href: `/${pathRoot}/${Pathnames.ROADMAPS}`,
 			userType: UserTypes.COMPANY,
 		},
-
 		{
 			id: uuid(),
 			icon: <Newspaper />,

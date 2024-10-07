@@ -81,3 +81,56 @@ export const findProfile = async () => {
 		throw error
 	}
 }
+
+export const changePassword = async (password: string, newPassword: string) => {
+	try {
+		const token = await getServerToken()
+
+		const URL = `${API_URL}/${ApiEndpoints.OPTIONS_SECURITY}`
+
+		const response = await fetch(URL, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+			body: JSON.stringify({ password, newPassword }),
+		})
+
+		if (!response.ok) {
+			const error = (await response.json()) as ErrorModel
+			return error
+		}
+
+		return true
+	} catch (error) {
+		throw error
+	}
+}
+
+export const hasPassword = async () => {
+	try {
+		const token = await getServerToken()
+
+		const URL = `${API_URL}/${ApiEndpoints.OPTIONS_SECURITY_PASSWORD_EXISTS}`
+
+		const response = await fetch(URL, {
+			headers: {
+				method: 'GET',
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+		})
+
+		if (!response.ok) {
+			const error = (await response.json()) as ErrorModel
+			return error
+		}
+
+		const hasPassword = (await response.json()) as boolean
+
+		return hasPassword
+	} catch (error) {
+		throw error
+	}
+}

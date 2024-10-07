@@ -16,4 +16,5 @@ export enum ApiEndpoints {
 	OPTIONS = 'options',
 	OPTIONS_PROFILE = 'options/profile',
 	OPTIONS_SECURITY = 'options/security',
+	OPTIONS_SECURITY_PASSWORD_EXISTS = 'options/security/password-exists',
 }

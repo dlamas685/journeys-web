@@ -29,4 +29,5 @@ export enum Pathnames {
 	PAYMENTS = 'payments',
 	PROFILE = 'profile',
 	NOTIFICATIONS = 'notifications',
+	SECURITY = 'security',
 }
