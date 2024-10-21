@@ -221,7 +221,7 @@ const ProfileForm = ({ user }: Readonly<Props>) => {
 				/>
 
 				<Button
-					className='col-span-full mt-2 w-full justify-self-start sm:mt-6 sm:w-auto'
+					className='col-span-full mt-2 w-full justify-self-start sm:mt-4 sm:w-auto'
 					type='submit'
 					disabled={isSubmitting}>
 					{isSubmitting ? (
