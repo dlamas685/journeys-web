@@ -43,21 +43,21 @@ export default async function InternalLayout({ children }: Readonly<Props>) {
 		{
 			id: uuid(),
 			icon: <MapPinHouse />,
-			label: 'Lugares favoritos',
+			label: 'Lugares Favoritos',
 			href: `/${pathRoot}/${Pathnames.FAVORITE_PLACES}`,
 			userType: UserTypes.PERSONAL,
 		},
 		{
 			id: uuid(),
 			icon: <Bookmark />,
-			label: 'Direcciones favoritas',
+			label: 'Direcciones Favoritas',
 			href: `/${pathRoot}/${Pathnames.FAVORITE_ADDRESSES}`,
 			userType: UserTypes.PERSONAL,
 		},
 		{
 			id: uuid(),
 			icon: <ListTodo />,
-			label: 'Plantillas de tareas',
+			label: 'Plantillas de Tareas',
 			href: `/${pathRoot}/${Pathnames.TASK_TEMPLATES}`,
 		},
 		{
@@ -77,7 +77,7 @@ export default async function InternalLayout({ children }: Readonly<Props>) {
 		{
 			id: uuid(),
 			icon: <Route />,
-			label: 'Hojas de ruta',
+			label: 'Hojas de Ruta',
 			href: `/${pathRoot}/${Pathnames.ROADMAPS}`,
 			userType: UserTypes.COMPANY,
 		},

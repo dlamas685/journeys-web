@@ -1,3 +1,7 @@
 export * from './api-endpoints.enum'
+export * from './filter-rules.enum'
+export * from './filter-types.enum'
+export * from './logical-operators.enum'
 export * from './pathnames.enum'
+export * from './sort-directions.enum'
 export * from './user-types.enum'

@@ -23,6 +23,9 @@ const config = {
 				primary: ['var(--font-lora)', ...fontFamily.serif],
 				secondary: ['var(--font-hind-madurai)', ...fontFamily.sans],
 			},
+			boxShadow: {
+				bento: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',

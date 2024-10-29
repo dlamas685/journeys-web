@@ -1,0 +1,118 @@
+import { cn } from '@/lib/utils'
+import { ComponentProps, forwardRef, ReactNode } from 'react'
+
+type FrameHeaderProps = ComponentProps<'header'> & {
+	children: ReactNode
+}
+
+type FrameTitleProps = ComponentProps<'h1'> & {
+	children: ReactNode
+	as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+}
+
+type FrameGadgetsProps = ComponentProps<'section'> & {
+	children: ReactNode
+}
+
+type FrameBodyProps = ComponentProps<'section'> & {
+	children: ReactNode
+}
+
+type FrameFooterProps = ComponentProps<'footer'> & {
+	children: ReactNode
+}
+
+type FrameProps = ComponentProps<'section'> & {
+	children: ReactNode
+	as?: 'section' | 'article' | 'aside'
+}
+
+const FrameHeader = forwardRef<HTMLHeadElement, FrameHeaderProps>(
+	({ className, ...rest }: Readonly<FrameHeaderProps>, ref) => (
+		<header
+			ref={ref}
+			className={cn(
+				'grid grid-cols-1 gap-8 sm:flex sm:flex-row sm:justify-between',
+				className
+			)}
+			{...rest}
+		/>
+	)
+)
+
+FrameHeader.displayName = 'FrameHeader'
+
+const FrameTitle = forwardRef<HTMLHeadingElement, FrameTitleProps>(
+	({ as = 'h1', className, ...rest }: Readonly<FrameTitleProps>, ref) => {
+		const Tag = as
+
+		return (
+			<Tag
+				ref={ref}
+				className={cn(
+					{
+						'mt-5 text-center font-primary text-xl font-semibold italic sm:static sm:mt-0 sm:inline-block sm:text-left sm:text-2xl':
+							as === 'h1',
+					},
+					className
+				)}
+				{...rest}
+			/>
+		)
+	}
+)
+
+FrameTitle.displayName = 'FrameBody'
+
+const FrameGadgets = forwardRef<HTMLDivElement, FrameGadgetsProps>(
+	({ className, ...rest }: Readonly<FrameGadgetsProps>, ref) => (
+		<section
+			ref={ref}
+			className={cn('flex flex-wrap justify-center gap-1 sm:gap-2', className)}
+			{...rest}
+		/>
+	)
+)
+
+FrameGadgets.displayName = 'FrameGadgets'
+
+const FrameBody = forwardRef<HTMLDivElement, FrameBodyProps>(
+	({ className, ...rest }: Readonly<FrameBodyProps>, ref) => (
+		<section
+			ref={ref}
+			className={cn('flex flex-grow flex-col gap-4', className)}
+			{...rest}
+		/>
+	)
+)
+
+FrameBody.displayName = 'FrameBody'
+
+const FrameFooter = forwardRef<HTMLDivElement, FrameFooterProps>(
+	({ className, ...rest }: Readonly<FrameFooterProps>, ref) => (
+		<footer ref={ref} className={cn('', className)} {...rest} />
+	)
+)
+
+FrameFooter.displayName = 'FrameFooter'
+
+const Frame = forwardRef<HTMLDivElement, FrameProps>(
+	({ className, as = 'section', ...rest }: Readonly<FrameProps>, ref) => {
+		const Tag = as
+
+		return (
+			<Tag
+				ref={ref}
+				className={cn(
+					'mx-auto flex w-full max-w-4xl flex-grow flex-col gap-3 p-0 sm:gap-8 sm:px-5 sm:py-0.5',
+					className
+				)}
+				{...rest}
+			/>
+		)
+	}
+)
+
+Frame.displayName = 'Frame'
+
+export { Frame, FrameBody, FrameFooter, FrameGadgets, FrameHeader, FrameTitle }
