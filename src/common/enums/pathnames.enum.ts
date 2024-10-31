@@ -6,7 +6,6 @@ export enum Pathnames {
 	EMAIL_VERIFICATION = 'email-verification',
 	ERROR = 'error',
 	HOME = 'home',
-	PROVIDERS = 'providers',
 	FIRST_STEPS = 'first-steps',
 
 	// Personal

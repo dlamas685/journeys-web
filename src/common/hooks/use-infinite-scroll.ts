@@ -1,18 +1,16 @@
-import { useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { findAll } from '../actions/crud.action'
 import { ApiEndpoints, Pathnames } from '../enums'
 import { QueryParamsModel } from '../models'
-import { decodeQuery } from '../utils'
 import useResponse from './use-response'
 
-type PaginationOptions<T> = {
+type InfiniteScrollOptions<T> = {
 	endpoint: ApiEndpoints
 	defaultValue: T[]
 	page: number
 	lastPage: number
-	entity?: string
-	redirectUrl: Pathnames
+	fallbackUrl: Pathnames
+	queryParams: QueryParamsModel
 }
 
 const useInfiniteScroll = <Model>({
@@ -20,11 +18,9 @@ const useInfiniteScroll = <Model>({
 	defaultValue,
 	page,
 	lastPage,
-	redirectUrl,
-	entity = 'registros',
-}: PaginationOptions<Model>) => {
-	console.log(page, lastPage)
-
+	fallbackUrl,
+	queryParams,
+}: InfiniteScrollOptions<Model>) => {
 	const limit = 10
 	const [currentPage, setCurrentPage] = useState<number>(page + 1)
 	const [records, setRecords] = useState<Model[]>(defaultValue)
@@ -32,36 +28,17 @@ const useInfiniteScroll = <Model>({
 	const [hasMore, setHasMore] = useState<boolean>(page < lastPage)
 	const response = useResponse()
 	const loader = useRef<HTMLDivElement | null>(null)
-	const searchParams = useSearchParams()
-	const router = useRouter()
 
 	const loadMoreRecords = useCallback(async () => {
-		if (isLoading || !hasMore) return
-
-		const encodedQuery = searchParams.get('query') ?? ''
-
-		let queryParams: QueryParamsModel = {
+		const newQueryParams: QueryParamsModel = {
+			...queryParams,
 			page: currentPage,
 			limit,
 		}
 
-		if (encodedQuery) {
-			const decodedQuery = decodeQuery(encodedQuery)
-
-			if (!decodedQuery) {
-				router.push(redirectUrl)
-				return
-			}
-
-			queryParams = {
-				...decodedQuery,
-				...queryParams,
-			}
-		}
-
 		setIsLoading(true)
 
-		await findAll<Model>(endpoint, queryParams, redirectUrl)
+		await findAll<Model>(endpoint, newQueryParams, fallbackUrl)
 			.then(({ data, meta }) => {
 				setRecords(prevRecords => [...prevRecords, ...data])
 				setCurrentPage(prevPage => prevPage + 1)
@@ -71,8 +48,7 @@ const useInfiniteScroll = <Model>({
 			.finally(() => {
 				setIsLoading(false)
 			})
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isLoading, currentPage, hasMore])
+	}, [queryParams, currentPage, endpoint, fallbackUrl, response.error])
 
 	useEffect(() => {
 		const options = {
@@ -97,7 +73,13 @@ const useInfiniteScroll = <Model>({
 				observer.unobserve(loader.current)
 			}
 		}
-	}, [isLoading, loadMoreRecords, hasMore])
+	}, [isLoading, loadMoreRecords, hasMore, queryParams])
+
+	useEffect(() => {
+		setRecords(defaultValue)
+		setCurrentPage(page + 1)
+		setHasMore(page < lastPage)
+	}, [queryParams, defaultValue, page, lastPage])
 
 	return { records, hasMore, loader, isLoading }
 }

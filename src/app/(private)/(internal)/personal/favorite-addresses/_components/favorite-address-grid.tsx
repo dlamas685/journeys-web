@@ -1,7 +1,8 @@
 'use client'
 
 import { ApiEndpoints, Pathnames } from '@/common/enums'
-import useInfiniteScroll from '@/common/hooks/use-pagination'
+import useInfiniteScroll from '@/common/hooks/use-infinite-scroll'
+import { QueryParamsModel } from '@/common/models'
 import { Loader2 } from 'lucide-react'
 import { FavoriteAddressModel } from '../_models'
 import FavoriteAddressCard from './favorite-address-card'
@@ -11,10 +12,12 @@ type Props = {
 	page: number
 	total: number
 	lastPage: number
+	queryParams: QueryParamsModel
 }
 
 const FavoriteAddressGrid = ({
 	defaultValue,
+	queryParams,
 	page,
 	lastPage,
 	total,
@@ -23,10 +26,10 @@ const FavoriteAddressGrid = ({
 		useInfiniteScroll<FavoriteAddressModel>({
 			endpoint: ApiEndpoints.FAVORITE_ADDRESSES,
 			defaultValue,
-			entity: 'direcciones favoritas',
-			redirectUrl: Pathnames.FAVORITE_ADDRESSES,
+			fallbackUrl: Pathnames.FAVORITE_ADDRESSES,
 			page,
 			lastPage,
+			queryParams,
 		})
 
 	const cardVariants = {

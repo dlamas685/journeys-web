@@ -7,6 +7,7 @@ import {
 	FrameTitle,
 } from '@/common/components/layout/frame'
 import Modal from '@/common/components/ui/overlay/modal'
+import { FILTER_FORM_ID } from '@/common/constants'
 import { ApiEndpoints, Pathnames } from '@/common/enums'
 import { QueryParamsModel } from '@/common/models'
 import { SearchParams } from '@/common/types'
@@ -16,6 +17,7 @@ import { CirclePlus, Filter, FilterX, Save, SearchCheck } from 'lucide-react'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import FavoriteAddressGrid from './_components/favorite-address-grid'
+import FilterForm from './_components/filter-form'
 import SortingButtons from './_components/sorting-buttons'
 import { FavoriteAddressModel } from './_models'
 
@@ -50,6 +52,8 @@ export default async function FavoriteAddressesPage({
 		Pathnames.FAVORITE_ADDRESSES
 	)
 
+	console.log(response.data)
+
 	const hasFilters =
 		(queryParams.filters && queryParams.filters.length > 0) ||
 		(queryParams.logicalFilters && queryParams.logicalFilters.length > 0)
@@ -78,8 +82,11 @@ export default async function FavoriteAddressesPage({
 							variant: 'outline',
 						}}
 						submitIcon={<SearchCheck className='mr-1 size-4' />}
-						submitLabel='Aplicar'>
-						@FilterComponent
+						submitLabel='Aplicar'
+						submitProps={{
+							form: FILTER_FORM_ID,
+						}}>
+						<FilterForm queryParams={queryParams} />
 					</Modal>
 
 					{hasFilters && (
@@ -98,7 +105,7 @@ export default async function FavoriteAddressesPage({
 							</Link>
 						</Button>
 					)}
-					<SortingButtons />
+					<SortingButtons field='alias' queryParams={queryParams} />
 				</FrameGadgets>
 			</FrameHeader>
 			<FrameBody>
@@ -108,6 +115,7 @@ export default async function FavoriteAddressesPage({
 						page={response.meta.page}
 						lastPage={response.meta.lastPage}
 						total={response.meta.total}
+						queryParams={queryParams}
 					/>
 				) : (
 					<p className='text-center leading-[18.75rem] text-gray-400'>

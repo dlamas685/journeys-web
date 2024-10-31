@@ -1,5 +1,6 @@
 'use client'
 
+import { DialogContext } from '@/common/contexts/dialog-context'
 import { useMediaQuery } from '@/common/hooks/use-media-query'
 import { Button } from '@/components/ui/button'
 import {
@@ -50,52 +51,64 @@ const Modal = ({
 
 	if (isDesktop) {
 		return (
-			<Dialog open={open} onOpenChange={setOpen}>
-				<DialogTrigger asChild>
-					<Button {...triggerProps}>
-						{triggerIcon}
-						{triggerLabel}
-					</Button>
-				</DialogTrigger>
-				<DialogContent className='sm:max-w-[425px]'>
-					<DialogHeader>
-						<DialogTitle>{title}</DialogTitle>
-						<DialogDescription>{description}</DialogDescription>
-					</DialogHeader>
-					{children}
-					<DialogFooter>
-						<Button type='submit' {...submitProps}>
-							{submitIcon}
-							{submitLabel}
+			<DialogContext.Provider
+				value={{
+					open,
+					setOpen,
+				}}>
+				<Dialog open={open} onOpenChange={setOpen}>
+					<DialogTrigger asChild>
+						<Button {...triggerProps}>
+							{triggerIcon}
+							{triggerLabel}
 						</Button>
-					</DialogFooter>
-				</DialogContent>
-			</Dialog>
+					</DialogTrigger>
+					<DialogContent className='sm:max-w-[425px]'>
+						<DialogHeader>
+							<DialogTitle>{title}</DialogTitle>
+							<DialogDescription>{description}</DialogDescription>
+						</DialogHeader>
+						{children}
+						<DialogFooter>
+							<Button type='submit' {...submitProps}>
+								{submitIcon}
+								{submitLabel}
+							</Button>
+						</DialogFooter>
+					</DialogContent>
+				</Dialog>
+			</DialogContext.Provider>
 		)
 	}
 
 	return (
-		<Drawer open={open} onOpenChange={setOpen}>
-			<DrawerTrigger asChild>
-				<Button {...triggerProps}>
-					{triggerIcon}
-					{triggerLabel}
-				</Button>
-			</DrawerTrigger>
-			<DrawerContent>
-				<DrawerHeader className='text-left'>
-					<DrawerTitle>{title}</DrawerTitle>
-					<DrawerDescription>{description}</DrawerDescription>
-				</DrawerHeader>
-				{children}
-				<DrawerFooter className='pt-2'>
-					<Button type='submit' {...submitProps}>
-						{submitIcon}
-						{submitLabel}
+		<DialogContext.Provider
+			value={{
+				open,
+				setOpen,
+			}}>
+			<Drawer open={open} onOpenChange={setOpen}>
+				<DrawerTrigger asChild>
+					<Button {...triggerProps}>
+						{triggerIcon}
+						{triggerLabel}
 					</Button>
-				</DrawerFooter>
-			</DrawerContent>
-		</Drawer>
+				</DrawerTrigger>
+				<DrawerContent>
+					<DrawerHeader className='text-left'>
+						<DrawerTitle>{title}</DrawerTitle>
+						<DrawerDescription>{description}</DrawerDescription>
+					</DrawerHeader>
+					{children}
+					<DrawerFooter className='pt-2'>
+						<Button type='submit' {...submitProps}>
+							{submitIcon}
+							{submitLabel}
+						</Button>
+					</DrawerFooter>
+				</DrawerContent>
+			</Drawer>
+		</DialogContext.Provider>
 	)
 }
 

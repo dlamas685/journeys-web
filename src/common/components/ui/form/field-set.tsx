@@ -1,24 +1,46 @@
 import { cn } from '@/lib/utils'
 import { ComponentProps, forwardRef } from 'react'
 
-type Props = ComponentProps<'fieldset'> & {
-	legend: string
-}
-
-const Fieldset = forwardRef<HTMLFieldSetElement, Props>(
-	({ legend, children, className, ...rest }: Readonly<Props>, ref) => {
+const Fieldset = forwardRef<HTMLDivElement, ComponentProps<'div'>>(
+	({ className, ...rest }, ref) => {
 		return (
 			<section
 				ref={ref}
 				className={cn('grid w-full grid-cols-1 gap-2', className)}
-				{...rest}>
-				<h4 className='py-2 text-sm font-semibold'>{legend}</h4>
-				{children}
-			</section>
+				{...rest}
+			/>
 		)
 	}
 )
 
 Fieldset.displayName = 'Fieldset'
 
-export default Fieldset
+const FieldsetLegend = forwardRef<HTMLHeadingElement, ComponentProps<'h4'>>(
+	({ className, ...rest }, ref) => {
+		return (
+			<h4
+				ref={ref}
+				className={cn('py-2 text-sm font-semibold', className)}
+				{...rest}
+			/>
+		)
+	}
+)
+
+FieldsetLegend.displayName = 'FieldsetLegend'
+
+const FieldsetContent = forwardRef<HTMLDivElement, ComponentProps<'section'>>(
+	({ className, ...rest }, ref) => {
+		return (
+			<section
+				ref={ref}
+				className={cn('grid w-full grid-cols-1 gap-2', className)}
+				{...rest}
+			/>
+		)
+	}
+)
+
+FieldsetContent.displayName = 'FieldsetContent'
+
+export { Fieldset, FieldsetContent, FieldsetLegend }

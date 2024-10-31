@@ -126,42 +126,43 @@ export const findOne = async <ResModel>(
 export const findAll = async <ResModel>(
 	endpoint: ApiEndpoints,
 	queryParams: QueryParamsModel,
-	redirectUrl: Pathnames,
+	fallbackUrl: Pathnames,
 	headers: HeadersInit = HEADERS,
 	next?: NextFetchRequestConfig
 ) => {
 	try {
 		const token = await getServerToken()
 
-		const params = new URLSearchParams()
+		let url = `${API_URL}/${endpoint}?`
 
-		if (queryParams.page) params.set('page', queryParams.page.toString())
-
-		if (queryParams.limit) params.set('limit', queryParams.limit.toString())
+		if (queryParams.page) url += `page=${queryParams.page}&`
+		if (queryParams.limit) url += `limit=${queryParams.limit}&`
 
 		if (queryParams.filters) {
 			queryParams.filters.forEach(filter => {
-				params.append('filters', JSON.stringify(filter))
+				url += `filters=${filter.field}:${filter.rule}~:${filter.type}:${filter.value}&`
 			})
 		}
 
 		if (queryParams.sorts) {
 			queryParams.sorts.forEach(sort => {
-				params.append('sorts', JSON.stringify(sort))
+				url += `sorts=${sort.field}:${sort.direction}&`
 			})
 		}
 
 		if (queryParams.logicalFilters) {
 			queryParams.logicalFilters.forEach(logicalFilter => {
-				params.append('logicalFilters', JSON.stringify(logicalFilter))
+				logicalFilter.conditions.forEach(condition => {
+					url += `logicalFilters=${logicalFilter.operator}:${condition.field}:${condition.rule}:${condition.type}:${condition.value}&`
+				})
 			})
 		}
 
-		const URL = `${API_URL}/${endpoint}?${params.toString()}`
+		url = url.slice(0, -1)
 
-		console.log(URL)
+		console.log(url)
 
-		const response = await fetch(URL, {
+		const response = await fetch(url, {
 			method: 'GET',
 			headers: {
 				...headers,
@@ -174,7 +175,7 @@ export const findAll = async <ResModel>(
 			const error = (await response.json()) as ErrorModel
 
 			if (response.status === 400) {
-				redirect(redirectUrl)
+				redirect(fallbackUrl)
 			}
 
 			throw new ApiError(error)

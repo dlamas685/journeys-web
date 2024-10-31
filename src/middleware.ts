@@ -5,7 +5,6 @@ import { UserModel } from './common/models'
 const publicPaths = [
 	`/${Pathnames.LOGIN}`,
 	`/${Pathnames.SIGN_UP}`,
-	`/${Pathnames.PROVIDERS}`,
 	`/${Pathnames.PASSWORD_RESET_REQUEST}`,
 	`/${Pathnames.PASSWORD_RESETS}`,
 	`/${Pathnames.EMAIL_VERIFICATION}`,
@@ -24,32 +23,33 @@ export const middleware = async ({ cookies, nextUrl }: NextRequest) => {
 	const isPublic = publicPaths.includes(pathname)
 
 	if (isLoggedIn) {
-		if (!isFirstSteps && !user.userType) {
+		if (!user.userType && !isFirstSteps) {
 			return NextResponse.redirect(
 				new URL(`/${Pathnames.FIRST_STEPS}`, nextUrl),
 				{
 					headers: {
 						'Cache-Control': 'no-store',
+						'X-Router-Replace': 'true',
 					},
 				}
 			)
 		}
 
-		if (isFirstSteps && user.userType) {
+		if (user.userType && isFirstSteps) {
 			return NextResponse.redirect(
 				new URL(`/${user.userType.toLowerCase()}/${Pathnames.HOME}`, nextUrl),
 				{
 					headers: {
 						'Cache-Control': 'no-store',
+						'X-Router-Replace': 'true',
 					},
 				}
 			)
 		}
 
-		if (isOnLogin) {
-			// Si está logueado y está en la página de login, redirige a la página de inicio
+		if (isOnLogin && user.userType) {
 			return NextResponse.redirect(
-				new URL(`/${user.userType?.toLowerCase()}/${Pathnames.HOME}`, nextUrl),
+				new URL(`/${user.userType.toLowerCase()}/${Pathnames.HOME}`, nextUrl),
 				{
 					headers: {
 						'Cache-Control': 'no-store',
@@ -59,9 +59,12 @@ export const middleware = async ({ cookies, nextUrl }: NextRequest) => {
 			)
 		}
 
-		if (!pathname.includes(`/${user.userType?.toLowerCase()}`)) {
+		if (
+			user.userType &&
+			!pathname.includes(`/${user.userType.toLowerCase()}`)
+		) {
 			return NextResponse.redirect(
-				new URL(`/${user.userType?.toLowerCase()}/${Pathnames.HOME}`, nextUrl),
+				new URL(`/${user.userType.toLowerCase()}/${Pathnames.HOME}`, nextUrl),
 				{
 					headers: {
 						'Cache-Control': 'no-store',
@@ -71,11 +74,9 @@ export const middleware = async ({ cookies, nextUrl }: NextRequest) => {
 			)
 		}
 
-		// Si está logueado y la ruta es privada, permite el acceso
 		return NextResponse.next()
 	}
 
-	// Si no está logueado y la ruta no es pública, redirige al login
 	if (!isPublic) {
 		return NextResponse.redirect(new URL(`/${Pathnames.LOGIN}`, nextUrl), {
 			headers: {
@@ -84,7 +85,6 @@ export const middleware = async ({ cookies, nextUrl }: NextRequest) => {
 		})
 	}
 
-	// Permitir el acceso a rutas públicas o login si no está logueado
 	return NextResponse.next()
 }
 

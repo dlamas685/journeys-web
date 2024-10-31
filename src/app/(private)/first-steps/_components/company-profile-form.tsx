@@ -2,7 +2,11 @@
 
 import { updateProfile } from '@/common/actions/options.action'
 import { ApiError } from '@/common/classes/api-error.class'
-import Fieldset from '@/common/components/ui/form/field-set'
+import {
+	Fieldset,
+	FieldsetContent,
+	FieldsetLegend,
+} from '@/common/components/ui/form/field-set'
 import InputMask from '@/common/components/ui/form/input-mask'
 import InputPlace from '@/common/components/ui/google/input-place'
 import { Pathnames, UserTypes } from '@/common/enums'
@@ -62,159 +66,161 @@ const CompanyProfileForm = () => {
 			<form
 				className='grid w-full grid-cols-1 gap-x-5 gap-y-3 sm:gap-x-10 sm:gap-y-5 sm:px-2 md:px-4'
 				onSubmit={form.handleSubmit(handleSubmit)}>
-				<Fieldset
-					legend='Datos Empresariales'
-					className='flex flex-col gap-2 sm:gap-3'>
-					<FormField
-						control={form.control}
-						name='name'
-						render={({ field }) => (
-							<FormItem>
-								<FormControl>
-									<Input
-										transparent
-										muted={false}
-										{...field}
-										placeholder='Ingresa tu razón social'
-										type='text'
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+				<Fieldset className='flex flex-col gap-2 sm:gap-3'>
+					<FieldsetLegend>Datos Empresariales</FieldsetLegend>
+					<FieldsetContent>
+						<FormField
+							control={form.control}
+							name='name'
+							render={({ field }) => (
+								<FormItem>
+									<FormControl>
+										<Input
+											transparent
+											muted={false}
+											{...field}
+											placeholder='Ingresa tu razón social'
+											type='text'
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
 
-					<FormField
-						control={form.control}
-						name='cuit'
-						render={({ field }) => (
-							<FormItem>
-								<FormControl>
-									<InputMask
-										muted={false}
+						<FormField
+							control={form.control}
+							name='cuit'
+							render={({ field }) => (
+								<FormItem>
+									<FormControl>
+										<InputMask
+											muted={false}
+											transparent
+											{...field}
+											placeholder='Ingresa tu CUIT'
+											type='text'
+											options={{
+												numericOnly: true,
+												blocks: [2, 8, 1],
+												delimiter: '-',
+											}}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
+						<FormField
+							control={form.control}
+							name='phone'
+							render={({ field }) => (
+								<FormItem>
+									<FormControl>
+										<InputMask
+											transparent
+											muted={false}
+											{...field}
+											type='text'
+											placeholder='Ingresa tu teléfono sin +54 (opcional)'
+											options={{
+												phone: true,
+												phoneRegionCode: 'AR',
+											}}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
+						<FormField
+							control={form.control}
+							name='taxAddress'
+							render={({ field }) => (
+								<FormItem>
+									<InputPlace
 										transparent
-										{...field}
-										placeholder='Ingresa tu CUIT'
-										type='text'
-										options={{
-											numericOnly: true,
-											blocks: [2, 8, 1],
-											delimiter: '-',
+										muted={false}
+										value={field.value}
+										placeholder='Buscar dirección fiscal (opcional)'
+										searchPlaceholder='Ingresa tu dirección fiscal'
+										onPlaceSelect={place => {
+											field.onChange(place?.formatted_address)
 										}}
 									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-
-					<FormField
-						control={form.control}
-						name='phone'
-						render={({ field }) => (
-							<FormItem>
-								<FormControl>
-									<InputMask
-										transparent
-										muted={false}
-										{...field}
-										type='text'
-										placeholder='Ingresa tu teléfono sin +54 (opcional)'
-										options={{
-											phone: true,
-											phoneRegionCode: 'AR',
-										}}
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-
-					<FormField
-						control={form.control}
-						name='taxAddress'
-						render={({ field }) => (
-							<FormItem>
-								<InputPlace
-									transparent
-									muted={false}
-									value={field.value}
-									placeholder='Buscar dirección fiscal (opcional)'
-									searchPlaceholder='Ingresa tu dirección fiscal'
-									onPlaceSelect={place => {
-										field.onChange(place?.formatted_address)
-									}}
-								/>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+					</FieldsetContent>
 				</Fieldset>
 
-				<Fieldset
-					legend='Datos del Responsable'
-					className='flex flex-col gap-2 sm:gap-3'>
-					<FormField
-						control={form.control}
-						name='manager'
-						render={({ field }) => (
-							<FormItem>
-								<FormControl>
-									<Input
-										transparent
-										muted={false}
-										{...field}
-										placeholder='Ingresa su nombre completo'
-										type='text'
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+				<Fieldset className='flex flex-col gap-2 sm:gap-3'>
+					<FieldsetLegend>Datos del Responsable</FieldsetLegend>
+					<FieldsetContent>
+						<FormField
+							control={form.control}
+							name='manager'
+							render={({ field }) => (
+								<FormItem>
+									<FormControl>
+										<Input
+											transparent
+											muted={false}
+											{...field}
+											placeholder='Ingresa su nombre completo'
+											type='text'
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
 
-					<FormField
-						control={form.control}
-						name='managerPhone'
-						render={({ field }) => (
-							<FormItem>
-								<FormControl>
-									<InputMask
-										transparent
-										muted={false}
-										{...field}
-										placeholder='Ingresa su teléfono sin +54 (opcional)'
-										type='text'
-										options={{
-											phone: true,
-											phoneRegionCode: 'AR',
-										}}
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+						<FormField
+							control={form.control}
+							name='managerPhone'
+							render={({ field }) => (
+								<FormItem>
+									<FormControl>
+										<InputMask
+											transparent
+											muted={false}
+											{...field}
+											placeholder='Ingresa su teléfono sin +54 (opcional)'
+											type='text'
+											options={{
+												phone: true,
+												phoneRegionCode: 'AR',
+											}}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
 
-					<FormField
-						control={form.control}
-						name='managerEmail'
-						render={({ field }) => (
-							<FormItem>
-								<FormControl>
-									<Input
-										transparent
-										muted={false}
-										{...field}
-										placeholder='Ingresa su correo electrónico (opcional)'
-										type='email'
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+						<FormField
+							control={form.control}
+							name='managerEmail'
+							render={({ field }) => (
+								<FormItem>
+									<FormControl>
+										<Input
+											transparent
+											muted={false}
+											{...field}
+											placeholder='Ingresa su correo electrónico (opcional)'
+											type='email'
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+					</FieldsetContent>
 				</Fieldset>
 
 				<Button
