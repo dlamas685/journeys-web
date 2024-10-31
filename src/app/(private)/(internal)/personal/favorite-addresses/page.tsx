@@ -52,8 +52,6 @@ export default async function FavoriteAddressesPage({
 		Pathnames.FAVORITE_ADDRESSES
 	)
 
-	console.log(response.data)
-
 	const hasFilters =
 		(queryParams.filters && queryParams.filters.length > 0) ||
 		(queryParams.logicalFilters && queryParams.logicalFilters.length > 0)

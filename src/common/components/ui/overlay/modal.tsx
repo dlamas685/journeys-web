@@ -100,7 +100,7 @@ const Modal = ({
 						<DrawerDescription>{description}</DrawerDescription>
 					</DrawerHeader>
 					{children}
-					<DrawerFooter className='pt-2'>
+					<DrawerFooter className='sm:pt-2'>
 						<Button type='submit' {...submitProps}>
 							{submitIcon}
 							{submitLabel}
