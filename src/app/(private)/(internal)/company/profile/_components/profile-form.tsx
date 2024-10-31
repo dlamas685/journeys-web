@@ -1,7 +1,11 @@
 'use client'
 import { updateProfile } from '@/common/actions/options.action'
 import { ApiError } from '@/common/classes/api-error.class'
-import Fieldset from '@/common/components/ui/form/field-set'
+import {
+	Fieldset,
+	FieldsetContent,
+	FieldsetLegend,
+} from '@/common/components/ui/form/field-set'
 import InputMask from '@/common/components/ui/form/input-mask'
 import InputPlace from '@/common/components/ui/google/input-place'
 import useResponse from '@/common/hooks/use-response'
@@ -76,182 +80,185 @@ const ProfileForm = ({ user }: Readonly<Props>) => {
 			<form
 				className='grid w-full grid-cols-1 gap-3 sm:grid-cols-[1fr_auto_1fr] sm:gap-6'
 				onSubmit={form.handleSubmit(handleSubmit)}>
-				<Fieldset
-					legend='Datos Empresariales'
-					className='grid-cols-2 gap-2 sm:gap-3'>
-					<FormField
-						control={form.control}
-						name='email'
-						render={({ field }) => (
-							<FormItem className='col-span-full'>
-								<FormLabel>
-									Correo electrónico<span className='text-destructive'>*</span>
-								</FormLabel>
-								<FormControl>
-									<Input
-										{...field}
-										placeholder='Ingresa tu dirección de correo electrónico'
-										type='email'
-										disabled
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+				<Fieldset>
+					<FieldsetLegend>Datos Empresariales</FieldsetLegend>
+					<FieldsetContent className='grid-cols-2 gap-2 sm:gap-3'>
+						<FormField
+							control={form.control}
+							name='email'
+							render={({ field }) => (
+								<FormItem className='col-span-full'>
+									<FormLabel>
+										Correo electrónico
+										<span className='text-destructive'>*</span>
+									</FormLabel>
+									<FormControl>
+										<Input
+											{...field}
+											placeholder='Ingresa tu dirección de correo electrónico'
+											type='email'
+											disabled
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
 
-					<FormField
-						control={form.control}
-						name='name'
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>
-									Razón social<span className='text-destructive'>*</span>
-								</FormLabel>
-								<FormControl>
-									<Input
-										{...field}
-										placeholder='Ingresa tu razón social'
-										type='text'
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+						<FormField
+							control={form.control}
+							name='name'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>
+										Razón social<span className='text-destructive'>*</span>
+									</FormLabel>
+									<FormControl>
+										<Input
+											{...field}
+											placeholder='Ingresa tu razón social'
+											type='text'
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
 
-					<FormField
-						control={form.control}
-						name='cuit'
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>
-									CUIT<span className='text-destructive'>*</span>
-								</FormLabel>
-								<FormControl>
-									<InputMask
-										{...field}
-										placeholder='Ingresa tu CUIT'
-										type='text'
-										options={{
-											numericOnly: true,
-											blocks: [2, 8, 1],
-											delimiter: '-',
+						<FormField
+							control={form.control}
+							name='cuit'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>
+										CUIT<span className='text-destructive'>*</span>
+									</FormLabel>
+									<FormControl>
+										<InputMask
+											{...field}
+											placeholder='Ingresa tu CUIT'
+											type='text'
+											options={{
+												numericOnly: true,
+												blocks: [2, 8, 1],
+												delimiter: '-',
+											}}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
+						<FormField
+							control={form.control}
+							name='phone'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Teléfono</FormLabel>
+									<FormControl>
+										<InputMask
+											{...field}
+											type='text'
+											placeholder='Ingresa tu teléfono sin +54'
+											options={{
+												phone: true,
+												phoneRegionCode: 'AR',
+											}}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
+						<FormField
+							control={form.control}
+							name='taxAddress'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Dirección Fiscal</FormLabel>
+									<InputPlace
+										value={field.value}
+										placeholder='Buscar dirección fiscal (opcional)'
+										searchPlaceholder='Ingresa tu dirección fiscal'
+										onPlaceSelect={place => {
+											field.onChange(place?.formatted_address)
 										}}
 									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-
-					<FormField
-						control={form.control}
-						name='phone'
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Teléfono</FormLabel>
-								<FormControl>
-									<InputMask
-										{...field}
-										type='text'
-										placeholder='Ingresa tu teléfono sin +54'
-										options={{
-											phone: true,
-											phoneRegionCode: 'AR',
-										}}
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-
-					<FormField
-						control={form.control}
-						name='taxAddress'
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Dirección Fiscal</FormLabel>
-								<InputPlace
-									value={field.value}
-									placeholder='Buscar dirección fiscal (opcional)'
-									searchPlaceholder='Ingresa tu dirección fiscal'
-									onPlaceSelect={place => {
-										field.onChange(place?.formatted_address)
-									}}
-								/>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+					</FieldsetContent>
 				</Fieldset>
 
 				<Separator orientation='vertical' />
 
-				<Fieldset
-					legend='Datos del Responsable'
-					className='flex flex-col gap-2 sm:gap-3'>
-					<FormField
-						control={form.control}
-						name='manager'
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>
-									Nombre completo <span className='text-destructive'>*</span>
-								</FormLabel>
-								<FormControl>
-									<Input
-										{...field}
-										placeholder='Ingresa su nombre completo'
-										type='text'
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+				<Fieldset>
+					<FieldsetLegend>Datos del Responsable</FieldsetLegend>
+					<FieldsetContent className='flex flex-col gap-2 sm:gap-3'>
+						<FormField
+							control={form.control}
+							name='manager'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>
+										Nombre completo <span className='text-destructive'>*</span>
+									</FormLabel>
+									<FormControl>
+										<Input
+											{...field}
+											placeholder='Ingresa su nombre completo'
+											type='text'
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
 
-					<FormField
-						control={form.control}
-						name='managerPhone'
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Teléfono</FormLabel>
+						<FormField
+							control={form.control}
+							name='managerPhone'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Teléfono</FormLabel>
 
-								<FormControl>
-									<InputMask
-										{...field}
-										placeholder='Ingresa su teléfono sin +54 '
-										type='text'
-										options={{
-											phone: true,
-											phoneRegionCode: 'AR',
-										}}
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+									<FormControl>
+										<InputMask
+											{...field}
+											placeholder='Ingresa su teléfono sin +54 '
+											type='text'
+											options={{
+												phone: true,
+												phoneRegionCode: 'AR',
+											}}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
 
-					<FormField
-						control={form.control}
-						name='managerEmail'
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Correo electrónico</FormLabel>
-								<FormControl>
-									<Input
-										{...field}
-										placeholder='Ingresa su correo electrónico'
-										type='email'
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+						<FormField
+							control={form.control}
+							name='managerEmail'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Correo electrónico</FormLabel>
+									<FormControl>
+										<Input
+											{...field}
+											placeholder='Ingresa su correo electrónico'
+											type='email'
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+					</FieldsetContent>
 				</Fieldset>
 
 				<Button

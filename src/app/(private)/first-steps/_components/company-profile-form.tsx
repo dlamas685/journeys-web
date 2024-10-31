@@ -66,9 +66,9 @@ const CompanyProfileForm = () => {
 			<form
 				className='grid w-full grid-cols-1 gap-x-5 gap-y-3 sm:gap-x-10 sm:gap-y-5 sm:px-2 md:px-4'
 				onSubmit={form.handleSubmit(handleSubmit)}>
-				<Fieldset className='flex flex-col gap-2 sm:gap-3'>
+				<Fieldset>
 					<FieldsetLegend>Datos Empresariales</FieldsetLegend>
-					<FieldsetContent>
+					<FieldsetContent className='flex flex-col gap-2 sm:gap-3'>
 						<FormField
 							control={form.control}
 							name='name'
@@ -157,9 +157,9 @@ const CompanyProfileForm = () => {
 					</FieldsetContent>
 				</Fieldset>
 
-				<Fieldset className='flex flex-col gap-2 sm:gap-3'>
+				<Fieldset>
 					<FieldsetLegend>Datos del Responsable</FieldsetLegend>
-					<FieldsetContent>
+					<FieldsetContent className='flex flex-col gap-2 sm:gap-3'>
 						<FormField
 							control={form.control}
 							name='manager'
