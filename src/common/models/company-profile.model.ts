@@ -1,4 +1,4 @@
-export interface CompanyProfile {
+export interface CompanyProfileModel {
 	id: string
 	userId: string
 	name: string

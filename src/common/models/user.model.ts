@@ -1,6 +1,6 @@
 import { UserTypes } from '../enums/user-types.enum'
-import { CompanyProfile } from './company-profile.model'
-import { PersonalProfile } from './personal-profile.model'
+import { CompanyProfileModel } from './company-profile.model'
+import { PersonalProfileModel } from './personal-profile.model'
 
 export interface UserModel {
 	id: string
@@ -10,6 +10,6 @@ export interface UserModel {
 	userType?: UserTypes | null
 	createdAt: Date
 	updatedAt: Date
-	companyProfile?: CompanyProfile | null
-	personalProfile?: PersonalProfile | null
+	companyProfile?: CompanyProfileModel | null
+	personalProfile?: PersonalProfileModel | null
 }

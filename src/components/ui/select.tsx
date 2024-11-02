@@ -17,14 +17,22 @@ const SelectGroup = SelectPrimitive.Group
 
 const SelectValue = SelectPrimitive.Value
 
+export interface SelectProps
+	extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> {
+	muted?: boolean
+	transparent?: boolean
+}
+
 const SelectTrigger = React.forwardRef<
 	React.ElementRef<typeof SelectPrimitive.Trigger>,
-	React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
+	SelectProps
+>(({ className, children, transparent, muted = true, ...props }, ref) => (
 	<SelectPrimitive.Trigger
 		ref={ref}
 		className={cn(
 			'flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-5 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1',
+			muted && 'border-none bg-muted',
+			transparent && 'bg-transparent',
 			className
 		)}
 		{...props}>

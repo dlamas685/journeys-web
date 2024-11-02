@@ -1,4 +1,3 @@
-import Spinner from '@/common/components/ui/misc/spinner'
 import GoogleMapsProvider from '@/common/providers/GoogleMapsProvider'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
@@ -59,7 +58,7 @@ export default function RootLayout({
 				</GoogleMapsProvider>
 
 				<Toaster richColors />
-				<Spinner />
+				{/* <Spinner /> */}
 			</body>
 		</html>
 	)

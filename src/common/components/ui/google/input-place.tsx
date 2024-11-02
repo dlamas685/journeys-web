@@ -26,6 +26,8 @@ type Props = {
 	transparent?: boolean
 	muted?: boolean
 	emptyMessage?: string
+	searchType?: 'address' | 'establishment' | 'both'
+	country?: string
 	onPlaceSelect: (place: google.maps.places.PlaceResult | null) => void
 }
 
@@ -35,10 +37,12 @@ const InputPlace = ({
 	placeholder,
 	searchPlaceholder,
 	emptyMessage,
+	country = 'AR',
+	searchType = 'both',
 	muted = true,
 	transparent,
 }: Readonly<Props>) => {
-	const isDesktop = useMediaQuery('(min-width: 768px)')
+	const isDesktop = useMediaQuery('(min-width: 640px)')
 
 	const places = useMapsLibrary('places')
 	const [open, setOpen] = useState(false)
@@ -80,13 +84,22 @@ const InputPlace = ({
 			const request: google.maps.places.AutocompletionRequest = {
 				input: inputValue,
 				sessionToken,
+				componentRestrictions: {
+					country,
+				},
+				types:
+					searchType === 'address'
+						? ['address']
+						: searchType === 'establishment'
+							? ['establishment']
+							: undefined,
 			}
 
-			const response = await autocompleteService.getPlacePredictions(request)
-
-			setPredictionResults(response.predictions)
+			autocompleteService.getPlacePredictions(request, predictions =>
+				setPredictionResults(predictions || [])
+			)
 		},
-		[autocompleteService, sessionToken]
+		[autocompleteService, sessionToken, searchType, country]
 	)
 
 	const onInputChange = useCallback(
@@ -127,33 +140,29 @@ const InputPlace = ({
 		return (
 			<Popover open={open} onOpenChange={setOpen}>
 				<PopoverTrigger asChild>
-					<FormControl>
-						<Button
-							type='button'
-							variant='outline'
-							role='combobox'
-							aria-expanded={open}
-							title={inputValue}
-							className={cn(
-								'w-full justify-between px-3 py-5 font-normal text-muted-foreground',
-								muted && 'border-none bg-muted',
-								transparent && 'bg-transparent'
-							)}>
-							<span className='max-w-xs overflow-hidden text-ellipsis'>
-								{inputValue ? inputValue : placeholder}
-							</span>
-							<CaretSortIcon className='ml-2 h-4 w-4 shrink-0 opacity-50' />
-						</Button>
-					</FormControl>
+					<Button
+						type='button'
+						variant='outline'
+						role='combobox'
+						aria-expanded={open}
+						title={inputValue}
+						className={cn(
+							'w-full justify-between px-3 py-5 font-normal text-muted-foreground',
+							muted && 'border-none bg-muted',
+							transparent && 'bg-transparent'
+						)}>
+						<span className='max-w-xs overflow-hidden text-ellipsis'>
+							{inputValue ? inputValue : placeholder}
+						</span>
+						<CaretSortIcon className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+					</Button>
 				</PopoverTrigger>
-				<PopoverContent className='w-full p-0'>
+				<PopoverContent className='pointer-events-auto w-full p-0'>
 					<Command shouldFilter={false}>
 						<CommandInput
 							placeholder={searchPlaceholder}
 							value={inputValue}
-							onInput={(event: FormEvent<HTMLInputElement>) =>
-								onInputChange(event)
-							}
+							onInput={onInputChange}
 						/>
 						<CommandList>
 							<CommandEmpty>
@@ -205,9 +214,7 @@ const InputPlace = ({
 					<CommandInput
 						placeholder={searchPlaceholder}
 						value={inputValue}
-						onInput={(event: FormEvent<HTMLInputElement>) =>
-							onInputChange(event)
-						}
+						onInput={onInputChange}
 					/>
 					<CommandList>
 						<CommandEmpty>

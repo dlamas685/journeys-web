@@ -1,4 +1,4 @@
-export interface PersonalProfile {
+export interface PersonalProfileModel {
 	id: string
 	userId: string
 	firstName: string

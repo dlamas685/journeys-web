@@ -178,14 +178,16 @@ const ProfileForm = ({ user }: Readonly<Props>) => {
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Dirección Fiscal</FormLabel>
-									<InputPlace
-										value={field.value}
-										placeholder='Buscar dirección fiscal (opcional)'
-										searchPlaceholder='Ingresa tu dirección fiscal'
-										onPlaceSelect={place => {
-											field.onChange(place?.formatted_address)
-										}}
-									/>
+									<FormControl>
+										<InputPlace
+											value={field.value}
+											placeholder='Buscar dirección fiscal (opcional)'
+											searchPlaceholder='Ingresa tu dirección fiscal'
+											onPlaceSelect={place => {
+												field.onChange(place?.formatted_address)
+											}}
+										/>
+									</FormControl>
 									<FormMessage />
 								</FormItem>
 							)}

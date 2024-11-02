@@ -19,7 +19,7 @@ const FavoriteAddressCard = forwardRef(
 	({ record }: Readonly<Props>, ref: Ref<HTMLDivElement>) => (
 		<Card
 			ref={ref}
-			className='shadow-bento flex flex-col gap-4 border-none p-4'>
+			className='flex flex-col gap-4 border-none p-4 shadow-bento'>
 			<CardHeader className='p-0'>
 				<CardTitle className='font-secondary text-sm capitalize'>
 					{record.alias}
@@ -29,15 +29,11 @@ const FavoriteAddressCard = forwardRef(
 				<p className='font-secondary text-sm text-gray-600'>{record.address}</p>
 			</CardContent>
 			<CardFooter className='grid grid-cols-2 gap-2 p-0'>
-				<Button
-					className='bg-orange-200 px-1 text-orange-700 hover:bg-orange-200/90'
-					size='sm'>
+				<Button variant='editing' size='sm'>
 					<Pencil className='mr-1 size-3.5' />
 					Editar
 				</Button>
-				<Button
-					className='bg-orange-700 px-1 text-orange-200 hover:bg-orange-700/90'
-					size='sm'>
+				<Button variant='erased' size='sm'>
 					<Trash2 className='mr-1 size-3.5' />
 					Eliminar
 				</Button>

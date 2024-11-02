@@ -2,6 +2,7 @@
 
 import { DialogContext } from '@/common/contexts/dialog-context'
 import { useMediaQuery } from '@/common/hooks/use-media-query'
+import { useLoading } from '@/common/stores/loading.store'
 import { Button } from '@/components/ui/button'
 import {
 	Dialog,
@@ -21,6 +22,7 @@ import {
 	DrawerTitle,
 	DrawerTrigger,
 } from '@/components/ui/drawer'
+import { LoaderCircle } from 'lucide-react'
 import { ComponentProps, ReactNode, useState } from 'react'
 
 type Props = {
@@ -47,7 +49,8 @@ const Modal = ({
 	submitIcon,
 }: Readonly<Props>) => {
 	const [open, setOpen] = useState(false)
-	const isDesktop = useMediaQuery('(min-width: 768px)')
+	const isDesktop = useMediaQuery('(min-width: 640px)')
+	const isLoading = useLoading(store => store.isLoading)
 
 	if (isDesktop) {
 		return (
@@ -63,15 +66,19 @@ const Modal = ({
 							{triggerLabel}
 						</Button>
 					</DialogTrigger>
-					<DialogContent className='sm:max-w-[425px]'>
-						<DialogHeader>
+					<DialogContent className='gap-3 sm:max-w-[425px]'>
+						<DialogHeader className='px-1'>
 							<DialogTitle>{title}</DialogTitle>
 							<DialogDescription>{description}</DialogDescription>
 						</DialogHeader>
 						{children}
 						<DialogFooter>
 							<Button type='submit' {...submitProps}>
-								{submitIcon}
+								{isLoading ? (
+									<LoaderCircle className='mr-1 size-4 animate-spin' />
+								) : (
+									submitIcon
+								)}
 								{submitLabel}
 							</Button>
 						</DialogFooter>
@@ -100,7 +107,7 @@ const Modal = ({
 						<DrawerDescription>{description}</DrawerDescription>
 					</DrawerHeader>
 					{children}
-					<DrawerFooter className='sm:pt-2'>
+					<DrawerFooter className='md:pt-2'>
 						<Button type='submit' {...submitProps}>
 							{submitIcon}
 							{submitLabel}

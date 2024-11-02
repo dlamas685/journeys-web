@@ -140,16 +140,18 @@ const CompanyProfileForm = () => {
 							name='taxAddress'
 							render={({ field }) => (
 								<FormItem>
-									<InputPlace
-										transparent
-										muted={false}
-										value={field.value}
-										placeholder='Buscar dirección fiscal (opcional)'
-										searchPlaceholder='Ingresa tu dirección fiscal'
-										onPlaceSelect={place => {
-											field.onChange(place?.formatted_address)
-										}}
-									/>
+									<FormControl>
+										<InputPlace
+											transparent
+											muted={false}
+											value={field.value}
+											placeholder='Buscar dirección fiscal (opcional)'
+											searchPlaceholder='Ingresa tu dirección fiscal'
+											onPlaceSelect={place => {
+												field.onChange(place?.formatted_address)
+											}}
+										/>
+									</FormControl>
 									<FormMessage />
 								</FormItem>
 							)}

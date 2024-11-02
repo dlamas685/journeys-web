@@ -80,7 +80,7 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 	return (
 		<Form key={JSON.stringify(form.getValues())} {...form}>
 			<form
-				className='flex max-h-96 flex-col gap-2 overflow-y-auto px-4 sm:max-h-[inherit] sm:gap-4 sm:px-0'
+				className='flex max-h-96 flex-col gap-2 overflow-y-auto px-4 pb-2 sm:max-h-[inherit] sm:gap-3 sm:px-1'
 				id={FILTER_FORM_ID}
 				onSubmit={form.handleSubmit(handleSubmit)}>
 				<Fieldset className='gap-0.5'>
@@ -140,13 +140,7 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 								<FormItem>
 									<FormLabel>Valor</FormLabel>
 									<FormControl>
-										<Input
-											muted={false}
-											transparent={false}
-											placeholder='Ingrese un valor'
-											{...field}
-											value={field.value ?? ''}
-										/>
+										<Input placeholder='Ingrese un valor' {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -212,8 +206,6 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 									<FormLabel>Valor</FormLabel>
 									<FormControl>
 										<Input
-											muted={false}
-											transparent={false}
 											placeholder='Ingrese un valor'
 											{...field}
 											value={field.value ?? ''}

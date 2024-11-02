@@ -74,7 +74,7 @@ const ProfileForm = ({ user }: Readonly<Props>) => {
 	return (
 		<Form {...form}>
 			<form
-				className='grid w-full max-w-lg grid-cols-1 gap-x-4 gap-y-2 sm:grid-cols-2 sm:gap-x-5 sm:gap-y-3'
+				className='grid w-full grid-cols-1 gap-x-4 gap-y-2 sm:grid-cols-2 sm:gap-x-5 sm:gap-y-3'
 				onSubmit={form.handleSubmit(handleSubmit)}>
 				<FormField
 					control={form.control}
@@ -206,14 +206,16 @@ const ProfileForm = ({ user }: Readonly<Props>) => {
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Dirección</FormLabel>
-							<InputPlace
-								value={field.value}
-								placeholder='Buscar dirección'
-								searchPlaceholder='Ingresa tu dirección'
-								onPlaceSelect={place => {
-									field.onChange(place?.formatted_address)
-								}}
-							/>
+							<FormControl>
+								<InputPlace
+									value={field.value}
+									placeholder='Buscar dirección'
+									searchPlaceholder='Ingresa tu dirección'
+									onPlaceSelect={place => {
+										field.onChange(place?.formatted_address)
+									}}
+								/>
+							</FormControl>
 
 							<FormMessage />
 						</FormItem>

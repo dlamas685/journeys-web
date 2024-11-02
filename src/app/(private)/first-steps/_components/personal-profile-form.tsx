@@ -171,16 +171,18 @@ const PersonalProfileForm = () => {
 					name='address'
 					render={({ field }) => (
 						<FormItem>
-							<InputPlace
-								transparent
-								muted={false}
-								value={field.value}
-								placeholder='Buscar dirección (opcional)'
-								searchPlaceholder='Ingresa tu dirección'
-								onPlaceSelect={place => {
-									field.onChange(place?.formatted_address)
-								}}
-							/>
+							<FormControl>
+								<InputPlace
+									transparent
+									muted={false}
+									value={field.value}
+									placeholder='Buscar dirección (opcional)'
+									searchPlaceholder='Ingresa tu dirección'
+									onPlaceSelect={place => {
+										field.onChange(place?.formatted_address)
+									}}
+								/>
+							</FormControl>
 							<FormMessage />
 						</FormItem>
 					)}
