@@ -50,7 +50,7 @@ const Modal = ({
 }: Readonly<Props>) => {
 	const [open, setOpen] = useState(false)
 	const isDesktop = useMediaQuery('(min-width: 640px)')
-	const isLoading = useLoading(store => store.isLoading)
+	const isLoading = useLoading(store => store.loading)
 
 	if (isDesktop) {
 		return (

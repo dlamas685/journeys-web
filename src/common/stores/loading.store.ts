@@ -2,17 +2,16 @@ import { create, StateCreator } from 'zustand'
 import { devtools } from 'zustand/middleware'
 
 interface LoadingState {
-	isLoading: boolean
-	setIsLoading: (isLoading: boolean) => void
+	loading: boolean
+	setLoading: (isLoading: boolean) => void
 }
 
 const state: StateCreator<
 	LoadingState,
 	[['zustand/devtools', never]]
 > = set => ({
-	isLoading: false,
-	setIsLoading: (isLoading: boolean) =>
-		set({ isLoading }, false, 'setIsLoading'),
+	loading: false,
+	setLoading: (loading: boolean) => set({ loading }, false, 'setLoading'),
 })
 
 export const useLoading = create<LoadingState>()(devtools(state))

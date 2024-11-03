@@ -48,7 +48,7 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 		resolver: zodResolver(upsertFormSchema),
 	})
 
-	const setIsLoading = useLoading(state => state.setIsLoading)
+	const setLoading = useLoading(state => state.setLoading)
 
 	const { setOpen } = useContext(DialogContext)
 
@@ -56,14 +56,25 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 
 	const response = useResponse()
 
-	const [zoomLevel, setZoomLevel] = useState(12)
+	const [zoomLevel, setZoomLevel] = useState(
+		record?.latitude && record?.longitude ? 16 : 12
+	)
+
+	const [mapCenter, setMapCenter] = useState({
+		lat: record?.latitude ?? MAP_CENTER.lat,
+		lng: record?.longitude ?? MAP_CENTER.lng,
+	})
+
+	const [centerOnPlace, setCenterOnPlace] = useState(
+		!!(record?.latitude && record?.longitude)
+	)
 
 	const lat = form.watch('latitude')
 
 	const lng = form.watch('longitude')
 
 	const handleSubmit = async ({ id, ...rest }: UpsertFormSchema) => {
-		setIsLoading(true)
+		setLoading(true)
 
 		if (id) {
 			const favoriteAddress: UpdateFavoriteAddressModel = {
@@ -90,7 +101,7 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 				})
 				.catch(response.error)
 				.finally(() => {
-					setIsLoading(false)
+					setLoading(false)
 				})
 			return
 		}
@@ -118,7 +129,7 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 			})
 			.catch(response.error)
 			.finally(() => {
-				setIsLoading(false)
+				setLoading(false)
 			})
 	}
 
@@ -135,7 +146,9 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 			}
 
 			if (lat && lng) {
-				setZoomLevel(15)
+				setZoomLevel(16)
+				setMapCenter({ lat, lng })
+				setCenterOnPlace(true)
 				form.setValue('latitude', lat)
 				form.setValue('longitude', lng)
 			} else {
@@ -191,14 +204,13 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 
 				<Map
 					className='h-64 w-full'
-					defaultCenter={{
-						lat: lat ?? MAP_CENTER.lat,
-						lng: lng ?? MAP_CENTER.lng,
-					}}
+					defaultCenter={MAP_CENTER}
+					center={centerOnPlace ? mapCenter : undefined}
 					zoom={zoomLevel}
-					gestureHandling='greedy'
 					disableDefaultUI={true}
 					fullscreenControl={isDesktop}
+					onDragstart={() => setCenterOnPlace(false)}
+					reuseMaps
 					mapId={process.env.NEXT_PUBLIC_GOOGLE_MAP_ID}>
 					{lat && lng && (
 						<AdvancedMarker

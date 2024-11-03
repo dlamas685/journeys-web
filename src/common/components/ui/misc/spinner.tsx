@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import RiseLoader from 'react-spinners/RiseLoader'
 
 const Spinner = () => {
-	const isLoading = useLoading(store => store.isLoading)
+	const isLoading = useLoading(store => store.loading)
 
 	useEffect(() => {
 		const body = document.body
@@ -22,7 +22,7 @@ const Spinner = () => {
 	return (
 		<>
 			{isLoading && (
-				<div className='w-full min-h-screen absolute top-0 left-0 bg-black opacity-25' />
+				<div className='absolute left-0 top-0 min-h-screen w-full bg-black opacity-25' />
 			)}
 			<RiseLoader
 				loading={isLoading}
