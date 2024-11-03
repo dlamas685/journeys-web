@@ -16,10 +16,8 @@ import { Button } from '@/components/ui/button'
 import { CirclePlus, Filter, FilterX, Save, SearchCheck } from 'lucide-react'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import { Suspense } from 'react'
 import FavoriteAddressGrid from './_components/favorite-address-grid'
 import FilterForm from './_components/filter-form'
-import SkeletonGrid from './_components/skeleton-grid'
 import SortingButtons from './_components/sorting-buttons'
 import UpsertForm from './_components/upsert-form'
 import { FavoriteAddressModel } from './_models'
@@ -112,8 +110,7 @@ export default async function FavoriteAddressesPage({
 					<SortingButtons field='alias' queryParams={queryParams} />
 				</FrameGadgets>
 			</FrameHeader>
-			<FrameBody>
-				<Suspense fallback={<SkeletonGrid />}></Suspense>
+			<FrameBody className='items-center'>
 				{response.data.length > 0 ? (
 					<FavoriteAddressGrid
 						defaultValue={response.data}

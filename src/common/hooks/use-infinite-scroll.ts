@@ -26,10 +26,13 @@ const useInfiniteScroll = <Model>({
 	const [records, setRecords] = useState<Model[]>(defaultValue)
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [hasMore, setHasMore] = useState<boolean>(page < lastPage)
+	const [hasError, setHasError] = useState<boolean>(false)
 	const response = useResponse()
 	const loader = useRef<HTMLDivElement | null>(null)
 
 	const loadMoreRecords = useCallback(async () => {
+		if (hasError) return
+
 		const newQueryParams: QueryParamsModel = {
 			...queryParams,
 			page: currentPage,
@@ -44,11 +47,18 @@ const useInfiniteScroll = <Model>({
 				setCurrentPage(prevPage => prevPage + 1)
 				setHasMore(meta.page < meta.lastPage)
 			})
-			.catch(response.error)
+			.catch(error => {
+				response.error(error)
+				setHasError(true)
+			})
 			.finally(() => {
 				setIsLoading(false)
 			})
-	}, [queryParams, currentPage, endpoint, fallbackUrl, response.error])
+	}, [hasError, queryParams, currentPage, endpoint, fallbackUrl, response])
+
+	const clearError = () => {
+		setHasError(false)
+	}
 
 	useEffect(() => {
 		const options = {
@@ -81,7 +91,7 @@ const useInfiniteScroll = <Model>({
 		setHasMore(page < lastPage)
 	}, [queryParams, defaultValue, page, lastPage])
 
-	return { records, hasMore, loader, isLoading }
+	return { records, hasMore, loader, isLoading, hasError, clearError }
 }
 
 export default useInfiniteScroll

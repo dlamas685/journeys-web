@@ -3,7 +3,8 @@
 import { ApiEndpoints, Pathnames } from '@/common/enums'
 import useInfiniteScroll from '@/common/hooks/use-infinite-scroll'
 import { QueryParamsModel } from '@/common/models'
-import { Loader2 } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Loader2, RefreshCcw } from 'lucide-react'
 import { FavoriteAddressModel } from '../_models'
 import FavoriteAddressCard from './favorite-address-card'
 import UpsertForm from './upsert-form'
@@ -23,7 +24,7 @@ const FavoriteAddressGrid = ({
 	lastPage,
 	total,
 }: Readonly<Props>) => {
-	const { records, loader, hasMore, isLoading } =
+	const { records, loader, hasMore, isLoading, hasError, clearError } =
 		useInfiniteScroll<FavoriteAddressModel>({
 			endpoint: ApiEndpoints.FAVORITE_ADDRESSES,
 			defaultValue,
@@ -65,6 +66,12 @@ const FavoriteAddressGrid = ({
 				<div className='flex justify-center p-4'>
 					<Loader2 className='h-6 w-6 animate-spin' />
 				</div>
+			)}
+			{hasError && (
+				<Button className='w-48' onClick={clearError} variant='secondary'>
+					<RefreshCcw className='mr-1 size-4' />
+					Reintentar
+				</Button>
 			)}
 			{hasMore && <div ref={loader} />}
 		</>
