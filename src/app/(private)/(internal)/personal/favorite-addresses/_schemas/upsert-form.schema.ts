@@ -1,6 +1,7 @@
 import { z } from 'zod'
 
-export const creatorFormSchema = z.object({
+export const upsertFormSchema = z.object({
+	id: z.string().optional(),
 	alias: z
 		.string({
 			message: 'El alias es requerido',
@@ -17,4 +18,4 @@ export const creatorFormSchema = z.object({
 	placeId: z.string().optional(),
 })
 
-export type CreatorFormSchema = z.infer<typeof creatorFormSchema>
+export type UpsertFormSchema = z.infer<typeof upsertFormSchema>

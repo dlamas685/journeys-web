@@ -6,6 +6,7 @@ import { QueryParamsModel } from '@/common/models'
 import { Loader2 } from 'lucide-react'
 import { FavoriteAddressModel } from '../_models'
 import FavoriteAddressCard from './favorite-address-card'
+import UpsertForm from './upsert-form'
 
 type Props = {
 	defaultValue: FavoriteAddressModel[]
@@ -56,6 +57,7 @@ const FavoriteAddressGrid = ({
 						variants={cardVariants}
 						initial='hidden'
 						animate='visible'
+						updaterForm={<UpsertForm record={record} />}
 					/>
 				))}
 			</section>

@@ -3,9 +3,9 @@ export interface FavoriteAddressModel {
 	userId: string
 	address: string
 	alias: string
-	placeId: number | null
-	latitude: number
-	longitude: number
+	placeId: string | null
+	latitude: number | null
+	longitude: number | null
 	createdAt: Date
 	updatedAt: Date
 }

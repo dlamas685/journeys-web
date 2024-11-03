@@ -2,10 +2,10 @@
 
 'use client'
 
-import { create } from '@/common/actions/crud.action'
+import { create, update } from '@/common/actions/crud.action'
 import { ApiError } from '@/common/classes/api-error.class'
 import InputPlace from '@/common/components/ui/google/input-place'
-import { CREATOR_FORM_ID, MAP_CENTER } from '@/common/constants'
+import { MAP_CENTER, UPSERT_FORM_ID } from '@/common/constants'
 import { DialogContext } from '@/common/contexts/dialog-context'
 import { ApiEndpoints } from '@/common/enums'
 import { useMediaQuery } from '@/common/hooks/use-media-query'
@@ -24,16 +24,28 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { AdvancedMarker, Map } from '@vis.gl/react-google-maps'
 import { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { CreateFavoriteAddressModel, FavoriteAddressModel } from '../_models'
-import { creatorFormSchema, CreatorFormSchema } from '../_schemas'
+import {
+	CreateFavoriteAddressModel,
+	FavoriteAddressModel,
+	UpdateFavoriteAddressModel,
+} from '../_models'
+import { UpsertFormSchema, upsertFormSchema } from '../_schemas'
 
-const CreatorForm = () => {
-	const form = useForm<CreatorFormSchema>({
+type Props = {
+	record?: FavoriteAddressModel
+}
+
+const UpsertForm = ({ record }: Readonly<Props>) => {
+	const form = useForm<UpsertFormSchema>({
 		defaultValues: {
-			alias: '',
-			address: '',
+			id: record?.id ?? undefined,
+			alias: record?.alias ?? '',
+			address: record?.address ?? '',
+			latitude: record?.latitude ?? undefined,
+			longitude: record?.longitude ?? undefined,
+			placeId: record?.placeId ?? undefined,
 		},
-		resolver: zodResolver(creatorFormSchema),
+		resolver: zodResolver(upsertFormSchema),
 	})
 
 	const setIsLoading = useLoading(state => state.setIsLoading)
@@ -50,12 +62,42 @@ const CreatorForm = () => {
 
 	const lng = form.watch('longitude')
 
-	const handleSubmit = async (values: CreatorFormSchema) => {
-		const favoriteAddress: CreateFavoriteAddressModel = {
-			...values,
+	const handleSubmit = async ({ id, ...rest }: UpsertFormSchema) => {
+		setIsLoading(true)
+
+		if (id) {
+			const favoriteAddress: UpdateFavoriteAddressModel = {
+				...rest,
+			}
+
+			await update<UpdateFavoriteAddressModel, FavoriteAddressModel>(
+				ApiEndpoints.FAVORITE_ADDRESSES,
+				id,
+				favoriteAddress
+			)
+				.then(resp => {
+					if ('error' in resp) {
+						throw new ApiError(resp)
+					}
+
+					response.success({
+						title: 'Direcciones favoritas',
+						description: `${resp.alias} ha sido actualizado`,
+					})
+
+					form.reset()
+					setOpen(false)
+				})
+				.catch(response.error)
+				.finally(() => {
+					setIsLoading(false)
+				})
+			return
 		}
 
-		setIsLoading(true)
+		const favoriteAddress: CreateFavoriteAddressModel = {
+			...rest,
+		}
 
 		await create<CreateFavoriteAddressModel, FavoriteAddressModel>(
 			ApiEndpoints.FAVORITE_ADDRESSES,
@@ -88,12 +130,18 @@ const CreatorForm = () => {
 
 			if (placeId) {
 				form.setValue('placeId', placeId)
+			} else {
+				form.setValue('placeId', undefined)
 			}
 
 			if (lat && lng) {
 				setZoomLevel(15)
 				form.setValue('latitude', lat)
 				form.setValue('longitude', lng)
+			} else {
+				setZoomLevel(12)
+				form.setValue('latitude', undefined)
+				form.setValue('longitude', undefined)
 			}
 		}
 	}
@@ -101,7 +149,7 @@ const CreatorForm = () => {
 	return (
 		<Form {...form}>
 			<form
-				id={CREATOR_FORM_ID}
+				id={UPSERT_FORM_ID}
 				onSubmit={form.handleSubmit(handleSubmit)}
 				className='grid max-h-96 grid-cols-1 gap-2 overflow-y-auto px-4 pb-2 sm:max-h-[inherit] sm:gap-3 sm:px-1'>
 				<FormField
@@ -143,11 +191,12 @@ const CreatorForm = () => {
 
 				<Map
 					className='h-64 w-full'
-					center={{
+					defaultCenter={{
 						lat: lat ?? MAP_CENTER.lat,
 						lng: lng ?? MAP_CENTER.lng,
 					}}
 					zoom={zoomLevel}
+					gestureHandling='greedy'
 					disableDefaultUI={true}
 					fullscreenControl={isDesktop}
 					mapId={process.env.NEXT_PUBLIC_GOOGLE_MAP_ID}>
@@ -165,4 +214,4 @@ const CreatorForm = () => {
 	)
 }
 
-export default CreatorForm
+export default UpsertForm

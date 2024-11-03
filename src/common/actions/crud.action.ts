@@ -52,6 +52,7 @@ export const create = async <ReqModel, ResModel>(
 
 export const update = async <ReqModel, ResModel>(
 	endpoint: ApiEndpoints,
+	id: string,
 	updateModel: ReqModel,
 	headers: HeadersInit = HEADERS,
 	tags?: string[]
@@ -59,7 +60,7 @@ export const update = async <ReqModel, ResModel>(
 	try {
 		const token = await getServerToken()
 
-		const URL = `${API_URL}/${endpoint}`
+		const URL = `${API_URL}/${endpoint}/${id}`
 
 		const response = await fetch(URL, {
 			method: 'PATCH',

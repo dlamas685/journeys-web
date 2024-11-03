@@ -7,7 +7,7 @@ import {
 	FrameTitle,
 } from '@/common/components/layout/frame'
 import Modal from '@/common/components/ui/overlay/modal'
-import { CREATOR_FORM_ID, FILTER_FORM_ID } from '@/common/constants'
+import { FILTER_FORM_ID, UPSERT_FORM_ID } from '@/common/constants'
 import { ApiEndpoints, Pathnames } from '@/common/enums'
 import { QueryParamsModel } from '@/common/models'
 import { SearchParams } from '@/common/types'
@@ -17,11 +17,11 @@ import { CirclePlus, Filter, FilterX, Save, SearchCheck } from 'lucide-react'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { Suspense } from 'react'
-import CreatorForm from './_components/creator-form'
 import FavoriteAddressGrid from './_components/favorite-address-grid'
 import FilterForm from './_components/filter-form'
 import SkeletonGrid from './_components/skeleton-grid'
 import SortingButtons from './_components/sorting-buttons'
+import UpsertForm from './_components/upsert-form'
 import { FavoriteAddressModel } from './_models'
 
 type Props = {
@@ -72,9 +72,9 @@ export default async function FavoriteAddressesPage({
 						submitLabel='Guardar'
 						submitIcon={<Save className='mr-1 size-4' />}
 						submitProps={{
-							form: CREATOR_FORM_ID,
+							form: UPSERT_FORM_ID,
 						}}>
-						<CreatorForm />
+						<UpsertForm />
 					</Modal>
 
 					<Modal
