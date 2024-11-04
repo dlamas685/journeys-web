@@ -19,6 +19,8 @@ import { CaretSortIcon } from '@radix-ui/react-icons'
 import { useMapsLibrary } from '@vis.gl/react-google-maps'
 import { FormEvent, useCallback, useEffect, useState } from 'react'
 
+type SearchType = 'address' | 'establishment'
+
 type Props = {
 	placeholder?: string
 	value?: string
@@ -26,7 +28,7 @@ type Props = {
 	transparent?: boolean
 	muted?: boolean
 	emptyMessage?: string
-	searchType?: 'address' | 'establishment' | 'both'
+	searchType?: SearchType
 	country?: string
 	onPlaceSelect: (place: google.maps.places.PlaceResult | null) => void
 }
@@ -38,7 +40,7 @@ const InputPlace = ({
 	searchPlaceholder,
 	emptyMessage,
 	country = 'AR',
-	searchType = 'both',
+	searchType,
 	muted = true,
 	transparent,
 }: Readonly<Props>) => {
@@ -87,12 +89,7 @@ const InputPlace = ({
 				componentRestrictions: {
 					country,
 				},
-				types:
-					searchType === 'address'
-						? ['address']
-						: searchType === 'establishment'
-							? ['establishment']
-							: undefined,
+				types: searchType ? [searchType] : undefined,
 			}
 
 			autocompleteService.getPlacePredictions(request, predictions =>
@@ -118,7 +115,15 @@ const InputPlace = ({
 
 			const detailRequestOptions: google.maps.places.PlaceDetailsRequest = {
 				placeId,
-				fields: ['geometry', 'name', 'formatted_address'],
+				fields: [
+					'geometry',
+					'name',
+					'formatted_address',
+					'icon',
+					'place_id',
+					'types',
+					'icon_background_color',
+				],
 				sessionToken,
 			}
 

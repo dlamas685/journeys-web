@@ -14,6 +14,7 @@ import { SearchParams } from '@/common/types'
 import { decodeQuery, jsonToBase64 } from '@/common/utils'
 import { Button } from '@/components/ui/button'
 import { CirclePlus, Filter, FilterX, Save, SearchCheck } from 'lucide-react'
+import { Metadata } from 'next'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import FavoriteAddressGrid from './_components/favorite-address-grid'
@@ -24,6 +25,11 @@ import { FavoriteAddressModel } from './_models'
 
 type Props = {
 	searchParams: SearchParams
+}
+
+export const metadata: Metadata = {
+	title: 'Journeys • Direcciones favoritas',
+	description: 'Administra tus direcciones favoritas para tus optimizaciones.',
 }
 
 export default async function FavoriteAddressesPage({

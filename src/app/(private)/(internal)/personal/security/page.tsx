@@ -6,9 +6,15 @@ import {
 	FrameTitle,
 } from '@/common/components/layout/frame'
 import { Separator } from '@/components/ui/separator'
+import { Metadata } from 'next'
 import PasswordChangeForm from '../../_components/others/password-change-form'
 import PasswordChangeInfo from '../../_components/others/password-change-info'
 import PasswordSettingForm from '../../_components/others/password-setting-form'
+
+export const metadata: Metadata = {
+	title: 'Journeys • Seguridad',
+	description: 'Administra la seguridad de tu cuenta.',
+}
 
 export default async function SecurityPage() {
 	const canChangePassword = await hasPassword()

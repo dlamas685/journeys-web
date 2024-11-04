@@ -190,7 +190,7 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 									value={field.value}
 									placeholder='Buscar dirección'
 									searchPlaceholder='Ingresa una dirección'
-									searchType='address'
+									searchType='establishment'
 									onPlaceSelect={place => {
 										field.onChange(place?.formatted_address)
 										handlePlaceSelect(place)
