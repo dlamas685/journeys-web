@@ -8,7 +8,7 @@ import {
 } from '@/common/components/layout/frame'
 import Modal from '@/common/components/ui/overlay/modal'
 import { FILTER_FORM_ID, UPSERT_FORM_ID } from '@/common/constants'
-import { ApiEndpoints, Pathnames } from '@/common/enums'
+import { ApiEndpoints, Pathnames, SortDirections } from '@/common/enums'
 import { QueryParamsModel } from '@/common/models'
 import { SearchParams } from '@/common/types'
 import { decodeQuery, jsonToBase64 } from '@/common/utils'
@@ -40,6 +40,7 @@ export default async function FavoriteAddressesPage({
 	let queryParams: QueryParamsModel = {
 		page: 1,
 		limit: 10,
+		sorts: [{ field: 'alias', direction: SortDirections.ASC }],
 	}
 
 	if (encodedQuery) {
@@ -48,8 +49,8 @@ export default async function FavoriteAddressesPage({
 		if (!decodedQuery) redirect(Pathnames.FAVORITE_ADDRESSES)
 
 		queryParams = {
-			...decodedQuery,
 			...queryParams,
+			...decodedQuery,
 		}
 	}
 

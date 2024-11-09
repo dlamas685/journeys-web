@@ -61,6 +61,8 @@ const useInfiniteScroll = <Model>({
 	}
 
 	useEffect(() => {
+		const currentLoader = loader.current
+
 		const options = {
 			root: null,
 			rootMargin: '20px',
@@ -74,13 +76,13 @@ const useInfiniteScroll = <Model>({
 			}
 		}, options)
 
-		if (loader.current) {
-			observer.observe(loader.current)
+		if (currentLoader) {
+			observer.observe(currentLoader)
 		}
 
 		return () => {
-			if (loader.current) {
-				observer.unobserve(loader.current)
+			if (currentLoader) {
+				observer.unobserve(currentLoader)
 			}
 		}
 	}, [isLoading, loadMoreRecords, hasMore, queryParams])

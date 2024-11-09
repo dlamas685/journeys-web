@@ -19,7 +19,9 @@ type Props = {
 }
 
 const SortingButtons = ({ field, queryParams }: Readonly<Props>) => {
-	const [value, setValue] = useState<SortDirections>(SortDirections.ASC)
+	const [value, setValue] = useState<SortDirections>(
+		(queryParams.sorts && queryParams.sorts[0]?.direction) ?? SortDirections.ASC
+	)
 
 	const pathname = usePathname()
 
