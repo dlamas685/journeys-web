@@ -52,7 +52,7 @@ const FavoriteAddressGrid = ({
 			<section className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
 				{records.map((record, index) => (
 					<FavoriteAddressCard
-						key={record.id}
+						key={index}
 						record={record}
 						custom={index}
 						variants={cardVariants}

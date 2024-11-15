@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/card'
 import { motion } from 'framer-motion'
 import { CircleX, Pencil, Save, Trash2 } from 'lucide-react'
+import Image from 'next/image'
 import { forwardRef, ReactNode, Ref } from 'react'
 import { FavoriteAddressModel } from '../_models'
 import EraserButton from './eraser-button'
@@ -31,7 +32,17 @@ const FavoriteAddressCard = forwardRef(
 				</CardTitle>
 			</CardHeader>
 			<CardContent className='flex-grow p-0'>
-				<p className='font-secondary text-sm text-gray-600'>{record.address}</p>
+				<p className='mb-2 font-secondary text-sm text-gray-600'>
+					{record.address}
+				</p>
+				<Image
+					className='col-span-2'
+					src='/google/desktop/google_on_white_hdpi.png'
+					alt='Google'
+					width={50}
+					height={20}
+					sizes='(max-width: 640px) 100vw, 150px'
+				/>
 			</CardContent>
 			<CardFooter className='grid grid-cols-2 gap-2 p-0'>
 				<Modal
