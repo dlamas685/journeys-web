@@ -1,3 +1,4 @@
+import { FilterRules } from '@/common/enums'
 import { FilterFormSchema } from '../_schemas/filter-form.schema'
 
 export const DEFAULT_VALUES: FilterFormSchema = {
@@ -8,5 +9,6 @@ export const DEFAULT_VALUES: FilterFormSchema = {
 	address: {
 		field: 'address',
 		type: 'string',
+		rule: FilterRules.CONTAINS,
 	},
 }

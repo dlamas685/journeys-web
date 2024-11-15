@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button'
 import {
 	Form,
 	FormControl,
+	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
@@ -170,43 +171,20 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 							<Eraser className='size-4' />
 						</Button>
 					</FieldsetLegend>
-					<FieldsetContent className='grid-cols-1 sm:grid-cols-2'>
-						<FormField
-							control={form.control}
-							name='address.rule'
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Regla</FormLabel>
-									<Select
-										onValueChange={field.onChange}
-										defaultValue={field.value}>
-										<FormControl>
-											<SelectTrigger>
-												<SelectValue placeholder='Selección una regla' />
-											</SelectTrigger>
-										</FormControl>
-										<SelectContent>
-											{TEXT_FILTER_OPTIONS.map(option => (
-												<SelectItem key={option.value} value={option.value}>
-													{option.label}
-												</SelectItem>
-											))}
-										</SelectContent>
-									</Select>
-
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
+					<FieldsetContent className='grid-cols-1 sm:grid-cols-1'>
 						<FormField
 							control={form.control}
 							name='address.value'
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Valor</FormLabel>
+									<FormDescription>
+										Este campo de entrada permite buscar direcciones mediante la
+										API de Google Autocomplete.
+									</FormDescription>
 									<FormControl>
 										<Input
-											placeholder='Ingrese un valor'
+											placeholder='Ingrese una dirección'
 											{...field}
 											value={field.value ?? ''}
 										/>

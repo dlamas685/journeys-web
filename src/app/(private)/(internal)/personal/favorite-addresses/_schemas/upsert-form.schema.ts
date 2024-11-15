@@ -13,9 +13,9 @@ export const upsertFormSchema = z.object({
 			message: 'La dirección es requerida',
 		})
 		.min(1, 'La dirección es requerida'),
-	latitude: z.number().optional(),
-	longitude: z.number().optional(),
-	placeId: z.string().optional(),
+	latitude: z.number(),
+	longitude: z.number(),
+	placeId: z.string(),
 })
 
 export type UpsertFormSchema = z.infer<typeof upsertFormSchema>

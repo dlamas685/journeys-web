@@ -14,7 +14,11 @@ export const textFilterSchema = (
 					message: ruleMessage,
 				})
 				.optional(),
-			value: z.string().optional(),
+			value: z
+				.string({
+					message: valueMessage,
+				})
+				.optional(),
 		})
 		.refine(data => !data.rule || (data.rule && data.value), {
 			message: 'Debes ingresar un valor.',

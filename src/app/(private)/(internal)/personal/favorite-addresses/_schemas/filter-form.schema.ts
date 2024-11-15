@@ -1,5 +1,5 @@
 import { FilterRules } from '@/common/enums'
-import { textFilterSchema } from '@/common/schemas/text-filter.schema'
+import { searchFilterSchema, textFilterSchema } from '@/common/schemas'
 import { z } from 'zod'
 
 const aliasRules = [
@@ -12,7 +12,7 @@ const aliasRules = [
 
 export const filterFormSchema = z.object({
 	alias: textFilterSchema(aliasRules),
-	address: textFilterSchema(aliasRules),
+	address: searchFilterSchema(),
 })
 
 export type FilterFormSchema = z.infer<typeof filterFormSchema>

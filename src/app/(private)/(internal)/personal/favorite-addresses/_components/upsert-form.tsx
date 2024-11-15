@@ -73,7 +73,7 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 
 	const lng = form.watch('longitude')
 
-	const handleSubmit = async ({ id, ...rest }: UpsertFormSchema) => {
+	const handleSubmit = async ({ id, address, ...rest }: UpsertFormSchema) => {
 		setLoading(true)
 
 		if (id) {
@@ -142,7 +142,7 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 			if (placeId) {
 				form.setValue('placeId', placeId)
 			} else {
-				form.setValue('placeId', undefined)
+				form.resetField('placeId')
 			}
 
 			if (lat && lng) {
@@ -153,8 +153,8 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 				form.setValue('longitude', lng)
 			} else {
 				setZoomLevel(12)
-				form.setValue('latitude', undefined)
-				form.setValue('longitude', undefined)
+				form.resetField('latitude')
+				form.resetField('longitude')
 			}
 		}
 	}
@@ -190,7 +190,7 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 									value={field.value}
 									placeholder='Buscar dirección'
 									searchPlaceholder='Ingresa una dirección'
-									searchType='establishment'
+									searchType='address'
 									onPlaceSelect={place => {
 										field.onChange(place?.formatted_address)
 										handlePlaceSelect(place)
