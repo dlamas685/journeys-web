@@ -12,7 +12,8 @@ const SkeletonCard = () => {
 					<Skeleton className='h-4 w-full' />
 					<Skeleton className='h-4 w-full' />
 				</section>
-				<Skeleton className='h-6 w-1/2' />
+				<Skeleton className='h-12 w-full' />
+				<Skeleton className='h-8 w-1/2' />
 			</CardContent>
 			<CardFooter className='grid grid-cols-2 gap-2 p-0'>
 				<Skeleton className='h-8' />

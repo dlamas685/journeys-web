@@ -19,4 +19,5 @@ export enum ApiEndpoints {
 	OPTIONS_SECURITY_PASSWORD_EXISTS = 'options/security/password-exists',
 
 	FAVORITE_ADDRESSES = 'favorite-addresses',
+	FAVORITE_PLACES = 'favorite-places',
 }

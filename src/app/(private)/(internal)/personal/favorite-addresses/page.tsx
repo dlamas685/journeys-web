@@ -6,6 +6,7 @@ import {
 	FrameHeader,
 	FrameTitle,
 } from '@/common/components/layout/frame'
+import SortingButtons from '@/common/components/ui/misc/sorting-buttons'
 import Modal from '@/common/components/ui/overlay/modal'
 import { FILTER_FORM_ID, UPSERT_FORM_ID } from '@/common/constants'
 import { ApiEndpoints, Pathnames, SortDirections } from '@/common/enums'
@@ -19,10 +20,8 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import FavoriteAddressGrid from './_components/favorite-address-grid'
 import FilterForm from './_components/filter-form'
-import SortingButtons from './_components/sorting-buttons'
 import UpsertForm from './_components/upsert-form'
 import { FavoriteAddressModel } from './_models'
-
 type Props = {
 	searchParams: SearchParams
 }
@@ -114,7 +113,11 @@ export default async function FavoriteAddressesPage({
 							</Link>
 						</Button>
 					)}
-					<SortingButtons field='alias' queryParams={queryParams} />
+					<SortingButtons
+						field='alias'
+						label='alias'
+						queryParams={queryParams}
+					/>
 				</FrameGadgets>
 			</FrameHeader>
 			<FrameBody className='items-center'>

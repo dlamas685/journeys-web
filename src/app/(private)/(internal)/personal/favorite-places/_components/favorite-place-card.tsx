@@ -1,9 +1,11 @@
 'use client'
+
 import EraserButton from '@/common/components/ui/misc/eraser-button'
 import Modal from '@/common/components/ui/overlay/modal'
 import RemovalAlert from '@/common/components/ui/overlay/removal-alert'
 import { UPSERT_FORM_ID } from '@/common/constants'
 import { ApiEndpoints } from '@/common/enums'
+import { Badge } from '@/components/ui/badge'
 import {
 	Card,
 	CardContent,
@@ -15,27 +17,42 @@ import { motion } from 'framer-motion'
 import { CircleX, Pencil, Save, Trash2 } from 'lucide-react'
 import Image from 'next/image'
 import { forwardRef, ReactNode, Ref } from 'react'
-import { FavoriteAddressModel } from '../_models'
+import { FavoritePlaceModel } from '../_models'
 
 type Props = {
-	record: FavoriteAddressModel
+	record: FavoritePlaceModel
 	updaterForm: ReactNode
 }
 
-const FavoriteAddressCard = forwardRef(
+const FavoritePlaceCard = forwardRef(
 	({ record, updaterForm }: Readonly<Props>, ref: Ref<HTMLDivElement>) => (
 		<Card
 			ref={ref}
 			className='flex flex-col gap-4 border-none p-4 shadow-bento'>
-			<CardHeader className='p-0'>
+			<CardHeader className='flex flex-row items-center justify-between p-0'>
 				<CardTitle className='font-secondary text-sm capitalize'>
-					{record.alias}
+					{record.name}
 				</CardTitle>
 			</CardHeader>
-			<CardContent className='flex flex-grow flex-col gap-2 p-0'>
-				<p className='flex-grow font-secondary text-sm text-gray-600'>
+			<CardContent className='flex flex-grow flex-col gap-3 p-0'>
+				<p className='font-secondary text-sm' title={record.address}>
 					{record.address}
 				</p>
+
+				<section className='flex flex-wrap items-baseline gap-2'>
+					{record.types.slice(0, 2).map((type, index) => (
+						<Badge key={index} variant='secondary' className='flex-shrink-0'>
+							{type}
+						</Badge>
+					))}
+
+					{record.types.length > 2 && (
+						<Badge variant='secondary' className='flex-shrink-0'>
+							+{record.types.length - 2} más
+						</Badge>
+					)}
+				</section>
+
 				<Image
 					className='col-span-2 mt-auto'
 					src='/google/desktop/google_on_white_hdpi.png'
@@ -47,8 +64,8 @@ const FavoriteAddressCard = forwardRef(
 			</CardContent>
 			<CardFooter className='grid grid-cols-2 gap-2 p-0'>
 				<Modal
-					title='Editar Dirección Favorita'
-					description='Modifica los datos de la dirección favorita. Los campos a los que no ingreses un valor, no serán modificados.'
+					title='Editar Lugar Favorito'
+					description='Modifica los datos del lugar favorito. Los campos a los que no ingreses un valor, no serán modificados.'
 					triggerIcon={<Pencil className='mr-1 size-3.5' />}
 					triggerProps={{
 						size: 'sm',
@@ -69,18 +86,18 @@ const FavoriteAddressCard = forwardRef(
 					cancelIcon={<CircleX className='mr-1 size-4' />}
 					description={
 						<>
-							¿Estás seguro de que deseas eliminar la dirección favorita{' '}
-							<b className='capitalize'>{record.alias}</b>? Esta acción no se
+							¿Estás seguro de que deseas eliminar el lugar favorito{' '}
+							<b className='capitalize'>{record.name}</b>? Esta acción no se
 							puede deshacer.
 						</>
 					}
 					eraserButton={({ setOpen }) => (
 						<EraserButton
 							recordId={record.id}
-							endpoint={ApiEndpoints.FAVORITE_ADDRESSES}
+							endpoint={ApiEndpoints.FAVORITE_PLACES}
 							setAlertOpen={setOpen}
-							title='Direcciones favoritas'
-							description='Dirección eliminada correctamente.'
+							title='Lugares Favoritos'
+							description='Lugar eliminado correctamente.'
 						/>
 					)}
 				/>
@@ -89,6 +106,6 @@ const FavoriteAddressCard = forwardRef(
 	)
 )
 
-FavoriteAddressCard.displayName = 'FavoriteAddressCard'
+FavoritePlaceCard.displayName = 'FavoritePlaceCard'
 
-export default motion.create(FavoriteAddressCard)
+export default motion.create(FavoritePlaceCard)

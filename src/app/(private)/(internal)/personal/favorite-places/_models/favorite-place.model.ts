@@ -4,10 +4,11 @@ export interface FavoritePlaceModel {
 	name: string
 	placeId: string
 	address: string
-	types: string[] | null
-	iconUrl: string | null
+	types: string[]
+	iconUrl: string
+	iconBackgroundColor: string
 	latitude: number
 	longitude: number
 	createdAt: Date
-	updatedAt: Date
+	updatedAt: Date | null
 }

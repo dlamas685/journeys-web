@@ -16,9 +16,10 @@ import { useState } from 'react'
 type Props = {
 	queryParams: QueryParamsModel
 	field: string
+	label: string
 }
 
-const SortingButtons = ({ field, queryParams }: Readonly<Props>) => {
+const SortingButtons = ({ field, label, queryParams }: Readonly<Props>) => {
 	const [value, setValue] = useState<SortDirections>(
 		(queryParams.sorts && queryParams.sorts[0]?.direction) ?? SortDirections.ASC
 	)
@@ -70,7 +71,7 @@ const SortingButtons = ({ field, queryParams }: Readonly<Props>) => {
 					</TooltipTrigger>
 					<TooltipContent className='bg-orange-100 font-secondary text-primary'>
 						<p>
-							Ordenar de forma ascendente por <b>{field}</b>
+							Ordenar de forma ascendente por <b>{label}</b>
 						</p>
 					</TooltipContent>
 				</Tooltip>
@@ -88,7 +89,7 @@ const SortingButtons = ({ field, queryParams }: Readonly<Props>) => {
 					</TooltipTrigger>
 					<TooltipContent className='bg-orange-100 font-secondary text-primary'>
 						<p>
-							Ordenar de forma descendente por <b>{field}</b>
+							Ordenar de forma descendente por <b>{label}</b>
 						</p>
 					</TooltipContent>
 				</Tooltip>

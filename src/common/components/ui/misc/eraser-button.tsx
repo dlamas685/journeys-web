@@ -10,10 +10,19 @@ import { Dispatch, SetStateAction } from 'react'
 
 type Props = {
 	recordId: string
+	endpoint: ApiEndpoints
+	title?: string
+	description?: string
 	setAlertOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const EraserButton = ({ recordId, setAlertOpen }: Readonly<Props>) => {
+const EraserButton = ({
+	endpoint,
+	recordId,
+	title = 'Eliminar registro',
+	description = 'Registro eliminado correctamente.',
+	setAlertOpen,
+}: Readonly<Props>) => {
 	const response = useResponse()
 	const setLoading = useLoading(state => state.setLoading)
 	const isLoading = useLoading(state => state.loading)
@@ -21,15 +30,15 @@ const EraserButton = ({ recordId, setAlertOpen }: Readonly<Props>) => {
 	const handleRemove = async () => {
 		setLoading(true)
 
-		await remove(ApiEndpoints.FAVORITE_ADDRESSES, recordId)
+		await remove(endpoint, recordId)
 			.then(resp => {
 				if (typeof resp !== 'boolean') {
 					throw new ApiError(resp)
 				}
 
 				response.success({
-					title: 'Direcciones favoritas',
-					description: 'Dirección eliminada correctamente.',
+					title,
+					description,
 				})
 
 				setAlertOpen(false)

@@ -12,6 +12,15 @@ const nextConfig = {
 			},
 		]
 	},
+	images: {
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: 'maps.gstatic.com',
+				pathname: '/mapfiles/place_api/icons/**',
+			},
+		],
+	},
 }
 
 export default withPWA({
