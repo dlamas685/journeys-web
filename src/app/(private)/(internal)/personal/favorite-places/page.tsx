@@ -19,6 +19,7 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import FavoritePlaceGrid from './_components/favorite-place-grid'
+import FilterForm from './_components/filter-form'
 import { FavoritePlaceModel } from './_models'
 
 type Props = {
@@ -93,7 +94,7 @@ export default async function FavoritePlacesPage({
 						submitProps={{
 							form: FILTER_FORM_ID,
 						}}>
-						<p>@Filter Form</p>
+						<FilterForm queryParams={queryParams} />
 					</Modal>
 
 					{hasFilters && (
