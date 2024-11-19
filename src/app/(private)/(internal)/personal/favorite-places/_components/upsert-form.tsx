@@ -21,7 +21,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { AdvancedMarker, Map } from '@vis.gl/react-google-maps'
 import { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { CreateFavoritePlaceModel, FavoritePlaceModel } from '../_models'
+import {
+	CreateFavoritePlaceModel,
+	FavoritePlaceModel,
+	UpdateFavoritePlaceModel,
+} from '../_models'
 import { UpsertFormSchema, upsertFormSchema } from '../_schemas'
 
 type Props = {
@@ -69,11 +73,11 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 		setLoading(true)
 
 		if (id) {
-			const favoritePlace: any = {
+			const favoritePlace: UpdateFavoritePlaceModel = {
 				...rest,
 			}
 
-			await update<any, FavoritePlaceModel>(
+			await update<UpdateFavoritePlaceModel, FavoritePlaceModel>(
 				ApiEndpoints.FAVORITE_PLACES,
 				id,
 				favoritePlace

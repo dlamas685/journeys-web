@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Loader2, RefreshCcw } from 'lucide-react'
 import { FavoritePlaceModel } from '../_models'
 import FavoritePlaceCard from './favorite-place-card'
+import UpsertForm from './upsert-form'
 
 type Props = {
 	defaultValue: FavoritePlaceModel[]
@@ -57,7 +58,7 @@ const FavoritePlaceGrid = ({
 						variants={cardVariants}
 						initial='hidden'
 						animate='visible'
-						updaterForm={<>@Upsert Form Component</>}
+						updaterForm={<UpsertForm record={record} />}
 					/>
 				))}
 			</section>
