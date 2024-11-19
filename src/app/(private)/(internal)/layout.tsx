@@ -54,11 +54,33 @@ export default async function InternalLayout({ children }: Readonly<Props>) {
 			href: `/${pathRoot}/${Pathnames.FAVORITE_ADDRESSES}`,
 			userType: UserTypes.PERSONAL,
 		},
+
 		{
 			id: uuid(),
 			icon: <ListTodo />,
 			label: 'Plantillas de Tareas',
 			href: `/${pathRoot}/${Pathnames.TASK_TEMPLATES}`,
+		},
+		{
+			id: uuid(),
+			icon: <CarFront />,
+			label: 'Flotas',
+			href: `/${pathRoot}/${Pathnames.FLEETS}`,
+			userType: UserTypes.COMPANY,
+		},
+		{
+			id: uuid(),
+			icon: <Car />,
+			label: 'Vehículos',
+			href: `/${pathRoot}/${Pathnames.VEHICLES}`,
+			userType: UserTypes.COMPANY,
+		},
+		{
+			id: uuid(),
+			icon: <UserRound />,
+			label: 'Empleados',
+			href: `/${pathRoot}/${Pathnames.EMPLOYEES}`,
+			userType: UserTypes.COMPANY,
 		},
 		{
 			id: uuid(),
@@ -87,27 +109,6 @@ export default async function InternalLayout({ children }: Readonly<Props>) {
 			label: 'Publicaciones',
 			href: `/${pathRoot}/${Pathnames.PUBLICATIONS}`,
 			userType: UserTypes.PERSONAL,
-		},
-		{
-			id: uuid(),
-			icon: <CarFront />,
-			label: 'Flotas',
-			href: `/${pathRoot}/${Pathnames.FLEETS}`,
-			userType: UserTypes.COMPANY,
-		},
-		{
-			id: uuid(),
-			icon: <Car />,
-			label: 'Vehículos',
-			href: `/${pathRoot}/${Pathnames.VEHICLES}`,
-			userType: UserTypes.COMPANY,
-		},
-		{
-			id: uuid(),
-			icon: <UserRound />,
-			label: 'Empleados',
-			href: `/${pathRoot}/${Pathnames.EMPLOYEES}`,
-			userType: UserTypes.COMPANY,
 		},
 	]
 
