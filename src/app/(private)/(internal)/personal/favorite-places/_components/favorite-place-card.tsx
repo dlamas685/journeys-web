@@ -86,9 +86,9 @@ const FavoritePlaceCard = forwardRef(
 					cancelIcon={<CircleX className='mr-1 size-4' />}
 					description={
 						<>
-							¿Estás seguro de que deseas eliminar el lugar favorito{' '}
-							<b className='capitalize'>{record.name}</b>? Esta acción no se
-							puede deshacer.
+							¿Estás seguro de que deseas eliminar{' '}
+							<b className='capitalize'>{record.name}</b> de lugares favoritos?
+							Esta acción no se puede deshacer.
 						</>
 					}
 					eraserButton={({ setOpen }) => (
