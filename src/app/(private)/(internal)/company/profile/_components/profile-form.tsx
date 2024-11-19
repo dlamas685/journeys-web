@@ -7,7 +7,7 @@ import {
 	FieldsetLegend,
 } from '@/common/components/ui/form/field-set'
 import InputMask from '@/common/components/ui/form/input-mask'
-import InputPlace from '@/common/components/ui/google/input-place'
+import Autocomplete from '@/common/components/ui/google/autocomplete'
 import useResponse from '@/common/hooks/use-response'
 import { UserModel } from '@/common/models'
 import { UpdateUserModel } from '@/common/models/update-user.model'
@@ -179,10 +179,11 @@ const ProfileForm = ({ user }: Readonly<Props>) => {
 								<FormItem>
 									<FormLabel>Dirección Fiscal</FormLabel>
 									<FormControl>
-										<InputPlace
+										<Autocomplete
 											value={field.value}
 											placeholder='Buscar dirección fiscal (opcional)'
 											searchPlaceholder='Ingresa tu dirección fiscal'
+											searchType={['address']}
 											onPlaceSelect={place => {
 												field.onChange(place?.formatted_address)
 											}}

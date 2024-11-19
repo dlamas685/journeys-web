@@ -17,28 +17,22 @@ import {
 	FormLabel,
 	FormMessage,
 } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AdvancedMarker, Map } from '@vis.gl/react-google-maps'
 import { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import {
-	CreateFavoriteAddressModel,
-	FavoriteAddressModel,
-	UpdateFavoriteAddressModel,
-} from '../_models'
+import { CreateFavoritePlaceModel, FavoritePlaceModel } from '../_models'
 import { UpsertFormSchema, upsertFormSchema } from '../_schemas'
 
 type Props = {
-	record?: FavoriteAddressModel
+	record?: FavoritePlaceModel
 }
 
 const UpsertForm = ({ record }: Readonly<Props>) => {
 	const form = useForm<UpsertFormSchema>({
 		defaultValues: {
 			id: record?.id ?? undefined,
-			alias: record?.alias ?? '',
-			address: record?.address ?? '',
+			name: record?.name ?? '',
 			latitude: record?.latitude ?? undefined,
 			longitude: record?.longitude ?? undefined,
 			placeId: record?.placeId ?? undefined,
@@ -71,18 +65,18 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 
 	const lng = form.watch('longitude')
 
-	const handleSubmit = async ({ id, address, ...rest }: UpsertFormSchema) => {
+	const handleSubmit = async ({ id, name, ...rest }: UpsertFormSchema) => {
 		setLoading(true)
 
 		if (id) {
-			const favoriteAddress: UpdateFavoriteAddressModel = {
+			const favoritePlace: any = {
 				...rest,
 			}
 
-			await update<UpdateFavoriteAddressModel, FavoriteAddressModel>(
-				ApiEndpoints.FAVORITE_ADDRESSES,
+			await update<any, FavoritePlaceModel>(
+				ApiEndpoints.FAVORITE_PLACES,
 				id,
-				favoriteAddress
+				favoritePlace
 			)
 				.then(resp => {
 					if ('error' in resp) {
@@ -90,8 +84,8 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 					}
 
 					response.success({
-						title: 'Direcciones favoritas',
-						description: `${resp.alias} ha sido actualizado`,
+						title: 'Lugares favoritos',
+						description: `${resp.name} ha sido actualizado`,
 					})
 
 					form.reset()
@@ -104,13 +98,13 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 			return
 		}
 
-		const favoriteAddress: CreateFavoriteAddressModel = {
+		const favoritePlace: CreateFavoritePlaceModel = {
 			...rest,
 		}
 
-		await create<CreateFavoriteAddressModel, FavoriteAddressModel>(
-			ApiEndpoints.FAVORITE_ADDRESSES,
-			favoriteAddress
+		await create<CreateFavoritePlaceModel, FavoritePlaceModel>(
+			ApiEndpoints.FAVORITE_PLACES,
+			favoritePlace
 		)
 			.then(resp => {
 				if ('error' in resp) {
@@ -118,8 +112,8 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 				}
 
 				response.success({
-					title: 'Direcciones favoritas',
-					description: 'La dirección ha sido agregada a favoritas.',
+					title: 'Lugares favoritos',
+					description: 'El lugar ha sido agregado a favoritos.',
 				})
 
 				form.reset()
@@ -165,32 +159,18 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 				className='grid max-h-96 grid-cols-1 gap-2 overflow-y-auto px-4 pb-2 sm:max-h-[inherit] sm:gap-3 sm:px-1'>
 				<FormField
 					control={form.control}
-					name='alias'
+					name='name'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Alias</FormLabel>
-							<FormControl>
-								<Input placeholder='Ingrese un alias' {...field} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-
-				<FormField
-					control={form.control}
-					name='address'
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Dirección</FormLabel>
+							<FormLabel>Nombre</FormLabel>
 							<FormControl>
 								<Autocomplete
 									value={field.value}
-									placeholder='Buscar dirección'
-									searchPlaceholder='Ingresa una dirección'
-									searchType={['address']}
+									placeholder='Buscar lugar'
+									searchPlaceholder='Ingresa el nombre del lugar'
+									searchType={['establishment']}
 									onPlaceSelect={place => {
-										field.onChange(place?.formatted_address)
+										field.onChange(place?.name)
 										handlePlaceSelect(place)
 									}}
 								/>

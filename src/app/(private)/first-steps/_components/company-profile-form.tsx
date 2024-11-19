@@ -8,7 +8,7 @@ import {
 	FieldsetLegend,
 } from '@/common/components/ui/form/field-set'
 import InputMask from '@/common/components/ui/form/input-mask'
-import InputPlace from '@/common/components/ui/google/input-place'
+import Autocomplete from '@/common/components/ui/google/autocomplete'
 import { Pathnames, UserTypes } from '@/common/enums'
 import useResponse from '@/common/hooks/use-response'
 import { UpdateUserModel } from '@/common/models/update-user.model'
@@ -141,12 +141,13 @@ const CompanyProfileForm = () => {
 							render={({ field }) => (
 								<FormItem>
 									<FormControl>
-										<InputPlace
+										<Autocomplete
 											transparent
 											muted={false}
 											value={field.value}
 											placeholder='Buscar dirección fiscal (opcional)'
 											searchPlaceholder='Ingresa tu dirección fiscal'
+											searchType={['address']}
 											onPlaceSelect={place => {
 												field.onChange(place?.formatted_address)
 											}}

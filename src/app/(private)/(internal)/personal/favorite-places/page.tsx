@@ -20,6 +20,7 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import FavoritePlaceGrid from './_components/favorite-place-grid'
 import FilterForm from './_components/filter-form'
+import UpsertForm from './_components/upsert-form'
 import { FavoritePlaceModel } from './_models'
 
 type Props = {
@@ -39,7 +40,7 @@ export default async function FavoritePlacesPage({
 	let queryParams: QueryParamsModel = {
 		page: 1,
 		limit: 10,
-		sorts: [{ field: 'createdAt', direction: SortDirections.ASC }],
+		sorts: [{ field: 'createdAt', direction: SortDirections.DESC }],
 	}
 
 	if (encodedQuery) {
@@ -78,7 +79,7 @@ export default async function FavoritePlacesPage({
 						submitProps={{
 							form: UPSERT_FORM_ID,
 						}}>
-						<p>@Upsert Component</p>
+						<UpsertForm />
 					</Modal>
 
 					<Modal

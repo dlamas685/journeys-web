@@ -3,7 +3,7 @@
 import { updateProfile } from '@/common/actions/options.action'
 import { ApiError } from '@/common/classes/api-error.class'
 import InputMask from '@/common/components/ui/form/input-mask'
-import InputPlace from '@/common/components/ui/google/input-place'
+import Autocomplete from '@/common/components/ui/google/autocomplete'
 import { Pathnames, UserTypes } from '@/common/enums'
 import useResponse from '@/common/hooks/use-response'
 import { UpdateUserModel } from '@/common/models/update-user.model'
@@ -172,12 +172,13 @@ const PersonalProfileForm = () => {
 					render={({ field }) => (
 						<FormItem>
 							<FormControl>
-								<InputPlace
+								<Autocomplete
 									transparent
 									muted={false}
 									value={field.value}
 									placeholder='Buscar dirección (opcional)'
 									searchPlaceholder='Ingresa tu dirección'
+									searchType={['address']}
 									onPlaceSelect={place => {
 										field.onChange(place?.formatted_address)
 									}}

@@ -19,8 +19,6 @@ import { CaretSortIcon } from '@radix-ui/react-icons'
 import { useMapsLibrary } from '@vis.gl/react-google-maps'
 import { FormEvent, useCallback, useEffect, useState } from 'react'
 
-type SearchType = 'address' | 'establishment'
-
 type Props = {
 	placeholder?: string
 	value?: string
@@ -28,12 +26,12 @@ type Props = {
 	transparent?: boolean
 	muted?: boolean
 	emptyMessage?: string
-	searchType?: SearchType
+	searchType?: string[]
 	country?: string
 	onPlaceSelect: (place: google.maps.places.PlaceResult | null) => void
 }
 
-const InputPlace = ({
+const Autocomplete = ({
 	onPlaceSelect,
 	value,
 	placeholder,
@@ -89,7 +87,8 @@ const InputPlace = ({
 				componentRestrictions: {
 					country,
 				},
-				types: searchType ? [searchType] : undefined,
+				language: 'es',
+				types: searchType ? searchType : undefined,
 			}
 
 			autocompleteService.getPlacePredictions(request, predictions =>
@@ -115,15 +114,7 @@ const InputPlace = ({
 
 			const detailRequestOptions: google.maps.places.PlaceDetailsRequest = {
 				placeId,
-				fields: [
-					'geometry',
-					'name',
-					'formatted_address',
-					'icon',
-					'place_id',
-					'types',
-					'icon_background_color',
-				],
+				fields: ['geometry', 'name', 'formatted_address', 'place_id', 'types'],
 				sessionToken,
 			}
 
@@ -132,7 +123,7 @@ const InputPlace = ({
 			) => {
 				onPlaceSelect(placeDetails)
 				setPredictionResults([])
-				setInputValue(placeDetails?.formatted_address ?? '')
+				// setInputValue(placeDetails?.formatted_address ?? '')
 				setSessionToken(new places.AutocompleteSessionToken())
 			}
 
@@ -140,6 +131,10 @@ const InputPlace = ({
 		},
 		[onPlaceSelect, places, placesService, sessionToken]
 	)
+
+	useEffect(() => {
+		setInputValue(value ?? '')
+	}, [value])
 
 	if (isDesktop) {
 		return (
@@ -245,4 +240,4 @@ const InputPlace = ({
 	)
 }
 
-export default InputPlace
+export default Autocomplete
