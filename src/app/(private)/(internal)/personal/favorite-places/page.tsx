@@ -23,18 +23,17 @@ import FilterForm from './_components/filter-form'
 import UpsertForm from './_components/upsert-form'
 import { FavoritePlaceModel } from './_models'
 
-type Props = {
-	searchParams: SearchParams
-}
-
 export const metadata: Metadata = {
 	title: 'Journeys • Lugares favoritos',
 	description: 'Administra tus lugares favoritos para tus optimizaciones.',
 }
 
-export default async function FavoritePlacesPage({
-	searchParams,
-}: Readonly<Props>) {
+type Props = {
+	searchParams: Promise<SearchParams>
+}
+
+export default async function FavoritePlacesPage(props: Readonly<Props>) {
+	const searchParams = await props.searchParams
 	const encodedQuery = searchParams['query']
 
 	let queryParams: QueryParamsModel = {

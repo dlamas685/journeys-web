@@ -16,7 +16,7 @@ const API_URL = process.env.API_URL
 
 export const loginWithCredentials = async (credentials: CredentialsModel) => {
 	try {
-		const cookiesStore = cookies()
+		const cookiesStore = await cookies()
 
 		const URL = `${API_URL}/${ApiEndpoints.LOGIN}`
 
@@ -60,7 +60,7 @@ export const loginWithGoogle = async () => {
 
 export const validateAccessToken = async (token: string) => {
 	try {
-		const cookiesStore = cookies()
+		const cookiesStore = await cookies()
 
 		const URL = `${API_URL}/${ApiEndpoints.ACCESS_TOKEN_VALIDATION}`
 
@@ -147,7 +147,7 @@ export const resetPassword = async (resetPassword: ResetPasswordModel) => {
 
 export const signUp = async (user: CreateUserModel) => {
 	try {
-		const cookiesStore = cookies()
+		const cookiesStore = await cookies()
 
 		const URL = `${API_URL}/${ApiEndpoints.SIGN_UP}`
 
@@ -213,7 +213,7 @@ export const verifyEmail = async (token: string, email: string) => {
 
 export const logOut = async () => {
 	try {
-		const cookiesStore = cookies()
+		const cookiesStore = await cookies()
 
 		cookiesStore.delete('session.token')
 

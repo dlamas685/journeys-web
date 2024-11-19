@@ -9,7 +9,7 @@ const API_URL = process.env.API_URL
 
 export const uploadUserImage = async (formData: FormData) => {
 	try {
-		const cookiesStore = cookies()
+		const cookiesStore = await cookies()
 
 		const token = await getServerToken()
 
@@ -47,7 +47,7 @@ export const uploadUserImage = async (formData: FormData) => {
 
 export const removeUserImage = async () => {
 	try {
-		const cookiesStore = cookies()
+		const cookiesStore = await cookies()
 
 		const token = await getServerToken()
 

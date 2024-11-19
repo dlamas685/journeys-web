@@ -14,12 +14,11 @@ export const metadata: Metadata = {
 }
 
 type Props = {
-	searchParams: SearchParams
+	searchParams: Promise<SearchParams>
 }
 
-export default async function EmailVerificationPage({
-	searchParams,
-}: Readonly<Props>) {
+export default async function EmailVerificationPage(props: Readonly<Props>) {
+	const searchParams = await props.searchParams
 	const token = searchParams['token']
 	const email = searchParams['email']
 

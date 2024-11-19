@@ -8,7 +8,7 @@ import { UserModel } from '../models'
  * @returns The token of the current session
  */
 export const getServerToken = async () => {
-	const token = cookies().get('session.token')?.value
+	const token = (await cookies()).get('session.token')?.value
 
 	return token
 }
@@ -18,7 +18,7 @@ export const getServerToken = async () => {
  * @returns The user of the current session
  */
 export const getServerUser = async () => {
-	const user = cookies().get('session.user')?.value
+	const user = (await cookies()).get('session.user')?.value
 
 	if (!user) {
 		return undefined
@@ -28,7 +28,7 @@ export const getServerUser = async () => {
 }
 
 export const getServerExpires = async () => {
-	const expires = cookies().get('session.expires')?.value
+	const expires = (await cookies()).get('session.expires')?.value
 
 	return Number(expires)
 }

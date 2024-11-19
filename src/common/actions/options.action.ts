@@ -13,7 +13,7 @@ const API_URL = process.env.API_URL
 
 export const updateProfile = async (updateUser: UpdateUserModel) => {
 	try {
-		const cookiesStore = cookies()
+		const cookiesStore = await cookies()
 
 		const token = await getServerToken()
 

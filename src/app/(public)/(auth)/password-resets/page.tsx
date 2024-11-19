@@ -7,18 +7,17 @@ import AuthFrame from '../_components/auth-frame'
 import PasswordResetsForm from '../_components/password-resets-form'
 
 export const metadata: Metadata = {
-	title: 'Journeys • Reestablecer Contraseña',
+	title: 'Journeys • Restablecer Contraseña',
 	description:
 		'Introduce tu nueva contraseña y repítela en el campo de confirmación para verificar que ambas coinciden',
 }
 
 type Props = {
-	searchParams: SearchParams
+	searchParams: Promise<SearchParams>
 }
 
-export default async function PasswordResetsPage({
-	searchParams,
-}: Readonly<Props>) {
+export default async function PasswordResetsPage(props: Readonly<Props>) {
+	const searchParams = await props.searchParams
 	const token = searchParams['token']
 	const email = searchParams['email']
 

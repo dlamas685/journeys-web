@@ -22,18 +22,18 @@ import FavoriteAddressGrid from './_components/favorite-address-grid'
 import FilterForm from './_components/filter-form'
 import UpsertForm from './_components/upsert-form'
 import { FavoriteAddressModel } from './_models'
-type Props = {
-	searchParams: SearchParams
-}
 
 export const metadata: Metadata = {
 	title: 'Journeys • Direcciones favoritas',
 	description: 'Administra tus direcciones favoritas para tus optimizaciones.',
 }
 
-export default async function FavoriteAddressesPage({
-	searchParams,
-}: Readonly<Props>) {
+type Props = {
+	searchParams: Promise<SearchParams>
+}
+
+export default async function FavoriteAddressesPage(props: Readonly<Props>) {
+	const searchParams = await props.searchParams
 	const encodedQuery = searchParams['query']
 
 	let queryParams: QueryParamsModel = {
