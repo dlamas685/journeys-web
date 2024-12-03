@@ -1,0 +1,113 @@
+'use client'
+import { Button } from '@/components/ui/button'
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import { ColumnDef } from '@tanstack/react-table'
+import { format } from 'date-fns'
+import {
+	Car,
+	ClipboardCopy,
+	MoreHorizontal,
+	Pencil,
+	Trash2,
+	UsersRound,
+} from 'lucide-react'
+import { toast } from 'sonner'
+import { FleetModel } from '../_models'
+
+const columns: ColumnDef<FleetModel>[] = [
+	{
+		accessorKey: 'name',
+		header: 'Nombre',
+		enableHiding: false,
+	},
+	{
+		accessorKey: 'description',
+		header: 'Descripción',
+		cell: ({ row }) => {
+			const description = row.getValue<string>('description') || 'N/D'
+
+			return (
+				<div className='max-w-80 truncate' title={description}>
+					{description}
+				</div>
+			)
+		},
+	},
+	{
+		accessorKey: 'maxDrivers',
+		header: 'MDC',
+		enableHiding: false,
+	},
+	{
+		accessorKey: 'maxVehicles',
+		header: 'MDV',
+		enableHiding: false,
+	},
+	{
+		accessorKey: 'createdAt',
+		header: 'Creado',
+		cell: ({ row }) => format(row.getValue<Date>('createdAt'), 'dd/MM/yyyy'),
+	},
+
+	{
+		id: 'actions',
+		enableHiding: false,
+		cell: ({ row }) => {
+			const fleet = row.original
+
+			const handleCopy = () => {
+				navigator.clipboard
+					.writeText(fleet.name)
+					.then(() => {
+						toast.info('Nombre copiado al portapapeles')
+					})
+					.catch(() => {
+						toast.error('No se pudo copiar el nombre')
+					})
+			}
+
+			return (
+				<DropdownMenu>
+					<DropdownMenuTrigger asChild>
+						<Button variant='ghost' className='h-8 w-8 p-0'>
+							<MoreHorizontal />
+						</Button>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent align='end'>
+						<DropdownMenuLabel>Acciones</DropdownMenuLabel>
+						<DropdownMenuItem onClick={handleCopy}>
+							<ClipboardCopy className='mr-1 size-4' />
+							Copiar nombre
+						</DropdownMenuItem>
+						<DropdownMenuSeparator />
+						<DropdownMenuItem>
+							<Pencil className='mr-1 size-4' />
+							Editar
+						</DropdownMenuItem>
+						<DropdownMenuItem>
+							<Trash2 className='mr-1 size-4' />
+							Eliminar
+						</DropdownMenuItem>
+						<DropdownMenuItem>
+							<UsersRound className='mr-1 size-4' />
+							Conductores
+						</DropdownMenuItem>
+						<DropdownMenuItem>
+							<Car className='mr-1 size-4' />
+							Vehículos
+						</DropdownMenuItem>
+					</DropdownMenuContent>
+				</DropdownMenu>
+			)
+		},
+	},
+]
+
+export default columns

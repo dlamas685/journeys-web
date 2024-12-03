@@ -20,4 +20,6 @@ export enum ApiEndpoints {
 
 	FAVORITE_ADDRESSES = 'favorite-addresses',
 	FAVORITE_PLACES = 'favorite-places',
+
+	FLEETS = 'fleets',
 }

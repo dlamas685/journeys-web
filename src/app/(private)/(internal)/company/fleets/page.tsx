@@ -1,7 +1,149 @@
-export default function FleetsPage() {
+import { findAll } from '@/common/actions/crud.action'
+import {
+	Frame,
+	FrameBody,
+	FrameHeader,
+	FrameTitle,
+} from '@/common/components/layout/frame'
+import {
+	DataTable,
+	DataTablePagination,
+	DataTablePaginationInfo,
+	DataTableProvider,
+	DataTableSearch,
+	DataTableVisibilityColumns,
+} from '@/common/components/ui/data/client/data-table'
+import {
+	DataTableBody,
+	DataTableFooter,
+	DataTableHeader,
+	DataTableToolbar,
+} from '@/common/components/ui/data/server/data-table'
+import Modal from '@/common/components/ui/overlay/modal'
+import { FILTER_FORM_ID, UPSERT_FORM_ID } from '@/common/constants'
+import { ApiEndpoints, Pathnames, SortDirections } from '@/common/enums'
+import { type QueryParamsModel } from '@/common/models'
+import { type SearchParams } from '@/common/types'
+import { decodeQuery, jsonToBase64 } from '@/common/utils'
+import { Button } from '@/components/ui/button'
+import { CirclePlus, Filter, FilterX, Save, SearchCheck } from 'lucide-react'
+import { type Metadata } from 'next'
+import Link from 'next/link'
+import { redirect } from 'next/navigation'
+import columns from './_components/columns'
+import { COLUMN_LABELS } from './_constants/column-labels'
+import { type FleetModel } from './_models'
+
+export const metadata: Metadata = {
+	title: 'Journeys • Flotas',
+	description: 'Administra tus flotas para tus optimizaciones.',
+}
+
+type Props = {
+	searchParams: Promise<SearchParams>
+}
+
+export default async function FleetsPage(props: Readonly<Props>) {
+	const searchParams = await props.searchParams
+	const encodedQuery = searchParams['query']
+
+	let queryParams: QueryParamsModel = {
+		page: 1,
+		limit: 6,
+		sorts: [{ field: 'name', direction: SortDirections.ASC }],
+	}
+
+	if (encodedQuery) {
+		const decodedQuery = decodeQuery(encodedQuery)
+
+		if (!decodedQuery) redirect(Pathnames.FLEETS)
+
+		queryParams = {
+			...queryParams,
+			...decodedQuery,
+		}
+	}
+
+	const response = await findAll<FleetModel>(
+		ApiEndpoints.FLEETS,
+		queryParams,
+		Pathnames.FLEETS
+	)
+
+	const hasFilters =
+		(queryParams.filters && queryParams.filters.length > 0) ||
+		(queryParams.logicalFilters && queryParams.logicalFilters.length > 0)
+
 	return (
-		<div>
-			<h1>Hello Fleets Page</h1>
-		</div>
+		<Frame className='gap-5 sm:gap-3'>
+			<FrameHeader>
+				<FrameTitle>Flotas</FrameTitle>
+			</FrameHeader>
+			<FrameBody className='gap-0 sm:gap-4'>
+				<DataTableProvider
+					data={response.data}
+					columns={columns}
+					metadata={response.meta}
+					queryParams={queryParams}>
+					<DataTableHeader>
+						<DataTableSearch field='name' placeholder='Buscar por nombre...' />
+						<DataTableToolbar className='row-start-1 justify-center sm:col-start-2'>
+							<Modal
+								title='Nueva Flota'
+								description='Registra una nueva flota para usar en tus hojas de ruta.'
+								triggerIcon={<CirclePlus className='mr-1 size-4' />}
+								triggerLabel='Crear'
+								submitLabel='Guardar'
+								submitIcon={<Save className='mr-1 size-4' />}
+								submitProps={{
+									form: UPSERT_FORM_ID,
+								}}>
+								<span className='px-4 sm:px-0'>@UpsertComponent</span>
+							</Modal>
+							<Modal
+								title='Configuración de Filtro'
+								description='Completa los campos de acuerdo a tus preferencias para visualizar tus flotas.'
+								triggerIcon={<Filter className='mr-1 size-4' />}
+								triggerLabel='Filtro'
+								triggerProps={{
+									variant: 'outline',
+								}}
+								submitIcon={<SearchCheck className='mr-1 size-4' />}
+								submitLabel='Aplicar'
+								submitProps={{
+									form: FILTER_FORM_ID,
+								}}>
+								<span className='px-4 sm:px-0'>@FilterComponent</span>
+							</Modal>
+
+							{hasFilters && (
+								<Button variant='ghost' disabled={hasFilters} asChild>
+									<Link
+										href={{
+											pathname: `${Pathnames.FAVORITE_ADDRESSES}`,
+											query: {
+												query: jsonToBase64({
+													...queryParams,
+													filters: [],
+												}),
+											},
+										}}>
+										<FilterX className='size-4' />
+									</Link>
+								</Button>
+							)}
+							<DataTableVisibilityColumns columnLabels={COLUMN_LABELS} />
+						</DataTableToolbar>
+					</DataTableHeader>
+					<DataTableBody>
+						<DataTable />
+					</DataTableBody>
+					<DataTableFooter>
+						<DataTablePaginationInfo />
+						<DataTablePagination advanced />
+					</DataTableFooter>
+				</DataTableProvider>
+			</FrameBody>
+		</Frame>
 	)
 }
