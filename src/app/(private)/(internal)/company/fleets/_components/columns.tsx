@@ -1,4 +1,5 @@
 'use client'
+import { Pathnames } from '@/common/enums'
 import { Button } from '@/components/ui/button'
 import {
 	DropdownMenu,
@@ -18,6 +19,7 @@ import {
 	Trash2,
 	UsersRound,
 } from 'lucide-react'
+import Link from 'next/link'
 import { toast } from 'sonner'
 import { FleetModel } from '../_models'
 
@@ -95,13 +97,19 @@ const columns: ColumnDef<FleetModel>[] = [
 							<Trash2 className='mr-1 size-4' />
 							Eliminar
 						</DropdownMenuItem>
-						<DropdownMenuItem>
-							<UsersRound className='mr-1 size-4' />
-							Conductores
+						<DropdownMenuItem asChild>
+							<Link
+								href={`${Pathnames.FLEETS}/${fleet.id}/${Pathnames.DRIVERS}`}>
+								<UsersRound className='mr-1 size-4' />
+								Conductores
+							</Link>
 						</DropdownMenuItem>
-						<DropdownMenuItem>
-							<Car className='mr-1 size-4' />
-							Vehículos
+						<DropdownMenuItem asChild>
+							<Link
+								href={`${Pathnames.FLEETS}/${fleet.id}/${Pathnames.VEHICLES}`}>
+								<Car className='mr-1 size-4' />
+								Vehículos
+							</Link>
 						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>

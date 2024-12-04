@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const numberFilterSchema = (
+export const dateFilterSchema = (
 	rules: [string, ...string[]],
 	ruleMessage?: string,
 	valueMessage?: string
@@ -15,7 +15,7 @@ export const numberFilterSchema = (
 				})
 				.optional(),
 			value: z
-				.number({
+				.date({
 					message: valueMessage,
 				})
 				.optional(),

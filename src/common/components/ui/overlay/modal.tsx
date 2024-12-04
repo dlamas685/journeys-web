@@ -66,7 +66,7 @@ const Modal = ({
 							{triggerLabel}
 						</Button>
 					</DialogTrigger>
-					<DialogContent className='gap-3 sm:max-w-[425px]'>
+					<DialogContent className='gap-3 sm:max-w-[425px] md:max-w-[512px]'>
 						<DialogHeader className='px-1'>
 							<DialogTitle>{title}</DialogTitle>
 							<DialogDescription>{description}</DialogDescription>

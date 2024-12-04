@@ -18,7 +18,7 @@ export enum Pathnames {
 	// Company
 	FLEETS = 'fleets',
 	VEHICLES = 'vehicles',
-	EMPLOYEES = 'employees',
+	DRIVERS = 'drivers',
 	ROADMAPS = 'roadmaps', //trips
 
 	// Common

@@ -9,6 +9,7 @@ import {
 	DataTable,
 	DataTablePagination,
 	DataTablePaginationInfo,
+	DataTablePaginationLimits,
 	DataTableProvider,
 	DataTableSearch,
 	DataTableVisibilityColumns,
@@ -31,7 +32,8 @@ import { type Metadata } from 'next'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import columns from './_components/columns'
-import { COLUMN_LABELS } from './_constants/column-labels'
+import FilterForm from './_components/filter-form'
+import { COLUMN_LABELS } from './_constants'
 import { type FleetModel } from './_models'
 
 export const metadata: Metadata = {
@@ -113,14 +115,14 @@ export default async function FleetsPage(props: Readonly<Props>) {
 								submitProps={{
 									form: FILTER_FORM_ID,
 								}}>
-								<span className='px-4 sm:px-0'>@FilterComponent</span>
+								<FilterForm queryParams={queryParams} />
 							</Modal>
 
 							{hasFilters && (
 								<Button variant='ghost' disabled={hasFilters} asChild>
 									<Link
 										href={{
-											pathname: `${Pathnames.FAVORITE_ADDRESSES}`,
+											pathname: `${Pathnames.FLEETS}`,
 											query: {
 												query: jsonToBase64({
 													...queryParams,
@@ -138,9 +140,14 @@ export default async function FleetsPage(props: Readonly<Props>) {
 					<DataTableBody>
 						<DataTable />
 					</DataTableBody>
-					<DataTableFooter>
+					<DataTableFooter className='sm:grid-cols-[1fr_auto_auto]'>
 						<DataTablePaginationInfo />
 						<DataTablePagination advanced />
+						<DataTablePaginationLimits
+							className='justify-self-center'
+							options={[6, 12, 24, 48, 96]}
+							label='Número de flotas por página'
+						/>
 					</DataTableFooter>
 				</DataTableProvider>
 			</FrameBody>

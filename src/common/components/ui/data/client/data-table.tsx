@@ -33,6 +33,14 @@ import {
 	PaginationLink,
 } from '@/components/ui/pagination'
 import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from '@/components/ui/select'
+import {
 	Table,
 	TableBody,
 	TableCell,
@@ -499,10 +507,61 @@ const DataTablePaginationInfo = <TData, TValue>({
 	)
 }
 
+type DataTablePaginationLimits = ComponentProps<'section'> & {
+	label?: string
+	icon?: ReactNode
+	options: number[]
+}
+
+const DataTablePaginationLimits = <TData, TValue>({
+	className,
+	label,
+	options,
+	...rest
+}: Readonly<DataTablePaginationLimits>) => {
+	const { queryParams } = useDataTableContext<TData, TValue>()
+	const router = useRouter()
+	const pathname = usePathname()
+
+	const handleLimit = (value: string) => {
+		const newQueryParams = {
+			...queryParams,
+			page: 1,
+			limit: Number(value),
+		}
+		const query = jsonToBase64(newQueryParams)
+
+		router.replace(`${pathname}?query=${query}`)
+	}
+
+	return (
+		<section className={cn('flex items-center gap-2', className)} {...rest}>
+			{label && <p className='text-sm sm:hidden'>{label}:</p>}
+			<Select
+				onValueChange={value => handleLimit(value)}
+				defaultValue={queryParams.limit?.toString()}>
+				<SelectTrigger muted={false} className='w-auto p-4'>
+					<SelectValue placeholder={queryParams.limit} />
+				</SelectTrigger>
+				<SelectContent>
+					<SelectGroup>
+						{options.map(option => (
+							<SelectItem key={option} value={option.toString()}>
+								{option}
+							</SelectItem>
+						))}
+					</SelectGroup>
+				</SelectContent>
+			</Select>
+		</section>
+	)
+}
+
 export {
 	DataTable,
 	DataTablePagination,
 	DataTablePaginationInfo,
+	DataTablePaginationLimits,
 	DataTableProvider,
 	DataTableSearch,
 	DataTableVisibilityColumns,

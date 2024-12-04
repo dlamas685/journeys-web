@@ -41,7 +41,9 @@ const Navbar = ({ items }: Readonly<Props>) => {
 								href={item.href}
 								className={cn(
 									'flex max-w-20 flex-col items-center gap-1 font-secondary transition-all duration-100 hover:text-orange-500',
-									pathname === item.href ? 'text-orange-500' : 'text-black'
+									pathname.includes(item.href)
+										? 'text-orange-500'
+										: 'text-black'
 								)}>
 								{item.icon}
 								<span className='text-center text-sm'>{item.label}</span>

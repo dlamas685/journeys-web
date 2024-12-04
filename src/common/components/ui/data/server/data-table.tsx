@@ -20,7 +20,10 @@ const DataTableToolbar = ({
 }: Readonly<DataTableToolbar>) => {
 	return (
 		<section
-			className={cn('flex flex-wrap gap-2 sm:justify-end', className)}
+			className={cn(
+				'flex flex-wrap items-center gap-2 sm:justify-end',
+				className
+			)}
 			{...rest}
 		/>
 	)
@@ -29,7 +32,7 @@ const DataTableToolbar = ({
 type DataTableBody = ComponentProps<'section'> & {}
 
 const DataTableBody = ({ className, ...rest }: Readonly<DataTableBody>) => {
-	return <section className={cn('w-full', className)} {...rest} />
+	return <section className={cn('w-full flex-grow', className)} {...rest} />
 }
 
 type DataTableFooter = ComponentProps<'footer'> & {}

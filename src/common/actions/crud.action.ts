@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { notFound, redirect } from 'next/navigation'
 import { ApiError } from '../classes/api-error.class'
-import { ApiEndpoints, Pathnames } from '../enums'
+import { ApiEndpoints, FilterTypes, Pathnames } from '../enums'
 import { ErrorModel, PaginatedResponseModel, QueryParamsModel } from '../models'
 import { revalidateTags } from '../utils'
 import { getServerToken } from './session.action'
@@ -141,7 +141,7 @@ export const findAll = async <ResModel>(
 
 		if (queryParams.filters) {
 			queryParams.filters.forEach(filter => {
-				url += `filters=${filter.field}:${filter.rule}~:${filter.type}:${filter.value}&`
+				url += `filters=${filter.field}:${filter.rule}${filter.type === FilterTypes.STRING ? '~' : ''}:${filter.type}:${filter.value}&`
 			})
 		}
 
@@ -160,8 +160,6 @@ export const findAll = async <ResModel>(
 		}
 
 		url = url.slice(0, -1)
-
-		console.log(url)
 
 		const response = await fetch(url, {
 			method: 'GET',

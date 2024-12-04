@@ -21,4 +21,4 @@ export const TEXT_FILTER_OPTIONS = [
 		label: 'Igual a',
 		value: FilterRules.EQUALS,
 	},
-]
+].sort((a, b) => a.label.localeCompare(b.label))

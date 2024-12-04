@@ -161,7 +161,7 @@ export const signUp = async (user: CreateUserModel) => {
 
 		if (!response.ok) {
 			const error = (await response.json()) as ErrorModel
-			console.log(error)
+			console.error(error)
 			return error
 		}
 

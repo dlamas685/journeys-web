@@ -78,8 +78,8 @@ export default async function InternalLayout({ children }: Readonly<Props>) {
 		{
 			id: uuid(),
 			icon: <UserRound />,
-			label: 'Empleados',
-			href: `/${pathRoot}/${Pathnames.EMPLOYEES}`,
+			label: 'Conductores',
+			href: `/${pathRoot}/${Pathnames.DRIVERS}`,
 			userType: UserTypes.COMPANY,
 		},
 		{
