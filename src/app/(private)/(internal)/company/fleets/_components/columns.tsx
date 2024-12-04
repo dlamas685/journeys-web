@@ -1,4 +1,5 @@
 'use client'
+import SortingButton from '@/common/components/ui/data/client/sorting-button'
 import { Pathnames } from '@/common/enums'
 import { Button } from '@/components/ui/button'
 import {
@@ -26,12 +27,14 @@ import { FleetModel } from '../_models'
 const columns: ColumnDef<FleetModel>[] = [
 	{
 		accessorKey: 'name',
-		header: 'Nombre',
+		header: () => <SortingButton field='name'>Nombre</SortingButton>,
 		enableHiding: false,
 	},
 	{
 		accessorKey: 'description',
-		header: 'Descripción',
+		header: () => (
+			<SortingButton field='description'>Descripción</SortingButton>
+		),
 		cell: ({ row }) => {
 			const description = row.getValue<string>('description') || 'N/D'
 
@@ -44,17 +47,17 @@ const columns: ColumnDef<FleetModel>[] = [
 	},
 	{
 		accessorKey: 'maxDrivers',
-		header: 'MDC',
+		header: () => <SortingButton field='maxDrivers'>MDC</SortingButton>,
 		enableHiding: false,
 	},
 	{
 		accessorKey: 'maxVehicles',
-		header: 'MDV',
+		header: () => <SortingButton field='maxVehicles'>MDV</SortingButton>,
 		enableHiding: false,
 	},
 	{
 		accessorKey: 'createdAt',
-		header: 'Creado',
+		header: () => <SortingButton field='createdAt'>Creado</SortingButton>,
 		cell: ({ row }) => format(row.getValue<Date>('createdAt'), 'dd/MM/yyyy'),
 	},
 
