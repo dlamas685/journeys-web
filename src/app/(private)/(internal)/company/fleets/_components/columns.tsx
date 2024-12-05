@@ -53,11 +53,13 @@ const columns: ColumnDef<FleetModel>[] = [
 		accessorKey: 'maxDrivers',
 		header: () => <SortingButton field='maxDrivers'>CDD</SortingButton>,
 		enableHiding: false,
+		cell: ({ row }) => row.getValue<number>('maxDrivers') ?? 'N/D',
 	},
 	{
 		accessorKey: 'maxVehicles',
 		header: () => <SortingButton field='maxVehicles'>CDV</SortingButton>,
 		enableHiding: false,
+		cell: ({ row }) => row.getValue<number>('maxVehicles') ?? 'N/D',
 	},
 	{
 		accessorKey: 'createdAt',

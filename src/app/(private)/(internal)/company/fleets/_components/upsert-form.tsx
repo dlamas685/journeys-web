@@ -113,7 +113,12 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 								Nombre<span className='text-orange-500'>*</span>
 							</FormLabel>
 							<FormControl>
-								<Input placeholder='Ingrese un nombre' {...field} />
+								<Input
+									placeholder='Ingrese un nombre'
+									aria-label='Nombre'
+									aria-required='true'
+									{...field}
+								/>
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -130,6 +135,8 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 								<Textarea
 									placeholder='Ingrese una descripción'
 									className='resize-none'
+									aria-label='Descripción'
+									aria-required='false'
 									rows={8}
 									{...field}
 								/>
@@ -149,6 +156,8 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 								<Input
 									type='number'
 									placeholder='Ingrese un número'
+									aria-label='Cantidad de vehículos'
+									aria-required='false'
 									{...field}
 									onChange={e => {
 										const value = e.target.value
@@ -174,6 +183,8 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 								<Input
 									type='number'
 									placeholder='Ingrese un número'
+									aria-label='Cantidad de conductores'
+									aria-required='false'
 									{...field}
 									onChange={e => {
 										const value = e.target.value
