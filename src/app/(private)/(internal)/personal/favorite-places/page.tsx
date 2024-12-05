@@ -70,7 +70,7 @@ export default async function FavoritePlacesPage(props: Readonly<Props>) {
 				<FrameGadgets>
 					<Modal
 						title='Nuevo Lugar Favorito'
-						description='Al agregar un lugar como favorito, podrás acceder a el de forma rápida en tus optimizaciones.'
+						description='Al agregar un lugar como favorito, podrás acceder a el de forma rápida en tus optimizaciones. Ten en cuenta que todos los campos son obligatorios.'
 						triggerIcon={<CirclePlus className='mr-1 size-4' />}
 						triggerLabel='Agregar'
 						submitLabel='Guardar'

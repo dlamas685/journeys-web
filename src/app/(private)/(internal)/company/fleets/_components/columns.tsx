@@ -47,12 +47,12 @@ const columns: ColumnDef<FleetModel>[] = [
 	},
 	{
 		accessorKey: 'maxDrivers',
-		header: () => <SortingButton field='maxDrivers'>MDC</SortingButton>,
+		header: () => <SortingButton field='maxDrivers'>CDD</SortingButton>,
 		enableHiding: false,
 	},
 	{
 		accessorKey: 'maxVehicles',
-		header: () => <SortingButton field='maxVehicles'>MDV</SortingButton>,
+		header: () => <SortingButton field='maxVehicles'>CDV</SortingButton>,
 		enableHiding: false,
 	},
 	{

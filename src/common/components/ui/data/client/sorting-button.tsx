@@ -41,7 +41,7 @@ const SortingButton = ({
 		if (!direction) {
 			const newQueryParams: QueryParamsModel = {
 				...queryParams,
-				sorts: queryParams.sorts?.filter(sort => sort.field !== field),
+				sorts: undefined,
 			}
 
 			const query = jsonToBase64(newQueryParams)

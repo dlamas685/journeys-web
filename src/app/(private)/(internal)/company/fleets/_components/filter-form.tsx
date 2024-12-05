@@ -234,7 +234,7 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 
 				<Fieldset className='gap-0.5'>
 					<FieldsetLegend className='flex items-center justify-between py-0 text-base font-bold'>
-						Máximo de vehículos
+						Cantidad de vehículos
 						<Button
 							className='text-orange-700 hover:text-orange-700/90'
 							size='icon'
@@ -294,8 +294,12 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 											placeholder='Ingrese un valor'
 											{...field}
 											onChange={e => {
-												field.onChange(Number(e.target.value))
+												const value = e.target.value
+													? parseInt(e.target.value)
+													: undefined
+												field.onChange(value)
 											}}
+											value={field.value?.toString() || ''}
 										/>
 									</FormControl>
 									<FormMessage />
@@ -307,7 +311,7 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 
 				<Fieldset className='gap-0.5'>
 					<FieldsetLegend className='flex items-center justify-between py-0 text-base font-bold'>
-						Máximo de conductores
+						Cantidad de conductores
 						<Button
 							className='text-orange-700 hover:text-orange-700/90'
 							size='icon'
@@ -367,8 +371,12 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 											placeholder='Ingrese un valor'
 											{...field}
 											onChange={e => {
-												field.onChange(Number(e.target.value))
+												const value = e.target.value
+													? parseInt(e.target.value)
+													: undefined
+												field.onChange(value)
 											}}
+											value={field.value?.toString() || ''}
 										/>
 									</FormControl>
 									<FormMessage />

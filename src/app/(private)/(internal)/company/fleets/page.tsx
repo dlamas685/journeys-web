@@ -33,6 +33,7 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import columns from './_components/columns'
 import FilterForm from './_components/filter-form'
+import UpsertForm from './_components/upsert-form'
 import { COLUMN_LABELS } from './_constants'
 import { type FleetModel } from './_models'
 
@@ -52,7 +53,7 @@ export default async function FleetsPage(props: Readonly<Props>) {
 	let queryParams: QueryParamsModel = {
 		page: 1,
 		limit: 6,
-		sorts: [{ field: 'name', direction: SortDirections.ASC }],
+		sorts: [{ field: 'createdAt', direction: SortDirections.DESC }],
 	}
 
 	if (encodedQuery) {
@@ -88,11 +89,11 @@ export default async function FleetsPage(props: Readonly<Props>) {
 					metadata={response.meta}
 					queryParams={queryParams}>
 					<DataTableHeader>
-						<DataTableSearch field='name' placeholder='Buscar por nombre...' />
+						<DataTableSearch field='name' placeholder='Buscar por nombre' />
 						<DataTableToolbar className='row-start-1 justify-center sm:col-start-2'>
 							<Modal
 								title='Nueva Flota'
-								description='Registra una nueva flota para usar en tus hojas de ruta.'
+								description='Registra una nueva flota para usar en tus hojas de ruta. Ten en cuenta que algunos campos son opcionales.'
 								triggerIcon={<CirclePlus className='mr-1 size-4' />}
 								triggerLabel='Crear'
 								submitLabel='Guardar'
@@ -100,7 +101,7 @@ export default async function FleetsPage(props: Readonly<Props>) {
 								submitProps={{
 									form: UPSERT_FORM_ID,
 								}}>
-								<span className='px-4 sm:px-0'>@UpsertComponent</span>
+								<UpsertForm />
 							</Modal>
 							<Modal
 								title='Configuración de Filtro'
