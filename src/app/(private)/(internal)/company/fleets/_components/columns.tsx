@@ -1,8 +1,10 @@
 'use client'
 import SortingButton from '@/common/components/ui/data/client/sorting-button'
+import EraserButton from '@/common/components/ui/misc/eraser-button'
 import Modal from '@/common/components/ui/overlay/modal'
+import RemovalAlert from '@/common/components/ui/overlay/removal-alert'
 import { UPSERT_FORM_ID } from '@/common/constants'
-import { Pathnames } from '@/common/enums'
+import { ApiEndpoints, Pathnames } from '@/common/enums'
 import { Button } from '@/components/ui/button'
 import {
 	DropdownMenu,
@@ -16,6 +18,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
 import {
 	Car,
+	CircleX,
 	ClipboardCopy,
 	MoreHorizontal,
 	Pencil,
@@ -71,11 +74,11 @@ const columns: ColumnDef<FleetModel>[] = [
 		id: 'actions',
 		enableHiding: false,
 		cell: ({ row }) => {
-			const fleet = row.original
+			const record = row.original
 
 			const handleCopy = () => {
 				navigator.clipboard
-					.writeText(fleet.name)
+					.writeText(record.name)
 					.then(() => {
 						toast.info('Nombre copiado al portapapeles')
 					})
@@ -105,7 +108,7 @@ const columns: ColumnDef<FleetModel>[] = [
 								triggerIcon={<Pencil className='mr-1 size-3.5' />}
 								triggerProps={{
 									className:
-										'w-full font-normal justify-start relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 font-secondary',
+										'w-full font-normal h-auto justify-start relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 font-secondary',
 									variant: 'ghost',
 								}}
 								triggerLabel='Editar'
@@ -114,23 +117,47 @@ const columns: ColumnDef<FleetModel>[] = [
 								submitProps={{
 									form: UPSERT_FORM_ID,
 								}}>
-								<UpsertForm record={fleet} />
+								<UpsertForm record={record} />
 							</Modal>
 						</DropdownMenuItem>
-						<DropdownMenuItem>
-							<Trash2 className='mr-1 size-4' />
-							Eliminar
+						<DropdownMenuItem asChild>
+							<RemovalAlert
+								triggerLabel='Eliminar'
+								triggerIcon={<Trash2 className='mr-1 size-3.5' />}
+								triggerProps={{
+									className:
+										'w-full font-normal h-auto justify-start relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 font-secondary',
+									variant: 'ghost',
+								}}
+								cancelIcon={<CircleX className='mr-1 size-4' />}
+								description={
+									<>
+										¿Estás seguro de que deseas eliminar la flota{' '}
+										<b className='capitalize'>{record.name}</b>? Esta acción no
+										se puede deshacer.
+									</>
+								}
+								eraserButton={({ setOpen }) => (
+									<EraserButton
+										recordId={record.id}
+										endpoint={ApiEndpoints.FLEETS}
+										setAlertOpen={setOpen}
+										title='Flotas'
+										description='Flota eliminada correctamente.'
+									/>
+								)}
+							/>
 						</DropdownMenuItem>
 						<DropdownMenuItem asChild>
 							<Link
-								href={`${Pathnames.FLEETS}/${fleet.id}/${Pathnames.DRIVERS}`}>
+								href={`${Pathnames.FLEETS}/${record.id}/${Pathnames.DRIVERS}`}>
 								<UsersRound className='mr-1 size-4' />
 								Conductores
 							</Link>
 						</DropdownMenuItem>
 						<DropdownMenuItem asChild>
 							<Link
-								href={`${Pathnames.FLEETS}/${fleet.id}/${Pathnames.VEHICLES}`}>
+								href={`${Pathnames.FLEETS}/${record.id}/${Pathnames.VEHICLES}`}>
 								<Car className='mr-1 size-4' />
 								Vehículos
 							</Link>
