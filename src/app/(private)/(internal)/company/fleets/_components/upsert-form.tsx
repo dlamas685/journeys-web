@@ -1,6 +1,6 @@
 'use client'
 
-import { create } from '@/common/actions/crud.action'
+import { create, update } from '@/common/actions/crud.action'
 import { ApiError } from '@/common/classes/api-error.class'
 import { UPSERT_FORM_ID } from '@/common/constants'
 import { DialogContext } from '@/common/contexts/dialog-context'
@@ -20,7 +20,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
-import { CreateFleetModel, FleetModel } from '../_models'
+import { CreateFleetModel, FleetModel, UpdateFleetModel } from '../_models'
 import { upsertFormSchema, UpsertFormSchema } from '../_schemas'
 
 type Props = {
@@ -46,6 +46,34 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 	const response = useResponse()
 
 	const handleSubmit = async ({ id, ...rest }: UpsertFormSchema) => {
+		setLoading(true)
+
+		if (id) {
+			const fleet: UpdateFleetModel = {
+				...rest,
+			}
+
+			await update<UpdateFleetModel, FleetModel>(ApiEndpoints.FLEETS, id, fleet)
+				.then(resp => {
+					if ('error' in resp) {
+						throw new ApiError(resp)
+					}
+
+					response.success({
+						title: 'Flotas',
+						description: `${resp.name} ha sido actualizada`,
+					})
+
+					form.reset()
+					setOpen(false)
+				})
+				.catch(response.error)
+				.finally(() => {
+					setLoading(false)
+				})
+			return
+		}
+
 		const fleet: CreateFleetModel = {
 			...rest,
 		}

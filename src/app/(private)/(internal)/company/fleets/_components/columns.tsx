@@ -1,5 +1,7 @@
 'use client'
 import SortingButton from '@/common/components/ui/data/client/sorting-button'
+import Modal from '@/common/components/ui/overlay/modal'
+import { UPSERT_FORM_ID } from '@/common/constants'
 import { Pathnames } from '@/common/enums'
 import { Button } from '@/components/ui/button'
 import {
@@ -17,12 +19,14 @@ import {
 	ClipboardCopy,
 	MoreHorizontal,
 	Pencil,
+	Save,
 	Trash2,
 	UsersRound,
 } from 'lucide-react'
 import Link from 'next/link'
 import { toast } from 'sonner'
 import { FleetModel } from '../_models'
+import UpsertForm from './upsert-form'
 
 const columns: ColumnDef<FleetModel>[] = [
 	{
@@ -92,9 +96,26 @@ const columns: ColumnDef<FleetModel>[] = [
 							Copiar nombre
 						</DropdownMenuItem>
 						<DropdownMenuSeparator />
-						<DropdownMenuItem>
-							<Pencil className='mr-1 size-4' />
-							Editar
+						<DropdownMenuItem asChild>
+							<Modal
+								title='Editar Dirección Favorita'
+								description='Modifica los datos de la dirección favorita. Los campos a los que no ingreses un valor, no serán modificados.'
+								triggerIcon={<Pencil className='mr-1 size-3.5' />}
+								triggerProps={{
+									className:
+										'w-full font-normal justify-start relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 font-secondary',
+									variant: 'ghost',
+								}}
+								triggerLabel='Editar'
+								submitLabel='Guardar'
+								submitIcon={<Save className='mr-1 size-4' />}
+								submitProps={{
+									form: UPSERT_FORM_ID,
+								}}>
+								<UpsertForm record={fleet} />
+							</Modal>
+							{/* <Pencil className='mr-1 size-4' />
+							Editar */}
 						</DropdownMenuItem>
 						<DropdownMenuItem>
 							<Trash2 className='mr-1 size-4' />
