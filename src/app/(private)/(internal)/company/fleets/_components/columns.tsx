@@ -99,7 +99,7 @@ const columns: ColumnDef<FleetModel>[] = [
 						<DropdownMenuItem asChild>
 							<Modal
 								title='Editar Dirección Favorita'
-								description='Modifica los datos de la dirección favorita. Los campos a los que no ingreses un valor, no serán modificados.'
+								description='Modifica los datos de la dirección favorita. Ten en cuenta que algunos campos son opcionales.'
 								triggerIcon={<Pencil className='mr-1 size-3.5' />}
 								triggerProps={{
 									className:
@@ -114,8 +114,6 @@ const columns: ColumnDef<FleetModel>[] = [
 								}}>
 								<UpsertForm record={fleet} />
 							</Modal>
-							{/* <Pencil className='mr-1 size-4' />
-							Editar */}
 						</DropdownMenuItem>
 						<DropdownMenuItem>
 							<Trash2 className='mr-1 size-4' />

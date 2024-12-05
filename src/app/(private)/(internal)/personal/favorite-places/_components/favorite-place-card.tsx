@@ -65,7 +65,7 @@ const FavoritePlaceCard = forwardRef(
 			<CardFooter className='grid grid-cols-2 gap-2 p-0'>
 				<Modal
 					title='Editar Lugar Favorito'
-					description='Modifica los datos del lugar favorito. Los campos a los que no ingreses un valor, no serán modificados.'
+					description='Modifica los datos del lugar favorito. Ten en cuenta que todos los campos son obligatorios.'
 					triggerIcon={<Pencil className='mr-1 size-3.5' />}
 					triggerProps={{
 						size: 'sm',
