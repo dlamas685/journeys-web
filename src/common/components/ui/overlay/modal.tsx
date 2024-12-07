@@ -35,6 +35,7 @@ type Props = {
 	submitIcon?: ReactNode
 	submitLabel?: string
 	submitProps?: ComponentProps<typeof Button>
+	isReadonly?: boolean
 }
 
 const Modal = ({
@@ -47,6 +48,7 @@ const Modal = ({
 	submitProps,
 	submitLabel = 'Aceptar',
 	submitIcon,
+	isReadonly,
 }: Readonly<Props>) => {
 	const [open, setOpen] = useState(false)
 	const isDesktop = useMediaQuery('(min-width: 640px)')
@@ -72,16 +74,18 @@ const Modal = ({
 							<DialogDescription>{description}</DialogDescription>
 						</DialogHeader>
 						{children}
-						<DialogFooter>
-							<Button type='submit' {...submitProps}>
-								{isLoading ? (
-									<LoaderCircle className='mr-1 size-4 animate-spin' />
-								) : (
-									submitIcon
-								)}
-								{submitLabel}
-							</Button>
-						</DialogFooter>
+						{!isReadonly && (
+							<DialogFooter>
+								<Button type='submit' {...submitProps}>
+									{isLoading ? (
+										<LoaderCircle className='mr-1 size-4 animate-spin' />
+									) : (
+										submitIcon
+									)}
+									{submitLabel}
+								</Button>
+							</DialogFooter>
+						)}
 					</DialogContent>
 				</Dialog>
 			</DialogContext.Provider>
@@ -107,12 +111,14 @@ const Modal = ({
 						<DrawerDescription>{description}</DrawerDescription>
 					</DrawerHeader>
 					{children}
-					<DrawerFooter className='md:pt-2'>
-						<Button type='submit' {...submitProps}>
-							{submitIcon}
-							{submitLabel}
-						</Button>
-					</DrawerFooter>
+					{!isReadonly && (
+						<DrawerFooter className='md:pt-2'>
+							<Button type='submit' {...submitProps}>
+								{submitIcon}
+								{submitLabel}
+							</Button>
+						</DrawerFooter>
+					)}
 				</DrawerContent>
 			</Drawer>
 		</DialogContext.Provider>

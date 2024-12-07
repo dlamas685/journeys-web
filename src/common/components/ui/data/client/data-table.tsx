@@ -434,7 +434,9 @@ const DataTablePagination = <TData, TValue>({
 									page: 1,
 								}),
 							},
-						}}>
+						}}
+						disabled={metadata.page === 1}
+						aria-disabled={metadata.page === 1}>
 						<ChevronsLeft className='size-4' />
 					</PaginationLink>
 				</PaginationItem>
@@ -448,7 +450,8 @@ const DataTablePagination = <TData, TValue>({
 								}),
 							},
 						}}
-						aria-disabled={metadata.page !== 1}>
+						aria-disabled={metadata.page === 1}
+						disabled={metadata.page === 1}>
 						<ChevronLeft className='size-4' />
 					</PaginationLink>
 				</PaginationItem>
@@ -463,7 +466,8 @@ const DataTablePagination = <TData, TValue>({
 								}),
 							},
 						}}
-						aria-disabled={metadata.page === metadata.lastPage}>
+						aria-disabled={metadata.page === metadata.lastPage}
+						disabled={metadata.page === metadata.lastPage}>
 						<ChevronRight className='size-4' />
 					</PaginationLink>
 				</PaginationItem>
@@ -477,7 +481,9 @@ const DataTablePagination = <TData, TValue>({
 									page: metadata.lastPage,
 								}),
 							},
-						}}>
+						}}
+						aria-disabled={metadata.page === metadata.lastPage}
+						disabled={metadata.page === metadata.lastPage}>
 						<ChevronsRight className='size-4' />
 					</PaginationLink>
 				</PaginationItem>
