@@ -105,6 +105,10 @@ export default async function FleetsPage(props: Readonly<Props>) {
 								title='Nuevo vehículo'
 								description='Registra un nuevo vehículo para usar en tus hojas de ruta. Ten en cuenta que algunos campos son opcionales.'
 								triggerIcon={<CirclePlus className='mr-1 size-4' />}
+								triggerProps={{
+									'aria-label': 'Crear nuevo vehículo',
+									'aria-disabled': false,
+								}}
 								triggerLabel='Crear'
 								submitLabel='Guardar'
 								submitIcon={<Save className='mr-1 size-4' />}
@@ -120,6 +124,8 @@ export default async function FleetsPage(props: Readonly<Props>) {
 								triggerLabel='Filtro'
 								triggerProps={{
 									variant: 'outline',
+									'aria-label': 'Configurar filtro',
+									'aria-disabled': false,
 								}}
 								submitIcon={<SearchCheck className='mr-1 size-4' />}
 								submitLabel='Aplicar'
@@ -132,6 +138,8 @@ export default async function FleetsPage(props: Readonly<Props>) {
 							{hasFilters && (
 								<Button variant='ghost' disabled={hasFilters} asChild>
 									<Link
+										aria-label='Limpiar filtro'
+										prefetch
 										href={{
 											pathname: `${Pathnames.VEHICLES}`,
 											query: {

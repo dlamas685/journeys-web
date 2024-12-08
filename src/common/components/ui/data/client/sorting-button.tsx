@@ -73,7 +73,14 @@ const SortingButton = ({
 				className
 			)}
 			{...rest}
-			onClick={handleSort}>
+			onClick={handleSort}
+			aria-label={
+				sort?.direction === SortDirections.ASC
+					? 'Orden ascendente'
+					: sort?.direction === SortDirections.DESC
+						? 'Orden descendente'
+						: 'Ordenar'
+			}>
 			{children}
 
 			<div className='flex items-center'>

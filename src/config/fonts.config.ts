@@ -5,6 +5,7 @@ export const primaryFont = Lora({
 	weight: ['400', '500', '600', '700'],
 	style: ['italic', 'normal'],
 	variable: '--font-lora',
+	display: 'swap',
 })
 
 export const secondaryFont = Hind_Madurai({
@@ -12,4 +13,5 @@ export const secondaryFont = Hind_Madurai({
 	weight: ['300', '400', '500', '600', '700'],
 	style: ['normal'],
 	variable: '--font-hind-madurai',
+	display: 'swap',
 })

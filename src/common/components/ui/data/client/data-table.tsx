@@ -197,6 +197,9 @@ const DataTableVisibilityColumns = <TData, TValue>({
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
 					<Button
+						type='button'
+						aria-disabled={false}
+						aria-label='Configuración de columnas'
 						variant='outline'
 						className={cn('justify-self-end', className)}
 						{...rest}>
@@ -226,6 +229,9 @@ const DataTableVisibilityColumns = <TData, TValue>({
 			<DrawerTrigger asChild>
 				<Button
 					variant='outline'
+					type='button'
+					aria-disabled={false}
+					aria-label='Configuración de columnas'
 					className={cn('justify-self-end', className)}
 					{...rest}>
 					{icon ?? <Settings2 className='mr-1 size-4' />} {label}
@@ -246,11 +252,15 @@ const DataTableVisibilityColumns = <TData, TValue>({
 							return (
 								<li key={column.id} className='flex items-center space-x-2'>
 									<Checkbox
+										aria-label='Seleccionar columna'
 										name={column.id}
 										checked={column.getIsVisible()}
 										onCheckedChange={value => column.toggleVisibility(!!value)}
 									/>
-									<label htmlFor={column.id} className='text-sm font-medium'>
+									<label
+										aria-label={columnLabels[column.id] ?? column.id}
+										htmlFor={column.id}
+										className='text-sm font-medium'>
 										{columnLabels[column.id] ?? column.id}
 									</label>
 								</li>
@@ -337,6 +347,7 @@ const DataTablePagination = <TData, TValue>({
 				<PaginationContent>
 					<PaginationItem>
 						<PaginationLink
+							aria-label='Ir a la primera página'
 							href={{
 								query: {
 									query: jsonToBase64({
@@ -352,6 +363,7 @@ const DataTablePagination = <TData, TValue>({
 					</PaginationItem>
 					<PaginationItem>
 						<PaginationLink
+							aria-label='Ir a la página anterior'
 							href={{
 								query: {
 									query: jsonToBase64({
@@ -372,6 +384,7 @@ const DataTablePagination = <TData, TValue>({
 						).map(page => (
 							<PaginationItem key={page}>
 								<PaginationLink
+									aria-label={`Ir a la página ${page}`}
 									href={{
 										query: {
 											query: jsonToBase64({
@@ -388,6 +401,7 @@ const DataTablePagination = <TData, TValue>({
 
 					<PaginationItem>
 						<PaginationLink
+							aria-label='Ir a la página siguiente'
 							href={{
 								query: {
 									query: jsonToBase64({
@@ -404,6 +418,7 @@ const DataTablePagination = <TData, TValue>({
 
 					<PaginationItem>
 						<PaginationLink
+							aria-label='Ir a la última página'
 							href={{
 								query: {
 									query: jsonToBase64({
@@ -427,6 +442,7 @@ const DataTablePagination = <TData, TValue>({
 			<PaginationContent>
 				<PaginationItem>
 					<PaginationLink
+						aria-label='Ir a la primera página'
 						href={{
 							query: {
 								query: jsonToBase64({
@@ -442,6 +458,7 @@ const DataTablePagination = <TData, TValue>({
 				</PaginationItem>
 				<PaginationItem>
 					<PaginationLink
+						aria-label='Ir a la página anterior'
 						href={{
 							query: {
 								query: jsonToBase64({
@@ -458,6 +475,7 @@ const DataTablePagination = <TData, TValue>({
 
 				<PaginationItem>
 					<PaginationLink
+						aria-label='Ir a la página siguiente'
 						href={{
 							query: {
 								query: jsonToBase64({
@@ -474,6 +492,7 @@ const DataTablePagination = <TData, TValue>({
 
 				<PaginationItem>
 					<PaginationLink
+						aria-label='Ir a la última página'
 						href={{
 							query: {
 								query: jsonToBase64({
@@ -546,13 +565,19 @@ const DataTablePaginationLimits = <TData, TValue>({
 			<Select
 				onValueChange={value => handleLimit(value)}
 				defaultValue={queryParams.limit?.toString()}>
-				<SelectTrigger muted={false} className='w-auto p-4'>
+				<SelectTrigger
+					aria-label='Número de registros por página'
+					muted={false}
+					className='w-auto p-4'>
 					<SelectValue placeholder={queryParams.limit} />
 				</SelectTrigger>
 				<SelectContent>
 					<SelectGroup>
 						{options.map(option => (
-							<SelectItem key={option} value={option.toString()}>
+							<SelectItem
+								aria-label={`Mostrar ${option} resultados por página`}
+								key={option}
+								value={option.toString()}>
 								{option}
 							</SelectItem>
 						))}

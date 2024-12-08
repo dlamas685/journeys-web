@@ -80,6 +80,9 @@ const Notifications = ({ className }: Readonly<Props>) => {
 		<Popover>
 			<PopoverTrigger asChild>
 				<Button
+					type='button'
+					aria-label='Abrir panel de notificaciones'
+					aria-disabled='false'
 					variant='ghost'
 					size='icon'
 					className={cn('relative', className)}>

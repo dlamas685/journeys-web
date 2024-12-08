@@ -38,7 +38,9 @@ const Navbar = ({ items }: Readonly<Props>) => {
 					{items.map(item => (
 						<CarouselItem key={item.id} className='basis-auto'>
 							<Link
+								aria-label={`Ir a ${item.label}`}
 								href={item.href}
+								prefetch
 								className={cn(
 									'flex max-w-20 flex-col items-center gap-1 font-secondary transition-all duration-100 hover:text-orange-500',
 									pathname.includes(item.href)
@@ -58,6 +60,9 @@ const Navbar = ({ items }: Readonly<Props>) => {
 			<Sheet open={open} onOpenChange={setOpen}>
 				<SheetTrigger asChild>
 					<Button
+						type='button'
+						aria-label='Abrir menú de navegación'
+						aria-disabled='false'
 						className='absolute sm:hidden'
 						variant='outline'
 						size='icon'
@@ -71,10 +76,12 @@ const Navbar = ({ items }: Readonly<Props>) => {
 					<SheetHeader className='flex items-center gap-1'>
 						<Image
 							src='/brand/imagotype-v1.png'
-							alt='Journeys'
+							alt='Logo de la aplicación'
 							width={250}
 							height={250}
 							className='size-28'
+							priority
+							sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
 						/>
 					</SheetHeader>
 
@@ -88,7 +95,10 @@ const Navbar = ({ items }: Readonly<Props>) => {
 								onClick={() => {
 									setOpen(false)
 								}}>
-								<Link href={item.href}>
+								<Link
+									aria-label={`Ir a ${item.label}`}
+									href={item.href}
+									prefetch>
 									{item.icon}
 									<span>{item.label}</span>
 								</Link>
@@ -96,7 +106,11 @@ const Navbar = ({ items }: Readonly<Props>) => {
 						))}
 					</nav>
 					<SheetFooter>
-						<Logout variant='ghost' className='justify-start'>
+						<Logout
+							variant='ghost'
+							className='justify-start'
+							aria-label='Cerrar Sesión'
+							aria-disabled='false'>
 							<LogOut />
 							<span className='ml-1'>Cerrar sesión</span>
 						</Logout>

@@ -25,37 +25,19 @@ export const middleware = async ({ cookies, nextUrl }: NextRequest) => {
 	if (isLoggedIn) {
 		if (!user.userType && !isFirstSteps) {
 			return NextResponse.redirect(
-				new URL(`/${Pathnames.FIRST_STEPS}`, nextUrl),
-				{
-					headers: {
-						'Cache-Control': 'no-store',
-						'X-Router-Replace': 'true',
-					},
-				}
+				new URL(`/${Pathnames.FIRST_STEPS}`, nextUrl)
 			)
 		}
 
 		if (user.userType && isFirstSteps) {
 			return NextResponse.redirect(
-				new URL(`/${user.userType.toLowerCase()}/${Pathnames.HOME}`, nextUrl),
-				{
-					headers: {
-						'Cache-Control': 'no-store',
-						'X-Router-Replace': 'true',
-					},
-				}
+				new URL(`/${user.userType.toLowerCase()}/${Pathnames.HOME}`, nextUrl)
 			)
 		}
 
 		if (isOnLogin && user.userType) {
 			return NextResponse.redirect(
-				new URL(`/${user.userType.toLowerCase()}/${Pathnames.HOME}`, nextUrl),
-				{
-					headers: {
-						'Cache-Control': 'no-store',
-						'X-Router-Replace': 'true',
-					},
-				}
+				new URL(`/${user.userType.toLowerCase()}/${Pathnames.HOME}`, nextUrl)
 			)
 		}
 
@@ -64,13 +46,7 @@ export const middleware = async ({ cookies, nextUrl }: NextRequest) => {
 			!pathname.includes(`/${user.userType.toLowerCase()}`)
 		) {
 			return NextResponse.redirect(
-				new URL(`/${user.userType.toLowerCase()}/${Pathnames.HOME}`, nextUrl),
-				{
-					headers: {
-						'Cache-Control': 'no-store',
-						'X-Router-Replace': 'true',
-					},
-				}
+				new URL(`/${user.userType.toLowerCase()}/${Pathnames.HOME}`, nextUrl)
 			)
 		}
 
@@ -78,11 +54,7 @@ export const middleware = async ({ cookies, nextUrl }: NextRequest) => {
 	}
 
 	if (!isPublic) {
-		return NextResponse.redirect(new URL(`/${Pathnames.LOGIN}`, nextUrl), {
-			headers: {
-				'Cache-Control': 'no-store',
-			},
-		})
+		return NextResponse.redirect(new URL(`/${Pathnames.LOGIN}`, nextUrl))
 	}
 
 	return NextResponse.next()

@@ -46,6 +46,13 @@ const SearchBox = ({
 	return (
 		<>
 			<Button
+				type='button'
+				aria-label={
+					user.userType === UserTypes.PERSONAL
+						? 'Buscar publicaciones'
+						: 'Buscar hojas de ruta'
+				}
+				aria-disabled='false'
 				variant='outline'
 				className={cn(
 					'h-10 w-full items-center justify-start gap-2 border-none bg-muted px-4 font-secondary text-sm font-normal text-muted-foreground shadow-none hover:bg-muted-foreground/15 hover:text-accent-foreground md:max-w-sm',

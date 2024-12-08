@@ -103,13 +103,21 @@ const columns: ColumnDef<VehicleModel>[] = [
 			return (
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
-						<Button variant='ghost' className='h-8 w-8 p-0'>
+						<Button
+							aria-label='Abrir panel de acciones'
+							aria-disabled='false'
+							type='button'
+							variant='ghost'
+							className='size-8 p-0'>
 							<MoreHorizontal />
 						</Button>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent align='end'>
 						<DropdownMenuLabel>Acciones</DropdownMenuLabel>
-						<DropdownMenuItem onClick={handleCopy}>
+						<DropdownMenuItem
+							aria-disabled={false}
+							aria-label='Copiar placa'
+							onClick={handleCopy}>
 							<ClipboardCopy className='mr-1 size-4' />
 							Copiar placa
 						</DropdownMenuItem>
@@ -123,6 +131,8 @@ const columns: ColumnDef<VehicleModel>[] = [
 									className:
 										'w-full font-normal h-auto justify-start relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 font-secondary',
 									variant: 'ghost',
+									'aria-label': `Ver detalles del vehículo ${record.licensePlate}`,
+									'aria-disabled': 'false',
 								}}
 								triggerLabel='Ver detalles'
 								isReadonly>
@@ -138,6 +148,8 @@ const columns: ColumnDef<VehicleModel>[] = [
 									className:
 										'w-full font-normal h-auto justify-start relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 font-secondary',
 									variant: 'ghost',
+									'aria-label': `Editar vehículo ${record.licensePlate}`,
+									'aria-disabled': 'false',
 								}}
 								triggerLabel='Editar'
 								submitLabel='Guardar'
@@ -156,6 +168,8 @@ const columns: ColumnDef<VehicleModel>[] = [
 									className:
 										'w-full font-normal h-auto justify-start relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 font-secondary',
 									variant: 'ghost',
+									'aria-label': `Eliminar vehículo ${record.licensePlate}`,
+									'aria-disabled': 'false',
 								}}
 								cancelIcon={<CircleX className='mr-1 size-4' />}
 								description={

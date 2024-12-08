@@ -51,33 +51,37 @@ const Profile = ({ user, className }: Readonly<Props>) => {
 				</DropdownMenuLabel>
 				<DropdownMenuItem className='cursor-pointer gap-1' asChild>
 					<Link
+						aria-label='Ir a mi perfil'
 						href={`/${pathRoot}/${Pathnames.PROFILE}`}
+						prefetch
 						className={cn(
 							pathname.includes(Pathnames.PROFILE)
 								? 'text-orange-500'
 								: 'text-black'
-						)}
-						as={`/${pathRoot}/${Pathnames.PROFILE}`}>
+						)}>
 						<UserRoundPen className='size-4' />
 						Mi perfil
 					</Link>
 				</DropdownMenuItem>
 				<DropdownMenuItem className='cursor-pointer gap-1' asChild>
 					<Link
+						aria-label='Ir a la configuración de seguridad'
 						href={`/${pathRoot}/${Pathnames.SECURITY}`}
+						prefetch
 						className={cn(
 							pathname.includes(Pathnames.SECURITY)
 								? 'text-orange-500'
 								: 'text-black'
-						)}
-						as={`/${pathRoot}/${Pathnames.SECURITY}`}>
+						)}>
 						<ShieldCheck className='size-4' />
 						Seguridad
 					</Link>
 				</DropdownMenuItem>
 				<DropdownMenuItem className='cursor-pointer gap-1' asChild>
 					<Link
+						aria-label='Ir a las formas de pago'
 						href={`/${pathRoot}/${Pathnames.PAYMENTS}`}
+						prefetch
 						className={cn(
 							pathname.includes(Pathnames.PAYMENTS)
 								? 'text-orange-500'
@@ -91,6 +95,8 @@ const Profile = ({ user, className }: Readonly<Props>) => {
 				<DropdownMenuSeparator />
 
 				<DropdownMenuItem
+					aria-label='Cerrar sesión'
+					aria-disabled='false'
 					className='cursor-pointer gap-1'
 					onClick={async () => {
 						await logOut()

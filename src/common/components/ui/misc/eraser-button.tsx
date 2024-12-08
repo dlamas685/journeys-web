@@ -50,7 +50,11 @@ const EraserButton = ({
 	}
 
 	return (
-		<Button onClick={handleRemove}>
+		<Button
+			type='button'
+			aria-label='Eliminar'
+			aria-disabled='false'
+			onClick={handleRemove}>
 			{isLoading ? (
 				<LoaderCircle className='mr-1 size-4 animate-spin' />
 			) : (
