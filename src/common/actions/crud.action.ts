@@ -223,3 +223,61 @@ export const remove = async (
 		throw error
 	}
 }
+
+export const uploadImage = async (
+	endpoint: ApiEndpoints,
+	id: string,
+	formData: FormData,
+	tags?: string[]
+) => {
+	try {
+		const token = await getServerToken()
+
+		const response = await fetch(`${API_URL}/${endpoint}/${id}`, {
+			method: 'POST',
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+			body: formData,
+		})
+
+		if (!response.ok) {
+			const error = (await response.json()) as ErrorModel
+			return error
+		}
+
+		tags ? revalidateTags(tags) : revalidatePath('/')
+
+		return true
+	} catch (error) {
+		throw error
+	}
+}
+
+export const removeImage = async (
+	endpoint: ApiEndpoints,
+	id: string,
+	tags?: string[]
+) => {
+	try {
+		const token = await getServerToken()
+
+		const response = await fetch(`${API_URL}/${endpoint}/${id}`, {
+			method: 'DELETE',
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		})
+
+		if (!response.ok) {
+			const error = (await response.json()) as ErrorModel
+			return error
+		}
+
+		tags ? revalidateTags(tags) : revalidatePath('/')
+
+		return true
+	} catch (error) {
+		throw error
+	}
+}
