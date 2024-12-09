@@ -34,6 +34,7 @@ import { redirect } from 'next/navigation'
 import { FleetModel } from '../fleets/_models'
 import columns from './_components/columns'
 import FilterForm from './_components/filter-form'
+import UpsertForm from './_components/upsert-form'
 import { COLUMN_LABELS } from './_constants'
 import { type VehicleModel } from './_models'
 
@@ -80,6 +81,10 @@ export default async function FleetsPage(props: Readonly<Props>) {
 		Pathnames.FLEETS
 	).then(response => response.data.sort((a, b) => a.name.localeCompare(b.name)))
 
+	const underAllocatedFleets = fleets.filter(
+		fleet => fleet.maxVehicles < fleet.vehicles.length
+	)
+
 	const hasFilters =
 		(queryParams.filters && queryParams.filters.length > 0) ||
 		(queryParams.logicalFilters && queryParams.logicalFilters.length > 0)
@@ -115,7 +120,7 @@ export default async function FleetsPage(props: Readonly<Props>) {
 								submitProps={{
 									form: UPSERT_FORM_ID,
 								}}>
-								<span>@UpsertForm</span>
+								<UpsertForm fleets={underAllocatedFleets} />
 							</Modal>
 							<Modal
 								title='Configuración de Filtro'
