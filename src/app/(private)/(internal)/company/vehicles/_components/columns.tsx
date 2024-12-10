@@ -19,6 +19,8 @@ import { format } from 'date-fns'
 import {
 	CircleX,
 	ClipboardCopy,
+	ImageMinus,
+	ImageUp,
 	ListCollapse,
 	MoreHorizontal,
 	Pencil,
@@ -30,6 +32,8 @@ import { toast } from 'sonner'
 import { FleetModel } from '../../fleets/_models'
 import { VehicleModel } from '../_models'
 import Detail from './detail'
+import ImageUpload from './image-upload'
+import UpsertForm from './upsert-form'
 
 const columns: ColumnDef<VehicleModel>[] = [
 	{
@@ -40,12 +44,11 @@ const columns: ColumnDef<VehicleModel>[] = [
 
 			return (
 				<Image
-					src='/photos/car-placeholder.png'
+					src={imageUrl ?? '/photos/car-placeholder.png'}
 					alt={`Imagen del vehículo con placa ${row.original.licensePlate}`}
 					width={44}
 					height={44}
-					sizes='44px'
-					className='size-11 object-cover'
+					className='size-11 object-contain'
 				/>
 			)
 		},
@@ -157,9 +160,10 @@ const columns: ColumnDef<VehicleModel>[] = [
 								submitProps={{
 									form: UPSERT_FORM_ID,
 								}}>
-								<span>@UpsertForm</span>
+								<UpsertForm record={record} />
 							</Modal>
 						</DropdownMenuItem>
+
 						<DropdownMenuItem asChild>
 							<RemovalAlert
 								triggerLabel='Eliminar'
@@ -190,6 +194,66 @@ const columns: ColumnDef<VehicleModel>[] = [
 								)}
 							/>
 						</DropdownMenuItem>
+
+						<DropdownMenuSeparator />
+
+						<DropdownMenuLabel>Imagen</DropdownMenuLabel>
+
+						{record.imageUrl ? (
+							<DropdownMenuItem asChild>
+								<RemovalAlert
+									title='Remover Imagen'
+									triggerLabel='Remover'
+									triggerIcon={<ImageMinus className='mr-1 size-3.5' />}
+									triggerProps={{
+										className:
+											'w-full font-normal h-auto justify-start relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 font-secondary',
+										variant: 'ghost',
+										'aria-label': `Eliminar imagen del vehículo ${record.licensePlate}`,
+										'aria-disabled': 'false',
+									}}
+									cancelIcon={<CircleX className='mr-1 size-4' />}
+									description={
+										<>
+											¿Estás seguro de que deseas remover la imagen del vehículo{' '}
+											<b className='capitalize'>{record.licensePlate}</b>? Esta
+											acción no se puede deshacer.
+										</>
+									}
+									eraserButton={({ setOpen }) => (
+										<EraserButton
+											recordId={record.id}
+											endpoint={ApiEndpoints.FILES_VEHICLES}
+											setAlertOpen={setOpen}
+											title={`Vehículo ${record.licensePlate}`}
+											description='Imagen removida correctamente.'
+										/>
+									)}
+								/>
+							</DropdownMenuItem>
+						) : (
+							<Modal
+								title={`Imagen del vehículo ${record.licensePlate}`}
+								description='Sube una imagen del vehículo. Ten en cuenta que la imagen debe cumplir lo siguiente: *.png, *.jpg archivos de hasta 10 MB con al menos 400px por 400px.'
+								triggerIcon={<ImageUp className='mr-1 size-3.5' />}
+								triggerProps={{
+									className:
+										'w-full font-normal h-auto justify-start relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 font-secondary',
+									variant: 'ghost',
+									'aria-label': `Cargar imagen al vehículo ${record.licensePlate}`,
+									'aria-disabled': 'false',
+								}}
+								triggerLabel='Cargar'
+								isReadonly>
+								<section className='px-4 pb-4 sm:px-0 sm:pb-0'>
+									<ImageUpload
+										recordId={record.id}
+										endpoint={ApiEndpoints.FILES_VEHICLES}
+										entity={`Vehículo ${record.licensePlate}`}
+									/>
+								</section>
+							</Modal>
+						)}
 					</DropdownMenuContent>
 				</DropdownMenu>
 			)

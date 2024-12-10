@@ -12,6 +12,7 @@ export enum ApiEndpoints {
 	USERS = 'users',
 
 	FILES_PROFILES = 'files/profile',
+	FILES_VEHICLES = 'files/vehicles',
 
 	OPTIONS = 'options',
 	OPTIONS_PROFILE = 'options/profile',

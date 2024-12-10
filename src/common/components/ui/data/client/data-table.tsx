@@ -74,6 +74,7 @@ type DataTableProviderProps<TData, TValue> = {
 	metadata: PaginationMetadataModel
 	queryParams: QueryParamsModel
 	children: ReactNode
+	dependencies?: Record<string, object[]>
 }
 
 const DataTableProvider = <TData, TValue>({
@@ -82,6 +83,7 @@ const DataTableProvider = <TData, TValue>({
 	metadata,
 	queryParams,
 	children,
+	dependencies,
 }: Readonly<DataTableProviderProps<TData, TValue>>) => {
 	const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
 	const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
@@ -113,6 +115,7 @@ const DataTableProvider = <TData, TValue>({
 				columns,
 				queryParams,
 				metadata,
+				dependencies,
 			}}>
 			{children}
 		</DataTableContext.Provider>

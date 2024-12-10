@@ -1,11 +1,12 @@
 'use client'
 
-import { create } from '@/common/actions/crud.action'
+import { create, update } from '@/common/actions/crud.action'
 import { ApiError } from '@/common/classes/api-error.class'
 import InputMask from '@/common/components/ui/form/input-mask'
 import { UPSERT_FORM_ID } from '@/common/constants'
 import { DialogContext } from '@/common/contexts/dialog-context'
 import { ApiEndpoints } from '@/common/enums'
+import { useDataTableContext } from '@/common/hooks/use-data-table-context'
 import useResponse from '@/common/hooks/use-response'
 import { useLoading } from '@/common/stores/loading.store'
 import {
@@ -29,15 +30,22 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { FleetModel } from '../../fleets/_models'
-import { CreateVehicleModel, VehicleModel } from '../_models'
+import {
+	CreateVehicleModel,
+	UpdateVehicleModel,
+	VehicleModel,
+} from '../_models'
 import { upsertFormSchema, UpsertFormSchema } from '../_schemas'
 
 type Props = {
 	record?: VehicleModel
-	fleets: FleetModel[]
 }
 
-const UpsertForm = ({ record, fleets }: Readonly<Props>) => {
+const UpsertForm = ({ record }: Readonly<Props>) => {
+	const { dependencies } = useDataTableContext()
+
+	const fleets = dependencies?.fleets as FleetModel[]
+
 	const form = useForm<UpsertFormSchema>({
 		defaultValues: {
 			id: record?.id ?? undefined,
@@ -60,6 +68,37 @@ const UpsertForm = ({ record, fleets }: Readonly<Props>) => {
 
 	const handleSubmit = async ({ id, ...rest }: UpsertFormSchema) => {
 		setLoading(true)
+
+		if (id) {
+			const vehicle: UpdateVehicleModel = {
+				...rest,
+			}
+
+			await update<UpdateVehicleModel, VehicleModel>(
+				ApiEndpoints.VEHICLES,
+				id,
+				vehicle
+			)
+				.then(resp => {
+					if ('error' in resp) {
+						throw new ApiError(resp)
+					}
+
+					response.success({
+						title: 'Vehículos',
+						description: 'El vehículo ha sido actualizado correctamente.',
+					})
+
+					form.reset()
+					setOpen(false)
+				})
+				.catch(response.error)
+				.finally(() => {
+					setLoading(false)
+				})
+
+			return
+		}
 
 		const vehicle: CreateVehicleModel = {
 			...rest,

@@ -147,7 +147,7 @@ export default async function FleetsPage(props: Readonly<Props>) {
 					</DataTableBody>
 					<DataTableFooter className='sm:grid-cols-[1fr_auto_auto]'>
 						<DataTablePaginationInfo />
-						<DataTablePagination advanced />
+						<DataTablePagination advanced={response.meta.lastPage < 10} />
 						<DataTablePaginationLimits
 							className='justify-self-center'
 							options={PAGINATION_LIMITS_OPTIONS}

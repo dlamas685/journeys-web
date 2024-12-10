@@ -21,7 +21,7 @@ const Detail = ({ vehicle }: Readonly<Props>) => {
 				alt={`Imagen del vehículo con placa ${vehicle.licensePlate}`}
 				width={210}
 				height={210}
-				className='size-96 object-cover sm:size-52'
+				className='size-96 object-contain sm:size-52'
 			/>
 
 			<section className='flex flex-wrap gap-4 sm:flex-col'>

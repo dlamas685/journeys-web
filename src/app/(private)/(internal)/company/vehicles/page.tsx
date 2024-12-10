@@ -99,6 +99,9 @@ export default async function FleetsPage(props: Readonly<Props>) {
 					data={response.data}
 					columns={columns}
 					metadata={response.meta}
+					dependencies={{
+						fleets: underAllocatedFleets,
+					}}
 					queryParams={queryParams}>
 					<DataTableHeader>
 						<DataTableSearch
@@ -120,7 +123,7 @@ export default async function FleetsPage(props: Readonly<Props>) {
 								submitProps={{
 									form: UPSERT_FORM_ID,
 								}}>
-								<UpsertForm fleets={underAllocatedFleets} />
+								<UpsertForm />
 							</Modal>
 							<Modal
 								title='Configuración de Filtro'
@@ -166,7 +169,7 @@ export default async function FleetsPage(props: Readonly<Props>) {
 					</DataTableBody>
 					<DataTableFooter className='sm:grid-cols-[1fr_auto_auto]'>
 						<DataTablePaginationInfo />
-						<DataTablePagination />
+						<DataTablePagination advanced={response.meta.lastPage < 10} />
 						<DataTablePaginationLimits
 							className='justify-self-center'
 							options={[5, 10, 25, 50, 100]}

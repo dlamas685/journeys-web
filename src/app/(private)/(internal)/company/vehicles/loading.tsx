@@ -30,18 +30,32 @@ export default function Loading() {
 					</section>
 				</header>
 
-				<section className='w-full'>
+				<section className='w-full flex-grow'>
 					<Table className='border-separate border-spacing-y-3 font-secondary'>
 						<TableHeader>
 							<TableRow className='border-none hover:bg-inherit'>
-								<TableHead className='w-11'>Imagen</TableHead>
-								<TableHead className='text-black'>Placa</TableHead>
-								<TableHead className='text-black'>Marca</TableHead>
-								<TableHead className='text-black'>Modelo</TableHead>
-								<TableHead className='text-black'>Año</TableHead>
-								<TableHead className='text-black'>Flota</TableHead>
-								<TableHead className='text-black'>Creado</TableHead>
-								<TableHead className='text-black'></TableHead>
+								<TableHead className='h-10 w-11'>
+									<Skeleton className='h-5 w-full' />
+								</TableHead>
+								<TableHead className='h-10 w-24'>
+									<Skeleton className='h-5 w-full' />
+								</TableHead>
+								<TableHead className='h-10 w-24'>
+									<Skeleton className='h-5 w-full' />
+								</TableHead>
+								<TableHead className='h-10 w-24'>
+									<Skeleton className='h-5 w-full' />
+								</TableHead>
+								<TableHead className='h-10 w-20'>
+									<Skeleton className='h-5 w-full' />
+								</TableHead>
+								<TableHead className='h-10 w-24'>
+									<Skeleton className='h-5 w-full' />
+								</TableHead>
+								<TableHead className='h-10 w-24'>
+									<Skeleton className='h-5 w-full' />
+								</TableHead>
+								<TableHead className='h-10 w-20'></TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
@@ -53,25 +67,25 @@ export default function Loading() {
 										<Skeleton className='size-11' />
 									</TableCell>
 									<TableCell>
-										<Skeleton className='h-8 w-full' />
+										<Skeleton className='h-5 w-full' />
 									</TableCell>
 									<TableCell>
-										<Skeleton className='h-8 w-full' />
+										<Skeleton className='h-5 w-full' />
 									</TableCell>
 									<TableCell>
-										<Skeleton className='h-8 w-full' />
+										<Skeleton className='h-5 w-full' />
 									</TableCell>
 									<TableCell>
-										<Skeleton className='h-8 w-full' />
+										<Skeleton className='h-5 w-full' />
 									</TableCell>
 									<TableCell>
-										<Skeleton className='h-8 w-full' />
+										<Skeleton className='h-5 w-full' />
 									</TableCell>
 									<TableCell>
-										<Skeleton className='h-8 w-full' />
+										<Skeleton className='h-5 w-full' />
 									</TableCell>
 									<TableCell className='rounded-r-xl'>
-										<Skeleton className='h-8 w-full' />
+										<Skeleton className='h-5 w-full' />
 									</TableCell>
 								</TableRow>
 							))}

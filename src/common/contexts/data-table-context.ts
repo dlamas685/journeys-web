@@ -16,6 +16,7 @@ export type DataTableContextValue<TData = any, TValue = any> = {
 	rowSelection: RowSelectionState
 	setRowSelection: Dispatch<SetStateAction<RowSelectionState>>
 	queryParams: QueryParamsModel
+	dependencies?: Record<string, object[]>
 }
 
 export const DataTableContext = createContext<DataTableContextValue | null>(

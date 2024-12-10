@@ -18,6 +18,11 @@ const nextConfig: NextConfig = {
 				hostname: 'maps.gstatic.com',
 				pathname: '/mapfiles/place_api/icons/**',
 			},
+			{
+				protocol: 'https',
+				hostname: 'res.cloudinary.com',
+				pathname: '/**',
+			},
 		],
 	},
 }
