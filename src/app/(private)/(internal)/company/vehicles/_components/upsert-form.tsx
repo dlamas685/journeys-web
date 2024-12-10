@@ -139,7 +139,7 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 					render={({ field }) => (
 						<FormItem className='col-span-full'>
 							<FormLabel>
-								Placa<span className='text-orange-500'>*</span>
+								Patente<span className='text-orange-500'>*</span>
 							</FormLabel>
 							<FormControl>
 								<Input

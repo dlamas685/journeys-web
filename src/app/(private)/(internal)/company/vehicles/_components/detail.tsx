@@ -26,7 +26,7 @@ const Detail = ({ vehicle }: Readonly<Props>) => {
 
 			<section className='flex flex-wrap gap-4 sm:flex-col'>
 				<p className='font-secondary text-sm'>
-					<b>Placa:</b> {vehicle.licensePlate}
+					<b>Patente:</b> {vehicle.licensePlate}
 				</p>
 				<p className='font-secondary text-sm'>
 					<b>Marca:</b> {vehicle.make ?? 'N/D'}

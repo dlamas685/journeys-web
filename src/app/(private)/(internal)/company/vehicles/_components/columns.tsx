@@ -56,7 +56,7 @@ const columns: ColumnDef<VehicleModel>[] = [
 	},
 	{
 		accessorKey: 'licensePlate',
-		header: () => <SortingButton field='licensePlate'>Placa</SortingButton>,
+		header: () => <SortingButton field='licensePlate'>Patente</SortingButton>,
 		enableHiding: false,
 	},
 	{
@@ -96,10 +96,10 @@ const columns: ColumnDef<VehicleModel>[] = [
 				navigator.clipboard
 					.writeText(record.licensePlate)
 					.then(() => {
-						toast.info('Placa copiada al portapapeles')
+						toast.info('Patente copiada al portapapeles')
 					})
 					.catch(() => {
-						toast.error('No se pudo copiar la placa')
+						toast.error('No se pudo copiar la patente del vehículo')
 					})
 			}
 
@@ -122,7 +122,7 @@ const columns: ColumnDef<VehicleModel>[] = [
 							aria-label='Copiar placa'
 							onClick={handleCopy}>
 							<ClipboardCopy className='mr-1 size-4' />
-							Copiar placa
+							Copiar patente
 						</DropdownMenuItem>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem asChild>
@@ -186,7 +186,7 @@ const columns: ColumnDef<VehicleModel>[] = [
 								eraserButton={({ setOpen }) => (
 									<EraserButton
 										recordId={record.id}
-										endpoint={ApiEndpoints.FLEETS}
+										endpoint={ApiEndpoints.VEHICLES}
 										setAlertOpen={setOpen}
 										title='Vehículos'
 										description='Vehículo eliminado correctamente.'

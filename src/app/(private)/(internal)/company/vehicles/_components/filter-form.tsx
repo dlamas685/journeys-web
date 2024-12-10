@@ -106,7 +106,7 @@ const FilterForm = ({ queryParams, fleets }: Readonly<Props>) => {
 				onSubmit={form.handleSubmit(handleSubmit)}>
 				<Fieldset className='gap-0.5'>
 					<FieldsetLegend className='flex items-center justify-between py-0 text-base font-bold'>
-						Placa
+						Patente
 						<Button
 							className='text-orange-700 hover:text-orange-700/90'
 							size='icon'
