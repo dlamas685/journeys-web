@@ -9,4 +9,5 @@ export const COLUMN_LABELS: Record<keyof FleetModel, string> = {
 	maxVehicles: 'Máximo de vehículos',
 	maxDrivers: 'Máximo de conductores',
 	updatedAt: 'Fecha de actualización',
+	vehicles: 'Vehículos',
 }
