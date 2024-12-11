@@ -1,7 +1,7 @@
 import { Context, useContext } from 'react'
 import {
 	DataTableContext,
-	DataTableContextValue,
+	type DataTableContextValue,
 } from '../contexts/data-table-context'
 
 export const useDataTableContext = <TData, TValue>() => {

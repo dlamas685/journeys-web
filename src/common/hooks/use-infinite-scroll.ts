@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { findAll } from '../actions/crud.action'
 import { ApiEndpoints, Pathnames } from '../enums'
-import { QueryParamsModel } from '../models'
+import type { QueryParamsModel } from '../models'
 import useResponse from './use-response'
 
 type InfiniteScrollOptions<T> = {

@@ -1,12 +1,11 @@
 'use server'
 
-import { ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies'
+import { type ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies'
 import { cookies } from 'next/headers'
 import { notFound } from 'next/navigation'
 import { ApiError } from '../classes/api-error.class'
 import { ApiEndpoints } from '../enums'
-import { ErrorModel, UserModel } from '../models'
-import { UpdateUserModel } from '../models/update-user.model'
+import type { ErrorModel, UpdateUserModel, UserModel } from '../models'
 import { getServerExpires, getServerToken } from './session.action'
 
 const API_URL = process.env.API_URL

@@ -1,6 +1,7 @@
 'use client'
 import SortingButton from '@/common/components/ui/data/client/sorting-button'
 import EraserButton from '@/common/components/ui/misc/eraser-button'
+import ImageUpload from '@/common/components/ui/misc/image-upload'
 import Modal from '@/common/components/ui/overlay/modal'
 import RemovalAlert from '@/common/components/ui/overlay/removal-alert'
 import { UPSERT_FORM_ID } from '@/common/constants'
@@ -14,7 +15,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { ColumnDef } from '@tanstack/react-table'
+import { type ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
 import {
 	CircleX,
@@ -29,9 +30,8 @@ import {
 } from 'lucide-react'
 import Image from 'next/image'
 import { toast } from 'sonner'
-import { FleetModel } from '../../fleets/_models'
-import ImageUpload from '../../vehicles/_components/image-upload'
-import { DriverModel } from '../_models'
+import { type FleetModel } from '../../fleets/_models'
+import { type DriverModel } from '../_models'
 import Detail from './detail'
 
 const columns: ColumnDef<DriverModel>[] = [

@@ -11,9 +11,9 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import {
-	ComponentProps,
+	type ComponentProps,
+	type ReactNode,
 	Dispatch,
-	ReactNode,
 	SetStateAction,
 	useState,
 } from 'react'

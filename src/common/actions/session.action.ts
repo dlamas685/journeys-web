@@ -1,7 +1,7 @@
 'use server'
 
 import { cookies } from 'next/headers'
-import { UserModel } from '../models'
+import type { UserModel } from '../models'
 
 /**
  *

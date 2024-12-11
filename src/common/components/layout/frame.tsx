@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import { ComponentProps, forwardRef, ReactNode } from 'react'
+import { type ComponentProps, type ReactNode, forwardRef } from 'react'
 
 type FrameHeaderProps = ComponentProps<'header'> & {
 	children: ReactNode

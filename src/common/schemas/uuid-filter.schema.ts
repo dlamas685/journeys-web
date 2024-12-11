@@ -31,3 +31,5 @@ export const uuidFilterSchema = (
 			message: 'Debes seleccionar una regla.',
 			path: ['rule'],
 		})
+
+export type UuidFilterSchema = z.infer<ReturnType<typeof uuidFilterSchema>>

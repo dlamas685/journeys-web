@@ -1,4 +1,4 @@
-import { ErrorModel } from '../models'
+import type { ErrorModel } from '../models'
 
 export class ApiError extends Error {
 	statusCode: number

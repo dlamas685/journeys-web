@@ -28,3 +28,5 @@ export const numberFilterSchema = (
 			message: 'Debes seleccionar una regla.',
 			path: ['rule'],
 		})
+
+export type NumberFilterSchema = z.infer<ReturnType<typeof numberFilterSchema>>

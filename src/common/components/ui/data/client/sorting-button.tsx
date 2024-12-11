@@ -1,12 +1,12 @@
 'use client'
 
 import { SortDirections } from '@/common/enums'
-import { QueryParamsModel, SortFieldModel } from '@/common/models'
+import type { QueryParamsModel, SortFieldModel } from '@/common/models'
 import { decodeQuery, jsonToBase64 } from '@/common/utils'
 import { cn } from '@/lib/utils'
 import { MoveDown, MoveUp } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { ComponentProps } from 'react'
+import { type ComponentProps } from 'react'
 
 type Props = ComponentProps<'section'> & {
 	field: string

@@ -1,4 +1,4 @@
-import { FilterFieldModel } from '../models'
+import type { FilterFieldModel } from '../models'
 
 export const fromQueryToFilterForm = <T>(filters?: FilterFieldModel[]) => {
 	const filtersForm = filters?.reduce((acc, filter) => {

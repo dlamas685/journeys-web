@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import { ComponentProps, forwardRef } from 'react'
+import { type ComponentProps, forwardRef } from 'react'
 
 type Props = ComponentProps<'p'>
 
@@ -10,7 +10,7 @@ const Copyright = forwardRef<HTMLParagraphElement, Props>(
 		return (
 			<p
 				ref={ref}
-				className={cn('p-4 text-zinc-400 text-xs text-center', className)}
+				className={cn('p-4 text-center text-xs text-zinc-400', className)}
 				{...rest}>
 				&copy; {year} Journeys. Todos los derechos reservados.
 				{children}

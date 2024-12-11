@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import { ComponentProps, forwardRef } from 'react'
+import { type ComponentProps, forwardRef } from 'react'
 
 const Fieldset = forwardRef<HTMLDivElement, ComponentProps<'div'>>(
 	({ className, ...rest }, ref) => {

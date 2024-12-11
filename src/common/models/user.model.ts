@@ -1,6 +1,6 @@
 import { UserTypes } from '../enums/user-types.enum'
-import { CompanyProfileModel } from './company-profile.model'
-import { PersonalProfileModel } from './personal-profile.model'
+import { type CompanyProfileModel } from './company-profile.model'
+import { type PersonalProfileModel } from './personal-profile.model'
 
 export interface UserModel {
 	id: string

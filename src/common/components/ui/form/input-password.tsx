@@ -2,7 +2,7 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Eye, EyeOff } from 'lucide-react'
-import { ComponentProps, forwardRef, useState } from 'react'
+import { type ComponentProps, forwardRef, useState } from 'react'
 
 type Props = ComponentProps<typeof Input> & {}
 
@@ -21,7 +21,7 @@ const InputPassword = forwardRef<HTMLDivElement, Props>(
 			<div ref={ref} className='relative'>
 				<Input {...input} type={show ? 'text' : 'password'} />
 				<Button
-					className='absolute top-1/2 right-2 transform -translate-y-1/2 p-1 h-auto'
+					className='absolute right-2 top-1/2 h-auto -translate-y-1/2 transform p-1'
 					onClick={handleClick}
 					variant='ghost'>
 					{show ? <EyeOff size={14} /> : <Eye size={14} />}

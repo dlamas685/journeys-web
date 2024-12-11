@@ -28,3 +28,5 @@ export const textFilterSchema = (
 			message: 'Debes seleccionar una regla.',
 			path: ['rule'],
 		})
+
+export type TextFilterSchema = z.infer<ReturnType<typeof textFilterSchema>>

@@ -4,7 +4,11 @@ import { revalidatePath } from 'next/cache'
 import { notFound, redirect } from 'next/navigation'
 import { ApiError } from '../classes/api-error.class'
 import { ApiEndpoints, FilterTypes, Pathnames } from '../enums'
-import { ErrorModel, PaginatedResponseModel, QueryParamsModel } from '../models'
+import type {
+	ErrorModel,
+	PaginatedResponseModel,
+	QueryParamsModel,
+} from '../models'
 import { revalidateTags } from '../utils'
 import { getServerToken } from './session.action'
 

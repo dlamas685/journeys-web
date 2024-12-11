@@ -28,3 +28,5 @@ export const dateFilterSchema = (
 			message: 'Debes seleccionar una regla.',
 			path: ['rule'],
 		})
+
+export type DateFilterSchema = z.infer<ReturnType<typeof dateFilterSchema>>

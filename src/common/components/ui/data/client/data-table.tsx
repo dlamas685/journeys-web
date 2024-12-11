@@ -3,7 +3,7 @@ import { DataTableContext } from '@/common/contexts/data-table-context'
 import { FilterRules, FilterTypes } from '@/common/enums'
 import { useDataTableContext } from '@/common/hooks/use-data-table-context'
 import { useMediaQuery } from '@/common/hooks/use-media-query'
-import {
+import type {
 	FilterFieldModel,
 	PaginationMetadataModel,
 	QueryParamsModel,
@@ -50,12 +50,12 @@ import {
 } from '@/components/ui/table'
 import { cn } from '@/lib/utils'
 import {
-	ColumnDef,
+	type ColumnDef,
+	type RowSelectionState,
+	type VisibilityState,
 	flexRender,
 	getCoreRowModel,
-	RowSelectionState,
 	useReactTable,
-	VisibilityState,
 } from '@tanstack/react-table'
 import {
 	ChevronLeft,
@@ -65,7 +65,12 @@ import {
 	Settings2,
 } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
-import { ChangeEvent, ComponentProps, ReactNode, useState } from 'react'
+import {
+	type ChangeEvent,
+	type ComponentProps,
+	type ReactNode,
+	useState,
+} from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 
 type DataTableProviderProps<TData, TValue> = {

@@ -1,6 +1,6 @@
 'use client'
 import { CircleCheckBig, ServerCrash } from 'lucide-react'
-import { ExternalToast, toast } from 'sonner'
+import { type ExternalToast, toast } from 'sonner'
 import { ApiError } from '../classes/api-error.class'
 
 const useResponse = () => {

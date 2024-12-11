@@ -23,7 +23,7 @@ import {
 	DrawerTrigger,
 } from '@/components/ui/drawer'
 import { LoaderCircle } from 'lucide-react'
-import { ComponentProps, ReactNode, useState } from 'react'
+import { type ComponentProps, type ReactNode, useState } from 'react'
 
 type Props = {
 	children: ReactNode

@@ -1,11 +1,11 @@
 import {
-	ColumnDef,
-	RowSelectionState,
 	useReactTable,
-	VisibilityState,
+	type ColumnDef,
+	type RowSelectionState,
+	type VisibilityState,
 } from '@tanstack/react-table'
-import { createContext, Dispatch, SetStateAction } from 'react'
-import { PaginationMetadataModel, QueryParamsModel } from '../models'
+import { createContext, type Dispatch, type SetStateAction } from 'react'
+import type { PaginationMetadataModel, QueryParamsModel } from '../models'
 
 export type DataTableContextValue<TData = any, TValue = any> = {
 	table: ReturnType<typeof useReactTable<TData>>

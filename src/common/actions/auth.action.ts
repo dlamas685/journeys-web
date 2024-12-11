@@ -1,9 +1,9 @@
 'use server'
-import { ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies'
+import { type ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { ApiEndpoints } from '../enums'
-import {
+import type {
 	AuthModel,
 	CreateUserModel,
 	CredentialsModel,

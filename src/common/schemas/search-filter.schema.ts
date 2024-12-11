@@ -12,3 +12,5 @@ export const searchFilterSchema = (valueMessage?: string) =>
 			})
 			.optional(),
 	})
+
+export type SearchFilterSchema = z.infer<ReturnType<typeof searchFilterSchema>>

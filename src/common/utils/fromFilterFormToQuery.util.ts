@@ -1,4 +1,4 @@
-import { FilterFieldModel } from '../models'
+import type { FilterFieldModel } from '../models'
 import { jsonToBase64 } from './json-to-base64.util'
 
 export const fromFilterFormToQuery = (

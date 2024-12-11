@@ -1,6 +1,6 @@
 'use client'
 import { SortDirections } from '@/common/enums'
-import { QueryParamsModel } from '@/common/models'
+import { type QueryParamsModel } from '@/common/models'
 import { jsonToBase64 } from '@/common/utils'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import {

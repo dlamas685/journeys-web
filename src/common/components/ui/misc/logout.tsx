@@ -2,7 +2,7 @@
 
 import { logOut } from '@/common/actions/auth.action'
 import { Button } from '@/components/ui/button'
-import { ComponentProps, forwardRef } from 'react'
+import { type ComponentProps, forwardRef } from 'react'
 
 type Props = ComponentProps<typeof Button> & {
 	onAfterLogout?: () => void

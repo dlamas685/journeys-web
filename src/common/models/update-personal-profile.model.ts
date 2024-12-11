@@ -1,4 +1,4 @@
-import { CreatePersonalProfileModel } from './create-personal-profile.model'
+import { type CreatePersonalProfileModel } from './create-personal-profile.model'
 
 export interface UpdatePersonalProfileModel
 	extends Partial<CreatePersonalProfileModel> {

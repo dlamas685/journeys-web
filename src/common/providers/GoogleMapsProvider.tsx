@@ -1,6 +1,6 @@
 'use client'
 import { APIProvider } from '@vis.gl/react-google-maps'
-import { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 
 type Props = {
 	apiKey?: string
