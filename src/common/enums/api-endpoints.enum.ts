@@ -13,6 +13,7 @@ export enum ApiEndpoints {
 
 	FILES_PROFILES = 'files/profile',
 	FILES_VEHICLES = 'files/vehicles',
+	FILES_DRIVERS = 'files/drivers',
 
 	OPTIONS = 'options',
 	OPTIONS_PROFILE = 'options/profile',
@@ -24,4 +25,5 @@ export enum ApiEndpoints {
 
 	FLEETS = 'fleets',
 	VEHICLES = 'vehicles',
+	DRIVERS = 'drivers',
 }

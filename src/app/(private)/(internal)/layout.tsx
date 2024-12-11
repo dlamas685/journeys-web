@@ -10,7 +10,7 @@ import {
 	MapPinHouse,
 	Newspaper,
 	Route,
-	UserRound,
+	UsersRound,
 } from 'lucide-react'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
@@ -77,7 +77,7 @@ export default async function InternalLayout({ children }: Readonly<Props>) {
 		},
 		{
 			id: uuid(),
-			icon: <UserRound />,
+			icon: <UsersRound />,
 			label: 'Conductores',
 			href: `/${pathRoot}/${Pathnames.DRIVERS}`,
 			userType: UserTypes.COMPANY,

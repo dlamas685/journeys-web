@@ -30,12 +30,11 @@ import {
 import Image from 'next/image'
 import { toast } from 'sonner'
 import { FleetModel } from '../../fleets/_models'
-import { VehicleModel } from '../_models'
+import ImageUpload from '../../vehicles/_components/image-upload'
+import { DriverModel } from '../_models'
 import Detail from './detail'
-import ImageUpload from './image-upload'
-import UpsertForm from './upsert-form'
 
-const columns: ColumnDef<VehicleModel>[] = [
+const columns: ColumnDef<DriverModel>[] = [
 	{
 		accessorKey: 'imageUrl',
 		header: 'Imagen',
@@ -44,34 +43,48 @@ const columns: ColumnDef<VehicleModel>[] = [
 
 			return (
 				<Image
-					src={imageUrl ?? '/photos/car-placeholder.png'}
-					alt={`Imagen del vehículo con placa ${row.original.licensePlate}`}
+					src={imageUrl ?? '/photos/young-man-placeholder.png'}
+					alt={`Imagen de ${row.original.name}`}
 					width={44}
 					height={44}
-					className='size-11 object-contain'
+					className='size-11 rounded-xl object-contain'
+					sizes='44px'
+					priority
 				/>
 			)
 		},
 		enableHiding: false,
 	},
 	{
-		accessorKey: 'licensePlate',
-		header: () => <SortingButton field='licensePlate'>Patente</SortingButton>,
+		accessorKey: 'name',
+		header: () => <SortingButton field='name'>Nombre</SortingButton>,
 		enableHiding: false,
 	},
+	// {
+	// 	accessorKey: 'dni',
+	// 	header: () => <SortingButton field='dni'>DNI</SortingButton>,
+	// 	enableHiding: false,
+	// },
+
+	// {
+	// 	accessorKey: 'genre',
+	// 	header: () => <SortingButton field='genre'>Género</SortingButton>,
+	// 	enableHiding: false,
+	// },
+
+	// {
+	// 	accessorKey: 'age',
+	// 	header: () => <SortingButton field='genre'>Edad</SortingButton>,
+	// 	enableHiding: false,
+	// },
 	{
-		accessorKey: 'make',
-		header: () => <SortingButton field='make'>Marca</SortingButton>,
-		cell: ({ row }) => row.getValue<number>('make') ?? 'N/D',
+		accessorKey: 'licenseNumber',
+		header: () => (
+			<SortingButton field='licenseNumber'>N° de Licencia</SortingButton>
+		),
+		enableHiding: false,
 	},
-	{
-		accessorKey: 'model',
-		header: () => <SortingButton field='model'>Modelo</SortingButton>,
-	},
-	{
-		accessorKey: 'year',
-		header: () => <SortingButton field='year'>Año</SortingButton>,
-	},
+
 	{
 		accessorKey: 'fleet',
 		header: () => <SortingButton field='fleet.name'>Flota</SortingButton>,
@@ -85,7 +98,6 @@ const columns: ColumnDef<VehicleModel>[] = [
 		header: () => <SortingButton field='createdAt'>Creado</SortingButton>,
 		cell: ({ row }) => format(row.getValue<Date>('createdAt'), 'dd/MM/yyyy'),
 	},
-
 	{
 		id: 'actions',
 		enableHiding: false,
@@ -94,12 +106,12 @@ const columns: ColumnDef<VehicleModel>[] = [
 
 			const handleCopy = () => {
 				navigator.clipboard
-					.writeText(record.licensePlate)
+					.writeText(record.licenseNumber)
 					.then(() => {
-						toast.info('Patente copiada al portapapeles')
+						toast.info('N° de licencia copiado al portapapeles')
 					})
 					.catch(() => {
-						toast.error('No se pudo copiar la patente del vehículo')
+						toast.error('No se pudo copiar el n° de licencia del conductor')
 					})
 			}
 
@@ -119,22 +131,22 @@ const columns: ColumnDef<VehicleModel>[] = [
 						<DropdownMenuLabel>Acciones</DropdownMenuLabel>
 						<DropdownMenuItem
 							aria-disabled={false}
-							aria-label='Copiar patente'
+							aria-label='Copiar número de licencia'
 							onClick={handleCopy}>
 							<ClipboardCopy className='mr-1 size-4' />
-							Copiar patente
+							Copiar licencia
 						</DropdownMenuItem>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem asChild>
 							<Modal
-								title='Detalles del Vehículo'
+								title='Detalles del Conductor'
 								description='Puedes editar estos campos desde el panel de edición.'
 								triggerIcon={<ListCollapse className='mr-1 size-3.5' />}
 								triggerProps={{
 									className:
 										'w-full font-normal h-auto justify-start relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 font-secondary',
 									variant: 'ghost',
-									'aria-label': `Ver detalles del vehículo ${record.licensePlate}`,
+									'aria-label': `Ver detalles de ${record.name}`,
 									'aria-disabled': 'false',
 								}}
 								triggerLabel='Ver detalles'
@@ -144,14 +156,14 @@ const columns: ColumnDef<VehicleModel>[] = [
 						</DropdownMenuItem>
 						<DropdownMenuItem asChild>
 							<Modal
-								title='Editar Vehículo'
-								description='Modifica los datos del vehículo. Ten en cuenta que algunos campos son opcionales.'
+								title='Editar Conductor'
+								description='Modifica los datos del conductor. Ten en cuenta que algunos campos son opcionales.'
 								triggerIcon={<Pencil className='mr-1 size-3.5' />}
 								triggerProps={{
 									className:
 										'w-full font-normal h-auto justify-start relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 font-secondary',
 									variant: 'ghost',
-									'aria-label': `Editar vehículo ${record.licensePlate}`,
+									'aria-label': `Editar a ${record.name}`,
 									'aria-disabled': 'false',
 								}}
 								triggerLabel='Editar'
@@ -160,7 +172,7 @@ const columns: ColumnDef<VehicleModel>[] = [
 								submitProps={{
 									form: UPSERT_FORM_ID,
 								}}>
-								<UpsertForm record={record} />
+								<span>@UpsertForm</span>
 							</Modal>
 						</DropdownMenuItem>
 
@@ -172,15 +184,15 @@ const columns: ColumnDef<VehicleModel>[] = [
 									className:
 										'w-full font-normal h-auto justify-start relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 font-secondary',
 									variant: 'ghost',
-									'aria-label': `Eliminar vehículo ${record.licensePlate}`,
+									'aria-label': `Eliminar al conductor ${record.name}`,
 									'aria-disabled': 'false',
 								}}
 								cancelIcon={<CircleX className='mr-1 size-4' />}
 								description={
 									<>
-										¿Estás seguro de que deseas eliminar el vehículo{' '}
-										<b className='capitalize'>{record.licensePlate}</b>? Esta
-										acción no se puede deshacer.
+										¿Estás seguro de que deseas eliminar a{' '}
+										<b className='capitalize'>{record.name}</b>? Esta acción no
+										se puede deshacer.
 									</>
 								}
 								eraserButton={({ setOpen }) => (
@@ -188,8 +200,8 @@ const columns: ColumnDef<VehicleModel>[] = [
 										recordId={record.id}
 										endpoint={ApiEndpoints.VEHICLES}
 										setAlertOpen={setOpen}
-										title='Vehículos'
-										description='Vehículo eliminado correctamente.'
+										title='Conductores'
+										description='Conductor eliminado correctamente.'
 									/>
 								)}
 							/>
@@ -209,23 +221,23 @@ const columns: ColumnDef<VehicleModel>[] = [
 										className:
 											'w-full font-normal h-auto justify-start relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 font-secondary',
 										variant: 'ghost',
-										'aria-label': `Eliminar imagen del vehículo ${record.licensePlate}`,
+										'aria-label': `Eliminar imagen de ${record.name}`,
 										'aria-disabled': 'false',
 									}}
 									cancelIcon={<CircleX className='mr-1 size-4' />}
 									description={
 										<>
-											¿Estás seguro de que deseas remover la imagen del vehículo{' '}
-											<b className='capitalize'>{record.licensePlate}</b>? Esta
-											acción no se puede deshacer.
+											¿Estás seguro de que deseas remover la imagen del
+											conductor <b className='capitalize'>{record.name}</b>?
+											Esta acción no se puede deshacer.
 										</>
 									}
 									eraserButton={({ setOpen }) => (
 										<EraserButton
 											recordId={record.id}
-											endpoint={ApiEndpoints.FILES_VEHICLES}
+											endpoint={ApiEndpoints.FILES_DRIVERS}
 											setAlertOpen={setOpen}
-											title={`Vehículo ${record.licensePlate}`}
+											title={`Conductor ${record.name}`}
 											description='Imagen removida correctamente.'
 										/>
 									)}
@@ -233,14 +245,14 @@ const columns: ColumnDef<VehicleModel>[] = [
 							</DropdownMenuItem>
 						) : (
 							<Modal
-								title={`Imagen del vehículo ${record.licensePlate}`}
-								description='Sube una imagen del vehículo. Ten en cuenta que la imagen debe cumplir lo siguiente: *.png, *.jpg archivos de hasta 10 MB con al menos 400px por 400px.'
+								title={record.name}
+								description='Sube una imagen del conductor. Ten en cuenta que la imagen debe cumplir lo siguiente: *.png, *.jpg archivos de hasta 10 MB con al menos 400px por 400px.'
 								triggerIcon={<ImageUp className='mr-1 size-3.5' />}
 								triggerProps={{
 									className:
 										'w-full font-normal h-auto justify-start relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 font-secondary',
 									variant: 'ghost',
-									'aria-label': `Cargar imagen al vehículo ${record.licensePlate}`,
+									'aria-label': `Cargar imagen a ${record.name}`,
 									'aria-disabled': 'false',
 								}}
 								triggerLabel='Cargar'
@@ -248,8 +260,8 @@ const columns: ColumnDef<VehicleModel>[] = [
 								<section className='px-4 pb-4 sm:px-0 sm:pb-0'>
 									<ImageUpload
 										recordId={record.id}
-										endpoint={ApiEndpoints.FILES_VEHICLES}
-										entity={`Vehículo ${record.licensePlate}`}
+										endpoint={ApiEndpoints.FILES_DRIVERS}
+										entity={`Conductor ${record.name}`}
 									/>
 								</section>
 							</Modal>

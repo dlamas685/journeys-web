@@ -3,10 +3,10 @@ import { cn } from '@/lib/utils'
 import { format } from 'date-fns'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
-import { VehicleModel } from '../_models'
+import { type DriverModel } from '../_models'
 
 type Props = {
-	record: VehicleModel
+	record: DriverModel
 }
 
 const Detail = ({ record }: Readonly<Props>) => {
@@ -27,8 +27,8 @@ const Detail = ({ record }: Readonly<Props>) => {
 	return (
 		<article className='grid max-h-96 grid-cols-1 gap-3 overflow-y-auto px-4 sm:max-h-[inherit] sm:grid-cols-[auto_1fr] sm:gap-4 sm:px-1'>
 			<Image
-				src={record.imageUrl ?? '/photos/car-placeholder.png'}
-				alt={`Imagen del vehículo con placa ${record.licensePlate}`}
+				src={record.imageUrl ?? '/photos/young-man-placeholder.png'}
+				alt={`Imagen de ${record.name}`}
 				width={210}
 				height={210}
 				className='size-96 object-contain sm:size-52'
@@ -36,20 +36,20 @@ const Detail = ({ record }: Readonly<Props>) => {
 
 			<section className='flex flex-wrap gap-4 sm:flex-col'>
 				<p className='font-secondary text-sm'>
-					<b>Patente:</b> {record.licensePlate}
+					<b>Nombre:</b> {record.name}
 				</p>
 				<p className='font-secondary text-sm'>
-					<b>Marca:</b> {record.make ?? 'N/D'}
+					<b>N° Licencia:</b> {record.licenseNumber}
+				</p>
+				{/* <p className='font-secondary text-sm'>
+					<b>DNI:</b> {record.dni ?? 'N/D'}
 				</p>
 				<p className='font-secondary text-sm'>
-					<b>Modelo:</b> {record.model ?? 'N/D'}
+					<b>Genero:</b> {record.genre ?? 'N/D'}
 				</p>
 				<p className='font-secondary text-sm'>
-					<b>Año:</b> {record.year ?? 'N/D'}
-				</p>
-				<p className='font-secondary text-sm'>
-					<b>VIN:</b> {record.vin ?? 'N/D'}
-				</p>
+					<b>Edad:</b> {record.age ?? 'N/D'}
+				</p> */}
 
 				<p className='font-secondary text-sm'>
 					<b>Flota:</b> {record.fleet?.name ?? 'N/D'}
@@ -60,7 +60,6 @@ const Detail = ({ record }: Readonly<Props>) => {
 				<b>Notas</b>
 				<br />
 				<span
-					ref={notesRef}
 					className={cn('overflow-hidden', {
 						'line-clamp-3': !seeMore,
 						'line-clamp-none': seeMore,

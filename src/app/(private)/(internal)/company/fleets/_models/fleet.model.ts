@@ -1,3 +1,4 @@
+import { DriverModel } from '../../drivers/_models'
 import { VehicleModel } from '../../vehicles/_models'
 
 export interface FleetModel {
@@ -9,5 +10,6 @@ export interface FleetModel {
 	maxDrivers: number
 	createdAt: Date
 	vehicles: VehicleModel[]
+	drivers: DriverModel[]
 	updatedAt: Date | null
 }
