@@ -10,29 +10,28 @@ import SortingButtons from '@/common/components/ui/misc/sorting-buttons'
 import Modal from '@/common/components/ui/overlay/modal'
 import { FILTER_FORM_ID, UPSERT_FORM_ID } from '@/common/constants'
 import { ApiEndpoints, Pathnames, SortDirections } from '@/common/enums'
-import type { QueryParamsModel } from '@/common/models'
-import type { SearchParams } from '@/common/types'
+import { QueryParamsModel } from '@/common/models'
+import { SearchParams } from '@/common/types'
 import { decodeQuery, jsonToBase64 } from '@/common/utils'
 import { Button } from '@/components/ui/button'
 import { CirclePlus, Filter, FilterX, Save, SearchCheck } from 'lucide-react'
-import { type Metadata } from 'next'
+import { Metadata } from 'next'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import FavoritePlaceGrid from './_components/favorite-place-grid'
+import ActivitiesTemplateGrid from './_components/activity-template-grid'
 import FilterForm from './_components/filter-form'
-import UpsertForm from './_components/upsert-form'
-import type { FavoritePlaceModel } from './_models'
 
 export const metadata: Metadata = {
-	title: 'Journeys • Lugares favoritos',
-	description: 'Administra tus lugares favoritos para tus optimizaciones.',
+	title: 'Journeys • Plantillas de actividades',
+	description:
+		'Administra tus plantillas de actividades para tus optimizaciones.',
 }
 
 type Props = {
 	searchParams: Promise<SearchParams>
 }
 
-export default async function FavoritePlacesPage(props: Readonly<Props>) {
+export default async function ActivitiesTemplatesPage(props: Readonly<Props>) {
 	const searchParams = await props.searchParams
 	const encodedQuery = searchParams['query']
 
@@ -45,7 +44,7 @@ export default async function FavoritePlacesPage(props: Readonly<Props>) {
 	if (encodedQuery) {
 		const decodedQuery = decodeQuery(encodedQuery)
 
-		if (!decodedQuery) redirect(Pathnames.FAVORITE_PLACES)
+		if (!decodedQuery) redirect(Pathnames.ACTIVITY_TEMPLATES)
 
 		queryParams = {
 			...queryParams,
@@ -53,10 +52,10 @@ export default async function FavoritePlacesPage(props: Readonly<Props>) {
 		}
 	}
 
-	const response = await findAll<FavoritePlaceModel>(
-		ApiEndpoints.FAVORITE_PLACES,
+	const response = await findAll<any>(
+		ApiEndpoints.ACTIVITY_TEMPLATES,
 		queryParams,
-		Pathnames.FAVORITE_PLACES
+		Pathnames.ACTIVITY_TEMPLATES
 	)
 
 	const hasFilters =
@@ -66,44 +65,46 @@ export default async function FavoritePlacesPage(props: Readonly<Props>) {
 	return (
 		<Frame>
 			<FrameHeader>
-				<FrameTitle>Lugares Favoritos</FrameTitle>
+				<FrameTitle>Plantilla de actividades</FrameTitle>
 				<FrameGadgets>
 					<Modal
-						title='Nuevo Lugar Favorito'
-						description='Al agregar un lugar como favorito, podrás acceder a el de forma rápida en tus optimizaciones. Ten en cuenta que todos los campos son obligatorios.'
+						title='Nueva Plantilla de Actividades'
+						description='Al agregar una plantilla de actividades, podrás acceder a ella de forma rápida en tus optimizaciones. Ten en cuenta que todos los campos son obligatorios.'
 						triggerIcon={<CirclePlus className='mr-1 size-4' />}
-						triggerLabel='Agregar'
+						triggerLabel='Crear'
 						triggerProps={{
 							type: 'button',
-							'aria-label': 'Agregar nuevo lugar favorito',
+							'aria-label': 'Crear nueva plantilla de actividades',
 							'aria-disabled': false,
 						}}
 						submitLabel='Guardar'
 						submitIcon={<Save className='mr-1 size-4' />}
 						submitProps={{
 							form: UPSERT_FORM_ID,
-							'aria-label': 'Guardar nuevo lugar favorito',
+							type: 'submit',
+							'aria-label': 'Guardar nueva plantilla de actividades',
 							'aria-disabled': false,
 						}}>
-						<UpsertForm />
+						<span>@UpsertForm</span>
 					</Modal>
 
 					<Modal
 						title='Configuración de Filtro'
-						description='Completa los campos de acuerdo a tus preferencias para visualizar tus lugares favoritos.'
+						description='Completa los campos de acuerdo a tus preferencias para visualizar tus plantillas de actividades.'
 						triggerIcon={<Filter className='mr-1 size-4' />}
 						triggerLabel='Filtro'
 						triggerProps={{
 							type: 'button',
 							variant: 'outline',
-							'aria-label': 'Configurar filtro de lugares favoritos',
+							'aria-label': 'Configurar filtro',
 							'aria-disabled': false,
 						}}
 						submitIcon={<SearchCheck className='mr-1 size-4' />}
 						submitLabel='Aplicar'
 						submitProps={{
+							type: 'submit',
 							form: FILTER_FORM_ID,
-							'aria-label': 'Aplicar filtro de lugares favoritos',
+							'aria-label': 'Aplicar filtro',
 							'aria-disabled': false,
 						}}>
 						<FilterForm queryParams={queryParams} />
@@ -113,7 +114,7 @@ export default async function FavoritePlacesPage(props: Readonly<Props>) {
 						<Button variant='ghost' asChild>
 							<Link
 								href={{
-									pathname: `${Pathnames.FAVORITE_PLACES}`,
+									pathname: `${Pathnames.ACTIVITY_TEMPLATES}`,
 									query: {
 										query: jsonToBase64({
 											...queryParams,
@@ -121,21 +122,21 @@ export default async function FavoritePlacesPage(props: Readonly<Props>) {
 										}),
 									},
 								}}
-								aria-label='Limpiar filtro de lugares favoritos'>
+								aria-label='Limpiar filtro'>
 								<FilterX className='size-4' />
 							</Link>
 						</Button>
 					)}
 					<SortingButtons
-						field='createdAt'
-						label='fecha de creación'
+						field='name'
+						label='nombre'
 						queryParams={queryParams}
 					/>
 				</FrameGadgets>
 			</FrameHeader>
 			<FrameBody className='items-center'>
 				{response.data.length > 0 ? (
-					<FavoritePlaceGrid
+					<ActivitiesTemplateGrid
 						defaultValue={response.data}
 						page={response.meta.page}
 						lastPage={response.meta.lastPage}
@@ -144,7 +145,7 @@ export default async function FavoritePlacesPage(props: Readonly<Props>) {
 					/>
 				) : (
 					<p className='text-center leading-[18.75rem] text-gray-400'>
-						No ha agregado ningún lugar favorito
+						No ha agregado ninguna plantilla de actividades.
 					</p>
 				)}
 			</FrameBody>

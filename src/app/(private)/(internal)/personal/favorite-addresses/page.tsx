@@ -73,10 +73,17 @@ export default async function FavoriteAddressesPage(props: Readonly<Props>) {
 						description='Al agregar una dirección como favorita, podrás acceder a ella de forma rápida en tus optimizaciones. Ten en cuenta que todos los campos son obligatorios.'
 						triggerIcon={<CirclePlus className='mr-1 size-4' />}
 						triggerLabel='Agregar'
+						triggerProps={{
+							type: 'button',
+							'aria-label': 'Agregar nueva dirección favorita',
+							'aria-disabled': false,
+						}}
 						submitLabel='Guardar'
 						submitIcon={<Save className='mr-1 size-4' />}
 						submitProps={{
 							form: UPSERT_FORM_ID,
+							'aria-label': 'Guardar nueva dirección favorita',
+							'aria-disabled': false,
 						}}>
 						<UpsertForm />
 					</Modal>
@@ -87,12 +94,17 @@ export default async function FavoriteAddressesPage(props: Readonly<Props>) {
 						triggerIcon={<Filter className='mr-1 size-4' />}
 						triggerLabel='Filtro'
 						triggerProps={{
+							type: 'button',
 							variant: 'outline',
+							'aria-label': 'Configurar filtro de direcciones favoritas',
+							'aria-disabled': false,
 						}}
 						submitIcon={<SearchCheck className='mr-1 size-4' />}
 						submitLabel='Aplicar'
 						submitProps={{
 							form: FILTER_FORM_ID,
+							'aria-label': 'Aplicar filtro de direcciones favoritas',
+							'aria-disabled': false,
 						}}>
 						<FilterForm queryParams={queryParams} />
 					</Modal>
@@ -108,7 +120,8 @@ export default async function FavoriteAddressesPage(props: Readonly<Props>) {
 											filters: [],
 										}),
 									},
-								}}>
+								}}
+								aria-label='Limpiar filtro de direcciones favoritas'>
 								<FilterX className='size-4' />
 							</Link>
 						</Button>

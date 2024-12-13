@@ -28,7 +28,7 @@ import { ComponentProps, ReactNode, useState } from 'react'
 type Props = {
 	children: ReactNode
 	title: string
-	description?: string
+	description?: ReactNode
 	triggerLabel?: string
 	triggerIcon?: ReactNode
 	triggerProps?: ComponentProps<typeof Button>

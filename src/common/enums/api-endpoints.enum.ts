@@ -24,4 +24,6 @@ export enum ApiEndpoints {
 
 	FLEETS = 'fleets',
 	VEHICLES = 'vehicles',
+
+	ACTIVITY_TEMPLATES = 'activity-templates',
 }

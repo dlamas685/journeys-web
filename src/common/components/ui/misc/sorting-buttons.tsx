@@ -65,7 +65,8 @@ const SortingButtons = ({ field, label, queryParams }: Readonly<Props>) => {
 						<ToggleGroupItem
 							data-state={value === SortDirections.ASC ? 'on' : 'off'}
 							value={SortDirections.ASC}
-							aria-label='Toggle bold'>
+							aria-label={`Ordenar de forma ascendente por ${label}`}
+							aria-disabled={false}>
 							<ArrowUpAZ className='size-4' />
 						</ToggleGroupItem>
 					</TooltipTrigger>
@@ -83,7 +84,8 @@ const SortingButtons = ({ field, label, queryParams }: Readonly<Props>) => {
 						<ToggleGroupItem
 							data-state={value === SortDirections.DESC ? 'on' : 'off'}
 							value={SortDirections.DESC}
-							aria-label='Toggle italic'>
+							aria-label={`Ordenar de forma descendente por ${label}`}
+							aria-disabled={false}>
 							<ArrowDownAZ className='size-4' />
 						</ToggleGroupItem>
 					</TooltipTrigger>

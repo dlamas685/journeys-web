@@ -2,10 +2,10 @@
 
 import { ApiEndpoints, Pathnames } from '@/common/enums'
 import useInfiniteScroll from '@/common/hooks/use-infinite-scroll'
-import { QueryParamsModel } from '@/common/models'
+import type { QueryParamsModel } from '@/common/models'
 import { Button } from '@/components/ui/button'
 import { Loader2, RefreshCcw } from 'lucide-react'
-import { FavoriteAddressModel } from '../_models'
+import type { FavoriteAddressModel } from '../_models'
 import FavoriteAddressCard from './favorite-address-card'
 import UpsertForm from './upsert-form'
 
@@ -68,7 +68,12 @@ const FavoriteAddressGrid = ({
 				</div>
 			)}
 			{hasError && (
-				<Button className='w-48' onClick={clearError} variant='secondary'>
+				<Button
+					aria-label='Reintentar la carga de direcciones favoritas'
+					aria-disabled={false}
+					className='w-48'
+					onClick={clearError}
+					variant='secondary'>
 					<RefreshCcw className='mr-1 size-4' />
 					Reintentar
 				</Button>
