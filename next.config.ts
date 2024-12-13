@@ -23,7 +23,13 @@ const nextConfig: NextConfig = {
 				hostname: 'res.cloudinary.com',
 				pathname: '/**',
 			},
+			{
+				protocol: 'https',
+				hostname: 'api.dicebear.com',
+				pathname: '/9.x/initials/svg/**',
+			},
 		],
+		dangerouslyAllowSVG: true,
 	},
 }
 
