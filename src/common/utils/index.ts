@@ -1,5 +1,6 @@
 export * from './base64-to-json.util'
 export * from './calculate-age.util'
+export * from './calculate-total-time.util'
 export * from './clean-empty-values.util'
 export * from './decode-query.util'
 export * from './fromQueryToFilterForm.util'

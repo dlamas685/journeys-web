@@ -4,6 +4,8 @@ import Modal from '@/common/components/ui/overlay/modal'
 import RemovalAlert from '@/common/components/ui/overlay/removal-alert'
 import { UPSERT_FORM_ID } from '@/common/constants'
 import { ApiEndpoints, Pathnames } from '@/common/enums'
+import type { ActivityTemplateModel } from '@/common/models'
+import { calculateTotalTime } from '@/common/utils'
 import { Button } from '@/components/ui/button'
 import {
 	Card,
@@ -24,7 +26,6 @@ import {
 	useState,
 	type ReactNode,
 } from 'react'
-import type { ActivityTemplateModel } from '../_models'
 
 type Props = {
 	record: ActivityTemplateModel
@@ -146,16 +147,7 @@ const ActivitiesTemplateCard = forwardRef(
 									))}
 								</ul>
 								<p className='text-xs text-muted-foreground'>
-									{(() => {
-										const totalMinutes = record.activities.reduce(
-											(accumulator, activity) =>
-												accumulator + (activity.duration ?? 0),
-											0
-										)
-										const hours = Math.floor(totalMinutes / 60)
-										const minutes = totalMinutes % 60
-										return `${hours} horas con ${minutes} minutos`
-									})()}
+									{calculateTotalTime(record.activities)}
 									<br />
 									{record.activities.length} actividades
 								</p>

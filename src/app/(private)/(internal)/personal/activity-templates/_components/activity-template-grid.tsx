@@ -2,10 +2,9 @@
 
 import { ApiEndpoints, Pathnames } from '@/common/enums'
 import useInfiniteScroll from '@/common/hooks/use-infinite-scroll'
-import type { QueryParamsModel } from '@/common/models'
+import type { ActivityTemplateModel, QueryParamsModel } from '@/common/models'
 import { Button } from '@/components/ui/button'
 import { Loader2, RefreshCcw } from 'lucide-react'
-import type { ActivityTemplateModel } from '../_models'
 import ActivitiesTemplateCard from './activity-template-card'
 
 type Props = {

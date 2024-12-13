@@ -10,12 +10,12 @@ import SortingButtons from '@/common/components/ui/misc/sorting-buttons'
 import Modal from '@/common/components/ui/overlay/modal'
 import { FILTER_FORM_ID, UPSERT_FORM_ID } from '@/common/constants'
 import { ApiEndpoints, Pathnames, SortDirections } from '@/common/enums'
-import { QueryParamsModel } from '@/common/models'
-import { SearchParams } from '@/common/types'
+import type { ActivityTemplateModel, QueryParamsModel } from '@/common/models'
+import type { SearchParams } from '@/common/types'
 import { decodeQuery, jsonToBase64 } from '@/common/utils'
 import { Button } from '@/components/ui/button'
 import { CirclePlus, Filter, FilterX, Save, SearchCheck } from 'lucide-react'
-import { Metadata } from 'next'
+import { type Metadata } from 'next'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import ActivitiesTemplateGrid from './_components/activity-template-grid'
@@ -52,7 +52,7 @@ export default async function ActivitiesTemplatesPage(props: Readonly<Props>) {
 		}
 	}
 
-	const response = await findAll<any>(
+	const response = await findAll<ActivityTemplateModel>(
 		ApiEndpoints.ACTIVITY_TEMPLATES,
 		queryParams,
 		Pathnames.ACTIVITY_TEMPLATES
