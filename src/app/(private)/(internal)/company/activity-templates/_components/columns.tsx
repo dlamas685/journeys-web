@@ -5,7 +5,7 @@ import Modal from '@/common/components/ui/overlay/modal'
 import RemovalAlert from '@/common/components/ui/overlay/removal-alert'
 import { UPSERT_FORM_ID } from '@/common/constants'
 import { ApiEndpoints, Pathnames } from '@/common/enums'
-import type { ActivityModel, ActivityTemplateModel } from '@/common/models'
+import type { ActivityTemplateModel } from '@/common/models'
 import { calculateTotalTime } from '@/common/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -23,7 +23,6 @@ import {
 	CircleX,
 	ClipboardCopy,
 	ListChecks,
-	ListCollapse,
 	MoreHorizontal,
 	Pencil,
 	Save,
@@ -31,7 +30,6 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { toast } from 'sonner'
-import Detail from './detail'
 
 const columns: ColumnDef<ActivityTemplateModel>[] = [
 	{
@@ -56,17 +54,17 @@ const columns: ColumnDef<ActivityTemplateModel>[] = [
 	},
 	{
 		id: 'totalTime',
-		header: 'Tiempo Total',
+		header: 'Tiempo',
 		cell: ({ row }) => {
-			const activities = row.getValue<ActivityModel[] | null>('activities')
+			const activities = row.original.activities
 			return activities ? calculateTotalTime(activities) : 'N/D'
 		},
 	},
 	{
 		id: 'totalActivities',
-		header: 'Total de Actividades',
+		header: 'Actividades',
 		cell: ({ row }) => {
-			const activities = row.getValue<ActivityModel[] | null>('activities')
+			const activities = row.original.activities
 			return activities ? activities.length : 'N/D'
 		},
 	},
@@ -111,26 +109,9 @@ const columns: ColumnDef<ActivityTemplateModel>[] = [
 							aria-label='Copiar nombre de la plantilla'
 							onClick={handleCopy}>
 							<ClipboardCopy className='mr-1 size-4' />
-							Copiar nombre de la plantilla
+							Copiar nombre
 						</DropdownMenuItem>
 						<DropdownMenuSeparator />
-						<DropdownMenuItem asChild>
-							<Modal
-								title={`Plantilla ${record.name}`}
-								description=''
-								triggerIcon={<ListCollapse className='mr-1 size-3.5' />}
-								triggerProps={{
-									className:
-										'w-full font-normal h-auto justify-start relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 font-secondary',
-									variant: 'ghost',
-									'aria-label': ``,
-									'aria-disabled': false,
-								}}
-								triggerLabel='Ver detalles'
-								isReadonly>
-								<Detail record={record} />
-							</Modal>
-						</DropdownMenuItem>
 						<DropdownMenuItem asChild>
 							<Modal
 								title='Editar Plantilla de Actividades'
@@ -199,7 +180,7 @@ const columns: ColumnDef<ActivityTemplateModel>[] = [
 							<Link
 								href={`${Pathnames.ACTIVITY_TEMPLATES}/${record.id}/${Pathnames.ACTIVITY_MANAGER}`}>
 								<CircleCheck className='mr-1 size-3.5' />
-								Gestor de Actividades
+								Gestionar
 							</Link>
 						</DropdownMenuItem>
 
@@ -222,7 +203,7 @@ const columns: ColumnDef<ActivityTemplateModel>[] = [
 										'aria-label': `Ver todas las actividades de la plantilla ${record.name}`,
 										'aria-disabled': false,
 									}}
-									triggerLabel='Todas las actividades'
+									triggerLabel='Ver detalle'
 									isReadonly>
 									<section className='flex flex-col gap-3 px-4 pb-3 sm:px-0 sm:pb-0'>
 										<ul

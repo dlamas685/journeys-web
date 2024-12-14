@@ -11,6 +11,6 @@ export const COLUMN_LABELS: Record<keyof ActivityTemplateModel, string> = {
 }
 
 export const OTHER_COLUMN_LABELS = {
-	totalTime: 'Tiempo Total',
-	totalActivities: 'Total de Actividades',
+	totalTime: 'Tiempo',
+	totalActivities: 'Actividades',
 }
