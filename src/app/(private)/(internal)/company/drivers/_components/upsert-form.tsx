@@ -1,6 +1,6 @@
 'use client'
 
-import { create } from '@/common/actions/crud.action'
+import { create, update } from '@/common/actions/crud.action'
 import { ApiError } from '@/common/classes/api-error.class'
 import InputMask from '@/common/components/ui/form/input-mask'
 import { UPSERT_FORM_ID } from '@/common/constants'
@@ -30,7 +30,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { FleetModel } from '../../fleets/_models'
-import { CreateDriverModel, DriverModel } from '../_models'
+import { CreateDriverModel, DriverModel, UpdateDriverModel } from '../_models'
 import { upsertFormSchema, UpsertFormSchema } from '../_schemas'
 
 type Props = {
@@ -61,6 +61,37 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 
 	const handleSubmit = async ({ id, ...rest }: UpsertFormSchema) => {
 		setLoading(true)
+
+		if (id) {
+			const driver: UpdateDriverModel = {
+				...rest,
+			}
+
+			await update<UpdateDriverModel, DriverModel>(
+				ApiEndpoints.DRIVERS,
+				id,
+				driver
+			)
+				.then(resp => {
+					if ('error' in resp) {
+						throw new ApiError(resp)
+					}
+
+					response.success({
+						title: 'Conductores',
+						description: 'El conductor ha sido actualizado correctamente.',
+					})
+
+					form.reset()
+					setOpen(false)
+				})
+				.catch(response.error)
+				.finally(() => {
+					setLoading(false)
+				})
+
+			return
+		}
 
 		const driver: CreateDriverModel = {
 			...rest,

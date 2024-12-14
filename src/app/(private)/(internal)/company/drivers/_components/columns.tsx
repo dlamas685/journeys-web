@@ -33,6 +33,7 @@ import { toast } from 'sonner'
 import { type FleetModel } from '../../fleets/_models'
 import { type DriverModel } from '../_models'
 import Detail from './detail'
+import UpsertForm from './upsert-form'
 
 const columns: ColumnDef<DriverModel>[] = [
 	{
@@ -172,7 +173,7 @@ const columns: ColumnDef<DriverModel>[] = [
 								submitProps={{
 									form: UPSERT_FORM_ID,
 								}}>
-								<span>@UpsertForm</span>
+								<UpsertForm record={record} />
 							</Modal>
 						</DropdownMenuItem>
 
