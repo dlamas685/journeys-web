@@ -1,3 +1,5 @@
+export * from './activity-template.model'
+export * from './activity.model'
 export * from './auth.model'
 export * from './company-profile.model'
 export * from './create-company-profile.model'

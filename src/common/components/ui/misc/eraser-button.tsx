@@ -6,9 +6,9 @@ import useResponse from '@/common/hooks/use-response'
 import { useLoading } from '@/common/stores/loading.store'
 import { Button } from '@/components/ui/button'
 import { CircleCheck, LoaderCircle } from 'lucide-react'
-import { Dispatch, SetStateAction } from 'react'
+import { ComponentProps, Dispatch, SetStateAction } from 'react'
 
-type Props = {
+type Props = ComponentProps<typeof Button> & {
 	recordId: string
 	endpoint: ApiEndpoints
 	title?: string
@@ -22,6 +22,7 @@ const EraserButton = ({
 	title = 'Eliminar registro',
 	description = 'Registro eliminado correctamente.',
 	setAlertOpen,
+	...rest
 }: Readonly<Props>) => {
 	const response = useResponse()
 	const setLoading = useLoading(state => state.setLoading)
@@ -50,11 +51,7 @@ const EraserButton = ({
 	}
 
 	return (
-		<Button
-			type='button'
-			aria-label='Eliminar'
-			aria-disabled='false'
-			onClick={handleRemove}>
+		<Button type='button' {...rest} onClick={handleRemove}>
 			{isLoading ? (
 				<LoaderCircle className='mr-1 size-4 animate-spin' />
 			) : (

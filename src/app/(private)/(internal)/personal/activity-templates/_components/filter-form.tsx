@@ -1,25 +1,32 @@
 'use client'
+
 import {
 	Fieldset,
 	FieldsetContent,
 	FieldsetLegend,
 } from '@/common/components/ui/form/field-set'
-import { FILTER_FORM_ID } from '@/common/constants'
+import { FILTER_FORM_ID, TEXT_FILTER_OPTIONS } from '@/common/constants'
 import { DialogContext } from '@/common/contexts/dialog-context'
-import { FilterRules } from '@/common/enums'
+import { FilterTypes } from '@/common/enums'
 import type { FilterFieldModel, QueryParamsModel } from '@/common/models'
 import { fromQueryToFilterForm, jsonToBase64 } from '@/common/utils'
 import { Button } from '@/components/ui/button'
 import {
 	Form,
 	FormControl,
-	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
 	FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from '@/components/ui/select'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Eraser } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
@@ -77,6 +84,7 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 			<form
 				className='flex max-h-96 flex-col gap-2 overflow-y-auto px-4 pb-2 sm:max-h-[inherit] sm:gap-3 sm:px-1'
 				id={FILTER_FORM_ID}
+				autoComplete='off'
 				onSubmit={form.handleSubmit(handleSubmit)}>
 				<Fieldset className='gap-0.5'>
 					<FieldsetLegend className='flex items-center justify-between py-0 text-base font-bold'>
@@ -91,8 +99,8 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 									...form.getValues(),
 									name: {
 										field: 'name',
-										type: 'string',
-										rule: FilterRules.CONTAINS,
+										type: FilterTypes.STRING,
+										rule: undefined,
 										value: undefined,
 									},
 								})
@@ -100,23 +108,42 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 							<Eraser className='size-4' />
 						</Button>
 					</FieldsetLegend>
-					<FieldsetContent className='grid-cols-1 sm:grid-cols-1'>
+					<FieldsetContent className='grid-cols-1 sm:grid-cols-2'>
+						<FormField
+							control={form.control}
+							name='name.rule'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Regla</FormLabel>
+									<Select
+										onValueChange={field.onChange}
+										defaultValue={field.value}>
+										<FormControl>
+											<SelectTrigger>
+												<SelectValue placeholder='Selección una regla' />
+											</SelectTrigger>
+										</FormControl>
+										<SelectContent>
+											{TEXT_FILTER_OPTIONS.map(option => (
+												<SelectItem key={option.value} value={option.value}>
+													{option.label}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
+
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
 						<FormField
 							control={form.control}
 							name='name.value'
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Valor</FormLabel>
-									<FormDescription>
-										Este campo de entrada permite buscar lugares mediante la API
-										de Google Text Search.
-									</FormDescription>
 									<FormControl>
-										<Input
-											placeholder='Ingrese un nombre de lugar'
-											{...field}
-											value={field.value ?? ''}
-										/>
+										<Input placeholder='Ingrese un valor' {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -124,9 +151,10 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 						/>
 					</FieldsetContent>
 				</Fieldset>
+
 				<Fieldset className='gap-0.5'>
 					<FieldsetLegend className='flex items-center justify-between py-0 text-base font-bold'>
-						Dirección
+						Descripción
 						<Button
 							className='text-orange-700 hover:text-orange-700/90'
 							size='icon'
@@ -135,10 +163,10 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 							onClick={() => {
 								form.reset({
 									...form.getValues(),
-									address: {
-										field: 'address',
-										type: 'string',
-										rule: FilterRules.CONTAINS,
+									description: {
+										field: 'description',
+										type: FilterTypes.STRING,
+										rule: undefined,
 										value: undefined,
 									},
 								})
@@ -146,23 +174,42 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 							<Eraser className='size-4' />
 						</Button>
 					</FieldsetLegend>
-					<FieldsetContent className='grid-cols-1 sm:grid-cols-1'>
+					<FieldsetContent className='grid-cols-1 sm:grid-cols-2'>
 						<FormField
 							control={form.control}
-							name='address.value'
+							name='description.rule'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Regla</FormLabel>
+									<Select
+										onValueChange={field.onChange}
+										defaultValue={field.value}>
+										<FormControl>
+											<SelectTrigger>
+												<SelectValue placeholder='Selección una regla' />
+											</SelectTrigger>
+										</FormControl>
+										<SelectContent>
+											{TEXT_FILTER_OPTIONS.map(option => (
+												<SelectItem key={option.value} value={option.value}>
+													{option.label}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
+
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name='description.value'
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Valor</FormLabel>
-									<FormDescription>
-										Este campo de entrada permite buscar direcciones mediante la
-										API de Google Text Search.
-									</FormDescription>
 									<FormControl>
-										<Input
-											placeholder='Ingrese una dirección'
-											{...field}
-											value={field.value ?? ''}
-										/>
+										<Input placeholder='Ingrese un valor' {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>

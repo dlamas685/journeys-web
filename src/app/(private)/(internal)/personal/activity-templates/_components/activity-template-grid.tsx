@@ -2,33 +2,31 @@
 
 import { ApiEndpoints, Pathnames } from '@/common/enums'
 import useInfiniteScroll from '@/common/hooks/use-infinite-scroll'
-import type { QueryParamsModel } from '@/common/models'
+import type { ActivityTemplateModel, QueryParamsModel } from '@/common/models'
 import { Button } from '@/components/ui/button'
 import { Loader2, RefreshCcw } from 'lucide-react'
-import type { FavoritePlaceModel } from '../_models'
-import FavoritePlaceCard from './favorite-place-card'
-import UpsertForm from './upsert-form'
+import ActivitiesTemplateCard from './activity-template-card'
 
 type Props = {
-	defaultValue: FavoritePlaceModel[]
+	defaultValue: ActivityTemplateModel[]
 	page: number
 	total: number
 	lastPage: number
 	queryParams: QueryParamsModel
 }
 
-const FavoritePlaceGrid = ({
+const ActivitiesTemplateGrid = ({
 	defaultValue,
-	lastPage,
-	page,
 	queryParams,
+	page,
+	lastPage,
 	total,
 }: Readonly<Props>) => {
 	const { records, loader, hasMore, isLoading, hasError, clearError } =
-		useInfiniteScroll<FavoritePlaceModel>({
-			endpoint: ApiEndpoints.FAVORITE_PLACES,
+		useInfiniteScroll<ActivityTemplateModel>({
+			endpoint: ApiEndpoints.ACTIVITY_TEMPLATES,
 			defaultValue,
-			fallbackUrl: Pathnames.FAVORITE_PLACES,
+			fallbackUrl: Pathnames.ACTIVITY_TEMPLATES,
 			page,
 			lastPage,
 			queryParams,
@@ -49,16 +47,16 @@ const FavoritePlaceGrid = ({
 
 	return (
 		<>
-			<section className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3'>
+			<section className='grid grid-cols-1 gap-4 sm:grid-cols-3'>
 				{records.map((record, index) => (
-					<FavoritePlaceCard
+					<ActivitiesTemplateCard
 						key={index}
 						record={record}
 						custom={index}
 						variants={cardVariants}
 						initial='hidden'
 						animate='visible'
-						updaterForm={<UpsertForm record={record} />}
+						updaterForm={<span>@UpsertForm</span>}
 					/>
 				))}
 			</section>
@@ -69,7 +67,7 @@ const FavoritePlaceGrid = ({
 			)}
 			{hasError && (
 				<Button
-					aria-label='Reintentar la carga de lugares favoritos'
+					aria-label='Reintentar la carga de plantillas de actividades'
 					aria-disabled={false}
 					className='w-48'
 					onClick={clearError}
@@ -83,4 +81,4 @@ const FavoritePlaceGrid = ({
 	)
 }
 
-export default FavoritePlaceGrid
+export default ActivitiesTemplateGrid

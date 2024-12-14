@@ -1,14 +1,14 @@
 import { getServerUser } from '@/common/actions/session.action'
 import { Pathnames, UserTypes } from '@/common/enums'
 import {
-	Bookmark,
 	Car,
 	CarFront,
 	CarTaxiFront,
-	HomeIcon,
-	ListTodo,
+	Home,
 	MapPinHouse,
+	MapPinned,
 	Newspaper,
+	NotepadTextDashed,
 	Route,
 	UsersRound,
 } from 'lucide-react'
@@ -36,7 +36,7 @@ export default async function InternalLayout({ children }: Readonly<Props>) {
 	const items: MenuItem[] = [
 		{
 			id: uuid(),
-			icon: <HomeIcon />,
+			icon: <Home />,
 			label: 'Inicio',
 			href: `/${pathRoot}/${Pathnames.HOME}`,
 		},
@@ -49,7 +49,7 @@ export default async function InternalLayout({ children }: Readonly<Props>) {
 		},
 		{
 			id: uuid(),
-			icon: <Bookmark />,
+			icon: <MapPinned />,
 			label: 'Direcciones Favoritas',
 			href: `/${pathRoot}/${Pathnames.FAVORITE_ADDRESSES}`,
 			userType: UserTypes.PERSONAL,
@@ -57,9 +57,9 @@ export default async function InternalLayout({ children }: Readonly<Props>) {
 
 		{
 			id: uuid(),
-			icon: <ListTodo />,
-			label: 'Plantillas de Tareas',
-			href: `/${pathRoot}/${Pathnames.TASK_TEMPLATES}`,
+			icon: <NotepadTextDashed />,
+			label: 'Plantillas de Actividades',
+			href: `/${pathRoot}/${Pathnames.ACTIVITY_TEMPLATES}`,
 		},
 		{
 			id: uuid(),

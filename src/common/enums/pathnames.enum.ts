@@ -23,7 +23,8 @@ export enum Pathnames {
 
 	// Common
 
-	TASK_TEMPLATES = 'task-templates',
+	ACTIVITY_TEMPLATES = 'activity-templates',
+	ACTIVITY_MANAGER = 'activity-manager',
 	OPTIMIZATION = 'optimization',
 	PAYMENTS = 'payments',
 	PROFILE = 'profile',

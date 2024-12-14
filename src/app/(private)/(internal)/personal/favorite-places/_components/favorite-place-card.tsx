@@ -16,8 +16,8 @@ import {
 import { motion } from 'framer-motion'
 import { CircleX, Pencil, Save, Trash2 } from 'lucide-react'
 import Image from 'next/image'
-import { forwardRef, ReactNode, Ref } from 'react'
-import { FavoritePlaceModel } from '../_models'
+import { forwardRef, type ReactNode, type Ref } from 'react'
+import type { FavoritePlaceModel } from '../_models'
 
 type Props = {
 	record: FavoritePlaceModel
@@ -35,19 +35,26 @@ const FavoritePlaceCard = forwardRef(
 				</CardTitle>
 			</CardHeader>
 			<CardContent className='flex flex-grow flex-col gap-3 p-0'>
-				<p className='font-secondary text-sm' title={record.address}>
+				<p
+					className='font-secondary text-sm text-muted-foreground'
+					title={record.address}>
 					{record.address}
 				</p>
 
 				<section className='flex flex-wrap items-baseline gap-2'>
 					{record.types.slice(0, 2).map((type, index) => (
-						<Badge key={index} variant='secondary' className='flex-shrink-0'>
+						<Badge
+							key={index}
+							variant='secondary'
+							className='flex-shrink-0 text-muted-foreground'>
 							{type}
 						</Badge>
 					))}
 
 					{record.types.length > 2 && (
-						<Badge variant='secondary' className='flex-shrink-0'>
+						<Badge
+							variant='secondary'
+							className='flex-shrink-0 text-muted-foreground'>
 							+{record.types.length - 2} más
 						</Badge>
 					)}
@@ -56,7 +63,8 @@ const FavoritePlaceCard = forwardRef(
 				<Image
 					className='col-span-2 mt-auto'
 					src='/google/desktop/google_on_white_hdpi.png'
-					alt='Google'
+					alt=''
+					role='presentation'
 					width={50}
 					height={20}
 					sizes='(max-width: 640px) 100vw, 150px'
@@ -68,14 +76,18 @@ const FavoritePlaceCard = forwardRef(
 					description='Modifica los datos del lugar favorito. Ten en cuenta que todos los campos son obligatorios.'
 					triggerIcon={<Pencil className='mr-1 size-3.5' />}
 					triggerProps={{
-						size: 'sm',
+						type: 'button',
 						variant: 'editing',
+						'aria-label': `Editar el registro ${record.name}`,
+						'aria-disabled': false,
 					}}
 					triggerLabel='Editar'
 					submitLabel='Guardar'
 					submitIcon={<Save className='mr-1 size-4' />}
 					submitProps={{
 						form: UPSERT_FORM_ID,
+						'aria-label': `Guardar el registro ${record.name}`,
+						'aria-disabled': false,
 					}}>
 					{updaterForm}
 				</Modal>
@@ -84,6 +96,11 @@ const FavoritePlaceCard = forwardRef(
 					triggerLabel='Eliminar'
 					triggerIcon={<Trash2 className='mr-1 size-3.5' />}
 					cancelIcon={<CircleX className='mr-1 size-4' />}
+					triggerProps={{
+						type: 'button',
+						'aria-label': `Eliminar el registro ${record.name}`,
+						'aria-disabled': false,
+					}}
 					description={
 						<>
 							¿Estás seguro de que deseas eliminar{' '}
@@ -98,6 +115,9 @@ const FavoritePlaceCard = forwardRef(
 							setAlertOpen={setOpen}
 							title='Lugares Favoritos'
 							description='Lugar eliminado correctamente.'
+							aria-label={`Confirmar eliminación de ${record.name}`}
+							aria-disabled={false}
+							type='button'
 						/>
 					)}
 				/>

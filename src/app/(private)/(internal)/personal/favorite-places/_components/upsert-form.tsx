@@ -21,12 +21,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { AdvancedMarker, Map } from '@vis.gl/react-google-maps'
 import { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import {
+import type {
 	CreateFavoritePlaceModel,
 	FavoritePlaceModel,
 	UpdateFavoritePlaceModel,
 } from '../_models'
-import { UpsertFormSchema, upsertFormSchema } from '../_schemas'
+import { type UpsertFormSchema, upsertFormSchema } from '../_schemas'
 
 type Props = {
 	record?: FavoritePlaceModel

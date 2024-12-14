@@ -6,7 +6,7 @@ import {
 } from '@/common/components/ui/form/field-set'
 import { FILTER_FORM_ID, TEXT_FILTER_OPTIONS } from '@/common/constants'
 import { DialogContext } from '@/common/contexts/dialog-context'
-import { FilterFieldModel, QueryParamsModel } from '@/common/models'
+import type { FilterFieldModel, QueryParamsModel } from '@/common/models'
 import { fromQueryToFilterForm, jsonToBase64 } from '@/common/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -32,7 +32,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { DEFAULT_VALUES } from '../_constants'
-import { filterFormSchema, FilterFormSchema } from '../_schemas'
+import { filterFormSchema, type FilterFormSchema } from '../_schemas'
 
 type Props = {
 	queryParams: QueryParamsModel

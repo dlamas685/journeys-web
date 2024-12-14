@@ -19,6 +19,9 @@ const config = {
 			},
 		},
 		extend: {
+			listStyleImage: {
+				checkmark: 'url("/icons/checkmark.svg")',
+			},
 			fontFamily: {
 				primary: ['var(--font-lora)', ...fontFamily.serif],
 				secondary: ['var(--font-hind-madurai)', ...fontFamily.sans],
