@@ -199,7 +199,7 @@ const columns: ColumnDef<DriverModel>[] = [
 								eraserButton={({ setOpen }) => (
 									<EraserButton
 										recordId={record.id}
-										endpoint={ApiEndpoints.VEHICLES}
+										endpoint={ApiEndpoints.DRIVERS}
 										setAlertOpen={setOpen}
 										title='Conductores'
 										description='Conductor eliminado correctamente.'
