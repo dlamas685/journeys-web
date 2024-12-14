@@ -34,6 +34,7 @@ import { redirect } from 'next/navigation'
 import { FleetModel } from '../fleets/_models'
 import columns from './_components/columns'
 import FilterForm from './_components/filter-form'
+import UpsertForm from './_components/upsert-form'
 import { COLUMN_LABELS } from './_constants'
 import { type DriverModel } from './_models'
 
@@ -119,7 +120,7 @@ export default async function DriversPage(props: Readonly<Props>) {
 								submitProps={{
 									form: UPSERT_FORM_ID,
 								}}>
-								<span>@UpsertForm</span>
+								<UpsertForm />
 							</Modal>
 							<Modal
 								title='Configuración de Filtro'
