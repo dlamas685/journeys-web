@@ -37,12 +37,13 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import columns from './_components/columns'
 import FilterForm from './_components/filter-form'
+import UpsertForm from './_components/upsert-form'
 import { COLUMN_LABELS, OTHER_COLUMN_LABELS } from './_constants'
 
 export const metadata: Metadata = {
-	title: 'Journeys • Vehículos',
+	title: 'Journeys • Plantillas de Actividades',
 	description:
-		'Administra tus vehículos para usar en tus flotas y hojas de ruta.',
+		'Administra tus plantillas de actividades para acceder a ellas de forma rápida en tus optimizaciones.',
 }
 
 type Props = {
@@ -96,7 +97,7 @@ export default async function ActivityTemplatesPage(props: Readonly<Props>) {
 						<DataTableToolbar className='row-start-1 justify-center sm:col-start-2'>
 							<Modal
 								title='Nueva Plantilla de Actividades'
-								description='Al agregar una plantilla de actividades, podrás acceder a ella de forma rápida en tus optimizaciones. Ten en cuenta que todos los campos son obligatorios.'
+								description='Al crear una plantilla de actividades, podrás utilizarla fácilmente para optimizar tus hojas de ruta. Recuerda que todos los campos son obligatorios.'
 								triggerIcon={<CirclePlus className='mr-1 size-4' />}
 								triggerProps={{
 									type: 'button',
@@ -112,7 +113,7 @@ export default async function ActivityTemplatesPage(props: Readonly<Props>) {
 									'aria-label': 'Guardar nueva plantilla de actividades',
 									'aria-disabled': false,
 								}}>
-								<span>@UpsertForm</span>
+								<UpsertForm />
 							</Modal>
 							<Modal
 								title='Configuración de Filtro'
