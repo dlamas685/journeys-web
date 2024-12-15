@@ -6,6 +6,7 @@ import type { ActivityTemplateModel, QueryParamsModel } from '@/common/models'
 import { Button } from '@/components/ui/button'
 import { Loader2, RefreshCcw } from 'lucide-react'
 import ActivitiesTemplateCard from './activity-template-card'
+import UpsertForm from './upsert-form'
 
 type Props = {
 	defaultValue: ActivityTemplateModel[]
@@ -56,7 +57,7 @@ const ActivitiesTemplateGrid = ({
 						variants={cardVariants}
 						initial='hidden'
 						animate='visible'
-						updaterForm={<span>@UpsertForm</span>}
+						updaterForm={<UpsertForm record={record} />}
 					/>
 				))}
 			</section>

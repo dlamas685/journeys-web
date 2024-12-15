@@ -1,6 +1,6 @@
 'use client'
 
-import { create } from '@/common/actions/crud.action'
+import { create, update } from '@/common/actions/crud.action'
 import { ApiError } from '@/common/classes/api-error.class'
 import { UPSERT_FORM_ID } from '@/common/constants'
 import { DialogContext } from '@/common/contexts/dialog-context'
@@ -9,6 +9,7 @@ import useResponse from '@/common/hooks/use-response'
 import type {
 	ActivityTemplateModel,
 	CreateActivityTemplate,
+	UpdateActivityTemplateModel,
 } from '@/common/models'
 import { useLoading } from '@/common/stores/loading.store'
 import {
@@ -48,6 +49,36 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 
 	const handleSubmit = async ({ id, ...rest }: UpsertFormSchema) => {
 		setLoading(true)
+
+		if (id) {
+			const activityTemplate: UpdateActivityTemplateModel = {
+				...rest,
+			}
+
+			await update<UpdateActivityTemplateModel, ActivityTemplateModel>(
+				ApiEndpoints.ACTIVITY_TEMPLATES,
+				id,
+				activityTemplate
+			)
+				.then(resp => {
+					if ('error' in resp) {
+						throw new ApiError(resp)
+					}
+
+					response.success({
+						title: 'Plantillas de Actividades',
+						description: `${resp.name} ha sido actualizada`,
+					})
+
+					form.reset()
+					setOpen(false)
+				})
+				.catch(response.error)
+				.finally(() => {
+					setLoading(false)
+				})
+			return
+		}
 
 		const activityTemplate: CreateActivityTemplate = {
 			...rest,
