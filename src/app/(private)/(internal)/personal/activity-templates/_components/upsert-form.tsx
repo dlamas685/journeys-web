@@ -67,7 +67,7 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 
 					response.success({
 						title: 'Plantillas de Actividades',
-						description: `${resp.name} ha sido actualizada`,
+						description: `${record?.name} ha sido actualizada`,
 					})
 
 					form.reset()

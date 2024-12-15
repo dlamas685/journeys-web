@@ -30,6 +30,7 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { toast } from 'sonner'
+import UpsertForm from './upsert-form'
 
 const columns: ColumnDef<ActivityTemplateModel>[] = [
 	{
@@ -133,7 +134,7 @@ const columns: ColumnDef<ActivityTemplateModel>[] = [
 									'aria-label': `Guardar el registro ${record.name}`,
 									'aria-disabled': false,
 								}}>
-								<span>@UpsertForm</span>
+								<UpsertForm record={record} />
 							</Modal>
 						</DropdownMenuItem>
 
@@ -208,7 +209,7 @@ const columns: ColumnDef<ActivityTemplateModel>[] = [
 									<section className='flex flex-col gap-3 px-4 pb-3 sm:px-0 sm:pb-0'>
 										<ul
 											role='list'
-											className='list-image-checkmark flex-grow space-y-2 pl-5 font-secondary text-muted-foreground'>
+											className='flex-grow list-image-checkmark space-y-2 pl-5 font-secondary text-muted-foreground'>
 											{record.activities?.map((activity, index) => (
 												<li key={index}>
 													<p className='flex justify-between gap-4'>
