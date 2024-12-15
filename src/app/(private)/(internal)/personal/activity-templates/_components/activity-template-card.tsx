@@ -85,24 +85,30 @@ const ActivitiesTemplateCard = forwardRef(
 						Actividades:
 					</h3> */}
 
-					<ul
-						role='list'
-						className='list-image-checkmark flex-grow space-y-2 pl-5 font-secondary text-muted-foreground'>
-						{record.activities
-							?.slice(0, visibleActivitiesCount)
-							.map((activity, index) => (
-								<li key={index}>
-									<p className='flex justify-between gap-4'>
-										<span className='font-secondary text-sm capitalize'>
-											{activity.name}
-										</span>
-										<span className='font-secondary text-sm'>
-											{activity.duration} min
-										</span>
-									</p>
-								</li>
-							))}
-					</ul>
+					{record.activities && record.activities.length > 0 ? (
+						<ul
+							role='list'
+							className='flex-grow list-image-checkmark space-y-2 pl-5 font-secondary text-muted-foreground'>
+							{record.activities
+								.slice(0, visibleActivitiesCount)
+								.map((activity, index) => (
+									<li key={index}>
+										<p className='flex justify-between gap-4'>
+											<span className='font-secondary text-sm capitalize'>
+												{activity.name}
+											</span>
+											<span className='font-secondary text-sm'>
+												{activity.duration} min
+											</span>
+										</p>
+									</li>
+								))}
+						</ul>
+					) : (
+						<div className='flex flex-grow items-center justify-center text-center font-secondary text-sm text-muted-foreground/60'>
+							No hay actividades definidas en esta plantilla
+						</div>
+					)}
 					<Button variant='link' asChild>
 						<Link
 							aria-label={`Gestionar actividades de la plantilla ${record.name}`}
@@ -132,7 +138,7 @@ const ActivitiesTemplateCard = forwardRef(
 							<section className='flex flex-col gap-3 px-4 pb-3 sm:px-0 sm:pb-0'>
 								<ul
 									role='list'
-									className='list-image-checkmark flex-grow space-y-2 pl-5 font-secondary text-muted-foreground'>
+									className='flex-grow list-image-checkmark space-y-2 pl-5 font-secondary text-muted-foreground'>
 									{record.activities.map((activity, index) => (
 										<li key={index}>
 											<p className='flex justify-between gap-4'>

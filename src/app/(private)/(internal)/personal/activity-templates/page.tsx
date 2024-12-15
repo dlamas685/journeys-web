@@ -20,6 +20,7 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import ActivitiesTemplateGrid from './_components/activity-template-grid'
 import FilterForm from './_components/filter-form'
+import UpsertForm from './_components/upsert-form'
 
 export const metadata: Metadata = {
 	title: 'Journeys • Plantillas de actividades',
@@ -85,7 +86,7 @@ export default async function ActivitiesTemplatesPage(props: Readonly<Props>) {
 							'aria-label': 'Guardar nueva plantilla de actividades',
 							'aria-disabled': false,
 						}}>
-						<span>@UpsertForm</span>
+						<UpsertForm />
 					</Modal>
 
 					<Modal
