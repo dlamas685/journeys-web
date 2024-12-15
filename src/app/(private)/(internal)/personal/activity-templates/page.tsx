@@ -66,7 +66,7 @@ export default async function ActivitiesTemplatesPage(props: Readonly<Props>) {
 	return (
 		<Frame>
 			<FrameHeader>
-				<FrameTitle>Plantilla de actividades</FrameTitle>
+				<FrameTitle>Plantillas de Actividades</FrameTitle>
 				<FrameGadgets>
 					<Modal
 						title='Nueva Plantilla de Actividades'
