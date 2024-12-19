@@ -1,4 +1,4 @@
-import { RelationOperations } from '../../../_enums/relation-operations.enum'
+import { RelationOperations } from '../_enums/relation-operations.enum'
 
 export interface RelateVehiclesToFleetModel {
 	vehicleIds: string[]

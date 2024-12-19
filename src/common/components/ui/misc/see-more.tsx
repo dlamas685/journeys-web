@@ -44,7 +44,7 @@ const SeeMore = ({
 			</span>
 			{isOverflowing && (
 				<span
-					className='cursor-pointer text-orange-500'
+					className='cursor-pointer text-sm text-orange-500'
 					onClick={toggleSeeMore}>
 					{seeMore ? 'Ver menos' : 'Ver más'}
 				</span>

@@ -4,9 +4,6 @@ export interface DriverModel {
 	id: string
 	userId: string
 	fleetId: string | null
-	dni: string
-	genre: string
-	age: string
 	licenseNumber: string
 	name: string
 	imageUrl: string | null

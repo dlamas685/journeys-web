@@ -11,7 +11,4 @@ export const COLUMN_LABELS: Record<keyof DriverModel, string> = {
 	createdAt: 'Creado',
 	updatedAt: 'Actualizado',
 	fleet: 'Flota',
-	age: 'Edad',
-	dni: 'DNI',
-	genre: 'Género',
 }

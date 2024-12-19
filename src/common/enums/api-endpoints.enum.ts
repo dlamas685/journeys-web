@@ -27,6 +27,8 @@ export enum ApiEndpoints {
 
 	VEHICLE_RELATIONS = 'vehicle-relations',
 	VEHICLES = 'vehicles',
+
+	DRIVER_RELATIONS = 'driver-relations',
 	DRIVERS = 'drivers',
 
 	ACTIVITY_TEMPLATES = 'activity-templates',

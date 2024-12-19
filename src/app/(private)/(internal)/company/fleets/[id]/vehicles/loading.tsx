@@ -4,7 +4,6 @@ import {
 	FrameHeader,
 	FrameTitle,
 } from '@/common/components/layout/frame'
-import { PAGINATION_LIMITS_OPTIONS } from '@/common/constants'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
 	Table,
@@ -26,6 +25,7 @@ export default function Loading() {
 				<section className='flex flex-col gap-1'>
 					<Skeleton className='h-4 w-full' />
 					<Skeleton className='h-4 w-full' />
+					<Skeleton className='h-4 w-20' />
 				</section>
 			</FrameHeader>
 			<FrameBody className='gap-0 sm:gap-4'>
@@ -42,6 +42,9 @@ export default function Loading() {
 					<Table className='border-separate border-spacing-y-3 font-secondary'>
 						<TableHeader>
 							<TableRow className='border-none hover:bg-inherit'>
+								<TableHead className='h-10 w-5'>
+									<Skeleton className='h-5 w-full' />
+								</TableHead>
 								<TableHead className='h-10 w-24'>
 									<Skeleton className='h-5 w-full' />
 								</TableHead>
@@ -61,32 +64,33 @@ export default function Loading() {
 							</TableRow>
 						</TableHeader>
 						<TableBody>
-							{Array.from({ length: PAGINATION_LIMITS_OPTIONS[0] }).map(
-								(_, index) => (
-									<TableRow
-										key={index}
-										className='rounded-l-xl rounded-r-xl border-none bg-zinc-50'>
-										<TableCell className='h-12 rounded-l-xl'>
-											<Skeleton className='h-5 w-full' />
-										</TableCell>
-										<TableCell>
-											<Skeleton className='h-5 w-full' />
-										</TableCell>
-										<TableCell>
-											<Skeleton className='h-5 w-full' />
-										</TableCell>
-										<TableCell>
-											<Skeleton className='h-5 w-full' />
-										</TableCell>
-										<TableCell>
-											<Skeleton className='h-5 w-full' />
-										</TableCell>
-										<TableCell className='rounded-r-xl'>
-											<Skeleton className='h-5 w-full' />
-										</TableCell>
-									</TableRow>
-								)
-							)}
+							{Array.from({ length: 4 }).map((_, index) => (
+								<TableRow
+									key={index}
+									className='rounded-l-xl rounded-r-xl border-none bg-zinc-50'>
+									<TableCell className='h-12 rounded-l-xl'>
+										<Skeleton className='size-5' />
+									</TableCell>
+									<TableCell>
+										<Skeleton className='size-11' />
+									</TableCell>
+									<TableCell>
+										<Skeleton className='h-5 w-full' />
+									</TableCell>
+									<TableCell>
+										<Skeleton className='h-5 w-full' />
+									</TableCell>
+									<TableCell>
+										<Skeleton className='h-5 w-full' />
+									</TableCell>
+									<TableCell>
+										<Skeleton className='h-5 w-full' />
+									</TableCell>
+									<TableCell className='rounded-r-xl'>
+										<Skeleton className='h-5 w-full' />
+									</TableCell>
+								</TableRow>
+							))}
 						</TableBody>
 					</Table>
 				</section>

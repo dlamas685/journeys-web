@@ -6,8 +6,8 @@ import { useDataTableContext } from '@/common/hooks/use-data-table-context'
 import useResponse from '@/common/hooks/use-response'
 import { useLoading } from '@/common/stores/loading.store'
 import { CircleX, Unlink2 } from 'lucide-react'
-import type { VehicleModel } from '../../../../vehicles/_models'
-import { relateVehiclesToFleet } from '../../../_actions/fleets.action'
+import { DriverModel } from '../../../../drivers/_models'
+import { relateDriversToFleet } from '../../../_actions/fleets.action'
 import { RelationOperations } from '../../../_enums/relation-operations.enum'
 
 type Props = {
@@ -15,7 +15,7 @@ type Props = {
 }
 
 const VehicleUnlink = ({ fleetId }: Readonly<Props>) => {
-	const { table } = useDataTableContext<VehicleModel>()
+	const { table } = useDataTableContext<DriverModel>()
 
 	const rows = table.getFilteredSelectedRowModel().rows
 
@@ -24,12 +24,10 @@ const VehicleUnlink = ({ fleetId }: Readonly<Props>) => {
 	const response = useResponse()
 
 	const handleRemove = async () => {
-		const vehicleIds = rows.map(row => row.original.id)
+		const driverIds = rows.map(row => row.original.id)
 
-		console.log(vehicleIds)
-
-		await relateVehiclesToFleet(fleetId, {
-			vehicleIds,
+		await relateDriversToFleet(fleetId, {
+			driverIds,
 			operation: RelationOperations.UNLINK,
 		})
 			.then(resp => {
@@ -39,7 +37,7 @@ const VehicleUnlink = ({ fleetId }: Readonly<Props>) => {
 
 				response.success({
 					title: 'Flotas',
-					description: 'Vehículos desvinculados correctamente',
+					description: 'Conductores desvinculados correctamente',
 				})
 
 				table.resetRowSelection()
@@ -60,20 +58,20 @@ const VehicleUnlink = ({ fleetId }: Readonly<Props>) => {
 			}}
 			cancelIcon={<CircleX className='mr-1 size-4' />}
 			title={
-				rows.length === 1 ? 'Desvincular vehículo' : 'Desvincular vehículos'
+				rows.length === 1 ? 'Desvincular conductor' : 'Desvincular conductores'
 			}
 			description={
 				<>
 					{rows.length === 1 ? (
 						<>
-							¿Estás seguro de que deseas desvincular el vehículo{' '}
-							<b>{rows[0].original.licensePlate}</b> de esta flota? Esta acción
-							no se puede deshacer.
+							¿Estás seguro de que deseas desvincular al conductor{' '}
+							<b>{rows[0].original.name}</b> de esta flota? Esta acción no se
+							puede deshacer.
 						</>
 					) : (
 						<span className='flex flex-col gap-2 font-secondary'>
 							<span>
-								¿Estás seguro de que deseas desvincular los vehículos
+								¿Estás seguro de que deseas desvincular a los conductores
 								seleccionados de esta flota? Esta acción no se puede deshacer.
 							</span>
 							<ul
@@ -81,8 +79,7 @@ const VehicleUnlink = ({ fleetId }: Readonly<Props>) => {
 								className='list-disc space-y-1 pl-5 text-sm text-muted-foreground marker:text-orange-500'>
 								{rows.map(row => (
 									<li key={row.original.id}>
-										{row.original.licensePlate} - {row.original.make} -{' '}
-										{row.original.model} - {row.original.year}
+										{row.original.name} - {row.original.licenseNumber}
 									</li>
 								))}
 							</ul>

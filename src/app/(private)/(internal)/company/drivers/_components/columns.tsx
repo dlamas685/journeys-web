@@ -61,23 +61,6 @@ const columns: ColumnDef<DriverModel>[] = [
 		header: () => <SortingButton field='name'>Nombre</SortingButton>,
 		enableHiding: false,
 	},
-	// {
-	// 	accessorKey: 'dni',
-	// 	header: () => <SortingButton field='dni'>DNI</SortingButton>,
-	// 	enableHiding: false,
-	// },
-
-	// {
-	// 	accessorKey: 'genre',
-	// 	header: () => <SortingButton field='genre'>Género</SortingButton>,
-	// 	enableHiding: false,
-	// },
-
-	// {
-	// 	accessorKey: 'age',
-	// 	header: () => <SortingButton field='genre'>Edad</SortingButton>,
-	// 	enableHiding: false,
-	// },
 	{
 		accessorKey: 'licenseNumber',
 		header: () => (
@@ -135,7 +118,7 @@ const columns: ColumnDef<DriverModel>[] = [
 							aria-label='Copiar número de licencia'
 							onClick={handleCopy}>
 							<ClipboardCopy className='mr-1 size-4' />
-							Copiar licencia
+							Copiar n° de licencia
 						</DropdownMenuItem>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem asChild>

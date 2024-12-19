@@ -18,13 +18,14 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
+import { DriverModel } from '../../../../drivers/_models'
 import type { VehicleModel } from '../../../../vehicles/_models'
-import { relateVehiclesToFleet } from '../../../_actions/fleets.action'
+import { relateDriversToFleet } from '../../../_actions/fleets.action'
 import { RelationOperations } from '../../../_enums/relation-operations.enum'
 import {
-	vehicleLinkFormSchema,
-	VehicleLinkFormSchema,
-} from '../_schemas/vehicle-link-form.schema'
+	driverLinkFormSchema,
+	DriverLinkFormSchema,
+} from '../_schemas/driver-link-form.schema'
 
 type Props = {
 	fleetId: string
@@ -33,14 +34,14 @@ type Props = {
 const VehicleLinkForm = ({ fleetId }: Readonly<Props>) => {
 	const { dependencies } = useDataTableContext<VehicleModel>()
 
-	const vehiclesWithoutFleets = (dependencies?.vehiclesWithoutFleets ??
-		[]) as VehicleModel[]
+	const driversWithoutFleets = (dependencies?.driversWithoutFleets ??
+		[]) as DriverModel[]
 
-	const form = useForm<VehicleLinkFormSchema>({
+	const form = useForm<DriverLinkFormSchema>({
 		defaultValues: {
 			ids: [],
 		},
-		resolver: zodResolver(vehicleLinkFormSchema),
+		resolver: zodResolver(driverLinkFormSchema),
 	})
 
 	const setLoading = useLoading(state => state.setLoading)
@@ -49,11 +50,11 @@ const VehicleLinkForm = ({ fleetId }: Readonly<Props>) => {
 
 	const response = useResponse()
 
-	const handleSubmit = async ({ ids }: VehicleLinkFormSchema) => {
+	const handleSubmit = async ({ ids }: DriverLinkFormSchema) => {
 		setLoading(true)
 
-		await relateVehiclesToFleet(fleetId, {
-			vehicleIds: ids,
+		await relateDriversToFleet(fleetId, {
+			driverIds: ids,
 			operation: RelationOperations.LINK,
 		})
 			.then(resp => {
@@ -63,7 +64,7 @@ const VehicleLinkForm = ({ fleetId }: Readonly<Props>) => {
 
 				response.success({
 					title: 'Flotas',
-					description: 'Vehículos vinculados correctamente',
+					description: 'Conductores vinculados correctamente',
 				})
 
 				form.reset()
@@ -86,7 +87,7 @@ const VehicleLinkForm = ({ fleetId }: Readonly<Props>) => {
 					name='ids'
 					render={({ field }) => (
 						<FormItem>
-							{vehiclesWithoutFleets.map(item => (
+							{driversWithoutFleets.map(item => (
 								<FormField
 									key={item.id}
 									control={form.control}
@@ -111,8 +112,7 @@ const VehicleLinkForm = ({ fleetId }: Readonly<Props>) => {
 													/>
 												</FormControl>
 												<FormLabel className='text-sm font-normal text-muted-foreground'>
-													{item.licensePlate} - {item.make} - {item.model} -{' '}
-													{item.year}
+													{item.name} - {item.licenseNumber}
 												</FormLabel>
 											</FormItem>
 										)

@@ -81,6 +81,8 @@ export default async function FleetsPage(props: Readonly<Props>) {
 
 	const user = await getServerUser()
 
+	const fallbackUrl = `${Pathnames.FLEETS}/${fleetId}/${Pathnames.VEHICLES}`
+
 	let queryParams: QueryParamsModel = {
 		page: 1,
 		limit: paginationLimitsOptions[0],
@@ -90,15 +92,13 @@ export default async function FleetsPage(props: Readonly<Props>) {
 	if (encodedQuery) {
 		const decodedQuery = decodeQuery(encodedQuery)
 
-		if (!decodedQuery) redirect(Pathnames.VEHICLES)
+		if (!decodedQuery) redirect(fallbackUrl)
 
 		queryParams = {
 			...queryParams,
 			...decodedQuery,
 		}
 	}
-
-	const fallbackUrl = `${Pathnames.FLEETS}/${fleetId}/${Pathnames.VEHICLES}`
 
 	const response = await findAll<VehicleModel>(
 		ApiEndpoints.VEHICLES,

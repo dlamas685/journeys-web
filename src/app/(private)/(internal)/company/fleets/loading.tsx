@@ -4,6 +4,7 @@ import {
 	FrameHeader,
 	FrameTitle,
 } from '@/common/components/layout/frame'
+import { PAGINATION_LIMITS_OPTIONS } from '@/common/constants'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
 	Table,
@@ -53,30 +54,32 @@ export default function Loading() {
 							</TableRow>
 						</TableHeader>
 						<TableBody>
-							{Array.from({ length: 6 }).map((_, index) => (
-								<TableRow
-									key={index}
-									className='rounded-l-xl rounded-r-xl border-none bg-zinc-50'>
-									<TableCell className='h-12 rounded-l-xl'>
-										<Skeleton className='h-5 w-full' />
-									</TableCell>
-									<TableCell>
-										<Skeleton className='h-5 w-full' />
-									</TableCell>
-									<TableCell>
-										<Skeleton className='h-5 w-full' />
-									</TableCell>
-									<TableCell>
-										<Skeleton className='h-5 w-full' />
-									</TableCell>
-									<TableCell>
-										<Skeleton className='h-5 w-full' />
-									</TableCell>
-									<TableCell className='rounded-r-xl'>
-										<Skeleton className='h-5 w-full' />
-									</TableCell>
-								</TableRow>
-							))}
+							{Array.from({ length: PAGINATION_LIMITS_OPTIONS[0] }).map(
+								(_, index) => (
+									<TableRow
+										key={index}
+										className='rounded-l-xl rounded-r-xl border-none bg-zinc-50'>
+										<TableCell className='h-12 rounded-l-xl'>
+											<Skeleton className='h-5 w-full' />
+										</TableCell>
+										<TableCell>
+											<Skeleton className='h-5 w-full' />
+										</TableCell>
+										<TableCell>
+											<Skeleton className='h-5 w-full' />
+										</TableCell>
+										<TableCell>
+											<Skeleton className='h-5 w-full' />
+										</TableCell>
+										<TableCell>
+											<Skeleton className='h-5 w-full' />
+										</TableCell>
+										<TableCell className='rounded-r-xl'>
+											<Skeleton className='h-5 w-full' />
+										</TableCell>
+									</TableRow>
+								)
+							)}
 						</TableBody>
 					</Table>
 				</section>
