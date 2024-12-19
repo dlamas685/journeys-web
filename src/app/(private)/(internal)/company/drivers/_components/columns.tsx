@@ -73,8 +73,8 @@ const columns: ColumnDef<DriverModel>[] = [
 		accessorKey: 'fleet',
 		header: () => <SortingButton field='fleet.name'>Flota</SortingButton>,
 		cell: ({ row }) => {
-			const fleet = row.getValue<FleetModel>('fleet') || 'N/D'
-			return fleet.name
+			const fleet = row.getValue<FleetModel | null>('fleet')
+			return fleet?.name ?? 'N/D'
 		},
 	},
 	{
