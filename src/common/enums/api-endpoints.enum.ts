@@ -24,6 +24,8 @@ export enum ApiEndpoints {
 	FAVORITE_PLACES = 'favorite-places',
 
 	FLEETS = 'fleets',
+
+	VEHICLE_RELATIONS = 'vehicle-relations',
 	VEHICLES = 'vehicles',
 	DRIVERS = 'drivers',
 

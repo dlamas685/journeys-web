@@ -51,7 +51,7 @@ const FrameTitle = forwardRef<HTMLHeadingElement, FrameTitleProps>(
 				ref={ref}
 				className={cn(
 					{
-						'mt-1 text-center font-primary text-xl font-semibold italic sm:static sm:mt-0 sm:inline-block sm:text-left sm:text-2xl':
+						'mt-1 text-center font-primary text-xl font-semibold sm:static sm:mt-0 sm:inline-block sm:text-left sm:text-2xl':
 							as === 'h1',
 					},
 					className

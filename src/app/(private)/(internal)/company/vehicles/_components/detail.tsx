@@ -1,5 +1,5 @@
 'use client'
-import { cn } from '@/lib/utils'
+import SeeMore from '@/common/components/ui/misc/see-more'
 import { format } from 'date-fns'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
@@ -56,25 +56,11 @@ const Detail = ({ record }: Readonly<Props>) => {
 				</p>
 			</section>
 
-			<p className='col-span-full text-sm'>
+			<div className='col-span-full text-sm'>
 				<b>Notas</b>
 				<br />
-				<span
-					ref={notesRef}
-					className={cn('overflow-hidden', {
-						'line-clamp-3': !seeMore,
-						'line-clamp-none': seeMore,
-					})}>
-					{record.notes}
-				</span>
-				{isOverflowing && (
-					<span
-						className='cursor-pointer text-orange-500'
-						onClick={toggleSeeMore}>
-						{seeMore ? 'Ver menos' : 'Ver más'}
-					</span>
-				)}
-			</p>
+				{record.notes ? <SeeMore lines={3}>{record.notes}</SeeMore> : 'N/D'}
+			</div>
 
 			<section className='flex flex-col gap-1'>
 				<p className='font-secondary text-xs text-muted-foreground'>

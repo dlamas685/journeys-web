@@ -42,7 +42,7 @@ type Props = {
 }
 
 const UpsertForm = ({ record }: Readonly<Props>) => {
-	const { dependencies } = useDataTableContext()
+	const { dependencies } = useDataTableContext<VehicleModel>()
 
 	const fleets = dependencies?.fleets as FleetModel[]
 

@@ -9,11 +9,14 @@ import { CircleCheck, LoaderCircle } from 'lucide-react'
 import { ComponentProps, Dispatch, SetStateAction } from 'react'
 
 type Props = ComponentProps<typeof Button> & {
-	recordId: string
-	endpoint: ApiEndpoints
+	recordId?: string
+	recordIds?: string[]
+	endpoint?: ApiEndpoints
 	title?: string
 	description?: string
 	setAlertOpen: Dispatch<SetStateAction<boolean>>
+	isMultiple?: boolean
+	onRemove?: () => void
 }
 
 const EraserButton = ({
@@ -22,6 +25,8 @@ const EraserButton = ({
 	title = 'Eliminar registro',
 	description = 'Registro eliminado correctamente.',
 	setAlertOpen,
+	isMultiple,
+	onRemove,
 	...rest
 }: Readonly<Props>) => {
 	const response = useResponse()
@@ -31,23 +36,38 @@ const EraserButton = ({
 	const handleRemove = async () => {
 		setLoading(true)
 
-		await remove(endpoint, recordId)
-			.then(resp => {
-				if (typeof resp !== 'boolean') {
-					throw new ApiError(resp)
-				}
+		if (onRemove) {
+			onRemove()
+			setLoading(false)
+			setAlertOpen(false)
+			return
+		}
 
-				response.success({
-					title,
-					description,
+		if (!endpoint) return
+
+		if (!isMultiple && recordId) {
+			await remove(endpoint, recordId)
+				.then(resp => {
+					if (typeof resp !== 'boolean') {
+						throw new ApiError(resp)
+					}
+
+					response.success({
+						title,
+						description,
+					})
+
+					setAlertOpen(false)
+				})
+				.catch(response.error)
+				.finally(() => {
+					setLoading(false)
 				})
 
-				setAlertOpen(false)
-			})
-			.catch(response.error)
-			.finally(() => {
-				setLoading(false)
-			})
+			return
+		}
+
+		//TODO: Implement multiple delete
 	}
 
 	return (

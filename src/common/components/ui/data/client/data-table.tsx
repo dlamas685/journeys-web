@@ -540,7 +540,7 @@ const DataTablePaginationInfo = <TData, TValue>({
 	)
 }
 
-type DataTablePaginationLimits = ComponentProps<'section'> & {
+type DataTablePaginationLimitsProps = ComponentProps<'section'> & {
 	label?: string
 	icon?: ReactNode
 	options: number[]
@@ -551,7 +551,7 @@ const DataTablePaginationLimits = <TData, TValue>({
 	label,
 	options,
 	...rest
-}: Readonly<DataTablePaginationLimits>) => {
+}: Readonly<DataTablePaginationLimitsProps>) => {
 	const { queryParams } = useDataTableContext<TData, TValue>()
 	const router = useRouter()
 	const pathname = usePathname()
@@ -596,12 +596,34 @@ const DataTablePaginationLimits = <TData, TValue>({
 	)
 }
 
+type DataTableRowsSelectedProps = ComponentProps<'p'> & {}
+
+const DataTableRowsSelected = <TData, TValue>({
+	className,
+	...rest
+}: Readonly<DataTableRowsSelectedProps>) => {
+	const { table } = useDataTableContext<TData, TValue>()
+
+	return (
+		<p
+			className={cn(
+				'text-center font-secondary text-sm sm:text-left',
+				className
+			)}
+			{...rest}>
+			{table.getFilteredSelectedRowModel().rows.length} elementos seleccionados
+			de {table.getFilteredRowModel().rows.length}
+		</p>
+	)
+}
+
 export {
 	DataTable,
 	DataTablePagination,
 	DataTablePaginationInfo,
 	DataTablePaginationLimits,
 	DataTableProvider,
+	DataTableRowsSelected,
 	DataTableSearch,
 	DataTableVisibilityColumns,
 }

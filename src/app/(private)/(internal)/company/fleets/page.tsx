@@ -21,11 +21,7 @@ import {
 	DataTableToolbar,
 } from '@/common/components/ui/data/server/data-table'
 import Modal from '@/common/components/ui/overlay/modal'
-import {
-	FILTER_FORM_ID,
-	PAGINATION_LIMITS_OPTIONS,
-	UPSERT_FORM_ID,
-} from '@/common/constants'
+import { FILTER_FORM_ID, UPSERT_FORM_ID } from '@/common/constants'
 import { ApiEndpoints, Pathnames, SortDirections } from '@/common/enums'
 import { type QueryParamsModel } from '@/common/models'
 import { type SearchParams } from '@/common/types'
@@ -54,9 +50,11 @@ export default async function FleetsPage(props: Readonly<Props>) {
 	const searchParams = await props.searchParams
 	const encodedQuery = searchParams['query']
 
+	const paginationLimitsOptions = [6, 12, 24, 48, 96]
+
 	let queryParams: QueryParamsModel = {
 		page: 1,
-		limit: 6,
+		limit: paginationLimitsOptions[0],
 		sorts: [{ field: 'createdAt', direction: SortDirections.DESC }],
 	}
 
@@ -150,7 +148,7 @@ export default async function FleetsPage(props: Readonly<Props>) {
 						<DataTablePagination advanced={response.meta.lastPage < 10} />
 						<DataTablePaginationLimits
 							className='justify-self-center'
-							options={PAGINATION_LIMITS_OPTIONS}
+							options={paginationLimitsOptions}
 							label='Número de flotas por página'
 						/>
 					</DataTableFooter>

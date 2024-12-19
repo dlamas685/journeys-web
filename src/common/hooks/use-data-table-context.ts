@@ -4,7 +4,7 @@ import {
 	type DataTableContextValue,
 } from '../contexts/data-table-context'
 
-export const useDataTableContext = <TData, TValue>() => {
+export const useDataTableContext = <TData, TValue = any>() => {
 	const context = useContext(
 		DataTableContext as Context<DataTableContextValue<TData, TValue> | null>
 	)

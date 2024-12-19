@@ -14,6 +14,13 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from '@/components/ui/tooltip'
+import { cn } from '@/lib/utils'
 import { ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
 import {
@@ -54,22 +61,99 @@ const columns: ColumnDef<FleetModel>[] = [
 	},
 	{
 		accessorKey: 'maxDrivers',
-		header: () => <SortingButton field='maxDrivers'>CDD</SortingButton>,
+		header: () => (
+			<TooltipProvider>
+				<Tooltip>
+					<TooltipTrigger asChild>
+						<SortingButton field='maxDrivers'>CC</SortingButton>
+					</TooltipTrigger>
+					<TooltipContent align='center' className='bg-muted-foreground'>
+						<p>Cantidad de conductores</p>
+					</TooltipContent>
+				</Tooltip>
+			</TooltipProvider>
+		),
 		enableHiding: false,
-		cell: ({ row }) => row.getValue<number>('maxDrivers') ?? 'N/D',
+		cell: ({ row }) => {
+			const maxDrivers = row.getValue<number | null>('maxDrivers')
+			const amountLinkedDrivers = row.original.vehicles.length
+
+			return maxDrivers ? (
+				<TooltipProvider>
+					<Tooltip>
+						<TooltipTrigger asChild>
+							<span
+								className={cn('font-medium', {
+									'text-red-500': amountLinkedDrivers >= maxDrivers,
+									'text-green-500': amountLinkedDrivers < maxDrivers,
+								})}>
+								{maxDrivers}
+							</span>
+						</TooltipTrigger>
+						<TooltipContent align='center' className='bg-muted-foreground'>
+							<p>
+								{amountLinkedDrivers === 0
+									? 'No hay conductores vinculados'
+									: `${amountLinkedDrivers} conductores vinculados`}{' '}
+							</p>
+						</TooltipContent>
+					</Tooltip>
+				</TooltipProvider>
+			) : (
+				'N/D'
+			)
+		},
 	},
 	{
 		accessorKey: 'maxVehicles',
-		header: () => <SortingButton field='maxVehicles'>CDV</SortingButton>,
+		header: () => (
+			<TooltipProvider>
+				<Tooltip>
+					<TooltipTrigger asChild>
+						<SortingButton field='maxVehicles'>CV</SortingButton>
+					</TooltipTrigger>
+					<TooltipContent align='center' className='bg-muted-foreground'>
+						<p>Cantidad de vehículos</p>
+					</TooltipContent>
+				</Tooltip>
+			</TooltipProvider>
+		),
 		enableHiding: false,
-		cell: ({ row }) => row.getValue<number>('maxVehicles') ?? 'N/D',
+		cell: ({ row }) => {
+			const maxVehicles = row.getValue<number | null>('maxVehicles')
+			const amountLinkedVehicles = row.original.vehicles.length
+
+			return maxVehicles ? (
+				<TooltipProvider>
+					<Tooltip>
+						<TooltipTrigger asChild>
+							<span
+								className={cn('font-medium', {
+									'text-red-500': amountLinkedVehicles >= maxVehicles,
+									'text-green-500': amountLinkedVehicles < maxVehicles,
+								})}>
+								{maxVehicles}
+							</span>
+						</TooltipTrigger>
+						<TooltipContent align='center' className='bg-muted-foreground'>
+							<p>
+								{amountLinkedVehicles === 0
+									? 'No hay vehículos vinculados'
+									: `${amountLinkedVehicles} vehículos vinculados`}
+							</p>
+						</TooltipContent>
+					</Tooltip>
+				</TooltipProvider>
+			) : (
+				'N/D'
+			)
+		},
 	},
 	{
 		accessorKey: 'createdAt',
 		header: () => <SortingButton field='createdAt'>Creado</SortingButton>,
 		cell: ({ row }) => format(row.getValue<Date>('createdAt'), 'dd/MM/yyyy'),
 	},
-
 	{
 		id: 'actions',
 		enableHiding: false,

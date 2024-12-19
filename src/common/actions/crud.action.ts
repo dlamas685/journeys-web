@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { notFound, redirect } from 'next/navigation'
 import { ApiError } from '../classes/api-error.class'
-import { ApiEndpoints, FilterTypes, Pathnames } from '../enums'
+import { ApiEndpoints, FilterTypes } from '../enums'
 import type {
 	ErrorModel,
 	PaginatedResponseModel,
@@ -131,7 +131,7 @@ export const findOne = async <ResModel>(
 export const findAll = async <ResModel>(
 	endpoint: ApiEndpoints,
 	queryParams: QueryParamsModel,
-	fallbackUrl: Pathnames,
+	fallbackUrl: string,
 	headers: HeadersInit = HEADERS,
 	next?: NextFetchRequestConfig
 ) => {
@@ -164,8 +164,6 @@ export const findAll = async <ResModel>(
 		}
 
 		url = url.slice(0, -1)
-
-		console.log(url)
 
 		const response = await fetch(url, {
 			method: 'GET',
