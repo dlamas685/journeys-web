@@ -138,8 +138,8 @@ export default async function FleetsPage(props: Readonly<Props>) {
 
 	return (
 		<Frame className='gap-5 sm:gap-4'>
-			<FrameHeader className='sm:flex-col sm:gap-2'>
-				<section className='flex flex-col'>
+			<FrameHeader className='gap-2 sm:flex-col sm:gap-2'>
+				<section className='flex flex-col gap-5 sm:gap-0'>
 					<FrameTitle>Vehículos</FrameTitle>
 					<Breadcrumb>
 						<BreadcrumbList>

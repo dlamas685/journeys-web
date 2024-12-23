@@ -117,7 +117,7 @@ export default async function InternalLayout({ children }: Readonly<Props>) {
 	)
 
 	return (
-		<section className='mx-auto flex min-h-dvh w-full flex-col md:max-w-[82.5rem]'>
+		<section className='mx-auto flex min-h-dvh w-full flex-col md:max-w-7xl'>
 			<header className='grid grid-cols-[auto_1fr_auto] items-center gap-4 border-b p-4 sm:grid-cols-[auto_1fr_repeat(2,auto)] sm:p-6'>
 				<section className='hidden items-center gap-3 sm:flex'>
 					<Image
