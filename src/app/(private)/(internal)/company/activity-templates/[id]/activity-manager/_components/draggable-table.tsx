@@ -1,4 +1,5 @@
 'use client'
+import { removeActivity } from '@/common/actions/activity-template.action'
 import { ApiError } from '@/common/classes/api-error.class'
 import EraserButton from '@/common/components/ui/misc/eraser-button'
 import RemovalAlert from '@/common/components/ui/overlay/removal-alert'
@@ -30,7 +31,6 @@ import {
 import { CSS } from '@dnd-kit/utilities'
 import { CircleMinus, CircleX, Grip } from 'lucide-react'
 import { useParams } from 'next/navigation'
-import { removeActivity } from '../../../_actions/activity-template.action'
 import { useDraggableTableContext } from '../_hooks/use-draggable-table-context'
 
 const DraggableTable = () => {

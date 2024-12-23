@@ -1,5 +1,6 @@
 'use client'
 
+import { createActivity } from '@/common/actions/activity-template.action'
 import { ApiError } from '@/common/classes/api-error.class'
 import InputMask from '@/common/components/ui/form/input-mask'
 import { UPSERT_FORM_ID } from '@/common/constants'
@@ -22,7 +23,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
-import { createActivity } from '../../../_actions/activity-template.action'
 import {
 	upsertFormSchema,
 	type UpsertFormSchema,
