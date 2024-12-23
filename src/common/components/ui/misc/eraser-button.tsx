@@ -16,7 +16,7 @@ type Props = ComponentProps<typeof Button> & {
 	description?: string
 	setAlertOpen: Dispatch<SetStateAction<boolean>>
 	isMultiple?: boolean
-	onRemove?: () => void
+	onRemove?: () => Promise<void>
 }
 
 const EraserButton = ({
@@ -37,9 +37,13 @@ const EraserButton = ({
 		setLoading(true)
 
 		if (onRemove) {
-			onRemove()
-			setLoading(false)
-			setAlertOpen(false)
+			await onRemove()
+				.then(() => {
+					setAlertOpen(false)
+				})
+				.finally(() => {
+					setLoading(false)
+				})
 			return
 		}
 
