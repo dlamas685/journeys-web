@@ -23,12 +23,12 @@ import {
 import { capitalCase } from 'change-case'
 import { CheckCircle2, ClipboardCheck } from 'lucide-react'
 import { type Metadata } from 'next'
-import DraggableTable from '../_components/draggable-table'
-import RebootAlert from '../_components/reboot-alert'
-import SaveChangesButton from '../_components/save-changes-button'
-import UpsertForm from '../_components/upsert-form'
-import { COLUMNS } from '../_constants/columns.constants'
-import DraggableTableProvider from '../_providers/draggable-table.provider'
+import DraggableTable from './_components/draggable-table'
+import RebootAlert from './_components/reboot-alert'
+import SaveChangesButton from './_components/save-changes-button'
+import UpsertForm from './_components/upsert-form'
+import { COLUMNS } from './_constants/columns.constants'
+import DraggableTableProvider from './_providers/draggable-table.provider'
 
 type Props = {
 	params: Promise<Params>

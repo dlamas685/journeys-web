@@ -22,7 +22,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
-import { createActivity } from '../../_actions/activity-template.action'
+import { createActivity } from '../../../_actions/activity-template.action'
 import {
 	upsertFormSchema,
 	type UpsertFormSchema,

@@ -30,7 +30,7 @@ import {
 import { CSS } from '@dnd-kit/utilities'
 import { CircleMinus, CircleX, Grip } from 'lucide-react'
 import { useParams } from 'next/navigation'
-import { removeActivity } from '../../_actions/activity-template.action'
+import { removeActivity } from '../../../_actions/activity-template.action'
 import { useDraggableTableContext } from '../_hooks/use-draggable-table-context'
 
 const DraggableTable = () => {
