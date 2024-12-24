@@ -32,4 +32,5 @@ export enum ApiEndpoints {
 	DRIVERS = 'drivers',
 
 	ACTIVITY_TEMPLATES = 'activity-templates',
+	ACTIVITIES = 'activities',
 }

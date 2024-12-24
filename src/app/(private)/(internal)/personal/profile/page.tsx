@@ -27,7 +27,7 @@ export default async function ProfilePage() {
 			<FrameHeader>
 				<FrameTitle>Mi perfil</FrameTitle>
 			</FrameHeader>
-			<FrameBody className='max-w-lg'>
+			<FrameBody className='max-w-2xl'>
 				<ProfilePicture
 					label={nameInitials}
 					imageUrl={user.imageUrl}
