@@ -72,7 +72,7 @@ const SortingButtons = ({ field, label, queryParams }: Readonly<Props>) => {
 							aria-label={`Ordenar de forma ascendente por ${label}`}
 							aria-disabled={false}
 							onClick={() => {
-								if (isDesktop) return
+								if (isDesktop || value === SortDirections.ASC) return
 								toast.info('Ordenamiento', {
 									description: `Ordenado de forma ascendente por ${label}`,
 									position: 'bottom-center',
@@ -100,7 +100,7 @@ const SortingButtons = ({ field, label, queryParams }: Readonly<Props>) => {
 							aria-label={`Ordenar de forma descendente por ${label}`}
 							aria-disabled={false}
 							onClick={() => {
-								if (isDesktop) return
+								if (isDesktop || value === SortDirections.DESC) return
 								toast.info('Ordenamiento', {
 									description: `Ordenado de forma descendente por ${label}`,
 									position: 'bottom-center',
