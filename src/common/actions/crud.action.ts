@@ -174,8 +174,6 @@ export const findAll = async <ResModel>(
 			next,
 		})
 
-		console.log(response)
-
 		if (!response.ok) {
 			const error = (await response.json()) as ErrorModel
 

@@ -26,8 +26,6 @@ const VehicleUnlink = ({ fleetId }: Readonly<Props>) => {
 	const handleRemove = async () => {
 		const vehicleIds = rows.map(row => row.original.id)
 
-		console.log(vehicleIds)
-
 		await relateVehiclesToFleet(fleetId, {
 			vehicleIds,
 			operation: RelationOperations.UNLINK,
