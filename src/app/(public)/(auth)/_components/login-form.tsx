@@ -24,6 +24,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { LoaderCircle } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import {
 	CredentialsSchema,
@@ -31,6 +32,7 @@ import {
 } from '../_schemas/credentials.schema'
 
 const LoginForm = () => {
+	const [isPending, startTransition] = useTransition()
 	const router = useRouter()
 	const response = useResponse()
 
@@ -60,6 +62,10 @@ const LoginForm = () => {
 				router.replace(`/${defaultPath}`)
 			})
 			.catch(response.error)
+	}
+
+	const handleGoogleLogin = () => {
+		loginWithGoogle()
 	}
 
 	return (
@@ -137,9 +143,7 @@ const LoginForm = () => {
 					className='col-span-full'
 					variant='outline'
 					type='button'
-					onClick={async () => {
-						await loginWithGoogle()
-					}}>
+					onClick={handleGoogleLogin}>
 					<GoogleIcon />
 					<span className='ml-2'>Google</span>
 				</Button>

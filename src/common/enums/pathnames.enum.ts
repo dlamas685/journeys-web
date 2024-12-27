@@ -4,6 +4,7 @@ export enum Pathnames {
 	PASSWORD_RESET_REQUEST = 'password-reset-request',
 	PASSWORD_RESETS = 'password-resets',
 	EMAIL_VERIFICATION = 'email-verification',
+	PROVIDERS = 'providers',
 	ERROR = 'error',
 	HOME = 'home',
 	DASHBOARD = 'dashboard',

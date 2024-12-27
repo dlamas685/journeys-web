@@ -8,6 +8,7 @@ const publicPaths = [
 	`/${Pathnames.PASSWORD_RESET_REQUEST}`,
 	`/${Pathnames.PASSWORD_RESETS}`,
 	`/${Pathnames.EMAIL_VERIFICATION}`,
+	`/${Pathnames.PROVIDERS}`,
 	`/${Pathnames.ERROR}`,
 ]
 

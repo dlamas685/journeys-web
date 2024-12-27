@@ -33,7 +33,7 @@ export const uploadUserImage = async (formData: FormData) => {
 		const options: Partial<ResponseCookie> = {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === 'production',
-			sameSite: 'none',
+			sameSite: 'lax',
 			expires: new Date(expires * 1000),
 		}
 
@@ -70,7 +70,7 @@ export const removeUserImage = async () => {
 		const options: Partial<ResponseCookie> = {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === 'production',
-			sameSite: 'none',
+			sameSite: 'lax',
 			expires: new Date(expires * 1000),
 		}
 
