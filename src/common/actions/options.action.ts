@@ -39,7 +39,7 @@ export const updateProfile = async (updateUser: UpdateUserModel) => {
 		const options: Partial<ResponseCookie> = {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === 'production',
-			sameSite: 'lax',
+			sameSite: 'none',
 			expires: new Date(expires * 1000),
 		}
 
