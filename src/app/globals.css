@@ -63,6 +63,18 @@ body {
 	@apply m-0 min-h-svh scroll-smooth p-0;
 }
 
+*::-webkit-scrollbar {
+	@apply h-2 w-2;
+}
+
+*::-webkit-scrollbar-thumb {
+	@apply bg-border;
+}
+
+*::-webkit-scrollbar-track {
+	@apply bg-background;
+}
+
 button:focus-visible {
 	@apply focus:outline-none;
 }
