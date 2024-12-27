@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { Pathnames } from './common/enums'
+import { Pathnames, UserTypes } from './common/enums'
 import { UserModel } from './common/models'
 
 const publicPaths = [
@@ -21,6 +21,10 @@ export const middleware = async ({ cookies, nextUrl }: NextRequest) => {
 	const isOnLogin = pathname.startsWith(`/${Pathnames.LOGIN}`)
 	const isFirstSteps = pathname.startsWith(`/${Pathnames.FIRST_STEPS}`)
 	const isPublic = publicPaths.includes(pathname)
+	const defaultPath =
+		user.userType && user.userType === UserTypes.PERSONAL
+			? Pathnames.HOME
+			: Pathnames.DASHBOARD
 
 	if (isLoggedIn) {
 		if (!user.userType && !isFirstSteps) {
@@ -31,13 +35,13 @@ export const middleware = async ({ cookies, nextUrl }: NextRequest) => {
 
 		if (user.userType && isFirstSteps) {
 			return NextResponse.redirect(
-				new URL(`/${user.userType.toLowerCase()}/${Pathnames.HOME}`, nextUrl)
+				new URL(`/${user.userType.toLowerCase()}/${defaultPath}`, nextUrl)
 			)
 		}
 
 		if (isOnLogin && user.userType) {
 			return NextResponse.redirect(
-				new URL(`/${user.userType.toLowerCase()}/${Pathnames.HOME}`, nextUrl)
+				new URL(`/${user.userType.toLowerCase()}/${defaultPath}`, nextUrl)
 			)
 		}
 
@@ -46,7 +50,7 @@ export const middleware = async ({ cookies, nextUrl }: NextRequest) => {
 			!pathname.includes(`/${user.userType.toLowerCase()}`)
 		) {
 			return NextResponse.redirect(
-				new URL(`/${user.userType.toLowerCase()}/${Pathnames.HOME}`, nextUrl)
+				new URL(`/${user.userType.toLowerCase()}/${defaultPath}`, nextUrl)
 			)
 		}
 

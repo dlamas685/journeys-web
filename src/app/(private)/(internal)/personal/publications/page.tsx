@@ -1,7 +1,17 @@
+import {
+	Frame,
+	FrameBody,
+	FrameHeader,
+	FrameTitle,
+} from '@/common/components/layout/frame'
+
 export default function PublicationsPage() {
 	return (
-		<div>
-			<h1>Hello Publications Page</h1>
-		</div>
+		<Frame>
+			<FrameHeader>
+				<FrameTitle>Publicaciones</FrameTitle>
+			</FrameHeader>
+			<FrameBody>@Components</FrameBody>
+		</Frame>
 	)
 }

@@ -124,7 +124,7 @@ const Todo = ({ id, record }: Readonly<TodoProps>) => {
 				</SeeMore>
 				{record.duration && (
 					<span className='font-secondary text-sm text-muted-foreground'>
-						{record.duration} min.
+						{record.duration} minutos
 					</span>
 				)}
 			</section>

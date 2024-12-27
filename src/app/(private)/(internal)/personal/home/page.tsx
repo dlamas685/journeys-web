@@ -1,3 +1,9 @@
+import {
+	Frame,
+	FrameBody,
+	FrameHeader,
+	FrameTitle,
+} from '@/common/components/layout/frame'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -7,8 +13,11 @@ export const metadata: Metadata = {
 
 export default async function HomePage() {
 	return (
-		<div>
-			<h1>Hello Home Page</h1>
-		</div>
+		<Frame>
+			<FrameHeader>
+				<FrameTitle>Inicio</FrameTitle>
+			</FrameHeader>
+			<FrameBody>@Components</FrameBody>
+		</Frame>
 	)
 }

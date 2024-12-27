@@ -13,7 +13,7 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { cn } from '@/lib/utils'
-import { CreditCard, LogOut, ShieldCheck, UserRoundPen } from 'lucide-react'
+import { LogOut, ShieldCheck, UserRoundPen } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -75,20 +75,6 @@ const Profile = ({ user, className }: Readonly<Props>) => {
 						)}>
 						<ShieldCheck className='size-4' />
 						Seguridad
-					</Link>
-				</DropdownMenuItem>
-				<DropdownMenuItem className='cursor-pointer gap-1' asChild>
-					<Link
-						aria-label='Ir a las formas de pago'
-						href={`/${pathRoot}/${Pathnames.PAYMENTS}`}
-						prefetch
-						className={cn(
-							pathname.includes(Pathnames.PAYMENTS)
-								? 'text-orange-500'
-								: 'text-black'
-						)}>
-						<CreditCard className='size-4' />
-						Formas de pago
 					</Link>
 				</DropdownMenuItem>
 

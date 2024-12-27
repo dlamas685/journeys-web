@@ -46,15 +46,17 @@ const Sidebar = ({ items }: Readonly<Props>) => {
 				<SheetHeader className='flex items-center gap-1'>
 					<SheetTitle></SheetTitle>
 					<SheetDescription></SheetDescription>
-					<Image
-						src='/brand/imagotype-v1.png'
-						alt='Logo de la aplicación'
-						width={250}
-						height={250}
-						className='size-28'
-						priority
-						sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-					/>
+					<Link href='/' onClick={() => setOpen(false)}>
+						<Image
+							src='/brand/imagotype-v1.png'
+							alt='Logo de la aplicación'
+							width={250}
+							height={250}
+							className='size-28'
+							priority
+							sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+						/>
+					</Link>
 				</SheetHeader>
 
 				<nav className='flex flex-grow flex-col gap-3'>

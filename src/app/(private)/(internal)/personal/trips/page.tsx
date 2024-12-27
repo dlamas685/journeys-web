@@ -1,7 +1,17 @@
+import {
+	Frame,
+	FrameBody,
+	FrameHeader,
+	FrameTitle,
+} from '@/common/components/layout/frame'
+
 export default function TripsPage() {
 	return (
-		<div>
-			<h1>Hello Trips Page</h1>
-		</div>
+		<Frame>
+			<FrameHeader>
+				<FrameTitle>Viajes</FrameTitle>
+			</FrameHeader>
+			<FrameBody>@Components</FrameBody>
+		</Frame>
 	)
 }

@@ -217,7 +217,9 @@ const columns: ColumnDef<ActivityTemplateModel>[] = [
 															{activity.name}
 														</span>
 														<span className='font-secondary text-sm'>
-															{activity.duration} min
+															{activity.duration
+																? `${activity.duration} min`
+																: '∞'}
 														</span>
 													</p>
 												</li>

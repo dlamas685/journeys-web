@@ -5,11 +5,11 @@ import {
 	FrameTitle,
 } from '@/common/components/layout/frame'
 
-export default function RoadmapsPage() {
+export default function DashboardPage() {
 	return (
 		<Frame>
 			<FrameHeader>
-				<FrameTitle>Hojas de Rutas</FrameTitle>
+				<FrameTitle>Panel de Control</FrameTitle>
 			</FrameHeader>
 			<FrameBody>@Components</FrameBody>
 		</Frame>

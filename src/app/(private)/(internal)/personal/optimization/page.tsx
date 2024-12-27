@@ -1,7 +1,17 @@
+import {
+	Frame,
+	FrameBody,
+	FrameHeader,
+	FrameTitle,
+} from '@/common/components/layout/frame'
+
 export default function OptimizationPage() {
 	return (
-		<div>
-			<h1>Hello Optimization Page</h1>
-		</div>
+		<Frame>
+			<FrameHeader>
+				<FrameTitle>Optimización</FrameTitle>
+			</FrameHeader>
+			<FrameBody>@Components</FrameBody>
+		</Frame>
 	)
 }

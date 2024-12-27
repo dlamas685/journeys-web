@@ -6,7 +6,7 @@ import {
 import { ApiError } from '@/common/classes/api-error.class'
 import InputPassword from '@/common/components/ui/form/input-password'
 import GoogleIcon from '@/common/components/ui/icons/google-icon'
-import { Pathnames } from '@/common/enums'
+import { Pathnames, UserTypes } from '@/common/enums'
 import useResponse from '@/common/hooks/use-response'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -52,7 +52,12 @@ const LoginForm = () => {
 					throw new ApiError(resp)
 				}
 
-				router.replace(`/${Pathnames.HOME}`)
+				const defaultPath =
+					resp.user.userType && resp.user.userType === UserTypes.PERSONAL
+						? Pathnames.HOME
+						: Pathnames.DASHBOARD
+
+				router.replace(`/${defaultPath}`)
 			})
 			.catch(response.error)
 	}

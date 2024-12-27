@@ -6,6 +6,7 @@ export enum Pathnames {
 	EMAIL_VERIFICATION = 'email-verification',
 	ERROR = 'error',
 	HOME = 'home',
+	DASHBOARD = 'dashboard',
 	FIRST_STEPS = 'first-steps',
 
 	// Personal
@@ -20,6 +21,7 @@ export enum Pathnames {
 	VEHICLES = 'vehicles',
 	DRIVERS = 'drivers',
 	ROADMAPS = 'roadmaps', //trips
+	HISTORY = 'history',
 
 	// Common
 

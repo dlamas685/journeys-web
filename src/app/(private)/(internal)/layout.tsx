@@ -5,6 +5,8 @@ import {
 	CarFront,
 	CarTaxiFront,
 	Home,
+	Layers,
+	LayoutDashboard,
 	MapPinHouse,
 	MapPinned,
 	Newspaper,
@@ -13,6 +15,7 @@ import {
 	UsersRound,
 } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ReactNode } from 'react'
 import { v4 as uuid } from 'uuid'
@@ -40,6 +43,14 @@ export default async function InternalLayout({ children }: Readonly<Props>) {
 			icon: <Home />,
 			label: 'Inicio',
 			href: `/${pathRoot}/${Pathnames.HOME}`,
+			userType: UserTypes.PERSONAL,
+		},
+		{
+			id: uuid(),
+			icon: <LayoutDashboard />,
+			label: 'Panel de Control',
+			href: `/${pathRoot}/${Pathnames.DASHBOARD}`,
+			userType: UserTypes.COMPANY,
 		},
 		{
 			id: uuid(),
@@ -83,6 +94,7 @@ export default async function InternalLayout({ children }: Readonly<Props>) {
 			href: `/${pathRoot}/${Pathnames.DRIVERS}`,
 			userType: UserTypes.COMPANY,
 		},
+
 		{
 			id: uuid(),
 			icon: <CarTaxiFront />,
@@ -111,6 +123,13 @@ export default async function InternalLayout({ children }: Readonly<Props>) {
 			href: `/${pathRoot}/${Pathnames.PUBLICATIONS}`,
 			userType: UserTypes.PERSONAL,
 		},
+		{
+			id: uuid(),
+			icon: <Layers />,
+			label: 'Historial',
+			href: `/${pathRoot}/${Pathnames.HISTORY}`,
+			userType: UserTypes.COMPANY,
+		},
 	]
 
 	const userItems = items.filter(
@@ -120,7 +139,7 @@ export default async function InternalLayout({ children }: Readonly<Props>) {
 	return (
 		<section className='mx-auto flex min-h-dvh w-full flex-col md:max-w-7xl'>
 			<header className='grid grid-cols-[auto_1fr_auto] items-center gap-4 border-b p-4 sm:grid-cols-[auto_1fr_repeat(2,auto)] sm:p-6'>
-				<section className='hidden items-center gap-3 sm:flex'>
+				<Link href='/' className='hidden items-center gap-3 sm:flex'>
 					<Image
 						src='/brand/isotype-v1.png'
 						alt='Journeys'
@@ -135,7 +154,7 @@ export default async function InternalLayout({ children }: Readonly<Props>) {
 						height={250}
 						className='mt-2 hidden h-7 w-32 md:block'
 					/>
-				</section>
+				</Link>
 				<SearchBox
 					className='col-start-2 col-end-3 justify-self-center sm:col-auto'
 					user={user}
