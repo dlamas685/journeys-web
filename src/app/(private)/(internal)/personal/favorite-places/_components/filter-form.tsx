@@ -79,7 +79,7 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 				id={FILTER_FORM_ID}
 				onSubmit={form.handleSubmit(handleSubmit)}>
 				<Fieldset className='gap-0.5'>
-					<FieldsetLegend className='flex items-center justify-between py-0 text-base font-bold'>
+					<FieldsetLegend className='FilterFieldSetLegend'>
 						Nombre
 						<Button
 							className='text-orange-700 hover:text-orange-700/90'
@@ -125,7 +125,7 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 					</FieldsetContent>
 				</Fieldset>
 				<Fieldset className='gap-0.5'>
-					<FieldsetLegend className='flex items-center justify-between py-0 text-base font-bold'>
+					<FieldsetLegend className='FilterFieldSetLegend'>
 						Dirección
 						<Button
 							className='text-orange-700 hover:text-orange-700/90'

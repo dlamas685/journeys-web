@@ -86,7 +86,7 @@ export default async function ActivityTemplatesPage(props: Readonly<Props>) {
 			<FrameHeader>
 				<FrameTitle>Plantillas de Actividades</FrameTitle>
 			</FrameHeader>
-			<FrameBody className='gap-0 sm:gap-4'>
+			<FrameBody className='gap-2 sm:gap-4'>
 				<DataTableProvider
 					data={response.data}
 					columns={columns}

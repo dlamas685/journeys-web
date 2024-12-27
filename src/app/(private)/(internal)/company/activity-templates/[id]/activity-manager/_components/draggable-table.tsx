@@ -17,7 +17,8 @@ import {
 import {
 	DndContext,
 	DragEndEvent,
-	PointerSensor,
+	MouseSensor,
+	TouchSensor,
 	closestCenter,
 	useSensor,
 	useSensors,
@@ -37,7 +38,7 @@ const DraggableTable = () => {
 	const { activities, setActivities, columns, setWasOrdered } =
 		useDraggableTableContext()
 
-	const sensors = useSensors(useSensor(PointerSensor))
+	const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor))
 
 	const handleDragEnd = (event: DragEndEvent) => {
 		const { active, over } = event
@@ -137,7 +138,9 @@ const DraggableRow = ({ id, record }: DraggableRowProps) => {
 			</TableCell>
 			<TableCell>{record.name}</TableCell>
 			<TableCell>{record.description}</TableCell>
-			<TableCell>{record.duration} min</TableCell>
+			<TableCell>
+				{record.duration ? `${record.duration} min` : 'N/D'}
+			</TableCell>
 			<TableCell className='rounded-r-xl'>
 				<RemovalAlert
 					triggerIcon={<CircleMinus className='size-4' />}

@@ -86,7 +86,7 @@ export default async function FleetsPage(props: Readonly<Props>) {
 			<FrameHeader>
 				<FrameTitle>Flotas</FrameTitle>
 			</FrameHeader>
-			<FrameBody className='gap-0 sm:gap-4'>
+			<FrameBody className='gap-2 sm:gap-4'>
 				<DataTableProvider
 					data={response.data}
 					columns={columns}

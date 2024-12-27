@@ -104,7 +104,7 @@ const Frame = forwardRef<HTMLDivElement, FrameProps>(
 			<Tag
 				ref={ref}
 				className={cn(
-					'mx-auto flex w-full max-w-4xl flex-grow flex-col gap-3 p-0 sm:gap-8 sm:px-5 sm:py-0.5',
+					'flex w-full flex-grow flex-col gap-5 p-0 sm:gap-8',
 					className
 				)}
 				{...rest}

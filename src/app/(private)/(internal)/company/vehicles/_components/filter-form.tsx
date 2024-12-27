@@ -105,7 +105,7 @@ const FilterForm = ({ queryParams, fleets }: Readonly<Props>) => {
 				autoComplete='off'
 				onSubmit={form.handleSubmit(handleSubmit)}>
 				<Fieldset className='gap-0.5'>
-					<FieldsetLegend className='flex items-center justify-between py-0 text-base font-bold'>
+					<FieldsetLegend className='FilterFieldSetLegend'>
 						Patente
 						<Button
 							className='text-orange-700 hover:text-orange-700/90'
@@ -171,7 +171,7 @@ const FilterForm = ({ queryParams, fleets }: Readonly<Props>) => {
 				</Fieldset>
 
 				<Fieldset className='gap-0.5'>
-					<FieldsetLegend className='flex items-center justify-between py-0 text-base font-bold'>
+					<FieldsetLegend className='FilterFieldSetLegend'>
 						Marca
 						<Button
 							className='text-orange-700 hover:text-orange-700/90'
@@ -237,7 +237,7 @@ const FilterForm = ({ queryParams, fleets }: Readonly<Props>) => {
 				</Fieldset>
 
 				<Fieldset className='gap-0.5'>
-					<FieldsetLegend className='flex items-center justify-between py-0 text-base font-bold'>
+					<FieldsetLegend className='FilterFieldSetLegend'>
 						Modelo
 						<Button
 							className='text-orange-700 hover:text-orange-700/90'
@@ -303,7 +303,7 @@ const FilterForm = ({ queryParams, fleets }: Readonly<Props>) => {
 				</Fieldset>
 
 				<Fieldset className='gap-0.5'>
-					<FieldsetLegend className='flex items-center justify-between py-0 text-base font-bold'>
+					<FieldsetLegend className='FilterFieldSetLegend'>
 						Año
 						<Button
 							className='text-orange-700 hover:text-orange-700/90'
@@ -382,7 +382,7 @@ const FilterForm = ({ queryParams, fleets }: Readonly<Props>) => {
 				</Fieldset>
 
 				<Fieldset className='gap-0.5'>
-					<FieldsetLegend className='flex items-center justify-between py-0 text-base font-bold'>
+					<FieldsetLegend className='FilterFieldSetLegend'>
 						Flota
 						<Button
 							className='text-orange-700 hover:text-orange-700/90'
@@ -461,7 +461,7 @@ const FilterForm = ({ queryParams, fleets }: Readonly<Props>) => {
 				</Fieldset>
 
 				<Fieldset className='gap-0.5'>
-					<FieldsetLegend className='flex items-center justify-between py-0 text-base font-bold'>
+					<FieldsetLegend className='FilterFieldSetLegend'>
 						Creado
 						<Button
 							className='text-orange-700 hover:text-orange-700/90'

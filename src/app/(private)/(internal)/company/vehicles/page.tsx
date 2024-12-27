@@ -94,7 +94,7 @@ export default async function FleetsPage(props: Readonly<Props>) {
 			<FrameHeader>
 				<FrameTitle>Vehículos</FrameTitle>
 			</FrameHeader>
-			<FrameBody className='gap-0 sm:gap-4'>
+			<FrameBody className='gap-2 sm:gap-4'>
 				<DataTableProvider
 					data={response.data}
 					columns={columns}
@@ -106,7 +106,7 @@ export default async function FleetsPage(props: Readonly<Props>) {
 					<DataTableHeader>
 						<DataTableSearch
 							field='licensePlate'
-							placeholder='Buscar por placa'
+							placeholder='Buscar por patente'
 						/>
 						<DataTableToolbar className='row-start-1 justify-center sm:col-start-2'>
 							<Modal

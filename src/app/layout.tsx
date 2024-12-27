@@ -46,7 +46,12 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='es' suppressHydrationWarning>
-			<body className={cn(primaryFont.variable, secondaryFont.variable)}>
+			<body
+				className={cn(
+					primaryFont.variable,
+					secondaryFont.variable,
+					'antialiased'
+				)}>
 				<GoogleMapsProvider apiKey={GOOGLE_MAPS_API_KEY}>
 					<ThemeProvider
 						attribute='class'

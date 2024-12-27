@@ -104,7 +104,7 @@ const FilterForm = ({ queryParams, fleets }: Readonly<Props>) => {
 				autoComplete='off'
 				onSubmit={form.handleSubmit(handleSubmit)}>
 				<Fieldset className='gap-0.5'>
-					<FieldsetLegend className='flex items-center justify-between py-0 text-base font-bold'>
+					<FieldsetLegend className='FilterFieldSetLegend'>
 						Nombre
 						<Button
 							className='text-orange-700 hover:text-orange-700/90'
@@ -169,7 +169,7 @@ const FilterForm = ({ queryParams, fleets }: Readonly<Props>) => {
 					</FieldsetContent>
 				</Fieldset>
 				<Fieldset className='gap-0.5'>
-					<FieldsetLegend className='flex items-center justify-between py-0 text-base font-bold'>
+					<FieldsetLegend className='FilterFieldSetLegend'>
 						N° de Licencia
 						<Button
 							className='text-orange-700 hover:text-orange-700/90'
@@ -234,7 +234,7 @@ const FilterForm = ({ queryParams, fleets }: Readonly<Props>) => {
 					</FieldsetContent>
 				</Fieldset>
 				<Fieldset className='gap-0.5'>
-					<FieldsetLegend className='flex items-center justify-between py-0 text-base font-bold'>
+					<FieldsetLegend className='FilterFieldSetLegend'>
 						Flota
 						<Button
 							className='text-orange-700 hover:text-orange-700/90'
@@ -313,7 +313,7 @@ const FilterForm = ({ queryParams, fleets }: Readonly<Props>) => {
 				</Fieldset>
 
 				<Fieldset className='gap-0.5'>
-					<FieldsetLegend className='flex items-center justify-between py-0 text-base font-bold'>
+					<FieldsetLegend className='FilterFieldSetLegend'>
 						Creado
 						<Button
 							className='text-orange-700 hover:text-orange-700/90'

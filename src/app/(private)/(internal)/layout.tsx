@@ -20,6 +20,7 @@ import Navbar from './_components/layout/navbar'
 import Notifications from './_components/layout/notifications'
 import Profile from './_components/layout/profile'
 import SearchBox from './_components/layout/search-box'
+import Sidebar from './_components/layout/sidebar'
 import { MenuItem } from './_types/menu-item.type'
 
 type Props = {
@@ -142,8 +143,9 @@ export default async function InternalLayout({ children }: Readonly<Props>) {
 				<Notifications className='col-start-1 col-end-2 row-start-1 row-end-2 sm:col-auto sm:row-auto' />
 				<Profile user={user} />
 			</header>
-			<main className='relative flex w-full flex-grow flex-col gap-0 p-4 sm:static sm:gap-8 sm:p-8 md:p-10'>
+			<main className='relative mx-auto flex w-full max-w-4xl flex-grow flex-col gap-0 p-4 sm:static sm:gap-8 sm:p-8 md:p-10'>
 				<Navbar items={userItems} />
+				<Sidebar items={userItems} />
 				{children}
 			</main>
 		</section>

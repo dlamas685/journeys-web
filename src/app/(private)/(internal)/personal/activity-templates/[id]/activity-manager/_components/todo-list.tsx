@@ -13,7 +13,8 @@ import {
 	closestCenter,
 	DndContext,
 	DragEndEvent,
-	PointerSensor,
+	MouseSensor,
+	TouchSensor,
 	useSensor,
 	useSensors,
 } from '@dnd-kit/core'
@@ -31,7 +32,7 @@ import { useTodoListContext } from '../_hooks/use-todo-list-context'
 const TodoList = () => {
 	const { data, setData, setWasOrdered } = useTodoListContext()
 
-	const sensors = useSensors(useSensor(PointerSensor))
+	const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor))
 
 	const handleDragEnd = (event: DragEndEvent) => {
 		const { active, over } = event
@@ -121,6 +122,11 @@ const Todo = ({ id, record }: Readonly<TodoProps>) => {
 				<SeeMore className='font-secondary text-muted-foreground' lines={2}>
 					{record.description}
 				</SeeMore>
+				{record.duration && (
+					<span className='font-secondary text-sm text-muted-foreground'>
+						{record.duration} min.
+					</span>
+				)}
 			</section>
 			<section className='flex flex-col justify-between'>
 				<Button

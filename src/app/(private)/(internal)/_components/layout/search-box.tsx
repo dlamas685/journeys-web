@@ -10,6 +10,7 @@ import {
 	CommandList,
 } from '@/components/ui/command'
 import { cn } from '@/lib/utils'
+import { DialogTitle } from '@radix-ui/react-dialog'
 import { Search } from 'lucide-react'
 import { ComponentProps, useEffect, useState } from 'react'
 
@@ -71,6 +72,7 @@ const SearchBox = ({
 				</kbd>
 			</Button>
 			<CommandDialog open={open} onOpenChange={setOpen}>
+				<DialogTitle></DialogTitle>
 				<CommandInput
 					placeholder={
 						user.userType === UserTypes.PERSONAL

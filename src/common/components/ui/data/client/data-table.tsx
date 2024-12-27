@@ -69,6 +69,7 @@ import {
 	type ChangeEvent,
 	type ComponentProps,
 	type ReactNode,
+	useEffect,
 	useState,
 } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
@@ -108,6 +109,10 @@ const DataTableProvider = <TData, TValue>({
 			rowSelection,
 		},
 	})
+
+	useEffect(() => {
+		setRowSelection({})
+	}, [queryParams.page])
 
 	return (
 		<DataTableContext.Provider
@@ -348,8 +353,9 @@ const DataTablePagination = <TData, TValue>({
 	advanced,
 }: Readonly<DataTablePaginationProps>) => {
 	const { metadata, queryParams } = useDataTableContext<TData, TValue>()
+	const isDesktop = useMediaQuery('(min-width: 640px)')
 
-	if (advanced) {
+	if (advanced && isDesktop) {
 		return (
 			<Pagination className='items-center justify-center sm:justify-end'>
 				<PaginationContent>
