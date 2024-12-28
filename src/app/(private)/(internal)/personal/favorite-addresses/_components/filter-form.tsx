@@ -26,6 +26,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select'
+import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Eraser } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
@@ -81,7 +82,7 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 	return (
 		<Form key={JSON.stringify(form.getValues())} {...form}>
 			<form
-				className='flex max-h-96 flex-col gap-2 overflow-y-auto px-4 pb-2 sm:max-h-[inherit] sm:gap-3 sm:px-1'
+				className='flex max-h-96 flex-col gap-3 overflow-y-auto px-4 pb-2 sm:max-h-[inherit] sm:px-1'
 				id={FILTER_FORM_ID}
 				onSubmit={form.handleSubmit(handleSubmit)}>
 				<Fieldset className='gap-0.5'>
@@ -117,8 +118,11 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 										onValueChange={field.onChange}
 										defaultValue={field.value}>
 										<FormControl>
-											<SelectTrigger>
-												<SelectValue placeholder='Selección una regla' />
+											<SelectTrigger
+												className={cn({
+													SelectPlaceHolder: !field.value,
+												})}>
+												<SelectValue placeholder='Seleccione una regla' />
 											</SelectTrigger>
 										</FormControl>
 										<SelectContent>

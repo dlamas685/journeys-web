@@ -175,7 +175,7 @@ export default async function DriversPage(props: Readonly<Props>) {
 								title='Vincular Conductor'
 								description={
 									driversWithoutFleets.length > 0
-										? 'Selecciona los conductores que deseas vincular a esta flota.'
+										? 'Seleccione los conductores que deseas vincular a esta flota.'
 										: ' Todos los conductores están vinculados con alguna flota crea nuevos conductores o desvincula conductores de otras flotas para poder vincularlos a esta'
 								}
 								triggerIcon={<Link2 className='mr-1 size-4' />}

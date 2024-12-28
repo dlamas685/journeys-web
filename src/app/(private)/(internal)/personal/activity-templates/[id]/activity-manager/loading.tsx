@@ -30,7 +30,7 @@ export default function Loading() {
 						<Skeleton className='h-9 w-24' />
 					</section>
 				</section>
-				<section className='grid h-full w-full grid-cols-2 gap-3 overflow-hidden'>
+				<section className='grid h-full w-full grid-cols-1 gap-3 overflow-hidden md:grid-cols-2'>
 					{Array.from({ length: 8 }).map((_, index) => (
 						<TodoSkeleton key={index} />
 					))}

@@ -10,7 +10,7 @@ import {
 	SheetTitle,
 	SheetTrigger,
 } from '@/components/ui/sheet'
-import { ChevronsRight, LogOut } from 'lucide-react'
+import { LogOut, Menu } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -34,12 +34,12 @@ const Sidebar = ({ items }: Readonly<Props>) => {
 					aria-label='Abrir menú de navegación'
 					aria-disabled='false'
 					className='absolute sm:hidden'
-					variant='outline'
+					variant='ghost'
 					size='icon'
 					onClick={() => {
 						setOpen(!open)
 					}}>
-					<ChevronsRight />
+					<Menu className='size-5' />
 				</Button>
 			</SheetTrigger>
 			<SheetContent className='flex w-72 flex-col' side='left'>

@@ -114,7 +114,7 @@ const Todo = ({ id, record }: Readonly<TodoProps>) => {
 					'bg-orange-50 text-orange-500': isDragging,
 				}
 			)}>
-			<section className='flex flex-col gap-1'>
+			<section className='flex flex-col gap-1 text-sm'>
 				<span className='flex items-center gap-1 font-secondary font-semibold'>
 					<ClipboardCheck className='size-4' />
 					{record.name}
@@ -123,7 +123,7 @@ const Todo = ({ id, record }: Readonly<TodoProps>) => {
 					{record.description}
 				</SeeMore>
 				{record.duration && (
-					<span className='font-secondary text-sm text-muted-foreground'>
+					<span className='font-secondary text-muted-foreground'>
 						{record.duration} minutos
 					</span>
 				)}

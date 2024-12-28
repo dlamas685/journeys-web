@@ -111,7 +111,7 @@ const VehicleLinkForm = ({ fleetId }: Readonly<Props>) => {
 														}}
 													/>
 												</FormControl>
-												<FormLabel className='text-sm font-normal text-muted-foreground'>
+												<FormLabel className='SelectPlaceHolder'>
 													{item.name} - {item.licenseNumber}
 												</FormLabel>
 											</FormItem>

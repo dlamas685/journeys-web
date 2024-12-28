@@ -16,9 +16,9 @@ export const metadata: Metadata = {
 
 export default function FirsStepsPage() {
 	return (
-		<section className='px-8 relative w-full min-h-dvh flex flex-col gap-4 items-center bg-gradient-to-r from-orange-50 via-white to-orange-50 sm:px-0'>
+		<section className='relative flex min-h-dvh w-full flex-col items-center gap-4 bg-gradient-to-r from-orange-50 via-white to-orange-50 px-8 sm:px-0'>
 			<motion.header
-				className='max-w-xs mt-1 flex flex-col gap-2 items-center sm:max-w-sm sm:mt-2 md:max-w-xl md:mt-4'
+				className='mt-1 flex max-w-xs flex-col items-center gap-2 sm:mt-2 sm:max-w-sm md:mt-4 md:max-w-xl'
 				initial={{
 					opacity: 0,
 				}}
@@ -36,16 +36,16 @@ export default function FirsStepsPage() {
 					width={200}
 					height={200}
 					alt='Journeys'
-					className='size-28 md:size-40 mt-10'
+					className='mt-10 size-28 md:size-40'
 					sizes='(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw'
 				/>
 
-				<h1 className='mt-2 text-center text-xl font-bold font-primary italic md:text-2xl'>
+				<h1 className='mt-2 text-center font-primary text-xl font-bold italic md:text-2xl'>
 					¡Bienvenid@! <br /> Nos alegra tenerte con nosotros.
 				</h1>
-				<p className='text-center text-sm text-secondary font-light text-slate-950 md:text-base'>
-					Para comenzar, selecciona un tipo de usuario. Si no estás seguro,
-					selecciona la opción que más se ajuste a tus necesidades. Podrás
+				<p className='text-center text-sm font-light text-secondary text-slate-950 md:text-base'>
+					Para comenzar, Seleccione un tipo de usuario. Si no estás seguro,
+					Seleccione la opción que más se ajuste a tus necesidades. Podrás
 					cambiarlo más adelante.
 				</p>
 			</motion.header>
@@ -57,8 +57,8 @@ export default function FirsStepsPage() {
 				className='w-full flex-grow'>
 				<Tabs
 					defaultValue='personal'
-					className='flex flex-col gap-2 items-center sm:gap-4'>
-					<TabsList className='grid w-full grid-cols-2 max-w-xs sm:max-w-sm md:max-w-md'>
+					className='flex flex-col items-center gap-2 sm:gap-4'>
+					<TabsList className='grid w-full max-w-xs grid-cols-2 sm:max-w-sm md:max-w-md'>
 						<TabsTrigger value='personal'>Personal</TabsTrigger>
 						<TabsTrigger value='company'>Empresa</TabsTrigger>
 					</TabsList>
@@ -75,8 +75,8 @@ export default function FirsStepsPage() {
 				</Tabs>
 			</motion.section>
 
-			<Logout className='absolute top-5 right-5'>
-				<LogOut className='w-3.5 h-3.5 sm:w-4 sm:h-4' />
+			<Logout className='absolute right-5 top-5'>
+				<LogOut className='h-3.5 w-3.5 sm:h-4 sm:w-4' />
 				<span className='ml-1 hidden sm:inline'>Salir</span>
 			</Logout>
 

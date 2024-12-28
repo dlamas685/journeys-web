@@ -254,7 +254,7 @@ const DataTableVisibilityColumns = <TData, TValue>({
 				<DrawerHeader className='text-left'>
 					<DrawerTitle>{label}</DrawerTitle>
 					<DrawerDescription>
-						Selecciona las columnas que deseas visualizar.
+						Seleccione las columnas que deseas visualizar.
 					</DrawerDescription>
 				</DrawerHeader>
 				<ul className='flex flex-col gap-3 px-4 pb-4'>

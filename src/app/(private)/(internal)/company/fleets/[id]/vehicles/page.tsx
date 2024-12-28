@@ -182,7 +182,7 @@ export default async function FleetsPage(props: Readonly<Props>) {
 								title='Vincular Vehículo'
 								description={
 									vehiclesWithoutFleets.length > 0
-										? 'Selecciona los vehículos que deseas vincular a esta flota.'
+										? 'Seleccione los vehículos que deseas vincular a esta flota.'
 										: ' Todos los vehículos están vinculados con alguna flota crea nuevos vehículos o desvincula vehículos de otras flotas para poder vincularlos a esta'
 								}
 								triggerIcon={<Link2 className='mr-1 size-4' />}

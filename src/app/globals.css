@@ -80,5 +80,9 @@ button:focus-visible {
 }
 
 .FilterFieldSetLegend {
-	@apply flex items-center justify-between py-0 text-base font-medium;
+	@apply flex items-center justify-between py-0 text-sm font-semibold;
+}
+
+.SelectPlaceHolder {
+	@apply text-[13px] font-normal text-muted-foreground;
 }

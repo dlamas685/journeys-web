@@ -96,7 +96,7 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 	return (
 		<Form key={JSON.stringify(form.getValues())} {...form}>
 			<form
-				className='flex max-h-96 flex-col gap-2 overflow-y-auto px-4 pb-2 sm:max-h-[30rem] sm:gap-3 sm:px-1'
+				className='flex max-h-96 flex-col gap-3 overflow-y-auto px-4 pb-2 sm:max-h-[30rem] sm:px-1'
 				id={FILTER_FORM_ID}
 				autoComplete='off'
 				onSubmit={form.handleSubmit(handleSubmit)}>
@@ -133,8 +133,11 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 										onValueChange={field.onChange}
 										defaultValue={field.value}>
 										<FormControl>
-											<SelectTrigger>
-												<SelectValue placeholder='Selección una regla' />
+											<SelectTrigger
+												className={cn({
+													SelectPlaceHolder: !field.value,
+												})}>
+												<SelectValue placeholder='Seleccione una regla' />
 											</SelectTrigger>
 										</FormControl>
 										<SelectContent>
@@ -199,8 +202,11 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 										onValueChange={field.onChange}
 										defaultValue={field.value}>
 										<FormControl>
-											<SelectTrigger>
-												<SelectValue placeholder='Selección una regla' />
+											<SelectTrigger
+												className={cn({
+													SelectPlaceHolder: !field.value,
+												})}>
+												<SelectValue placeholder='Seleccione una regla' />
 											</SelectTrigger>
 										</FormControl>
 										<SelectContent>
@@ -265,8 +271,11 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 										onValueChange={field.onChange}
 										defaultValue={field.value}>
 										<FormControl>
-											<SelectTrigger>
-												<SelectValue placeholder='Selección una regla' />
+											<SelectTrigger
+												className={cn({
+													SelectPlaceHolder: !field.value,
+												})}>
+												<SelectValue placeholder='Seleccione una regla' />
 											</SelectTrigger>
 										</FormControl>
 										<SelectContent>
@@ -342,8 +351,11 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 										onValueChange={field.onChange}
 										defaultValue={field.value}>
 										<FormControl>
-											<SelectTrigger>
-												<SelectValue placeholder='Selección una regla' />
+											<SelectTrigger
+												className={cn({
+													SelectPlaceHolder: !field.value,
+												})}>
+												<SelectValue placeholder='Seleccione una regla' />
 											</SelectTrigger>
 										</FormControl>
 										<SelectContent>
@@ -419,8 +431,11 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 										onValueChange={field.onChange}
 										defaultValue={field.value}>
 										<FormControl>
-											<SelectTrigger>
-												<SelectValue placeholder='Selección una regla' />
+											<SelectTrigger
+												className={cn({
+													SelectPlaceHolder: !field.value,
+												})}>
+												<SelectValue placeholder='Seleccione una regla' />
 											</SelectTrigger>
 										</FormControl>
 										<SelectContent>

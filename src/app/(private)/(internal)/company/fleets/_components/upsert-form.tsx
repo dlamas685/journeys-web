@@ -103,7 +103,7 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 			<form
 				id={UPSERT_FORM_ID}
 				onSubmit={form.handleSubmit(handleSubmit)}
-				className='grid max-h-96 grid-cols-2 gap-2 overflow-y-auto px-4 pb-2 sm:max-h-[inherit] sm:gap-3 sm:px-1'>
+				className='grid max-h-96 grid-cols-1 gap-3 overflow-y-auto px-4 pb-2 sm:max-h-[inherit] sm:grid-cols-2 sm:px-1'>
 				<FormField
 					control={form.control}
 					name='name'
