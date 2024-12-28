@@ -25,7 +25,7 @@ const Detail = ({ record }: Readonly<Props>) => {
 	}, [record.notes])
 
 	return (
-		<article className='grid max-h-96 grid-cols-1 gap-3 overflow-y-auto px-4 sm:max-h-[inherit] sm:grid-cols-[auto_1fr] sm:gap-4 sm:px-1'>
+		<article className='grid max-h-96 grid-cols-1 gap-3 overflow-y-auto px-4 sm:max-h-[inherit] sm:grid-cols-[auto_1fr] sm:gap-4 sm:overflow-y-hidden sm:px-1'>
 			<Image
 				src={record.imageUrl ?? '/photos/car-placeholder.png'}
 				alt={`Imagen del vehículo con placa ${record.licensePlate}`}
