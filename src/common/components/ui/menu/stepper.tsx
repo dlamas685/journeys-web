@@ -17,10 +17,13 @@ import SeeMore from '../misc/see-more'
 
 type StepperContextValue = {
 	layout: 'horizontal' | 'vertical'
+	useCompletedStepIcon?: boolean
+	completedIcon?: ReactElement
 }
 
 const StepperContext = createContext<StepperContextValue>({
 	layout: 'horizontal',
+	useCompletedStepIcon: false,
 })
 
 const useStepperContext = () => useContext(StepperContext)
@@ -53,6 +56,8 @@ type StepperProps = ComponentProps<'ol'> &
 	VariantProps<typeof stepperVariants> & {
 		layout?: 'horizontal' | 'vertical'
 		children: ReactElement<StepProps>[]
+		useCompletedStepIcon?: boolean
+		completedIcon?: ReactElement
 	}
 
 const Stepper = forwardRef<HTMLOListElement, StepperProps>(
@@ -61,6 +66,8 @@ const Stepper = forwardRef<HTMLOListElement, StepperProps>(
 			children,
 			className,
 			layout = 'horizontal',
+			useCompletedStepIcon,
+			completedIcon,
 			...rest
 		}: Readonly<StepperProps>,
 		ref
@@ -68,16 +75,13 @@ const Stepper = forwardRef<HTMLOListElement, StepperProps>(
 		const childrenItem = Children.toArray(children) as ReactElement<StepProps>[]
 
 		return (
-			<StepperContext.Provider value={{ layout }}>
+			<StepperContext.Provider
+				value={{ layout, useCompletedStepIcon, completedIcon }}>
 				<ol
 					ref={ref}
 					className={cn(stepperVariants({ layout, className }))}
 					{...rest}>
 					{childrenItem.map((child, index) => {
-						const isLast = index === childrenItem.length - 1
-						const isBeforeLast = index === childrenItem.length - 2
-						const count = index + 1
-
 						return cloneElement(child, {
 							key: index,
 							...child.props,
@@ -116,7 +120,7 @@ const Step = forwardRef<HTMLLIElement, StepProps>(
 		}: Readonly<StepProps>,
 		ref
 	) => {
-		const { layout } = useStepperContext()
+		const { layout, useCompletedStepIcon, completedIcon } = useStepperContext()
 		const isHorizontal = layout === 'horizontal'
 
 		let indicator: ReactElement | null = null
@@ -152,16 +156,23 @@ const Step = forwardRef<HTMLLIElement, StepProps>(
 					'flex-col items-center': isHorizontal,
 				})}
 				{...rest}>
-				{!completedStep ? (
-					indicator &&
-					cloneElement(indicator as ReactElement, {
-						variant: activeStep ? 'active' : 'default',
-					})
-				) : (
-					<StepIndicator variant='completed'>
-						<Check />
-					</StepIndicator>
-				)}
+				{indicator &&
+					(completedStep ? (
+						useCompletedStepIcon ? (
+							<StepIndicator variant='completed'>
+								{completedIcon ? completedIcon : <Check />}
+							</StepIndicator>
+						) : (
+							cloneElement(indicator as ReactElement, {
+								variant: 'completed',
+							})
+						)
+					) : (
+						cloneElement(indicator as ReactElement, {
+							variant: activeStep ? 'active' : 'default',
+						})
+					))}
+
 				<div className='flex flex-col gap-1 font-secondary'>
 					{label &&
 						cloneElement(label as ReactElement, {
@@ -173,6 +184,15 @@ const Step = forwardRef<HTMLLIElement, StepProps>(
 		)
 	}
 )
+
+/*
+	Si no existe indicator no debo mostrar nada
+	Si existe indicator debo hacer lo siguiente:
+	  1. Si esta completado debo preguntar si usa el icono de completado
+	  	1.1 Si usa el icono de completado debo mostrar el icono de completado
+		1.2 Si no usa el icono de completado debo mostrar el indicator con el variant completed
+	  2. Si no esta completado debo mostrar el indicator con el variant active o default según sea el caso
+ */
 
 Step.displayName = 'Step'
 
