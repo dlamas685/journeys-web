@@ -6,15 +6,17 @@ import {
 	StepLabel,
 	Stepper,
 } from '@/common/components/ui/menu/stepper'
+import { useMediaQuery } from '@/common/hooks/use-media-query'
 import { ClipboardList, Package, ReceiptText, Waypoints } from 'lucide-react'
 import { useStepper } from '../_store/stepper.store'
 
 const OptimizationStepper = () => {
 	const currentStep = useStepper(state => state.currentStep)
 	const completedSteps = useStepper(state => state.stepsCompleted)
+	const isDesktop = useMediaQuery('(min-width: 640px)')
 
 	return (
-		<Stepper layout='vertical'>
+		<Stepper layout={isDesktop ? 'vertical' : 'horizontal'}>
 			<Step
 				activeStep={currentStep === 0}
 				completedStep={completedSteps.includes(0)}>
@@ -22,7 +24,7 @@ const OptimizationStepper = () => {
 					<Waypoints />
 				</StepIndicator>
 				<StepLabel>Criterios Básicos</StepLabel>
-				<StepDescription>
+				<StepDescription className='hidden sm:block'>
 					En esta sección, podrás definir los aspectos esenciales para
 					planificar tu viaje de manera eficiente y personalizada. Aquí
 					establecerás el punto de partida y el destino final, considerando
@@ -36,7 +38,7 @@ const OptimizationStepper = () => {
 					<ClipboardList />
 				</StepIndicator>
 				<StepLabel>Criterios Avanzados</StepLabel>
-				<StepDescription>
+				<StepDescription className='hidden sm:block'>
 					En esta sección podrás personalizar aún más tu experiencia de viaje al
 					incorporar detalles específicos y ajustes estratégicos
 				</StepDescription>
@@ -48,7 +50,7 @@ const OptimizationStepper = () => {
 					<Package />
 				</StepIndicator>
 				<StepLabel>Criterios Adicionales</StepLabel>
-				<StepDescription>
+				<StepDescription className='hidden sm:block'>
 					En esta sección, podrás agregar funcionalidades avanzadas que
 					enriquecen tu experiencia de viaje y te permiten aprovechar al máximo
 					cada trayecto.
@@ -61,7 +63,7 @@ const OptimizationStepper = () => {
 					<ReceiptText />
 				</StepIndicator>
 				<StepLabel>Resultados</StepLabel>
-				<StepDescription>
+				<StepDescription className='hidden sm:block'>
 					En esta sección, podrás visualizar los resultados de tu planificación
 					y ajustar los detalles necesarios para optimizar tu experiencia de
 					viaje.

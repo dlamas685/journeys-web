@@ -14,10 +14,10 @@ export default function OptimizationPage() {
 			<FrameHeader>
 				<FrameTitle>Optimización</FrameTitle>
 			</FrameHeader>
-			<FrameBody className='grid grid-cols-[auto_auto_1fr]'>
+			<FrameBody className='flex flex-col sm:grid sm:grid-cols-[auto_auto_1fr]'>
 				<OptimizationStepper />
-				<Separator orientation='vertical' />
-				<section className='flex flex-col gap-3'>
+				<Separator className='hidden sm:block' orientation='vertical' />
+				<section className='flex flex-grow flex-col gap-3 sm:flex-grow-0'>
 					<span className='flex-grow'>@FormComponent</span>
 					<OptimizationControls />
 				</section>
