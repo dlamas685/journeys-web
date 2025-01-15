@@ -1,11 +1,11 @@
 import { createContext } from 'react'
 
-type DialogContextType = {
+export type DialogContextValue = {
 	open: boolean
 	setOpen: (open: boolean) => void
 }
 
-export const DialogContext = createContext<DialogContextType>({
+export const DialogContext = createContext<DialogContextValue>({
 	open: false,
 	setOpen: () => {},
 })

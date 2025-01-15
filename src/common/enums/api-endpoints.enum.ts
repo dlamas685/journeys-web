@@ -33,4 +33,6 @@ export enum ApiEndpoints {
 
 	ACTIVITY_TEMPLATES = 'activity-templates',
 	ACTIVITIES = 'activities',
+
+	BASIC_OPTIMIZATION = 'optimization/basic',
 }

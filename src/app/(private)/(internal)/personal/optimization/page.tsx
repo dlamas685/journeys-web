@@ -5,10 +5,11 @@ import {
 	FrameTitle,
 } from '@/common/components/layout/frame'
 import { Separator } from '@/components/ui/separator'
-import OptimizationControls from './_examples/optimization-controls'
-import OptimizationStepper from './_examples/optimization-stepper'
+import OptimizationContent from './_components/optimization-content'
+import OptimizationControls from './_components/optimization-controls'
+import OptimizationStepper from './_components/optimization-stepper'
 
-export default function OptimizationPage() {
+export default async function OptimizationPage() {
 	return (
 		<Frame>
 			<FrameHeader>
@@ -18,7 +19,7 @@ export default function OptimizationPage() {
 				<OptimizationStepper />
 				<Separator className='hidden sm:block' orientation='vertical' />
 				<section className='flex flex-grow flex-col gap-3 sm:flex-grow-0'>
-					<span className='flex-grow'>@FormComponent</span>
+					<OptimizationContent />
 					<OptimizationControls />
 				</section>
 			</FrameBody>

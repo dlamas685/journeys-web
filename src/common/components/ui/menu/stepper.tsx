@@ -11,6 +11,7 @@ import {
 	SVGProps,
 } from 'react'
 
+import { resolveComponentType } from '@/common/utils'
 import { Check } from 'lucide-react'
 import { createContext, useContext } from 'react'
 import SeeMore from '../misc/see-more'
@@ -27,18 +28,6 @@ const StepperContext = createContext<StepperContextValue>({
 })
 
 const useStepperContext = () => useContext(StepperContext)
-
-const resolveComponentType = (childType: any) => {
-	if (
-		typeof childType === 'object' &&
-		childType !== null &&
-		'$$typeof' in childType &&
-		childType.$$typeof === Symbol.for('react.lazy')
-	) {
-		return childType._init(childType._payload)
-	}
-	return childType
-}
 
 const stepperVariants = cva('flex justify-between gap-3', {
 	variants: {
@@ -72,7 +61,9 @@ const Stepper = forwardRef<HTMLOListElement, StepperProps>(
 		}: Readonly<StepperProps>,
 		ref
 	) => {
-		const childrenItem = Children.toArray(children) as ReactElement<StepProps>[]
+		const childrenItems = Children.toArray(
+			children
+		) as ReactElement<StepProps>[]
 
 		return (
 			<StepperContext.Provider
@@ -81,7 +72,7 @@ const Stepper = forwardRef<HTMLOListElement, StepperProps>(
 					ref={ref}
 					className={cn(stepperVariants({ layout, className }))}
 					{...rest}>
-					{childrenItem.map((child, index) => {
+					{childrenItems.map((child, index) => {
 						return cloneElement(child, {
 							key: index,
 							...child.props,

@@ -8,6 +8,7 @@ import {
 } from '@/common/components/ui/menu/stepper'
 import { useMediaQuery } from '@/common/hooks/use-media-query'
 import { ClipboardList, Package, ReceiptText, Waypoints } from 'lucide-react'
+import { Steps } from '../_enums'
 import { useStepper } from '../_store/stepper.store'
 
 const OptimizationStepper = () => {
@@ -18,8 +19,8 @@ const OptimizationStepper = () => {
 	return (
 		<Stepper layout={isDesktop ? 'vertical' : 'horizontal'}>
 			<Step
-				activeStep={currentStep === 0}
-				completedStep={completedSteps.includes(0)}>
+				activeStep={currentStep === Steps.BASIC}
+				completedStep={completedSteps.includes(Steps.BASIC)}>
 				<StepIndicator>
 					<Waypoints />
 				</StepIndicator>
@@ -32,8 +33,8 @@ const OptimizationStepper = () => {
 				</StepDescription>
 			</Step>
 			<Step
-				activeStep={currentStep === 1}
-				completedStep={completedSteps.includes(1)}>
+				activeStep={currentStep === Steps.ADVANCED}
+				completedStep={completedSteps.includes(Steps.ADVANCED)}>
 				<StepIndicator>
 					<ClipboardList />
 				</StepIndicator>
@@ -44,8 +45,8 @@ const OptimizationStepper = () => {
 				</StepDescription>
 			</Step>
 			<Step
-				activeStep={currentStep === 2}
-				completedStep={completedSteps.includes(2)}>
+				activeStep={currentStep === Steps.ADDITIONAL}
+				completedStep={completedSteps.includes(Steps.ADDITIONAL)}>
 				<StepIndicator>
 					<Package />
 				</StepIndicator>
@@ -57,8 +58,8 @@ const OptimizationStepper = () => {
 				</StepDescription>
 			</Step>
 			<Step
-				activeStep={currentStep === 3}
-				completedStep={completedSteps.includes(3)}>
+				activeStep={currentStep === Steps.RESULTS}
+				completedStep={completedSteps.includes(Steps.RESULTS)}>
 				<StepIndicator>
 					<ReceiptText />
 				</StepIndicator>
