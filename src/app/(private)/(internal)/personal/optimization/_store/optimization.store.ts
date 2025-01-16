@@ -11,7 +11,7 @@ interface OptimizationState {
 
 const state: StateCreator<
 	OptimizationState,
-	[['zustand/devtools', never]]
+	[['zustand/devtools', never], ['zustand/persist', unknown]]
 > = set => ({
 	setPresets: (presets: PresetsModel) =>
 		set(
@@ -38,8 +38,18 @@ export const useOptimization = create<OptimizationState>()(
 	devtools(
 		persist(state, {
 			name: 'optimization',
-			serialize: state => JSON.stringify(state),
-			deserialize: str => JSON.parse(str),
+			storage: {
+				getItem: name => {
+					const data = localStorage.getItem(name)
+					return data ? JSON.parse(data) : undefined
+				},
+				setItem: (name, value) => {
+					localStorage.setItem(name, JSON.stringify(value))
+				},
+				removeItem: name => {
+					localStorage.removeItem(name)
+				},
+			},
 		})
 	)
 )

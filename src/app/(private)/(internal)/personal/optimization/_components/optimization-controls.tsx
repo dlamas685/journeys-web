@@ -26,8 +26,8 @@ const OptimizationControls = () => {
 				<OptimizationPreview
 					presets={presets}
 					label='Previsualizar'
-					title='Cálculos de optimización'
-					description='Esto es un calculo de optimización de acuerdo a los criterios seleccionados por usted.'
+					title='Criterios de optimización'
+					description='En esta vista previa podrás ver los criterios de optimización que has seleccionado. Estos criterios son los que se utilizarán para optimizar tu viaje.'
 				/>
 			)}
 			{currentStep === -1 && (

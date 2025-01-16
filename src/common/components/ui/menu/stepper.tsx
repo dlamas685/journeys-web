@@ -29,11 +29,11 @@ const StepperContext = createContext<StepperContextValue>({
 
 const useStepperContext = () => useContext(StepperContext)
 
-const stepperVariants = cva('flex justify-between gap-3', {
+const stepperVariants = cva('flex', {
 	variants: {
 		layout: {
-			horizontal: 'flex-row',
-			vertical: 'flex-col',
+			horizontal: 'flex-row justify-between',
+			vertical: 'flex-col gap-10',
 		},
 	},
 	defaultVariants: {

@@ -51,13 +51,9 @@ const BasicOptimizationForm = () => {
 
 	const presets = useOptimization(state => state.presets)
 
-	const results = useOptimization(state => state.results)
-
 	const setLoading = useLoading(state => state.setLoading)
 
 	const setPresets = useOptimization(state => state.setPresets)
-
-	const setResults = useOptimization(state => state.setResults)
 
 	const handleNext = useStepper(state => state.handleNext)
 
@@ -198,9 +194,6 @@ const BasicOptimizationForm = () => {
 							</FormControl>
 
 							<FormMessage />
-							{/* 
-							<pre>{JSON.stringify(fieldState.error, null, 2)}</pre>
-							<pre>{JSON.stringify(field.value, null, 2)}</pre> */}
 						</FormItem>
 					)}
 				/>
