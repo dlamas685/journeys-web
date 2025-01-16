@@ -1,5 +1,5 @@
+import { DepartureModel } from './departure.model'
 import { RouteModifiersModel } from './routing-modifiers.model'
-import { TimestampModel } from './timestamp.model'
 import { WaypointModel } from './waypoint.model'
 
 export interface BasicCriteriaModel {
@@ -7,7 +7,7 @@ export interface BasicCriteriaModel {
 	destination: Partial<WaypointModel>
 	intermediates?: Partial<WaypointModel>[]
 	travelMode: string
-	departureTime?: TimestampModel
+	departure: DepartureModel
 	routingPreference?: string
 	routeModifiers?: RouteModifiersModel
 }

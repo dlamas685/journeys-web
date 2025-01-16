@@ -21,16 +21,20 @@ export const basicOptimizationFormSchema = z
 				message: 'El máximo de puntos intermedios es 5',
 			})
 			.optional(),
-		travelMode: z.enum(travelModes).default(TravelMode.DRIVE),
+		travelMode: z.enum(travelModes),
 		departure: z.object({
-			date: z.date({
-				required_error: 'La fecha de salida es requerida',
-			}),
+			date: z
+				.string({
+					required_error: 'La fecha de salida es requerida',
+				})
+				.date('La fecha de salida no es válida'),
 			time: z
 				.string({
 					required_error: 'La hora de salida es requerida',
 				})
-				.regex(/^\d{2}:\d{2}$/, 'Formato inválido (HH:mm)'),
+				.time({
+					message: 'La hora de salida no es válida',
+				}),
 		}),
 
 		routingPreference: z.enum(routingPreferences).optional(),

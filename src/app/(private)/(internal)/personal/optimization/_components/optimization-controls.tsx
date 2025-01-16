@@ -9,16 +9,27 @@ import {
 	SaveAll,
 } from 'lucide-react'
 import { Steps } from '../_enums'
+import { useOptimization } from '../_store/optimization.store'
 import { useStepper } from '../_store/stepper.store'
+import OptimizationPreview from './optimization-preview'
 
 const OptimizationControls = () => {
 	const currentStep = useStepper(state => state.currentStep)
+	const presets = useOptimization(state => state.presets)
 	const handleReset = useStepper(state => state.handleReset)
 	const handleBack = useStepper(state => state.handleBack)
 	const isLoading = useLoading(state => state.loading)
 
 	return (
 		<section className='flex justify-end gap-3'>
+			{presets && (
+				<OptimizationPreview
+					presets={presets}
+					label='Previsualizar'
+					title='Cálculos de optimización'
+					description='Esto es un calculo de optimización de acuerdo a los criterios seleccionados por usted.'
+				/>
+			)}
 			{currentStep === -1 && (
 				<Button onClick={handleReset} variant='destructive' type='button'>
 					<RotateCcw className='mr-1 size-5' />

@@ -1,10 +1,10 @@
 'use client'
 
-import { ApiError } from '@/common/classes/api-error.class'
 import FormTooltip from '@/common/components/ui/form/form-tooltip'
 import InputMask from '@/common/components/ui/form/input-mask'
 import useResponse from '@/common/hooks/use-response'
 import { useLoading } from '@/common/stores/loading.store'
+import { sleep } from '@/common/utils'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -30,21 +30,15 @@ import { es } from 'date-fns/locale'
 import { CalendarIcon, Clock } from 'lucide-react'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { computeBasicOptimization } from '../_actions/optimization.action'
+import { ROUTING_PREFERENCES, TRAVEL_MODES } from '../_constants'
 import { RoutingPreference, Steps, TravelMode } from '../_enums'
-import {
-	BasicCriteriaModel,
-	PresetsModel,
-	ResultsModel,
-	TimestampModel,
-} from '../_models'
+import { PresetsModel } from '../_models'
 import {
 	basicOptimizationFormSchema,
 	type BasicOptimizationFormSchema,
 } from '../_schemas'
 import { useOptimization } from '../_store/optimization.store'
 import { useStepper } from '../_store/stepper.store'
-import { fromTimestamp, toTimestamp } from '../_utils'
 import {
 	WaypointSetting,
 	WaypointSettingItem,
@@ -69,41 +63,45 @@ const BasicOptimizationForm = () => {
 
 	const form = useForm<BasicOptimizationFormSchema>({
 		resolver: zodResolver(basicOptimizationFormSchema),
-		defaultValues: {
-			travelMode: presets.basic.travelMode ?? TravelMode.DRIVE,
-		},
 	})
 
 	const handleSubmit = async (values: BasicOptimizationFormSchema) => {
-		const { departure, origin, destination, intermediates, ...restValues } =
-			values
-
-		//TODO: VER DE CAMBIAR PARA QUE DETECTE CAMBIOS O PENSAR UNA NUEVA UI
-		if (results.basic.distance) {
-			handleNext()
-			return
-		}
-
 		setLoading(true)
 
-		const departureTime: TimestampModel = toTimestamp(
-			departure.date,
-			departure.time
-		)
+		await sleep(1500)
+			.then(() => {
+				const presets: PresetsModel = {
+					basic: {
+						...values,
+					},
+				}
 
-		const criteria: BasicCriteriaModel = {
-			origin: {
-				placeId: origin.placeId,
-			},
-			destination: {
-				placeId: destination.placeId,
-			},
-			intermediates: intermediates?.map(waypoint => ({
-				placeId: waypoint.placeId,
-			})),
-			departureTime,
-			...restValues,
-		}
+				setPresets(presets)
+
+				handleNext()
+			})
+			.finally(() => setLoading(false))
+
+		/*setLoading(true)
+
+		 const departureTime: TimestampModel = toTimestamp(
+		 	departure.date,
+		 	departure.time
+		 )
+
+		 const criteria: BasicCriteriaModel = {
+		 	origin: {
+		 		placeId: origin.placeId,
+		 	},
+		 	destination: {
+		 		placeId: destination.placeId,
+		 	},
+		 	intermediates: intermediates?.map(waypoint => ({
+		 		placeId: waypoint.placeId,
+		 	})),
+		 	departureTime,
+		 	...restValues,
+		 }
 
 		await computeBasicOptimization(criteria)
 			.then(resp => {
@@ -138,30 +136,21 @@ const BasicOptimizationForm = () => {
 				handleNext()
 			})
 			.catch(response.error)
-			.finally(() => setLoading(false))
+			.finally(() => setLoading(false))*/
 	}
 
 	useEffect(() => {
-		const [date, time] = presets.basic.departureTime
-			? fromTimestamp(presets.basic.departureTime)
-			: []
-
 		form.reset({
-			origin: presets.basic.origin ?? undefined,
-			destination: presets.basic.destination ?? undefined,
-			travelMode: presets.basic.travelMode ?? 'DRIVE',
-			intermediates: presets.basic.intermediates ?? [],
-			departure:
-				date && time
-					? {
-							date,
-							time,
-						}
-					: undefined,
-			routingPreference: presets.basic.routingPreference,
-			routeModifiers: presets.basic.routeModifiers,
+			origin: presets?.basic.origin ?? undefined,
+			destination: presets?.basic.destination ?? undefined,
+			travelMode: presets?.basic.travelMode ?? TravelMode.DRIVE,
+			intermediates: presets?.basic.intermediates ?? [],
+			departure: presets?.basic.departure ?? undefined,
+			routingPreference:
+				presets?.basic.routingPreference ?? RoutingPreference.TRAFFIC_UNAWARE,
+			routeModifiers: presets?.basic.routeModifiers,
 		})
-	}, [presets, form])
+	}, [form, presets])
 
 	return (
 		<Form {...form}>
@@ -201,7 +190,7 @@ const BasicOptimizationForm = () => {
 										<WaypointSettingList>
 											<WaypointSettingItem
 												waypoint={field.value}
-												onRemove={() => form.resetField('origin')}
+												onRemove={() => field.onChange(undefined)}
 											/>
 										</WaypointSettingList>
 									)}
@@ -243,7 +232,7 @@ const BasicOptimizationForm = () => {
 										<WaypointSettingList>
 											<WaypointSettingItem
 												waypoint={field.value}
-												onRemove={() => form.resetField('destination')}
+												onRemove={() => field.onChange(undefined)}
 											/>
 										</WaypointSettingList>
 									)}
@@ -289,8 +278,10 @@ const BasicOptimizationForm = () => {
 										lang='es'
 										locale={es}
 										mode='single'
-										selected={field.value}
-										onSelect={field.onChange}
+										selected={new Date(field.value)}
+										onSelect={e =>
+											field.onChange(e ? format(e, 'yyyy-MM-dd') : e)
+										}
 										disabled={date => date < new Date()}
 										initialFocus
 									/>
@@ -320,11 +311,11 @@ const BasicOptimizationForm = () => {
 									<InputMask
 										options={{
 											time: true,
-											timePattern: ['h', 'm'],
+											timePattern: ['h', 'm', 's'],
 											timeFormat: '24',
 										}}
 										className='pl-10'
-										placeholder='HH:MM'
+										placeholder='HH:MM:SS'
 										{...field}
 									/>
 								</div>
@@ -401,18 +392,23 @@ const BasicOptimizationForm = () => {
 								<RadioGroup
 									onValueChange={field.onChange}
 									defaultValue={field.value}
+									value={field.value}
 									className='flex flex-col gap-3'>
 									<FormItem className='flex items-center gap-1 space-y-0'>
 										<FormControl>
 											<RadioGroupItem value={TravelMode.DRIVE} />
 										</FormControl>
-										<FormLabel className='font-normal'>Automóvil</FormLabel>
+										<FormLabel className='font-normal'>
+											{TRAVEL_MODES.DRIVE}
+										</FormLabel>
 									</FormItem>
 									<FormItem className='flex items-center gap-1 space-y-0'>
 										<FormControl>
 											<RadioGroupItem value={TravelMode.TWO_WHEELER} />
 										</FormControl>
-										<FormLabel className='font-normal'>Motocicleta</FormLabel>
+										<FormLabel className='font-normal'>
+											{TRAVEL_MODES.TWO_WHEELER}
+										</FormLabel>
 									</FormItem>
 								</RadioGroup>
 							</FormControl>
@@ -441,6 +437,7 @@ const BasicOptimizationForm = () => {
 								<RadioGroup
 									onValueChange={field.onChange}
 									defaultValue={field.value}
+									value={field.value}
 									className='flex flex-col gap-3'>
 									<FormItem className='flex items-center gap-1 space-y-0'>
 										<FormControl>
@@ -449,7 +446,7 @@ const BasicOptimizationForm = () => {
 											/>
 										</FormControl>
 										<FormLabel className='font-normal'>
-											No considerar el tráfico
+											{ROUTING_PREFERENCES.TRAFFIC_UNAWARE}
 										</FormLabel>
 									</FormItem>
 
@@ -458,7 +455,7 @@ const BasicOptimizationForm = () => {
 											<RadioGroupItem value={RoutingPreference.TRAFFIC_AWARE} />
 										</FormControl>
 										<FormLabel className='font-normal'>
-											Considerar el tráfico
+											{ROUTING_PREFERENCES.TRAFFIC_AWARE}
 										</FormLabel>
 									</FormItem>
 
@@ -469,7 +466,7 @@ const BasicOptimizationForm = () => {
 											/>
 										</FormControl>
 										<FormLabel className='font-normal'>
-											Considerar el tráfico y optimizar
+											{ROUTING_PREFERENCES.TRAFFIC_AWARE_OPTIMAL}
 										</FormLabel>
 									</FormItem>
 								</RadioGroup>
