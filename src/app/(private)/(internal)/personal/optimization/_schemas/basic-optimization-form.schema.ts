@@ -36,7 +36,6 @@ export const basicOptimizationFormSchema = z
 					message: 'La hora de salida no es válida',
 				}),
 		}),
-
 		routingPreference: z.enum(routingPreferences).optional(),
 		routeModifiers: z
 			.object({
@@ -55,6 +54,19 @@ export const basicOptimizationFormSchema = z
 		{
 			message: 'El destino no puede ser igual al origen',
 			path: ['destination'],
+		}
+	)
+	.refine(
+		data =>
+			data.intermediates?.every(
+				intermediate =>
+					intermediate.placeId !== data.origin.placeId &&
+					intermediate.placeId !== data.destination.placeId
+			),
+		{
+			message:
+				'No pueden haber puntos intermedios iguales al origen o al destino',
+			path: ['intermediates'],
 		}
 	)
 

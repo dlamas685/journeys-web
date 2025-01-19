@@ -332,11 +332,11 @@ const WaypointSettingTabs = ({}: Readonly<WaypointSettingTabsProps>) => {
 				setWaypointsSelected(prev => {
 					if (!prev) return [waypoint]
 
-					const found =
-						prev &&
-						prev.findIndex(selected => selected.placeId === waypoint.placeId)
+					const found = prev.find(
+						selected => selected.placeId === waypoint.placeId
+					)
 
-					if (found && found > -1) {
+					if (found) {
 						return prev.filter(
 							selected => selected.placeId !== waypoint.placeId
 						)
@@ -344,9 +344,11 @@ const WaypointSettingTabs = ({}: Readonly<WaypointSettingTabsProps>) => {
 
 					return [...prev, waypoint]
 				})
-			} else {
-				setWaypointsSelected([waypoint])
+
+				return
 			}
+
+			setWaypointsSelected([waypoint])
 		}
 	}
 
@@ -358,6 +360,8 @@ const WaypointSettingTabs = ({}: Readonly<WaypointSettingTabsProps>) => {
 		const placeId = favoritePlace.placeId
 
 		const address = favoritePlace.address
+
+		const name = favoritePlace.name
 
 		const location: google.maps.LatLngLiteral | undefined =
 			lat && lng ? { lat, lng } : undefined
@@ -373,17 +377,18 @@ const WaypointSettingTabs = ({}: Readonly<WaypointSettingTabsProps>) => {
 				placeId,
 				location,
 				address,
+				name,
 			}
 
 			if (isMultipleSelection) {
 				setWaypointsSelected(prev => {
 					if (!prev) return [waypoint]
 
-					const found =
-						prev &&
-						prev.findIndex(selected => selected.placeId === waypoint.placeId)
+					const found = prev.find(
+						selected => selected.placeId === waypoint.placeId
+					)
 
-					if (found && found > -1) {
+					if (found) {
 						return prev.filter(
 							selected => selected.placeId !== waypoint.placeId
 						)
@@ -391,9 +396,11 @@ const WaypointSettingTabs = ({}: Readonly<WaypointSettingTabsProps>) => {
 
 					return [...prev, waypoint]
 				})
-			} else {
-				setWaypointsSelected([waypoint])
+
+				return
 			}
+
+			setWaypointsSelected([waypoint])
 		}
 	}
 
@@ -429,11 +436,11 @@ const WaypointSettingTabs = ({}: Readonly<WaypointSettingTabsProps>) => {
 				setWaypointsSelected(prev => {
 					if (!prev) return [waypoint]
 
-					const found =
-						prev &&
-						prev.findIndex(selected => selected.placeId === waypoint.placeId)
+					const found = prev.find(
+						selected => selected.placeId === waypoint.placeId
+					)
 
-					if (found && found > -1) {
+					if (found) {
 						return prev.filter(
 							selected => selected.placeId !== waypoint.placeId
 						)

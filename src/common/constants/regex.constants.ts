@@ -7,3 +7,5 @@ export const LICENSE_PLATE_PATTERN: RegExp =
 export const VIN_PATTERN: RegExp = /^[A-HJ-NPR-Z0-9]{17}$/
 
 export const LICENSE_NUMBER: RegExp = /^\d{7,8}$/
+
+export const TIME: RegExp = /^(\d{1,2}):([0-5]\d)$/

@@ -1,6 +1,11 @@
 'use client'
 
 import { useMediaQuery } from '@/common/hooks/use-media-query'
+import {
+	convertToHHMM,
+	convertToSeconds,
+	formatTimeShort,
+} from '@/common/utils'
 import { Button } from '@/components/ui/button'
 import {
 	Drawer,
@@ -22,7 +27,14 @@ import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { SquareChartGantt } from 'lucide-react'
 import { useState } from 'react'
-import { ROUTING_PREFERENCES, TRAVEL_MODES } from '../_constants'
+import {
+	EXTRA_COMPUTATIONS,
+	REFERENCE_ROUTES,
+	ROUTING_PREFERENCES,
+	TRAFFIC_MODELS,
+	TRAVEL_MODES,
+	VEHICLE_EMISSION_TYPES,
+} from '../_constants'
 import { RoutingPreference, TravelMode } from '../_enums'
 import { PresetsModel } from '../_models'
 
@@ -51,7 +63,7 @@ const OptimizationPreview = ({
 						{label}
 					</Button>
 				</SheetTrigger>
-				<SheetContent className='sm:max-w-2xl'>
+				<SheetContent className='overflow-y-auto sm:max-w-2xl'>
 					<SheetHeader>
 						<SheetTitle>{title}</SheetTitle>
 						<SheetDescription>{description}</SheetDescription>
@@ -122,6 +134,126 @@ const OptimizationPreview = ({
 								</dd>
 							</dl>
 						</article>
+
+						{presets.advanced && (
+							<article className='font-secondary'>
+								<h2 className='text-base font-semibold text-foreground'>
+									Avanzados
+								</h2>
+
+								<dl className='grid grid-cols-[auto_1fr] gap-x-6 gap-y-2 text-sm text-muted-foreground'>
+									<dt>Cálculos adicionales:</dt>
+									<dd>
+										<ul role='list'>
+											{presets.advanced.extraComputations?.map(
+												extraComputation => (
+													<li key={extraComputation}>
+														{EXTRA_COMPUTATIONS[extraComputation]}
+													</li>
+												)
+											)}
+										</ul>
+									</dd>
+
+									<dt>Modelo de tráfico:</dt>
+									<dd>
+										{presets.advanced.trafficModel &&
+										presets.advanced.travelMode === TravelMode.DRIVE &&
+										presets.advanced.routingPreference ===
+											RoutingPreference.TRAFFIC_AWARE_OPTIMAL
+											? TRAFFIC_MODELS[presets.advanced.trafficModel]
+											: 'No compatible'}
+									</dd>
+
+									<dt>Ruta de referencia:</dt>
+									<dd>
+										{presets.advanced.intermediates?.length === 0
+											? presets.advanced.requestedReferenceRoutes
+												? REFERENCE_ROUTES[
+														presets.advanced.requestedReferenceRoutes[0]
+													]
+												: 'No'
+											: 'No compatible'}
+									</dd>
+
+									<dt>Rutas alternativas:</dt>
+									<dd>
+										{presets.advanced.intermediates?.length === 0
+											? presets.advanced.computeAlternativeRoutes
+												? 'Sí'
+												: 'No'
+											: 'No compatible'}
+									</dd>
+
+									<dt>Tipo de emisión del vehículo:</dt>
+									<dd>
+										{presets.advanced.travelMode === TravelMode.DRIVE
+											? presets.advanced.routeModifiers?.vehicleInfo
+													?.emissionType
+												? VEHICLE_EMISSION_TYPES[
+														presets.advanced.routeModifiers.vehicleInfo
+															.emissionType
+													]
+												: 'No especifica consumo de combustible'
+											: 'No compatible'}
+									</dd>
+
+									{presets.advanced.intermediates && (
+										<>
+											<dt>Paradas:</dt>
+											<dd>
+												{presets.advanced.intermediates.every(
+													waypoint => waypoint.vehicleStopover
+												) ? (
+													<ul role='list'>
+														{presets.advanced.intermediates
+															.filter(waypoint => waypoint.vehicleStopover)
+															.map(waypoint => (
+																<li role='listitem' key={waypoint.placeId}>
+																	{waypoint.address} (
+																	{waypoint.activities &&
+																		formatTimeShort(
+																			convertToHHMM(
+																				waypoint.activities.reduce(
+																					(acc, activity) =>
+																						acc +
+																						convertToSeconds(activity.duration),
+																					0
+																				)
+																			)
+																		)}
+																	)
+																</li>
+															))}
+													</ul>
+												) : (
+													'-'
+												)}
+											</dd>
+
+											<dt>De Paso:</dt>
+											<dd>
+												{presets.advanced.intermediates.every(
+													waypoint => !waypoint.vehicleStopover
+												) ? (
+													<ul role='list'>
+														{presets.advanced.intermediates
+															.filter(waypoint => !waypoint.vehicleStopover)
+															.map(waypoint => (
+																<li role='listitem' key={waypoint.placeId}>
+																	{waypoint.address}
+																</li>
+															))}
+													</ul>
+												) : (
+													'-'
+												)}
+											</dd>
+										</>
+									)}
+								</dl>
+							</article>
+						)}
 					</section>
 				</SheetContent>
 			</Sheet>
@@ -137,7 +269,7 @@ const OptimizationPreview = ({
 				</Button>
 			</DrawerTrigger>
 			<DrawerContent>
-				<DrawerHeader>
+				<DrawerHeader className='text-left'>
 					<DrawerTitle>{title}</DrawerTitle>
 					<DrawerDescription>{description}</DrawerDescription>
 				</DrawerHeader>

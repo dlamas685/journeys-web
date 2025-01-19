@@ -8,6 +8,7 @@ import { DialogContext } from '@/common/contexts/dialog-context'
 import useResponse from '@/common/hooks/use-response'
 import { CreateActivityModel } from '@/common/models'
 import { useLoading } from '@/common/stores/loading.store'
+import { convertToSeconds } from '@/common/utils'
 import {
 	Form,
 	FormControl,
@@ -46,11 +47,15 @@ const UpsertForm = ({ activityTemplateId }: Readonly<Props>) => {
 
 	const response = useResponse()
 
-	const handleSubmit = async (values: UpsertFormSchema) => {
+	const handleSubmit = async ({
+		duration,
+		...restValues
+	}: UpsertFormSchema) => {
 		setLoading(true)
 
 		const activity: CreateActivityModel = {
-			...values,
+			duration: duration ? convertToSeconds(duration) : undefined,
+			...restValues,
 		}
 
 		await createActivity(activityTemplateId, activity)
@@ -130,7 +135,7 @@ const UpsertForm = ({ activityTemplateId }: Readonly<Props>) => {
 						<FormItem>
 							<FormLabel>Duración</FormLabel>
 							<FormDescription id='duration-description'>
-								Duración estimada de la actividad en minutos
+								Duración estimada de la actividad en HH:mm
 							</FormDescription>
 							<FormControl>
 								<InputMask

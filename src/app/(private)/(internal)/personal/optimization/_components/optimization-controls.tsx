@@ -18,10 +18,16 @@ const OptimizationControls = () => {
 	const presets = useOptimization(state => state.presets)
 	const handleReset = useStepper(state => state.handleReset)
 	const handleBack = useStepper(state => state.handleBack)
+	const handleNext = useStepper(state => state.handleNext)
 	const isLoading = useLoading(state => state.loading)
 
 	return (
 		<section className='flex justify-end gap-3'>
+			{(currentStep === Steps.ADVANCED || currentStep === Steps.ADDITIONAL) && (
+				<Button variant='link' type='button' onClick={handleNext}>
+					Omitir
+				</Button>
+			)}
 			{presets && (
 				<OptimizationPreview
 					presets={presets}

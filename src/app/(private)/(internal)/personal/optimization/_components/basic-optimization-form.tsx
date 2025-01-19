@@ -178,7 +178,7 @@ const BasicOptimizationForm = () => {
 									title='Origen'
 									description='Indica la dirección o lugar desde donde comenzarás tu viaje.'
 									onReady={waypoints => {
-										field.onChange(waypoints[0])
+										field.onChange({ ...waypoints[0], sideOfRoad: true })
 									}}
 									value={field.value ? [field.value] : []}>
 									<WaypointSettingTabs />
@@ -217,7 +217,7 @@ const BasicOptimizationForm = () => {
 									title='Destino'
 									description='Especifica el lugar al que deseas llegar.'
 									onReady={waypoints => {
-										field.onChange(waypoints[0])
+										field.onChange({ ...waypoints[0], sideOfRoad: true })
 									}}
 									value={field.value ? [field.value] : []}>
 									<WaypointSettingTabs />
@@ -351,9 +351,11 @@ const BasicOptimizationForm = () => {
 													waypoint={waypoint}
 													onRemove={placeId =>
 														field.onChange(
-															field.value?.filter(
-																waypoint => waypoint.placeId !== placeId
-															)
+															field.value
+																?.filter(
+																	waypoint => waypoint.placeId !== placeId
+																)
+																.map(waypoint => ({ ...waypoint, via: true }))
 														)
 													}
 												/>
@@ -432,36 +434,16 @@ const BasicOptimizationForm = () => {
 									defaultValue={field.value}
 									value={field.value}
 									className='flex flex-col gap-3'>
-									<FormItem className='flex items-center gap-1 space-y-0'>
-										<FormControl>
-											<RadioGroupItem
-												value={RoutingPreference.TRAFFIC_UNAWARE}
-											/>
-										</FormControl>
-										<FormLabel className='font-normal'>
-											{ROUTING_PREFERENCES.TRAFFIC_UNAWARE}
-										</FormLabel>
-									</FormItem>
-
-									<FormItem className='flex items-center gap-1 space-y-0'>
-										<FormControl>
-											<RadioGroupItem value={RoutingPreference.TRAFFIC_AWARE} />
-										</FormControl>
-										<FormLabel className='font-normal'>
-											{ROUTING_PREFERENCES.TRAFFIC_AWARE}
-										</FormLabel>
-									</FormItem>
-
-									<FormItem className='flex items-center gap-1 space-y-0'>
-										<FormControl>
-											<RadioGroupItem
-												value={RoutingPreference.TRAFFIC_AWARE_OPTIMAL}
-											/>
-										</FormControl>
-										<FormLabel className='font-normal'>
-											{ROUTING_PREFERENCES.TRAFFIC_AWARE_OPTIMAL}
-										</FormLabel>
-									</FormItem>
+									{Object.entries(ROUTING_PREFERENCES).map(([key, value]) => (
+										<FormItem
+											key={key}
+											className='flex items-center space-x-2 space-y-0'>
+											<FormControl>
+												<RadioGroupItem value={key} />
+											</FormControl>
+											<FormLabel className='font-normal'>{value}</FormLabel>
+										</FormItem>
+									))}
 								</RadioGroup>
 							</FormControl>
 							<FormMessage />
@@ -488,7 +470,7 @@ const BasicOptimizationForm = () => {
 									name='routeModifiers.avoidTolls'
 									render={({ field }) => {
 										return (
-											<FormItem className='flex flex-row items-center space-x-3 space-y-0'>
+											<FormItem className='flex flex-row items-center space-x-2 space-y-0'>
 												<FormControl>
 													<Checkbox
 														checked={field.value}
@@ -508,7 +490,7 @@ const BasicOptimizationForm = () => {
 									name='routeModifiers.avoidHighways'
 									render={({ field }) => {
 										return (
-											<FormItem className='flex flex-row items-center space-x-3 space-y-0'>
+											<FormItem className='flex flex-row items-center space-x-2 space-y-0'>
 												<FormControl>
 													<Checkbox
 														checked={field.value}
@@ -528,7 +510,7 @@ const BasicOptimizationForm = () => {
 									name='routeModifiers.avoidFerries'
 									render={({ field }) => {
 										return (
-											<FormItem className='flex flex-row items-center space-x-3 space-y-0'>
+											<FormItem className='flex flex-row items-center space-x-2 space-y-0'>
 												<FormControl>
 													<Checkbox
 														checked={field.value}
