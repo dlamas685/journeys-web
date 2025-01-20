@@ -66,9 +66,13 @@ const AdvancedOptimizationForm = () => {
 	const canHaveComputeAlternativeRoutes =
 		presets?.basic.intermediates?.length === 0
 
-	const canHaveOptimizeWaypointOrder = form
-		.watch('intermediates')
-		?.some(waypoint => waypoint.via === false)
+	const canHaveOptimizeWaypointOrder =
+		form
+			.watch('intermediates')
+			?.every(
+				waypoint => waypoint.via === false && waypoint.vehicleStopover == true
+			) &&
+		presets?.basic.routingPreference !== RoutingPreference.TRAFFIC_AWARE_OPTIMAL
 
 	const canHaveShorterDistanceReferenceRoute =
 		presets?.basic.intermediates?.length === 0
@@ -126,6 +130,25 @@ const AdvancedOptimizationForm = () => {
 						...restValues,
 					},
 				}
+
+				// console.log({
+				// 	newPresets: {
+				// 		advanced: {
+				// 			...newPresets.advanced,
+				// 			intermediates: newPresets.advanced?.intermediates?.map(
+				// 				waypoint => ({
+				// 					...waypoint,
+				// 					activities: waypoint.activities?.map(
+				// 						({ id, duration, ...rest }) => ({
+				// 							...rest,
+				// 							duration: convertToSeconds(duration),
+				// 						})
+				// 					),
+				// 				})
+				// 			),
+				// 		},
+				// 	},
+				// })
 
 				setPresets(newPresets)
 
@@ -200,60 +223,73 @@ const AdvancedOptimizationForm = () => {
 								viaje.
 							</FormDescription>
 
-							{Object.entries(EXTRA_COMPUTATIONS).map(([key, value]) => (
-								<FormField
-									key={key}
-									control={form.control}
-									name='extraComputations'
-									render={({ field }) => {
-										return (
-											<FormItem
-												key={key}
-												className='flex flex-row items-center space-x-2 space-y-0'>
-												<FormControl>
-													<Checkbox
-														checked={field.value?.includes(key)}
-														disabled={
-															key === ExtraComputation.FUEL_CONSUMPTION &&
-															!canHaveEmissionType
-														}
-														onCheckedChange={checked => {
-															if (checked) {
-																field.onChange([...(field.value ?? []), key])
-																key === ExtraComputation.TOLLS &&
-																	form.setValue('routeModifiers.tollPasses', [
-																		TollPass.AR_TELEPASE,
-																	])
+							{Object.entries(EXTRA_COMPUTATIONS).map(([key, value]) => {
+								const parseKey = parseInt(key, 10)
 
-																key === ExtraComputation.FUEL_CONSUMPTION &&
+								return (
+									<FormField
+										key={key}
+										control={form.control}
+										name='extraComputations'
+										render={({ field }) => {
+											return (
+												<FormItem
+													key={key}
+													className='flex flex-row items-center space-x-2 space-y-0'>
+													<FormControl>
+														<Checkbox
+															checked={field.value?.includes(parseKey)}
+															disabled={
+																(parseKey ===
+																	ExtraComputation.FUEL_CONSUMPTION ||
+																	parseKey === ExtraComputation.TOLLS) &&
+																!canHaveEmissionType
+															}
+															onCheckedChange={checked => {
+																if (checked) {
+																	field.onChange([
+																		...(field.value ?? []),
+																		parseKey,
+																	])
+																	parseKey === ExtraComputation.TOLLS &&
+																		form.setValue('routeModifiers.tollPasses', [
+																			TollPass.AR_TELEPASE,
+																		])
+
+																	parseKey ===
+																		ExtraComputation.FUEL_CONSUMPTION &&
+																		form.setValue(
+																			'routeModifiers.vehicleInfo.emissionType',
+																			VehicleEmissionType.GASOLINE
+																		)
+																	return
+																}
+
+																field.onChange(
+																	field.value?.filter(
+																		value => value !== parseKey
+																	)
+																)
+
+																parseKey === ExtraComputation.TOLLS &&
+																	form.setValue('routeModifiers.tollPasses', [])
+
+																parseKey ===
+																	ExtraComputation.FUEL_CONSUMPTION &&
 																	form.setValue(
 																		'routeModifiers.vehicleInfo.emissionType',
-																		VehicleEmissionType.GASOLINE
+																		undefined
 																	)
-																return
-															}
-
-															field.onChange(
-																field.value?.filter(value => value !== key)
-															)
-
-															key === ExtraComputation.TOLLS &&
-																form.setValue('routeModifiers.tollPasses', [])
-
-															key === ExtraComputation.FUEL_CONSUMPTION &&
-																form.setValue(
-																	'routeModifiers.vehicleInfo.emissionType',
-																	undefined
-																)
-														}}
-													/>
-												</FormControl>
-												<FormLabel className='font-normal'>{value}</FormLabel>
-											</FormItem>
-										)
-									}}
-								/>
-							))}
+															}}
+														/>
+													</FormControl>
+													<FormLabel className='font-normal'>{value}</FormLabel>
+												</FormItem>
+											)
+										}}
+									/>
+								)
+							})}
 							<FormMessage />
 						</FormItem>
 					)}
@@ -344,23 +380,6 @@ const AdvancedOptimizationForm = () => {
 											{REFERENCE_ROUTES[ReferenceRoute.SHORTER_DISTANCE]}
 										</FormLabel>
 									</FormItem>
-
-									{/* <RadioGroup
-									onValueChange={field.onChange}
-									defaultValue={field.value}
-									value={field.value}
-									className='flex flex-col gap-3'>
-									{Object.entries(REFERENCE_ROUTES).map(([key, value]) => (
-										<FormItem
-											key={key}
-											className='flex items-center space-x-2 space-y-0'>
-											<FormControl>
-												<RadioGroupItem value={key} />
-											</FormControl>
-											<FormLabel className='font-normal'>{value}</FormLabel>
-										</FormItem>
-									))}
-								</RadioGroup> */}
 								</FormControl>
 								<FormMessage />
 							</FormItem>

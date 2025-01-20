@@ -40,7 +40,10 @@ import {
 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
-import { AdvancedWaypointModel, WaypointActivityModel } from '../_models'
+import {
+	AdvancedWaypointActivityModel,
+	AdvancedWaypointModel,
+} from '../_models'
 import { useActivities } from '../_store/activities.store'
 
 type Props = {
@@ -92,10 +95,8 @@ const ActivitiesSetting = ({ waypoint, onReady }: Readonly<Props>) => {
 							duration: activity.duration
 								? convertToHHMM(activity.duration)
 								: '',
-						}) as WaypointActivityModel
+						}) as AdvancedWaypointActivityModel
 				) ?? []
-
-		console.log(activities)
 
 		setActivities(activities)
 		setTemporalTemplate(value)
@@ -142,7 +143,7 @@ const ActivitiesSetting = ({ waypoint, onReady }: Readonly<Props>) => {
 					...waypoint,
 					via: false,
 					vehicleStopover: activities.length > 0,
-					activities: activities as WaypointActivityModel[],
+					activities: activities as AdvancedWaypointActivityModel[],
 					config: {
 						mode: temporalMode,
 						template: temporalTemplate,

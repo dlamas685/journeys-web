@@ -1,4 +1,4 @@
-import { WaypointActivityModel } from './waypoint-activity.model'
+import { AdvancedWaypointActivityModel } from './advanced-waypoint-activity.model'
 
 export interface WaypointModel {
 	placeId: string
@@ -11,11 +11,11 @@ export interface WaypointModel {
 }
 
 export interface AdvancedWaypointModel extends WaypointModel {
-	activities?: WaypointActivityModel[]
-	config?: WaypointConfigModel
+	activities?: AdvancedWaypointActivityModel[]
+	config?: AdvancedWaypointConfigModel
 }
 
-export interface WaypointConfigModel {
+export interface AdvancedWaypointConfigModel {
 	template?: string
 	mode?: string
 }

@@ -8,37 +8,28 @@ import {
 } from '../_enums'
 import { waypointSchema } from './waypoint-schema-form.schema'
 
-const extraComputations = Object.values(ExtraComputation) as [
-	string,
-	...string[],
-]
-
 const trafficModels = Object.values(TrafficModel) as [string, ...string[]]
-
-const referenceRoutes = Object.values(ReferenceRoute) as [string, ...string[]]
 
 const vehicleEmissionTypes = Object.values(VehicleEmissionType) as [
 	string,
 	...string[],
 ]
 
-const tollPasses = Object.values(TollPass) as [string, ...string[]]
-
 export const advancedOptimizationFormSchema = z.object({
 	extraComputations: z
-		.array(z.enum(extraComputations), {
+		.array(z.nativeEnum(ExtraComputation), {
 			required_error: 'Selecciona al menos una opción',
 		})
 		.min(1, 'Selecciona al menos una opción'),
 	trafficModel: z.enum(trafficModels).optional(),
 	optimizeWaypointOrder: z.boolean().default(false).optional(),
 	computeAlternativeRoutes: z.boolean().default(false).optional(),
-	requestedReferenceRoutes: z.enum(referenceRoutes).optional(),
+	requestedReferenceRoutes: z.nativeEnum(ReferenceRoute).optional(),
 	routeModifiers: z.object({
 		vehicleInfo: z.object({
 			emissionType: z.enum(vehicleEmissionTypes).optional(),
 		}),
-		tollPasses: z.array(z.enum(tollPasses)).optional(),
+		tollPasses: z.array(z.nativeEnum(TollPass)).optional(),
 	}),
 	intermediates: z.array(waypointSchema()).min(0).max(5).optional(),
 })

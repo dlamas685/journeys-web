@@ -1,14 +1,14 @@
 import { v4 as uuid } from 'uuid'
 import { create, StateCreator } from 'zustand'
 import { devtools } from 'zustand/middleware'
-import { WaypointActivityModel } from '../_models'
+import { AdvancedWaypointActivityModel } from '../_models'
 
 interface ActivitiesState {
-	activities: WaypointActivityModel[]
-	setActivities: (activities: WaypointActivityModel[]) => void
-	updateActivity: (activities: WaypointActivityModel) => void
+	activities: AdvancedWaypointActivityModel[]
+	setActivities: (activities: AdvancedWaypointActivityModel[]) => void
+	updateActivity: (activities: AdvancedWaypointActivityModel) => void
 	addActivity: () => void
-	removeActivity: (activity: WaypointActivityModel) => void
+	removeActivity: (activity: AdvancedWaypointActivityModel) => void
 }
 
 const state: StateCreator<
@@ -16,9 +16,9 @@ const state: StateCreator<
 	[['zustand/devtools', never]]
 > = set => ({
 	activities: [],
-	setActivities: (activities: WaypointActivityModel[]) =>
+	setActivities: (activities: AdvancedWaypointActivityModel[]) =>
 		set({ activities }, false, 'setActivities'),
-	updateActivity: (activity: WaypointActivityModel) =>
+	updateActivity: (activity: AdvancedWaypointActivityModel) =>
 		set(state => ({
 			activities: state.activities.map(a =>
 				a.id === activity.id ? activity : a
@@ -26,14 +26,14 @@ const state: StateCreator<
 		})),
 	addActivity: () =>
 		set(state => {
-			const activity: WaypointActivityModel = {
+			const activity: AdvancedWaypointActivityModel = {
 				id: uuid(),
 			}
 			return {
 				activities: [...state.activities, activity],
 			}
 		}),
-	removeActivity: (activity: WaypointActivityModel) =>
+	removeActivity: (activity: AdvancedWaypointActivityModel) =>
 		set(state => ({
 			activities: state.activities.filter(a => a.id !== activity.id),
 		})),

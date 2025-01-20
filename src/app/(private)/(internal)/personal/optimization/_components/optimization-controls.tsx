@@ -1,9 +1,22 @@
 'use client'
 import { useLoading } from '@/common/stores/loading.store'
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import {
+	CircleCheck,
 	CircleChevronLeft,
 	CircleChevronRight,
+	CircleX,
 	LoaderCircle,
 	RotateCcw,
 	SaveAll,
@@ -11,43 +24,89 @@ import {
 import { Steps } from '../_enums'
 import { useOptimization } from '../_store/optimization.store'
 import { useStepper } from '../_store/stepper.store'
-import OptimizationPreview from './optimization-preview'
 
 const OptimizationControls = () => {
 	const currentStep = useStepper(state => state.currentStep)
 	const presets = useOptimization(state => state.presets)
+	const setPresets = useOptimization(state => state.setPresets)
 	const handleReset = useStepper(state => state.handleReset)
 	const handleBack = useStepper(state => state.handleBack)
 	const handleNext = useStepper(state => state.handleNext)
 	const isLoading = useLoading(state => state.loading)
 
+	const handleOmit = () => {
+		if (presets) {
+			if (currentStep === Steps.ADVANCED) {
+				setPresets({
+					...presets,
+					advanced: undefined,
+				})
+				handleNext()
+			}
+
+			if (currentStep === Steps.ADDITIONAL) {
+				setPresets({
+					...presets,
+					additional: undefined,
+				})
+				handleNext()
+			}
+		}
+	}
+
 	return (
 		<section className='flex justify-end gap-3'>
 			{(currentStep === Steps.ADVANCED || currentStep === Steps.ADDITIONAL) && (
-				<Button variant='link' type='button' onClick={handleNext}>
+				<Button variant='link' type='button' onClick={handleOmit}>
 					Omitir
 				</Button>
 			)}
-			{presets && (
+			{/* {presets && (
 				<OptimizationPreview
 					presets={presets}
 					label='Previsualizar'
 					title='Criterios de optimización'
 					description='En esta vista previa podrás ver los criterios de optimización que has seleccionado. Estos criterios son los que se utilizarán para optimizar tu viaje.'
 				/>
-			)}
+			)} */}
 			{currentStep === -1 && (
 				<Button onClick={handleReset} variant='destructive' type='button'>
 					<RotateCcw className='mr-1 size-5' />
 					Reiniciar
 				</Button>
 			)}
-			{currentStep > Steps.BASIC && (
-				<Button variant='outline' onClick={handleBack} type='button'>
-					<CircleChevronLeft className='mr-1 size-5' />
-					Atrás
-				</Button>
+			{currentStep > Steps.BASIC && currentStep < Steps.RESULTS && (
+				<AlertDialog>
+					<AlertDialogTrigger asChild>
+						<Button variant='outline' type='button'>
+							<CircleChevronLeft className='mr-1 size-5' />
+							Atrás
+						</Button>
+					</AlertDialogTrigger>
+					<AlertDialogContent>
+						<AlertDialogHeader>
+							<AlertDialogTitle>
+								¿Está seguro de que desea regresar al paso anterior?
+							</AlertDialogTitle>
+							<AlertDialogDescription>
+								Tenga en cuenta que esta acción eliminará todo lo que ha
+								realizado en el paso actual.
+							</AlertDialogDescription>
+						</AlertDialogHeader>
+						<AlertDialogFooter>
+							<AlertDialogCancel>
+								<CircleX className='mr-1 size-4' />
+								Cancelar
+							</AlertDialogCancel>
+							<AlertDialogAction onClick={handleBack}>
+								<CircleCheck className='mr-1 size-4' />
+								Continuar
+							</AlertDialogAction>
+						</AlertDialogFooter>
+					</AlertDialogContent>
+				</AlertDialog>
 			)}
+
 			{currentStep >= Steps.BASIC && currentStep < Steps.RESULTS && (
 				<Button form={currentStep.toString()} type='submit'>
 					{isLoading ? (
@@ -59,14 +118,20 @@ const OptimizationControls = () => {
 				</Button>
 			)}
 			{currentStep === Steps.RESULTS && (
-				<Button form={currentStep.toString()} type='submit'>
-					{isLoading ? (
-						<LoaderCircle className='mr-1 size-5 animate-spin' />
-					) : (
-						<SaveAll className='mr-1 size-5' />
-					)}
-					Finalizar
-				</Button>
+				<>
+					<Button variant='outline' type='button' onClick={handleBack}>
+						<CircleChevronLeft className='mr-1 size-5' />
+						Atrás
+					</Button>
+					<Button form={currentStep.toString()} type='submit'>
+						{isLoading ? (
+							<LoaderCircle className='mr-1 size-5 animate-spin' />
+						) : (
+							<SaveAll className='mr-1 size-5' />
+						)}
+						Finalizar
+					</Button>
+				</>
 			)}
 		</section>
 	)
