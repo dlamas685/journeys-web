@@ -7,6 +7,7 @@ import {
 	CommandItem,
 	CommandList,
 } from '@/components/ui/command'
+import { DialogTitle } from '@/components/ui/dialog'
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer'
 import {
 	Popover,
@@ -208,6 +209,8 @@ const Autocomplete = ({
 			</DrawerTrigger>
 			<DrawerContent>
 				<Command shouldFilter={false}>
+					<DialogTitle></DialogTitle>
+
 					<CommandInput
 						placeholder={searchPlaceholder}
 						value={inputValue}

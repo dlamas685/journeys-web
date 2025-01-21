@@ -5,7 +5,7 @@ import FormTooltip from '@/common/components/ui/form/form-tooltip'
 import { Pathnames } from '@/common/enums'
 import useResponse from '@/common/hooks/use-response'
 import { useLoading } from '@/common/stores/loading.store'
-import { sleep } from '@/common/utils'
+import { convertToSeconds, sleep } from '@/common/utils'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
 	Form,
@@ -131,24 +131,24 @@ const AdvancedOptimizationForm = () => {
 					},
 				}
 
-				// console.log({
-				// 	newPresets: {
-				// 		advanced: {
-				// 			...newPresets.advanced,
-				// 			intermediates: newPresets.advanced?.intermediates?.map(
-				// 				waypoint => ({
-				// 					...waypoint,
-				// 					activities: waypoint.activities?.map(
-				// 						({ id, duration, ...rest }) => ({
-				// 							...rest,
-				// 							duration: convertToSeconds(duration),
-				// 						})
-				// 					),
-				// 				})
-				// 			),
-				// 		},
-				// 	},
-				// })
+				console.log({
+					newPresets: {
+						advanced: {
+							...newPresets.advanced,
+							intermediates: newPresets.advanced?.intermediates?.map(
+								waypoint => ({
+									...waypoint,
+									activities: waypoint.activities?.map(
+										({ id, duration, ...rest }) => ({
+											...rest,
+											duration: convertToSeconds(duration),
+										})
+									),
+								})
+							),
+						},
+					},
+				})
 
 				setPresets(newPresets)
 

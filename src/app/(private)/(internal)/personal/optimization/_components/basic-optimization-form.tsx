@@ -25,7 +25,7 @@ import {
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { format } from 'date-fns'
+import { format, parse } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { CalendarIcon, Clock } from 'lucide-react'
 import { useEffect } from 'react'
@@ -259,7 +259,11 @@ const BasicOptimizationForm = () => {
 											)}>
 											<CalendarIcon className='mr-2 size-4' />
 											{field.value ? (
-												format(field.value, 'PPP', { locale: es })
+												format(
+													parse(field.value, 'yyyy-MM-dd', new Date()),
+													'PPP',
+													{ locale: es }
+												)
 											) : (
 												<span>Seleccione una fecha</span>
 											)}
@@ -271,10 +275,14 @@ const BasicOptimizationForm = () => {
 										lang='es'
 										locale={es}
 										mode='single'
-										selected={new Date(field.value)}
-										onSelect={e =>
-											field.onChange(e ? format(e, 'yyyy-MM-dd') : e)
+										selected={
+											field.value
+												? parse(field.value, 'yyyy-MM-dd', new Date())
+												: undefined
 										}
+										onSelect={e => {
+											field.onChange(e ? format(e, 'yyyy-MM-dd') : e)
+										}}
 										disabled={date => date < new Date()}
 										initialFocus
 									/>
@@ -304,11 +312,11 @@ const BasicOptimizationForm = () => {
 									<InputMask
 										options={{
 											time: true,
-											timePattern: ['h', 'm', 's'],
+											timePattern: ['h', 'm'],
 											timeFormat: '24',
 										}}
 										className='pl-10'
-										placeholder='HH:MM:SS'
+										placeholder='HH:MM'
 										{...field}
 									/>
 								</div>
@@ -338,7 +346,9 @@ const BasicOptimizationForm = () => {
 									title='Puntos de interés'
 									description='Añade direcciones o lugares de interés adicionales.'
 									onReady={waypoints => {
-										field.onChange(waypoints)
+										field.onChange(
+											waypoints.map(waypoint => ({ ...waypoint, via: true }))
+										)
 									}}
 									isMultipleSelection
 									value={field.value}>
@@ -351,11 +361,9 @@ const BasicOptimizationForm = () => {
 													waypoint={waypoint}
 													onRemove={placeId =>
 														field.onChange(
-															field.value
-																?.filter(
-																	waypoint => waypoint.placeId !== placeId
-																)
-																.map(waypoint => ({ ...waypoint, via: true }))
+															field.value?.filter(
+																waypoint => waypoint.placeId !== placeId
+															)
 														)
 													}
 												/>

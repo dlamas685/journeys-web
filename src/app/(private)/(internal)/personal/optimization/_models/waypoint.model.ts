@@ -1,8 +1,9 @@
 import { AdvancedWaypointActivityModel } from './advanced-waypoint-activity.model'
+import { LocationModel } from './location.model'
 
 export interface WaypointModel {
 	placeId: string
-	location: google.maps.LatLngLiteral
+	location: LocationModel
 	address: string
 	name?: string
 	sideOfRoad?: boolean

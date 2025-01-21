@@ -1,3 +1,4 @@
+import { TIME } from '@/common/constants'
 import { z } from 'zod'
 import { RoutingPreference } from '../_enums'
 import { TravelMode } from '../_enums/travel-mode.enum'
@@ -32,7 +33,7 @@ export const basicOptimizationFormSchema = z
 				.string({
 					required_error: 'La hora de salida es requerida',
 				})
-				.time({
+				.regex(TIME, {
 					message: 'La hora de salida no es válida',
 				}),
 		}),
