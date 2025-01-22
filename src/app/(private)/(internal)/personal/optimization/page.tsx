@@ -5,9 +5,15 @@ import {
 	FrameTitle,
 } from '@/common/components/layout/frame'
 import { Separator } from '@/components/ui/separator'
+import { Metadata } from 'next'
 import OptimizationContent from './_components/optimization-content'
 import OptimizationControls from './_components/optimization-controls'
 import OptimizationStepper from './_components/optimization-stepper'
+
+export const metadata: Metadata = {
+	title: 'Journeys • Optimización',
+	description: 'Optimiza tus viajes de acuerdo a diferentes criterios',
+}
 
 export default async function OptimizationPage() {
 	return (
