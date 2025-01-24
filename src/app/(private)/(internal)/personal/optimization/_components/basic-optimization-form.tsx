@@ -4,6 +4,7 @@ import FormTooltip from '@/common/components/ui/form/form-tooltip'
 import InputMask from '@/common/components/ui/form/input-mask'
 import useResponse from '@/common/hooks/use-response'
 import { useLoading } from '@/common/stores/loading.store'
+import { useStepper } from '@/common/stores/stepper.store'
 import { sleep } from '@/common/utils'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
@@ -38,7 +39,6 @@ import {
 	type BasicOptimizationFormSchema,
 } from '../_schemas'
 import { useOptimization } from '../_store/optimization.store'
-import { useStepper } from '../_store/stepper.store'
 import {
 	WaypointSetting,
 	WaypointSettingItem,
@@ -161,7 +161,7 @@ const BasicOptimizationForm = () => {
 				<FormField
 					control={form.control}
 					name='origin'
-					render={({ field, fieldState }) => (
+					render={({ field }) => (
 						<FormItem>
 							<FormLabel className='flex items-center gap-1'>
 								Origen
@@ -201,7 +201,7 @@ const BasicOptimizationForm = () => {
 				<FormField
 					control={form.control}
 					name='destination'
-					render={({ field, fieldState }) => (
+					render={({ field }) => (
 						<FormItem>
 							<FormLabel className='flex items-center gap-1'>
 								Destino
@@ -463,7 +463,7 @@ const BasicOptimizationForm = () => {
 					control={form.control}
 					name='routeModifiers'
 					render={() => (
-						<FormItem className='cols-span-full'>
+						<FormItem className='col-span-full'>
 							<FormLabel className='flex items-center gap-1'>
 								Otras consideraciones
 								<FormTooltip>Añade preferencias adicionales.</FormTooltip>

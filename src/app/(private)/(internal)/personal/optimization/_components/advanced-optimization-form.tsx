@@ -5,7 +5,8 @@ import FormTooltip from '@/common/components/ui/form/form-tooltip'
 import { Pathnames } from '@/common/enums'
 import useResponse from '@/common/hooks/use-response'
 import { useLoading } from '@/common/stores/loading.store'
-import { convertToSeconds, sleep } from '@/common/utils'
+import { useStepper } from '@/common/stores/stepper.store'
+import { sleep } from '@/common/utils'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
 	Form,
@@ -44,7 +45,6 @@ import {
 	type AdvancedOptimizationFormSchema,
 } from '../_schemas'
 import { useOptimization } from '../_store/optimization.store'
-import { useStepper } from '../_store/stepper.store'
 import ActivitiesSetting from './activities-setting'
 
 const AdvancedOptimizationForm = () => {
@@ -131,24 +131,24 @@ const AdvancedOptimizationForm = () => {
 					},
 				}
 
-				console.log({
-					newPresets: {
-						advanced: {
-							...newPresets.advanced,
-							intermediates: newPresets.advanced?.intermediates?.map(
-								waypoint => ({
-									...waypoint,
-									activities: waypoint.activities?.map(
-										({ id, duration, ...rest }) => ({
-											...rest,
-											duration: convertToSeconds(duration),
-										})
-									),
-								})
-							),
-						},
-					},
-				})
+				// console.log({
+				// 	newPresets: {
+				// 		advanced: {
+				// 			...newPresets.advanced,
+				// 			intermediates: newPresets.advanced?.intermediates?.map(
+				// 				waypoint => ({
+				// 					...waypoint,
+				// 					activities: waypoint.activities?.map(
+				// 						({ id, duration, ...rest }) => ({
+				// 							...rest,
+				// 							duration: convertToSeconds(duration),
+				// 						})
+				// 					),
+				// 				})
+				// 			),
+				// 		},
+				// 	},
+				// })
 
 				setPresets(newPresets)
 
@@ -211,7 +211,7 @@ const AdvancedOptimizationForm = () => {
 					render={() => (
 						<FormItem>
 							<FormLabel className='flex items-center gap-1'>
-								Cálculos adicionales
+								Cálculos adicionales<span className='text-orange-500'>*</span>
 								<FormTooltip>
 									Esto representa información adicional que se incluirá en tu
 									viaje.

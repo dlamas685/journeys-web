@@ -1,7 +1,7 @@
 'use client'
 
+import { useStepper } from '@/common/stores/stepper.store'
 import { Steps } from '../_enums'
-import { useStepper } from '../_store/stepper.store'
 import AdditionalOptimizationForm from './additional-optimization-form'
 import AdvancedOptimizationForm from './advanced-optimization-form'
 import BasicOptimizationForm from './basic-optimization-form'

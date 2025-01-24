@@ -23,59 +23,23 @@ import {
 	SaveAll,
 } from 'lucide-react'
 import { Steps } from '../_enums'
-import { useOptimization } from '../_store/optimization.store'
 
 const OptimizationControls = () => {
 	const currentStep = useStepper(state => state.currentStep)
-	const presets = useOptimization(state => state.presets)
-	const setPresets = useOptimization(state => state.setPresets)
 	const handleReset = useStepper(state => state.handleReset)
 	const handleBack = useStepper(state => state.handleBack)
 	const handleNext = useStepper(state => state.handleNext)
 	const isLoading = useLoading(state => state.loading)
 
-	const handleOmit = () => {
-		if (presets) {
-			if (currentStep === Steps.ADVANCED) {
-				setPresets({
-					...presets,
-					advanced: undefined,
-				})
-				handleNext()
-			}
-
-			if (currentStep === Steps.ADDITIONAL) {
-				setPresets({
-					...presets,
-					additional: undefined,
-				})
-				handleNext()
-			}
-		}
-	}
-
 	return (
 		<section className='flex justify-end gap-3'>
-			{(currentStep === Steps.ADVANCED || currentStep === Steps.ADDITIONAL) && (
-				<Button variant='link' type='button' onClick={handleOmit}>
-					Omitir
-				</Button>
-			)}
-			{/* {presets && (
-				<OptimizationPreview
-					presets={presets}
-					label='Previsualizar'
-					title='Criterios de optimización'
-					description='En esta vista previa podrás ver los criterios de optimización que has seleccionado. Estos criterios son los que se utilizarán para optimizar tu viaje.'
-				/>
-			)} */}
 			{currentStep === -1 && (
 				<Button onClick={handleReset} variant='destructive' type='button'>
 					<RotateCcw className='mr-1 size-5' />
 					Reiniciar
 				</Button>
 			)}
-			{currentStep > Steps.BASIC && currentStep < Steps.RESULTS && (
+			{currentStep > Steps.FIRST_STAGE && currentStep < Steps.RESULTS && (
 				<AlertDialog>
 					<AlertDialogTrigger asChild>
 						<Button variant='outline' type='button'>
@@ -107,7 +71,7 @@ const OptimizationControls = () => {
 				</AlertDialog>
 			)}
 
-			{currentStep >= Steps.BASIC && currentStep < Steps.RESULTS && (
+			{currentStep >= Steps.FIRST_STAGE && currentStep < Steps.RESULTS && (
 				<Button form={currentStep.toString()} type='submit'>
 					{isLoading ? (
 						<LoaderCircle className='mr-1 size-5 animate-spin' />

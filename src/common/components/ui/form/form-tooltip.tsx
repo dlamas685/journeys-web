@@ -4,25 +4,29 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { cn } from '@/lib/utils'
 import { Info } from 'lucide-react'
 import { cloneElement, ReactElement, ReactNode } from 'react'
 
 type Props = {
+	className?: string
 	children: ReactNode
 	icon?: ReactNode
 }
 
-const FormTooltip = ({ children, icon }: Readonly<Props>) => {
+const FormTooltip = ({ children, icon, className }: Readonly<Props>) => {
 	return (
 		<TooltipProvider>
 			<Tooltip>
 				<TooltipTrigger asChild>
 					{icon ? (
 						cloneElement(icon as ReactElement, {
-							className: 'hidden size-4 text-primary sm:block',
+							className: cn('hidden size-4 text-primary sm:block', className),
 						})
 					) : (
-						<Info className='hidden size-4 text-primary sm:block' />
+						<Info
+							className={cn('hidden size-4 text-primary sm:block', className)}
+						/>
 					)}
 				</TooltipTrigger>
 				<TooltipContent className='bg-orange-100 font-secondary text-primary'>

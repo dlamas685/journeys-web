@@ -187,23 +187,26 @@ const Step = forwardRef<HTMLLIElement, StepProps>(
 
 Step.displayName = 'Step'
 
-const stepIndicatorVariants = cva('flex', {
-	variants: {
-		variant: {
-			default: 'bg-secondary text-secondary-foreground border-secondary',
-			active: ' bg-white text-primary border-primary',
-			completed: 'bg-primary text-white border-primary',
+const stepIndicatorVariants = cva(
+	'flex size-10 items-center justify-center font-secondary text-base font-semibold',
+	{
+		variants: {
+			variant: {
+				default: 'bg-secondary text-secondary-foreground border-secondary',
+				active: ' bg-white text-primary border-primary',
+				completed: 'bg-primary text-white border-primary',
+			},
+			shape: {
+				circle: 'rounded-full border border-2',
+				square: 'rounded-md border border-2',
+			},
 		},
-		shape: {
-			circle: 'rounded-full border border-2',
-			square: 'rounded-md border border-2',
+		defaultVariants: {
+			shape: 'circle',
+			variant: 'default',
 		},
-	},
-	defaultVariants: {
-		shape: 'circle',
-		variant: 'default',
-	},
-})
+	}
+)
 
 type StepIndicatorProps = Omit<ComponentProps<'div'>, 'children'> &
 	VariantProps<typeof stepIndicatorVariants> & {
@@ -224,10 +227,7 @@ const StepIndicator = forwardRef<HTMLDivElement, StepIndicatorProps>(
 		return (
 			<div
 				ref={ref}
-				className={cn(
-					stepIndicatorVariants({ shape, variant, className }),
-					'flex size-10 items-center justify-center font-secondary text-base font-semibold'
-				)}
+				className={cn(stepIndicatorVariants({ shape, variant, className }))}
 				{...rest}>
 				{children}
 			</div>

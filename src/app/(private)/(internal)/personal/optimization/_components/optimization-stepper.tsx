@@ -7,9 +7,9 @@ import {
 	Stepper,
 } from '@/common/components/ui/menu/stepper'
 import { useMediaQuery } from '@/common/hooks/use-media-query'
+import { useStepper } from '@/common/stores/stepper.store'
 import { ClipboardList, Package, ReceiptText, Waypoints } from 'lucide-react'
 import { Steps } from '../_enums'
-import { useStepper } from '../_store/stepper.store'
 
 const OptimizationStepper = () => {
 	const currentStep = useStepper(state => state.currentStep)
@@ -26,10 +26,10 @@ const OptimizationStepper = () => {
 				</StepIndicator>
 				<StepLabel>Criterios Básicos</StepLabel>
 				<StepDescription className='hidden sm:block'>
-					En esta sección, podrás definir los aspectos esenciales para
-					planificar tu viaje de manera eficiente y personalizada. Aquí
-					establecerás el punto de partida y el destino final, considerando
-					factores clave que impactan tu experiencia en el camino.
+					En este paso, podrás definir los aspectos esenciales para planificar
+					tu viaje de manera eficiente y personalizada. Aquí establecerás el
+					punto de partida y el destino final, considerando factores clave que
+					impactan tu experiencia en el camino.
 				</StepDescription>
 			</Step>
 			<Step
@@ -40,7 +40,7 @@ const OptimizationStepper = () => {
 				</StepIndicator>
 				<StepLabel>Criterios Avanzados</StepLabel>
 				<StepDescription className='hidden sm:block'>
-					En esta sección podrás personalizar aún más tu experiencia de viaje al
+					En este paso podrás personalizar aún más tu experiencia de viaje al
 					incorporar detalles específicos y ajustes estratégicos
 				</StepDescription>
 			</Step>
@@ -52,9 +52,9 @@ const OptimizationStepper = () => {
 				</StepIndicator>
 				<StepLabel>Criterios Adicionales</StepLabel>
 				<StepDescription className='hidden sm:block'>
-					En esta sección, podrás agregar funcionalidades avanzadas que
-					enriquecen tu experiencia de viaje y te permiten aprovechar al máximo
-					cada trayecto.
+					En este paso, podrás agregar funcionalidades avanzadas que enriquecen
+					tu experiencia de viaje y te permiten aprovechar al máximo cada
+					trayecto.
 				</StepDescription>
 			</Step>
 			<Step
@@ -65,8 +65,8 @@ const OptimizationStepper = () => {
 				</StepIndicator>
 				<StepLabel>Resultados</StepLabel>
 				<StepDescription className='hidden sm:block'>
-					En esta sección, podrás visualizar los resultados de tu planificación
-					y ajustar los detalles necesarios para optimizar tu experiencia de
+					En este paso, podrás visualizar los resultados de tu planificación y
+					ajustar los detalles necesarios para optimizar tu experiencia de
 					viaje.
 				</StepDescription>
 			</Step>
