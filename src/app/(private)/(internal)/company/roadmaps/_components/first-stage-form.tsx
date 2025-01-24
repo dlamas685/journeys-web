@@ -9,7 +9,9 @@ import FormTooltip from '@/common/components/ui/form/form-tooltip'
 import InputMask from '@/common/components/ui/form/input-mask'
 import Autocomplete from '@/common/components/ui/google/autocomplete'
 import { useMediaQuery } from '@/common/hooks/use-media-query'
+import { useLoading } from '@/common/stores/loading.store'
 import { useStepper } from '@/common/stores/stepper.store'
+import { sleep } from '@/common/utils'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -33,9 +35,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { format, parse } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { CalendarIcon, Clock } from 'lucide-react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Steps } from '../_enums'
 import { firstStageFormSchema, FirstStageFormSchema } from '../_schemas'
+import { useOptimization } from '../_store/optimization.store'
 
 const FirstStageForm = () => {
 	const form = useForm<FirstStageFormSchema>({
@@ -47,13 +51,56 @@ const FirstStageForm = () => {
 		},
 	})
 
+	const setLoading = useLoading(state => state.setLoading)
+
 	const handleNext = useStepper(state => state.handleNext)
 
 	const isDesktop = useMediaQuery('(min-width: 640px)')
 
-	const handleSubmit = (values: FirstStageFormSchema) => {
-		handleNext()
+	const presets = useOptimization(state => state.presets)
+
+	const setPresets = useOptimization(state => state.setPresets)
+
+	const handleSubmit = async (values: FirstStageFormSchema) => {
+		setLoading(true)
+
+		await sleep(1000)
+			.then(() => {
+				setPresets({
+					firstStage: { ...values },
+					secondStage: {
+						services: presets?.secondStage.services ?? [],
+					},
+				})
+				handleNext()
+			})
+			.finally(() => {
+				setLoading(false)
+			})
 	}
+
+	useEffect(() => {
+		if (presets)
+			form.reset({
+				startWaypoint: presets?.firstStage.startWaypoint,
+				endWaypoint: presets?.firstStage.endWaypoint,
+				global: {
+					date: presets?.firstStage.global.date,
+					startTime: presets?.firstStage.global.startTime,
+					endTime: presets?.firstStage.global.endTime,
+				},
+				fixedCost: presets?.firstStage.fixedCost,
+				costPerKilometer: presets?.firstStage.costPerKilometer,
+				costPerHour: presets?.firstStage.costPerHour,
+				costPerTraveledHour: presets?.firstStage.costPerTraveledHour,
+				travelDurationMultiple: presets?.firstStage.travelDurationMultiple,
+				routeModifiers: {
+					avoidTolls: presets?.firstStage.routeModifiers?.avoidTolls,
+					avoidHighways: presets?.firstStage.routeModifiers?.avoidHighways,
+					avoidFerries: presets?.firstStage.routeModifiers?.avoidFerries,
+				},
+			})
+	}, [form, presets])
 
 	return (
 		<Form {...form}>
@@ -322,6 +369,16 @@ const FirstStageForm = () => {
 											}}
 											placeholder='0.00'
 											{...field}
+											value={field.value}
+											onChange={event => {
+												const value = event.currentTarget.value
+													? parseFloat(event.target.value)
+													: undefined
+
+												console.log(value)
+
+												field.onChange(value)
+											}}
 										/>
 									</FormControl>
 

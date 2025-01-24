@@ -49,10 +49,10 @@ export const firstStageFormSchema = z.object({
 				message: 'La hora no tiene un formato adecuado (HH:mm)',
 			}),
 	}),
-	fixedCost: z.number().optional(),
-	costPerKilometer: z.number().optional(),
-	costPerHour: z.number().optional(),
-	costPerTraveledHour: z.number().optional(),
+	fixedCost: z.number().positive().optional(),
+	costPerKilometer: z.number().positive().optional(),
+	costPerHour: z.number().positive().optional(),
+	costPerTraveledHour: z.number().positive().optional(),
 	travelDurationMultiple: z.array(z.number()).optional(),
 	routeModifiers: z
 		.object({

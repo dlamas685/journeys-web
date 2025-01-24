@@ -1,23 +1,10 @@
 'use client'
 import { useLoading } from '@/common/stores/loading.store'
 import { useStepper } from '@/common/stores/stepper.store'
-import {
-	AlertDialog,
-	AlertDialogAction,
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogDescription,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-	AlertDialogTrigger,
-} from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import {
-	CircleCheck,
 	CircleChevronLeft,
 	CircleChevronRight,
-	CircleX,
 	LoaderCircle,
 	RotateCcw,
 	SaveAll,
@@ -40,35 +27,10 @@ const OptimizationControls = () => {
 				</Button>
 			)}
 			{currentStep > Steps.FIRST_STAGE && currentStep < Steps.RESULTS && (
-				<AlertDialog>
-					<AlertDialogTrigger asChild>
-						<Button variant='outline' type='button'>
-							<CircleChevronLeft className='mr-1 size-5' />
-							Atrás
-						</Button>
-					</AlertDialogTrigger>
-					<AlertDialogContent>
-						<AlertDialogHeader>
-							<AlertDialogTitle>
-								¿Está seguro de que desea regresar al paso anterior?
-							</AlertDialogTitle>
-							<AlertDialogDescription>
-								Tenga en cuenta que esta acción eliminará todo lo que ha
-								realizado en el paso actual.
-							</AlertDialogDescription>
-						</AlertDialogHeader>
-						<AlertDialogFooter>
-							<AlertDialogCancel>
-								<CircleX className='mr-1 size-4' />
-								Cancelar
-							</AlertDialogCancel>
-							<AlertDialogAction onClick={handleBack}>
-								<CircleCheck className='mr-1 size-4' />
-								Continuar
-							</AlertDialogAction>
-						</AlertDialogFooter>
-					</AlertDialogContent>
-				</AlertDialog>
+				<Button variant='outline' type='button' onClick={handleBack}>
+					<CircleChevronLeft className='mr-1 size-5' />
+					Atrás
+				</Button>
 			)}
 
 			{currentStep >= Steps.FIRST_STAGE && currentStep < Steps.RESULTS && (

@@ -5,6 +5,7 @@ import Modal from '@/common/components/ui/overlay/modal'
 import { MAP_CENTER } from '@/common/constants'
 import { ApiEndpoints, Pathnames } from '@/common/enums'
 import { useMediaQuery } from '@/common/hooks/use-media-query'
+
 import { useLoading } from '@/common/stores/loading.store'
 import { resolveComponentType } from '@/common/utils'
 import { Button } from '@/components/ui/button'
@@ -54,8 +55,7 @@ import { FavoriteAddressModel } from '../../favorite-addresses/_models'
 import { FavoritePlaceModel } from '../../favorite-places/_models'
 import { WaypointSettingContext } from '../_contexts/WaypointSettingContext'
 import { useWaypointSetting } from '../_hooks/useWaypointSetting'
-import { WaypointModel } from '../_models'
-import { LocationModel } from '../_models/location.model'
+import { LocationModel, WaypointModel } from '../_models'
 import { ListBox, ListBoxItem } from './list-box'
 
 type WaypointSettingProps = {

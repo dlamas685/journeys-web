@@ -1,3 +1,4 @@
+import { ApiError } from '@/common/classes/api-error.class'
 import {
 	Fieldset,
 	FieldsetContent,
@@ -6,6 +7,9 @@ import {
 import FormTooltip from '@/common/components/ui/form/form-tooltip'
 import InputMask from '@/common/components/ui/form/input-mask'
 import Autocomplete from '@/common/components/ui/google/autocomplete'
+import { useLoading } from '@/common/stores/loading.store'
+import { useStepper } from '@/common/stores/stepper.store'
+import { sleep } from '@/common/utils'
 import {
 	Form,
 	FormControl,
@@ -17,10 +21,12 @@ import {
 } from '@/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Trash2 } from 'lucide-react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { v4 as uuid } from 'uuid'
 import { Steps } from '../_enums'
 import { secondStageFormSchema, SecondStageFormSchema } from '../_schemas'
+import { useOptimization } from '../_store/optimization.store'
 import ServicesSetting from './services-setting'
 
 const SecondStageForm = () => {
@@ -31,7 +37,47 @@ const SecondStageForm = () => {
 		},
 	})
 
-	const handleSubmit = (values: SecondStageFormSchema) => {}
+	const setLoading = useLoading(state => state.setLoading)
+
+	const presets = useOptimization(state => state.presets)
+
+	const setPresets = useOptimization(state => state.setPresets)
+
+	const handleNext = useStepper(state => state.handleNext)
+
+	const handleSubmit = async (values: SecondStageFormSchema) => {
+		setLoading(true)
+
+		await sleep(1000)
+			.then(() => {
+				if (!presets) {
+					throw new ApiError({
+						error: 'Not Found',
+						message: 'No se encontraron los datos de la primera etapa',
+						statusCode: 404,
+					})
+				}
+
+				setPresets({
+					...presets,
+					secondStage: {
+						...values,
+					},
+				})
+				handleNext()
+			})
+			.finally(() => {
+				setLoading(false)
+			})
+	}
+
+	useEffect(() => {
+		if (presets && presets.secondStage.services.length > 0) {
+			form.reset({
+				services: presets.secondStage.services,
+			})
+		}
+	}, [presets, form])
 
 	return (
 		<Form {...form}>
@@ -83,9 +129,16 @@ const SecondStageForm = () => {
 														<Trash2
 															className='size-4 cursor-pointer text-red-500'
 															onClick={() => {
-																field.onChange(
-																	field.value.filter(s => s.id !== service.id)
-																)
+																const updatedServices = form
+																	.watch('services')
+																	.filter((_, i) => i !== index)
+
+																form.reset({
+																	...form.getValues(),
+																	services: updatedServices,
+																})
+
+																form.trigger('services')
 															}}
 														/>
 													</FieldsetLegend>
@@ -169,12 +222,12 @@ const SecondStageForm = () => {
 								</section>
 							</FormControl>
 
-							{field.value && field.value.length === 0 && <FormMessage />}
-
-							{formState.errors?.services?.root?.message && (
+							{formState.errors?.services?.root?.message ? (
 								<p className='text-[0.8rem] font-medium text-destructive'>
 									{formState.errors?.services?.root?.message}
 								</p>
+							) : (
+								<FormMessage />
 							)}
 						</FormItem>
 					)}

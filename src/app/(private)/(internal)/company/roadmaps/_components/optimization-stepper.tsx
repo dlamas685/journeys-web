@@ -46,7 +46,7 @@ const OptimizationStepper = () => {
 				<StepIndicator className='text-lg'>3</StepIndicator>
 				<StepLabel>Resultados</StepLabel>
 				<StepDescription className='hidden sm:block'>
-					Visualiza los resultados de la optimización de acuerdo a los variables
+					Visualiza los resultados de la optimización de acuerdo a las variables
 					configuradas, incluyendo la hoja de rutas y los detalles de cada
 					servicio a domicilio.
 				</StepDescription>
