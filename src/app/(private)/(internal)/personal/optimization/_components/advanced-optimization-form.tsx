@@ -50,10 +50,6 @@ import ActivitiesSetting from './activities-setting'
 const AdvancedOptimizationForm = () => {
 	const presets = useOptimization(state => state.presets)
 
-	const form = useForm<AdvancedOptimizationFormSchema>({
-		resolver: zodResolver(advancedOptimizationFormSchema),
-	})
-
 	const router = useRouter()
 
 	const response = useResponse()
@@ -65,6 +61,13 @@ const AdvancedOptimizationForm = () => {
 
 	const canHaveComputeAlternativeRoutes =
 		presets?.basic.intermediates?.length === 0
+
+	const form = useForm<AdvancedOptimizationFormSchema>({
+		resolver: zodResolver(advancedOptimizationFormSchema),
+		defaultValues: {
+			trafficModel: canHaveTrafficModel ? TrafficModel.BEST_GUESS : undefined,
+		},
+	})
 
 	const canHaveOptimizeWaypointOrder =
 		form
@@ -90,10 +93,7 @@ const AdvancedOptimizationForm = () => {
 	const handleNext = useStepper(state => state.handleNext)
 
 	const handleSubmit = async ({
-		extraComputations,
 		routeModifiers,
-		requestedReferenceRoutes,
-		trafficModel,
 		...restValues
 	}: AdvancedOptimizationFormSchema) => {
 		setLoading(true)
@@ -112,43 +112,14 @@ const AdvancedOptimizationForm = () => {
 					...presets,
 					advanced: {
 						...presets.basic,
-						extraComputations: extraComputations as ExtraComputation[],
 						routeModifiers: {
 							...presets.basic.routeModifiers,
-							vehicleInfo: routeModifiers.vehicleInfo.emissionType
-								? {
-										emissionType: routeModifiers.vehicleInfo
-											.emissionType as VehicleEmissionType,
-									}
-								: undefined,
-							tollPasses: routeModifiers.tollPasses as TollPass[],
+							vehicleInfo: routeModifiers.vehicleInfo,
+							tollPasses: routeModifiers.tollPasses,
 						},
-						requestedReferenceRoutes: requestedReferenceRoutes
-							? ([requestedReferenceRoutes] as ReferenceRoute[])
-							: undefined,
-						trafficModel: trafficModel as TrafficModel,
 						...restValues,
 					},
 				}
-
-				// console.log({
-				// 	newPresets: {
-				// 		advanced: {
-				// 			...newPresets.advanced,
-				// 			intermediates: newPresets.advanced?.intermediates?.map(
-				// 				waypoint => ({
-				// 					...waypoint,
-				// 					activities: waypoint.activities?.map(
-				// 						({ id, duration, ...rest }) => ({
-				// 							...rest,
-				// 							duration: convertToSeconds(duration),
-				// 						})
-				// 					),
-				// 				})
-				// 			),
-				// 		},
-				// 	},
-				// })
 
 				setPresets(newPresets)
 
@@ -164,19 +135,9 @@ const AdvancedOptimizationForm = () => {
 	useEffect(() => {
 		form.reset({
 			extraComputations: presets?.advanced?.extraComputations,
-			trafficModel: canHaveTrafficModel
-				? TrafficModel.BEST_GUESS
-				: presets?.advanced?.trafficModel
-					? presets.advanced.trafficModel
-					: undefined,
+			trafficModel: presets?.advanced?.trafficModel,
 			routeModifiers: {
-				vehicleInfo: presets?.advanced?.routeModifiers?.vehicleInfo
-					?.emissionType
-					? {
-							emissionType:
-								presets?.advanced?.routeModifiers?.vehicleInfo?.emissionType,
-						}
-					: undefined,
+				vehicleInfo: presets?.advanced?.routeModifiers?.vehicleInfo,
 				tollPasses: presets?.advanced?.routeModifiers?.tollPasses,
 			},
 			intermediates:
@@ -190,10 +151,9 @@ const AdvancedOptimizationForm = () => {
 				})),
 			computeAlternativeRoutes: presets?.advanced?.computeAlternativeRoutes,
 			optimizeWaypointOrder: presets?.advanced?.optimizeWaypointOrder,
-			requestedReferenceRoutes:
-				presets?.advanced?.requestedReferenceRoutes?.at(0) ?? undefined,
+			requestedReferenceRoutes: presets?.advanced?.requestedReferenceRoutes,
 		})
-	}, [form, presets, canHaveTrafficModel, canHaveEmissionType])
+	}, [form, presets, canHaveTrafficModel])
 
 	return (
 		<Form {...form}>

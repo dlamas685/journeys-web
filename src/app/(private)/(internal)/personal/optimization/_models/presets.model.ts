@@ -1,8 +1,10 @@
-import { AdvancedCriteriaModel } from './advanced-criteria.model'
-import { type BasicCriteriaModel } from './basic-criteria.model'
+import {
+	type AdvancedOptimizationFormSchema,
+	type BasicOptimizationFormSchema,
+} from '../_schemas'
 
 export interface PresetsModel {
-	basic: BasicCriteriaModel
-	advanced?: AdvancedCriteriaModel
+	basic: BasicOptimizationFormSchema
+	advanced?: AdvancedOptimizationFormSchema
 	additional?: any
 }

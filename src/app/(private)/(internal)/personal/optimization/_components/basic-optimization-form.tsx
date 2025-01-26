@@ -77,62 +77,6 @@ const BasicOptimizationForm = () => {
 				handleNext()
 			})
 			.finally(() => setLoading(false))
-
-		/*setLoading(true)
-
-		 const departureTime: TimestampModel = toTimestamp(
-		 	departure.date,
-		 	departure.time
-		 )
-
-		 const criteria: BasicCriteriaModel = {
-		 	origin: {
-		 		placeId: origin.placeId,
-		 	},
-		 	destination: {
-		 		placeId: destination.placeId,
-		 	},
-		 	intermediates: intermediates?.map(waypoint => ({
-		 		placeId: waypoint.placeId,
-		 	})),
-		 	departureTime,
-		 	...restValues,
-		 }
-
-		await computeBasicOptimization(criteria)
-			.then(resp => {
-				if ('error' in resp) {
-					throw new ApiError(resp)
-				}
-
-				const presets: PresetsModel = {
-					basic: {
-						origin,
-						destination,
-						intermediates,
-						departureTime,
-						...restValues,
-					},
-				}
-
-				const results: ResultsModel = {
-					basic: resp,
-				}
-
-				setPresets(presets)
-
-				setResults(results)
-
-				response.success({
-					title: 'Optimización',
-					description:
-						'Se aplicaron los criterios básicos de optimización con éxito.',
-				})
-
-				handleNext()
-			})
-			.catch(response.error)
-			.finally(() => setLoading(false))*/
 	}
 
 	useEffect(() => {

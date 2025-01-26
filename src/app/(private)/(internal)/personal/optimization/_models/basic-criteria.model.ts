@@ -1,13 +1,14 @@
-import { DepartureModel } from './departure.model'
+import { RoutingPreference, TravelMode } from '../_enums'
 import { RouteModifiersModel } from './routing-modifiers.model'
+import { TimestampModel } from './timestamp.model'
 import { WaypointModel } from './waypoint.model'
 
 export interface BasicCriteriaModel {
-	origin: Partial<WaypointModel>
-	destination: Partial<WaypointModel>
-	intermediates?: Partial<WaypointModel>[]
-	travelMode: string
-	departure: DepartureModel
-	routingPreference?: string
+	origin: WaypointModel
+	destination: WaypointModel
+	intermediates?: WaypointModel[]
+	travelMode: TravelMode
+	departureTime: TimestampModel
+	routingPreference?: RoutingPreference
 	routeModifiers?: RouteModifiersModel
 }
