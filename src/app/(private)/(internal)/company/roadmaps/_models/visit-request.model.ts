@@ -1,5 +1,4 @@
-import { DurationModel } from './duration.model'
-import { LatLngModel } from './lat-lng.model'
+import { DurationModel, LatLngModel } from '@/common/models'
 import { WaypointModel } from './waypoint.model'
 
 export interface VisitRequestModel {

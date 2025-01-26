@@ -1,4 +1,4 @@
 export interface TimestampModel {
-	nanos?: number
-	seconds?: number
+	nanos: number
+	seconds: number
 }

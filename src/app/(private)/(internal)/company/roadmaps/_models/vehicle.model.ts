@@ -1,5 +1,5 @@
+import { LatLngModel } from '@/common/models'
 import { TravelMode } from '../_enums'
-import { LatLngModel } from './lat-lng.model'
 import { RouteModifiersModel } from './route-modifiers.model'
 import { WaypointModel } from './waypoint.model'
 

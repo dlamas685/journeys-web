@@ -1,6 +1,6 @@
+import { TimestampModel } from '@/common/models'
 import { RoutingPreference, TravelMode } from '../_enums'
 import { RouteModifiersModel } from './routing-modifiers.model'
-import { TimestampModel } from './timestamp.model'
 import { WaypointModel } from './waypoint.model'
 
 export interface BasicCriteriaModel {

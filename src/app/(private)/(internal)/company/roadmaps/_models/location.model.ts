@@ -1,4 +1,4 @@
-import { LatLngModel } from './lat-lng.model'
+import { LatLngModel } from '@/common/models'
 
 export interface LocationModel {
 	latLng: LatLngModel
