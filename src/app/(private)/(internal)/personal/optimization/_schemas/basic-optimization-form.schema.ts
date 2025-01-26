@@ -4,13 +4,6 @@ import { RoutingPreference } from '../_enums'
 import { TravelMode } from '../_enums/travel-mode.enum'
 import { waypointSchema } from './waypoint-schema-form.schema'
 
-const travelModes = Object.values(TravelMode) as [string, ...string[]]
-
-const routingPreferences = Object.values(RoutingPreference) as [
-	string,
-	...string[],
-]
-
 export const basicOptimizationFormSchema = z
 	.object({
 		origin: waypointSchema('El origen es requerido'),
