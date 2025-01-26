@@ -22,7 +22,7 @@ export const basicOptimizationFormSchema = z
 				message: 'El máximo de puntos intermedios es 5',
 			})
 			.optional(),
-		travelMode: z.enum(travelModes),
+		travelMode: z.nativeEnum(TravelMode),
 		departure: z.object({
 			date: z
 				.string({
@@ -37,7 +37,7 @@ export const basicOptimizationFormSchema = z
 					message: 'La hora de salida no es válida',
 				}),
 		}),
-		routingPreference: z.enum(routingPreferences).optional(),
+		routingPreference: z.nativeEnum(RoutingPreference).optional(),
 		routeModifiers: z
 			.object({
 				avoidTolls: z.boolean().default(false),
