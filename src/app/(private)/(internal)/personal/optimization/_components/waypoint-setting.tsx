@@ -282,8 +282,8 @@ const WaypointSettingTabs = ({}: Readonly<WaypointSettingTabsProps>) => {
 	const [zoomLevel, setZoomLevel] = useState(
 		!isMultipleSelection &&
 			manualWaypoints &&
-			manualWaypoints[0]?.location?.latLng.latitude &&
-			manualWaypoints[0].location.latLng.longitude
+			manualWaypoints[0]?.location.latitude &&
+			manualWaypoints[0].location.longitude
 			? 16
 			: 12
 	)
@@ -291,10 +291,8 @@ const WaypointSettingTabs = ({}: Readonly<WaypointSettingTabsProps>) => {
 	const [mapCenter, setMapCenter] = useState(
 		!isMultipleSelection && waypointsSelected
 			? {
-					lat:
-						waypointsSelected[0]?.location?.latLng.latitude ?? MAP_CENTER.lat,
-					lng:
-						waypointsSelected[0]?.location?.latLng.longitude ?? MAP_CENTER.lng,
+					lat: waypointsSelected[0]?.location.latitude ?? MAP_CENTER.lat,
+					lng: waypointsSelected[0]?.location.longitude ?? MAP_CENTER.lng,
 				}
 			: MAP_CENTER
 	)
@@ -303,8 +301,8 @@ const WaypointSettingTabs = ({}: Readonly<WaypointSettingTabsProps>) => {
 		!!(
 			!isMultipleSelection &&
 			waypointsSelected &&
-			waypointsSelected[0]?.location?.latLng.latitude &&
-			waypointsSelected[0].location.latLng.longitude
+			waypointsSelected[0]?.location.latitude &&
+			waypointsSelected[0].location.longitude
 		)
 	)
 
@@ -320,7 +318,7 @@ const WaypointSettingTabs = ({}: Readonly<WaypointSettingTabsProps>) => {
 		const address = favoriteAddress.address
 
 		const location: LocationModel | undefined =
-			latitude && longitude ? { latLng: { latitude, longitude } } : undefined
+			latitude && longitude ? { latitude, longitude } : undefined
 
 		if (placeId && location && address) {
 			setMapCenter(MAP_CENTER)
@@ -371,7 +369,7 @@ const WaypointSettingTabs = ({}: Readonly<WaypointSettingTabsProps>) => {
 		const name = favoritePlace.name
 
 		const location: LocationModel | undefined =
-			latitude && longitude ? { latLng: { latitude, longitude } } : undefined
+			latitude && longitude ? { latitude, longitude } : undefined
 
 		if (placeId && location && address) {
 			setMapCenter(MAP_CENTER)
@@ -421,7 +419,7 @@ const WaypointSettingTabs = ({}: Readonly<WaypointSettingTabsProps>) => {
 		const address = place?.formatted_address
 
 		const location: LocationModel | undefined =
-			latitude && longitude ? { latLng: { latitude, longitude } } : undefined
+			latitude && longitude ? { latitude, longitude } : undefined
 
 		if (placeId && location && address) {
 			setMapCenter({
@@ -463,8 +461,8 @@ const WaypointSettingTabs = ({}: Readonly<WaypointSettingTabsProps>) => {
 
 	const handleCenter = (waypoint: WaypointModel) => {
 		setMapCenter({
-			lat: waypoint.location?.latLng.latitude ?? MAP_CENTER.lat,
-			lng: waypoint.location?.latLng.longitude ?? MAP_CENTER.lng,
+			lat: waypoint.location.latitude ?? MAP_CENTER.lat,
+			lng: waypoint.location.longitude ?? MAP_CENTER.lng,
 		})
 
 		setZoomLevel(16)
@@ -503,8 +501,8 @@ const WaypointSettingTabs = ({}: Readonly<WaypointSettingTabsProps>) => {
 								<AdvancedMarker
 									key={waypoint.placeId}
 									position={{
-										lat: waypoint.location.latLng.latitude as number,
-										lng: waypoint.location.latLng.longitude as number,
+										lat: waypoint.location.latitude as number,
+										lng: waypoint.location.longitude as number,
 									}}
 								/>
 							)
@@ -521,8 +519,8 @@ const WaypointSettingTabs = ({}: Readonly<WaypointSettingTabsProps>) => {
 									'cursor-pointer gap-2 rounded-md border p-2 transition-all',
 									{
 										'border-primary text-primary':
-											waypoint.location?.latLng.latitude === mapCenter.lat &&
-											waypoint.location.latLng.longitude === mapCenter.lng,
+											waypoint.location.latitude === mapCenter.lat &&
+											waypoint.location.longitude === mapCenter.lng,
 									}
 								)}
 								onClick={() => handleCenter(waypoint)}

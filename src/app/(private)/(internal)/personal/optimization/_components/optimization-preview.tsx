@@ -35,7 +35,7 @@ import {
 	TRAVEL_MODES,
 	VEHICLE_EMISSION_TYPES,
 } from '../_constants'
-import { RoutingPreference, TravelMode } from '../_enums'
+import { TrafficOption, TravelMode } from '../_enums'
 import { PresetsModel } from '../_models'
 
 type Props = {
@@ -108,7 +108,7 @@ const OptimizationPreview = ({
 								<dd>
 									{
 										ROUTING_PREFERENCES[
-											presets.basic.routingPreference as RoutingPreference
+											presets.basic.routingPreference as TrafficOption
 										]
 									}
 								</dd>
@@ -160,7 +160,7 @@ const OptimizationPreview = ({
 										{presets.advanced.trafficModel &&
 										presets.advanced.travelMode === TravelMode.DRIVE &&
 										presets.advanced.routingPreference ===
-											RoutingPreference.TRAFFIC_AWARE_OPTIMAL
+											TrafficOption.TRAFFIC_AWARE_OPTIMAL
 											? TRAFFIC_MODELS[presets.advanced.trafficModel]
 											: 'No compatible'}
 									</dd>

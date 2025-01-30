@@ -12,15 +12,8 @@ export const waypointSchema = (required_error?: string) =>
 			}),
 			location: z.object(
 				{
-					latLng: z.object({
-						latitude: z.number(),
-						longitude: z.number(),
-					}),
-					heading: z
-						.object({
-							value: z.number(),
-						})
-						.optional(),
+					latitude: z.number(),
+					longitude: z.number(),
 				},
 				{
 					required_error: 'La ubicación es requerida',

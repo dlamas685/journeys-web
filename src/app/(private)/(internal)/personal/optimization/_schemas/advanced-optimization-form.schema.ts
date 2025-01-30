@@ -2,7 +2,6 @@ import { z } from 'zod'
 import {
 	ExtraComputation,
 	ReferenceRoute,
-	TollPass,
 	TrafficModel,
 	VehicleEmissionType,
 } from '../_enums'
@@ -25,13 +24,8 @@ export const advancedOptimizationFormSchema = z.object({
 	optimizeWaypointOrder: z.boolean().default(false).optional(),
 	computeAlternativeRoutes: z.boolean().default(false).optional(),
 	requestedReferenceRoutes: z.nativeEnum(ReferenceRoute).optional(),
-	routeModifiers: z.object({
-		vehicleInfo: z.object({
-			emissionType: z.enum(vehicleEmissionTypes).optional(),
-		}),
-		tollPasses: z.array(z.nativeEnum(TollPass)).optional(),
-	}),
-	intermediates: z.array(waypointSchema()).min(0).max(5).optional(),
+	emissionType: z.enum(vehicleEmissionTypes).optional(),
+	interestPoints: z.array(waypointSchema()).min(0).max(5).optional(),
 })
 
 export type AdvancedOptimizationFormSchema = z.infer<

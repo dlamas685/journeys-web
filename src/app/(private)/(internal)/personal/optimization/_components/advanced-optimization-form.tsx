@@ -32,10 +32,9 @@ import {
 import {
 	ExtraComputation,
 	ReferenceRoute,
-	RoutingPreference,
 	Steps,
-	TollPass,
 	TrafficModel,
+	TrafficOption,
 	TravelMode,
 	VehicleEmissionType,
 } from '../_enums'
@@ -55,12 +54,11 @@ const AdvancedOptimizationForm = () => {
 	const response = useResponse()
 
 	const canHaveTrafficModel =
-		presets?.basic.routingPreference ===
-			RoutingPreference.TRAFFIC_AWARE_OPTIMAL &&
+		presets?.basic.trafficOption === TrafficOption.TRAFFIC_AWARE_OPTIMAL &&
 		presets?.basic.travelMode === TravelMode.DRIVE
 
 	const canHaveComputeAlternativeRoutes =
-		presets?.basic.intermediates?.length === 0
+		presets?.basic.interestPoints?.length === 0
 
 	const form = useForm<AdvancedOptimizationFormSchema>({
 		resolver: zodResolver(advancedOptimizationFormSchema),
@@ -71,14 +69,13 @@ const AdvancedOptimizationForm = () => {
 
 	const canHaveOptimizeWaypointOrder =
 		form
-			.watch('intermediates')
+			.watch('interestPoints')
 			?.every(
 				waypoint => waypoint.via === false && waypoint.vehicleStopover == true
-			) &&
-		presets?.basic.routingPreference !== RoutingPreference.TRAFFIC_AWARE_OPTIMAL
+			) && presets?.basic.trafficOption !== TrafficOption.TRAFFIC_AWARE_OPTIMAL
 
 	const canHaveShorterDistanceReferenceRoute =
-		presets?.basic.intermediates?.length === 0
+		presets?.basic.interestPoints?.length === 0
 
 	const canHaveEmissionType = presets?.basic.travelMode === TravelMode.DRIVE
 
@@ -92,10 +89,7 @@ const AdvancedOptimizationForm = () => {
 
 	const handleNext = useStepper(state => state.handleNext)
 
-	const handleSubmit = async ({
-		routeModifiers,
-		...restValues
-	}: AdvancedOptimizationFormSchema) => {
+	const handleSubmit = async (values: AdvancedOptimizationFormSchema) => {
 		setLoading(true)
 
 		await sleep(1500)
@@ -112,12 +106,7 @@ const AdvancedOptimizationForm = () => {
 					...presets,
 					advanced: {
 						...presets.basic,
-						routeModifiers: {
-							...presets.basic.routeModifiers,
-							vehicleInfo: routeModifiers.vehicleInfo,
-							tollPasses: routeModifiers.tollPasses,
-						},
-						...restValues,
+						...values,
 					},
 				}
 
@@ -136,22 +125,19 @@ const AdvancedOptimizationForm = () => {
 		form.reset({
 			extraComputations: presets?.advanced?.extraComputations,
 			trafficModel: presets?.advanced?.trafficModel,
-			routeModifiers: {
-				vehicleInfo: presets?.advanced?.routeModifiers?.vehicleInfo,
-				tollPasses: presets?.advanced?.routeModifiers?.tollPasses,
-			},
-			intermediates:
-				presets?.advanced?.intermediates?.map(waypoint => ({
-					...waypoint,
-					activities: waypoint.activities,
-				})) ??
-				presets?.basic.intermediates?.map(waypoint => ({
-					...waypoint,
-					activities: [],
-				})),
 			computeAlternativeRoutes: presets?.advanced?.computeAlternativeRoutes,
 			optimizeWaypointOrder: presets?.advanced?.optimizeWaypointOrder,
 			requestedReferenceRoutes: presets?.advanced?.requestedReferenceRoutes,
+			emissionType: presets?.advanced?.emissionType,
+			interestPoints:
+				presets?.advanced?.interestPoints?.map(interestPoint => ({
+					...interestPoint,
+					activities: interestPoint.activities,
+				})) ??
+				presets?.basic.interestPoints?.map(interestPoint => ({
+					...interestPoint,
+					activities: [],
+				})),
 		})
 	}, [form, presets, canHaveTrafficModel])
 
@@ -200,10 +186,12 @@ const AdvancedOptimizationForm = () => {
 														<Checkbox
 															checked={field.value?.includes(parseKey)}
 															disabled={
-																(parseKey ===
+																(presets?.basic.modifiers?.avoidTolls &&
+																	parseKey === ExtraComputation.TOLLS) ||
+																((parseKey ===
 																	ExtraComputation.FUEL_CONSUMPTION ||
 																	parseKey === ExtraComputation.TOLLS) &&
-																!canHaveEmissionType
+																	!canHaveEmissionType)
 															}
 															onCheckedChange={checked => {
 																if (checked) {
@@ -211,15 +199,11 @@ const AdvancedOptimizationForm = () => {
 																		...(field.value ?? []),
 																		parseKey,
 																	])
-																	parseKey === ExtraComputation.TOLLS &&
-																		form.setValue('routeModifiers.tollPasses', [
-																			TollPass.AR_TELEPASE,
-																		])
 
 																	parseKey ===
 																		ExtraComputation.FUEL_CONSUMPTION &&
 																		form.setValue(
-																			'routeModifiers.vehicleInfo.emissionType',
+																			'emissionType',
 																			VehicleEmissionType.GASOLINE
 																		)
 																	return
@@ -231,15 +215,9 @@ const AdvancedOptimizationForm = () => {
 																	)
 																)
 
-																parseKey === ExtraComputation.TOLLS &&
-																	form.setValue('routeModifiers.tollPasses', [])
-
 																parseKey ===
 																	ExtraComputation.FUEL_CONSUMPTION &&
-																	form.setValue(
-																		'routeModifiers.vehicleInfo.emissionType',
-																		undefined
-																	)
+																	form.setValue('emissionType', undefined)
 															}}
 														/>
 													</FormControl>
@@ -388,12 +366,12 @@ const AdvancedOptimizationForm = () => {
 									Puntos de interés
 									<FormTooltip>
 										Indica si deseas optimizar el orden de los puntos de interés
-										(solo sin puntos de interés de paso)
+										(solo sin puntos de interés de paso y tráfico optimizado)
 									</FormTooltip>
 								</FormLabel>
 								<FormDescription className='sm:hidden'>
 									Indica si deseas optimizar el orden de los puntos de interés
-									(solo sin puntos de interés de paso)
+									(solo sin puntos de interés de paso y tráfico optimizado)
 								</FormDescription>
 								<FormControl>
 									<FormItem className='flex flex-row items-center space-x-2 space-y-0'>
@@ -417,7 +395,7 @@ const AdvancedOptimizationForm = () => {
 
 				<FormField
 					control={form.control}
-					name='routeModifiers.vehicleInfo.emissionType'
+					name='emissionType'
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel className='flex items-center gap-1'>
@@ -467,7 +445,7 @@ const AdvancedOptimizationForm = () => {
 
 				<FormField
 					control={form.control}
-					name='intermediates'
+					name='interestPoints'
 					render={({ field }) => (
 						<FormItem className='col-span-full'>
 							<FormLabel className='flex items-center gap-1'>
@@ -484,14 +462,16 @@ const AdvancedOptimizationForm = () => {
 							<FormControl>
 								<section className='flex flex-wrap gap-2'>
 									{field.value && field.value.length > 0 ? (
-										field.value.map(waypoint => (
+										field.value.map(interestPoint => (
 											<ActivitiesSetting
-												key={waypoint.placeId}
-												waypoint={waypoint}
+												key={interestPoint.placeId}
+												waypoint={interestPoint}
 												onReady={waypoint => {
 													field.onChange(
-														field.value?.map(w =>
-															w.placeId === waypoint.placeId ? waypoint : w
+														field.value?.map(interestPoint =>
+															interestPoint.placeId === waypoint.placeId
+																? waypoint
+																: interestPoint
 														)
 													)
 												}}

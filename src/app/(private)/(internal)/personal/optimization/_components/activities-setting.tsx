@@ -143,6 +143,7 @@ const ActivitiesSetting = ({ waypoint, onReady }: Readonly<Props>) => {
 					...waypoint,
 					via: false,
 					vehicleStopover: activities.length > 0,
+					sideOfRoad: activities.length > 0,
 					activities: activities as AdvancedWaypointActivityModel[],
 					config: {
 						mode: temporalMode,

@@ -1,13 +1,11 @@
 'use server'
 import { ApiEndpoints } from '@/common/enums'
 import { ErrorModel } from '@/common/models'
-import { BasicCriteriaModel, BasicOptimizationModel } from '../_models'
+import { BasicOptimizationModel } from '../_models'
 
 const API_URL = process.env.API_URL
 
-export const computeBasicOptimization = async (
-	basicCriteria: BasicCriteriaModel
-) => {
+export const computeBasicOptimization = async (basicCriteria: any) => {
 	try {
 		const URL = `${API_URL}/${ApiEndpoints.BASIC_OPTIMIZATION}`
 

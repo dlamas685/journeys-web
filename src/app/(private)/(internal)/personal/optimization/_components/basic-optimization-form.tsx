@@ -2,7 +2,6 @@
 
 import FormTooltip from '@/common/components/ui/form/form-tooltip'
 import InputMask from '@/common/components/ui/form/input-mask'
-import useResponse from '@/common/hooks/use-response'
 import { useLoading } from '@/common/stores/loading.store'
 import { useStepper } from '@/common/stores/stepper.store'
 import { sleep } from '@/common/utils'
@@ -32,7 +31,7 @@ import { CalendarIcon, Clock } from 'lucide-react'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { ROUTING_PREFERENCES, TRAVEL_MODES } from '../_constants'
-import { RoutingPreference, Steps, TravelMode } from '../_enums'
+import { Steps, TrafficOption, TravelMode } from '../_enums'
 import { PresetsModel } from '../_models'
 import {
 	basicOptimizationFormSchema,
@@ -47,8 +46,6 @@ import {
 } from './waypoint-setting'
 
 const BasicOptimizationForm = () => {
-	const response = useResponse()
-
 	const presets = useOptimization(state => state.presets)
 
 	const setLoading = useLoading(state => state.setLoading)
@@ -84,11 +81,11 @@ const BasicOptimizationForm = () => {
 			origin: presets?.basic.origin ?? undefined,
 			destination: presets?.basic.destination ?? undefined,
 			travelMode: presets?.basic.travelMode ?? TravelMode.DRIVE,
-			intermediates: presets?.basic.intermediates ?? [],
+			interestPoints: presets?.basic.interestPoints ?? [],
 			departure: presets?.basic.departure ?? undefined,
-			routingPreference:
-				presets?.basic.routingPreference ?? RoutingPreference.TRAFFIC_UNAWARE,
-			routeModifiers: presets?.basic.routeModifiers,
+			trafficOption:
+				presets?.basic.trafficOption ?? TrafficOption.TRAFFIC_UNAWARE,
+			modifiers: presets?.basic.modifiers,
 		})
 	}, [form, presets])
 
@@ -273,7 +270,7 @@ const BasicOptimizationForm = () => {
 
 				<FormField
 					control={form.control}
-					name='intermediates'
+					name='interestPoints'
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel className='flex items-center gap-1'>
@@ -299,14 +296,15 @@ const BasicOptimizationForm = () => {
 									<WaypointSettingTabs />
 									{field.value && (
 										<WaypointSettingList>
-											{field.value.map(waypoint => (
+											{field.value.map(interestPoint => (
 												<WaypointSettingItem
-													key={waypoint.placeId}
-													waypoint={waypoint}
+													key={interestPoint.placeId}
+													waypoint={interestPoint}
 													onRemove={placeId =>
 														field.onChange(
 															field.value?.filter(
-																waypoint => waypoint.placeId !== placeId
+																interestPoint =>
+																	interestPoint.placeId !== placeId
 															)
 														)
 													}
@@ -366,7 +364,7 @@ const BasicOptimizationForm = () => {
 
 				<FormField
 					control={form.control}
-					name='routingPreference'
+					name='trafficOption'
 					render={({ field }) => (
 						<FormItem className='col-span-full'>
 							<FormLabel className='flex items-center gap-1'>
@@ -405,7 +403,7 @@ const BasicOptimizationForm = () => {
 
 				<FormField
 					control={form.control}
-					name='routeModifiers'
+					name='modifiers'
 					render={() => (
 						<FormItem className='col-span-full'>
 							<FormLabel className='flex items-center gap-1'>
@@ -419,7 +417,7 @@ const BasicOptimizationForm = () => {
 							<section className='flex flex-col gap-3'>
 								<FormField
 									control={form.control}
-									name='routeModifiers.avoidTolls'
+									name='modifiers.avoidTolls'
 									render={({ field }) => {
 										return (
 											<FormItem className='flex flex-row items-center space-x-2 space-y-0'>
@@ -439,7 +437,7 @@ const BasicOptimizationForm = () => {
 
 								<FormField
 									control={form.control}
-									name='routeModifiers.avoidHighways'
+									name='modifiers.avoidHighways'
 									render={({ field }) => {
 										return (
 											<FormItem className='flex flex-row items-center space-x-2 space-y-0'>
@@ -459,7 +457,7 @@ const BasicOptimizationForm = () => {
 
 								<FormField
 									control={form.control}
-									name='routeModifiers.avoidFerries'
+									name='modifiers.avoidFerries'
 									render={({ field }) => {
 										return (
 											<FormItem className='flex flex-row items-center space-x-2 space-y-0'>

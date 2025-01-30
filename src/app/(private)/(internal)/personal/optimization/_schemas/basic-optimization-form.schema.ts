@@ -1,6 +1,6 @@
 import { TIME } from '@/common/constants'
 import { z } from 'zod'
-import { RoutingPreference } from '../_enums'
+import { TrafficOption } from '../_enums'
 import { TravelMode } from '../_enums/travel-mode.enum'
 import { waypointSchema } from './waypoint-schema-form.schema'
 
@@ -8,7 +8,7 @@ export const basicOptimizationFormSchema = z
 	.object({
 		origin: waypointSchema('El origen es requerido'),
 		destination: waypointSchema('El destino es requerido'),
-		intermediates: z
+		interestPoints: z
 			.array(waypointSchema())
 			.min(0)
 			.max(5, {
@@ -30,8 +30,8 @@ export const basicOptimizationFormSchema = z
 					message: 'La hora de salida no es válida',
 				}),
 		}),
-		routingPreference: z.nativeEnum(RoutingPreference).optional(),
-		routeModifiers: z
+		trafficOption: z.nativeEnum(TrafficOption).optional(),
+		modifiers: z
 			.object({
 				avoidTolls: z.boolean().default(false),
 				avoidHighways: z.boolean().default(false),
@@ -52,15 +52,15 @@ export const basicOptimizationFormSchema = z
 	)
 	.refine(
 		data =>
-			data.intermediates?.every(
-				intermediate =>
-					intermediate.placeId !== data.origin.placeId &&
-					intermediate.placeId !== data.destination.placeId
+			data.interestPoints?.every(
+				interestPoint =>
+					interestPoint.placeId !== data.origin.placeId &&
+					interestPoint.placeId !== data.destination.placeId
 			),
 		{
 			message:
-				'No pueden haber puntos intermedios iguales al origen o al destino',
-			path: ['intermediates'],
+				'No pueden haber puntos de interés iguales al origen o al destino',
+			path: ['interestPoints'],
 		}
 	)
 
