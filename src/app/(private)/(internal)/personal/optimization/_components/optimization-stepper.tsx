@@ -8,7 +8,7 @@ import {
 } from '@/common/components/ui/menu/stepper'
 import { useMediaQuery } from '@/common/hooks/use-media-query'
 import { useStepper } from '@/common/stores/stepper.store'
-import { ClipboardList, ReceiptText, Waypoints } from 'lucide-react'
+import { ClipboardList, Package, ReceiptText, Waypoints } from 'lucide-react'
 import { Steps } from '../_enums'
 
 const OptimizationStepper = () => {
@@ -44,7 +44,7 @@ const OptimizationStepper = () => {
 					incorporar detalles específicos y ajustes estratégicos
 				</StepDescription>
 			</Step>
-			{/* <Step
+			<Step
 				activeStep={currentStep === Steps.ADDITIONAL}
 				completedStep={completedSteps.includes(Steps.ADDITIONAL)}>
 				<StepIndicator>
@@ -56,7 +56,7 @@ const OptimizationStepper = () => {
 					finalizar tu viaje. Además, podrás optimizar la ruta para una mejor
 					eficiencia e incorporando ganancias adicionales.
 				</StepDescription>
-			</Step> */}
+			</Step>
 			<Step
 				activeStep={currentStep === Steps.RESULTS}
 				completedStep={completedSteps.includes(Steps.RESULTS)}>
