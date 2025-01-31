@@ -15,7 +15,6 @@ export enum Pathnames {
 	FAVORITE_PLACES = 'favorite-places',
 	FAVORITE_ADDRESSES = 'favorite-addresses',
 	TRIPS = 'trips',
-	PUBLICATIONS = 'publications',
 
 	// Company
 	FLEETS = 'fleets',
