@@ -24,7 +24,7 @@ export default async function OptimizationPage() {
 			<FrameBody className='flex flex-col sm:grid sm:grid-cols-[auto_auto_1fr]'>
 				<OptimizationStepper />
 				<Separator className='hidden sm:block' orientation='vertical' />
-				<section className='flex flex-grow flex-col gap-3 sm:flex-grow-0'>
+				<section className='flex flex-grow flex-col gap-4 sm:flex-grow-0 sm:gap-6'>
 					<OptimizationContent />
 					<OptimizationControls />
 				</section>

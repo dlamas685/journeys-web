@@ -31,6 +31,7 @@ export const additionalOptimizationFormSchema = z.object({
 			avoidTolls: z.boolean().optional(),
 			avoidHighways: z.boolean().optional(),
 			avoidFerries: z.boolean().optional(),
+			considerRoadTraffic: z.boolean().optional(),
 		})
 		.optional(),
 })

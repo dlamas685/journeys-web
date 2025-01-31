@@ -10,6 +10,7 @@ import InputMask from '@/common/components/ui/form/input-mask'
 import { useMediaQuery } from '@/common/hooks/use-media-query'
 import { useLoading } from '@/common/stores/loading.store'
 import { useStepper } from '@/common/stores/stepper.store'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
 	Form,
 	FormControl,
@@ -53,20 +54,13 @@ const AdditionalOptimizationForm = () => {
 			<form
 				id={Steps.ADDITIONAL.toString()}
 				onSubmit={form.handleSubmit(handleSubmit)}
-				className='grid grid-cols-1 gap-4 sm:grid-cols-1 sm:gap-5 sm:px-2'>
-				<section className='col-span-full'>
-					<h2 className='text-base font-medium text-foreground sm:text-lg'>
-						Criterios Adicionales
-					</h2>
-					<p className='text-sm text-muted-foreground'>
-						Genera ganancias creando una publicación de entregas al llegar a tu
-						destino. Además, puedes agregar criterios adicionales para optimizar
-						la ruta y mejorar la eficiencia.
-					</p>
-				</section>
-				<Fieldset className='gap-4'>
+				className='grid grid-cols-1 gap-4 sm:grid-cols-1 sm:gap-6 sm:px-2'>
+				<h2 className='text-base font-medium text-foreground sm:text-lg'>
+					Criterios Adicionales
+				</h2>
+				<Fieldset className='gap-3 sm:gap-4'>
 					<FieldsetLegend className='py-0'>Transportista</FieldsetLegend>
-					<FieldsetContent className='grid-cols-2 gap-4'>
+					<FieldsetContent className='gap-4 sm:grid-cols-2 sm:gap-5'>
 						<FormField
 							name='carrierName'
 							control={form.control}
@@ -125,11 +119,11 @@ const AdditionalOptimizationForm = () => {
 					</FieldsetContent>
 				</Fieldset>
 
-				<Fieldset className='gap-4'>
+				<Fieldset className='gap-3 sm:gap-4'>
 					<FieldsetLegend className='py-0'>
 						Capacidad y tarifas del servicio
 					</FieldsetLegend>
-					<FieldsetContent className='grid-cols-3 gap-4'>
+					<FieldsetContent className='gap-4 sm:grid-cols-3 sm:gap-5'>
 						<FormField
 							control={form.control}
 							name='pricePerKg'
@@ -273,9 +267,9 @@ const AdditionalOptimizationForm = () => {
 					</FieldsetContent>
 				</Fieldset>
 
-				<Fieldset className='gap-4'>
+				<Fieldset className='gap-3 sm:gap-4'>
 					<FieldsetLegend className='py-0'>Costos operativos</FieldsetLegend>
-					<FieldsetContent className='grid-cols-4'>
+					<FieldsetContent className='gap-4 sm:grid-cols-4 sm:gap-5'>
 						<FormField
 							control={form.control}
 							name='fixedCost'
@@ -435,9 +429,11 @@ const AdditionalOptimizationForm = () => {
 					</FieldsetContent>
 				</Fieldset>
 
-				{/* <Fieldset>
-					<FieldsetLegend>Consideraciones adicionales</FieldsetLegend>
-					<FieldsetContent className='flex justify-between'>
+				<Fieldset className='gap-3 sm:gap-4'>
+					<FieldsetLegend className='py-0'>
+						Consideraciones adicionales
+					</FieldsetLegend>
+					<FieldsetContent className='grid grid-cols-1 gap-3 sm:grid-cols-2'>
 						<FormField
 							control={form.control}
 							name='modifiers.avoidTolls'
@@ -495,8 +491,28 @@ const AdditionalOptimizationForm = () => {
 								)
 							}}
 						/>
+
+						<FormField
+							control={form.control}
+							name='modifiers.considerRoadTraffic'
+							render={({ field }) => {
+								return (
+									<FormItem className='flex flex-row items-center space-x-2 space-y-0'>
+										<FormControl>
+											<Checkbox
+												checked={field.value}
+												onCheckedChange={field.onChange}
+											/>
+										</FormControl>
+										<FormLabel className='font-normal'>
+											Considerar tráfico
+										</FormLabel>
+									</FormItem>
+								)
+							}}
+						/>
 					</FieldsetContent>
-				</Fieldset> */}
+				</Fieldset>
 			</form>
 		</Form>
 	)

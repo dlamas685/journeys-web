@@ -94,7 +94,7 @@ const BasicOptimizationForm = () => {
 			<form
 				id={Steps.BASIC.toString()}
 				onSubmit={form.handleSubmit(handleSubmit)}
-				className='grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 sm:px-2'>
+				className='grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 sm:px-2'>
 				<h2 className='col-span-full text-base font-medium text-foreground sm:text-lg'>
 					Criterios Básicos
 				</h2>
@@ -372,7 +372,7 @@ const BasicOptimizationForm = () => {
 					control={form.control}
 					name='trafficOption'
 					render={({ field }) => (
-						<FormItem className='col-span-full'>
+						<FormItem>
 							<FormLabel className='flex items-center gap-1'>
 								Consideraciones de tráfico
 								<FormTooltip>
@@ -411,7 +411,7 @@ const BasicOptimizationForm = () => {
 					control={form.control}
 					name='modifiers'
 					render={() => (
-						<FormItem className='col-span-full'>
+						<FormItem>
 							<FormLabel className='flex items-center gap-1'>
 								Otras consideraciones
 								<FormTooltip>Añade preferencias adicionales.</FormTooltip>

@@ -146,7 +146,7 @@ const AdvancedOptimizationForm = () => {
 			<form
 				id={Steps.ADVANCED.toString()}
 				onSubmit={form.handleSubmit(handleSubmit)}
-				className='grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 sm:px-2'>
+				className='grid grid-cols-1 gap-4 sm:grid-cols-[1.1fr_0.9fr] sm:gap-6 sm:px-2'>
 				<h2 className='col-span-full text-base font-medium text-foreground sm:text-lg'>
 					Criterios Avanzados
 				</h2>

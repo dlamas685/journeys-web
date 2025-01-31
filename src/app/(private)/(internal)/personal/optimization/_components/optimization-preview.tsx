@@ -35,7 +35,13 @@ import {
 	TRAVEL_MODES,
 	VEHICLE_EMISSION_TYPES,
 } from '../_constants'
-import { TrafficOption, TravelMode } from '../_enums'
+import {
+	ReferenceRoute,
+	TrafficModel,
+	TrafficOption,
+	TravelMode,
+	VehicleEmissionType,
+} from '../_enums'
 import { PresetsModel } from '../_models'
 
 type Props = {
@@ -95,8 +101,10 @@ const OptimizationPreview = ({
 								<dt>Puntos de interés:</dt>
 								<dd>
 									<ul role='list'>
-										{presets.basic.intermediates?.map(intermediate => (
-											<li key={intermediate.placeId}>{intermediate.address}</li>
+										{presets.basic.interestPoints?.map(interestPoint => (
+											<li key={interestPoint.placeId}>
+												{interestPoint.address}
+											</li>
 										))}
 									</ul>
 								</dd>
@@ -108,7 +116,7 @@ const OptimizationPreview = ({
 								<dd>
 									{
 										ROUTING_PREFERENCES[
-											presets.basic.routingPreference as TrafficOption
+											presets.basic.trafficOption as TrafficOption
 										]
 									}
 								</dd>
@@ -118,17 +126,15 @@ const OptimizationPreview = ({
 									<ul role='list'>
 										<li>
 											Evitar peajes:{' '}
-											{presets.basic.routeModifiers?.avoidTolls ? 'Sí' : 'No'}
+											{presets.basic.modifiers?.avoidTolls ? 'Sí' : 'No'}
 										</li>
 										<li>
 											Evitar autopistas:{' '}
-											{presets.basic.routeModifiers?.avoidHighways
-												? 'Sí'
-												: 'No'}
+											{presets.basic.modifiers?.avoidHighways ? 'Sí' : 'No'}
 										</li>
 										<li>
 											Evitar transbordadores:{' '}
-											{presets.basic.routeModifiers?.avoidFerries ? 'Sí' : 'No'}
+											{presets.basic.modifiers?.avoidFerries ? 'Sí' : 'No'}
 										</li>
 									</ul>
 								</dd>
@@ -158,27 +164,27 @@ const OptimizationPreview = ({
 									<dt>Modelo de tráfico:</dt>
 									<dd>
 										{presets.advanced.trafficModel &&
-										presets.advanced.travelMode === TravelMode.DRIVE &&
-										presets.advanced.routingPreference ===
+										presets.basic.travelMode === TravelMode.DRIVE &&
+										presets.basic.trafficOption ===
 											TrafficOption.TRAFFIC_AWARE_OPTIMAL
-											? TRAFFIC_MODELS[presets.advanced.trafficModel]
+											? TRAFFIC_MODELS[
+													presets.advanced.trafficModel as TrafficModel
+												]
 											: 'No compatible'}
 									</dd>
 
 									<dt>Ruta de referencia:</dt>
 									<dd>
-										{presets.advanced.intermediates?.length === 0
+										{presets.advanced.interestPoints?.length === 0
 											? presets.advanced.requestedReferenceRoutes
-												? REFERENCE_ROUTES[
-														presets.advanced.requestedReferenceRoutes[0]
-													]
+												? REFERENCE_ROUTES[ReferenceRoute.SHORTER_DISTANCE]
 												: 'No'
 											: 'No compatible'}
 									</dd>
 
 									<dt>Rutas alternativas:</dt>
 									<dd>
-										{presets.advanced.intermediates?.length === 0
+										{presets.advanced.interestPoints?.length === 0
 											? presets.advanced.computeAlternativeRoutes
 												? 'Sí'
 												: 'No'
@@ -187,34 +193,34 @@ const OptimizationPreview = ({
 
 									<dt>Tipo de emisión del vehículo:</dt>
 									<dd>
-										{presets.advanced.travelMode === TravelMode.DRIVE
-											? presets.advanced.routeModifiers?.vehicleInfo
-													?.emissionType
+										{presets.basic.travelMode === TravelMode.DRIVE
+											? presets.advanced.emissionType
 												? VEHICLE_EMISSION_TYPES[
-														presets.advanced.routeModifiers.vehicleInfo
-															.emissionType
+														presets.advanced.emissionType as VehicleEmissionType
 													]
 												: 'No especifica consumo de combustible'
 											: 'No compatible'}
 									</dd>
 
-									{presets.advanced.intermediates && (
+									{presets.advanced.interestPoints && (
 										<>
 											<dt>Paradas:</dt>
 											<dd>
-												{presets.advanced.intermediates.every(
-													waypoint => waypoint.vehicleStopover
+												{presets.advanced.interestPoints.every(
+													interestPoint => interestPoint.vehicleStopover
 												) ? (
 													<ul role='list'>
-														{presets.advanced.intermediates
-															.filter(waypoint => waypoint.vehicleStopover)
-															.map(waypoint => (
-																<li role='listitem' key={waypoint.placeId}>
-																	{waypoint.address} (
-																	{waypoint.activities &&
+														{presets.advanced.interestPoints
+															.filter(
+																interestPoint => interestPoint.vehicleStopover
+															)
+															.map(interestPoint => (
+																<li role='listitem' key={interestPoint.placeId}>
+																	{interestPoint.address} (
+																	{interestPoint.activities &&
 																		formatTimeShort(
 																			convertToHHMM(
-																				waypoint.activities.reduce(
+																				interestPoint.activities.reduce(
 																					(acc, activity) =>
 																						acc +
 																						convertToSeconds(activity.duration),
@@ -233,15 +239,17 @@ const OptimizationPreview = ({
 
 											<dt>De Paso:</dt>
 											<dd>
-												{presets.advanced.intermediates.every(
-													waypoint => !waypoint.vehicleStopover
+												{presets.advanced.interestPoints.every(
+													interestPoint => !interestPoint.vehicleStopover
 												) ? (
 													<ul role='list'>
-														{presets.advanced.intermediates
-															.filter(waypoint => !waypoint.vehicleStopover)
-															.map(waypoint => (
-																<li role='listitem' key={waypoint.placeId}>
-																	{waypoint.address}
+														{presets.advanced.interestPoints
+															.filter(
+																interestPoint => !interestPoint.vehicleStopover
+															)
+															.map(interestPoint => (
+																<li role='listitem' key={interestPoint.placeId}>
+																	{interestPoint.address}
 																</li>
 															))}
 													</ul>

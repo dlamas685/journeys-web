@@ -2,7 +2,6 @@
 
 import { useStepper } from '@/common/stores/stepper.store'
 import { Steps } from '../_enums'
-import AdditionalOptimizationForm from './additional-optimization-form'
 import AdvancedOptimizationForm from './advanced-optimization-form'
 import BasicOptimizationForm from './basic-optimization-form'
 import ResultsOptimizationForm from './results-optimization-form'
@@ -14,7 +13,7 @@ const OptimizationContent = () => {
 		<section className='flex-grow'>
 			{currentStep === Steps.BASIC && <BasicOptimizationForm />}
 			{currentStep === Steps.ADVANCED && <AdvancedOptimizationForm />}
-			{currentStep === Steps.ADDITIONAL && <AdditionalOptimizationForm />}
+			{/* {currentStep === Steps.ADDITIONAL && <AdditionalOptimizationForm />} */}
 			{currentStep === Steps.RESULTS && <ResultsOptimizationForm />}
 		</section>
 	)

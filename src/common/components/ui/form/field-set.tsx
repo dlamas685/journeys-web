@@ -20,7 +20,7 @@ const FieldsetLegend = forwardRef<HTMLHeadingElement, ComponentProps<'h4'>>(
 		return (
 			<h4
 				ref={ref}
-				className={cn('py-2 text-sm font-semibold', className)}
+				className={cn('py-2 font-secondary text-sm font-semibold', className)}
 				{...rest}
 			/>
 		)
