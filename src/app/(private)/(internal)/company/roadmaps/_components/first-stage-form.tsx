@@ -47,7 +47,7 @@ const FirstStageForm = () => {
 		defaultValues: {
 			startWaypoint: undefined,
 			endWaypoint: undefined,
-			travelDurationMultiple: [1],
+			costModel: { travelDurationMultiple: [1] },
 		},
 	})
 
@@ -89,16 +89,8 @@ const FirstStageForm = () => {
 					startTime: presets?.firstStage.global.startTime,
 					endTime: presets?.firstStage.global.endTime,
 				},
-				fixedCost: presets?.firstStage.fixedCost,
-				costPerKilometer: presets?.firstStage.costPerKilometer,
-				costPerHour: presets?.firstStage.costPerHour,
-				costPerTraveledHour: presets?.firstStage.costPerTraveledHour,
-				travelDurationMultiple: presets?.firstStage.travelDurationMultiple,
-				routeModifiers: {
-					avoidTolls: presets?.firstStage.routeModifiers?.avoidTolls,
-					avoidHighways: presets?.firstStage.routeModifiers?.avoidHighways,
-					avoidFerries: presets?.firstStage.routeModifiers?.avoidFerries,
-				},
+				costModel: presets.firstStage.costModel,
+				modifiers: presets.firstStage.modifiers,
 			})
 	}, [form, presets])
 
@@ -342,7 +334,7 @@ const FirstStageForm = () => {
 					<FieldsetContent className='grid grid-cols-1 gap-4 sm:grid-cols-4 sm:gap-5'>
 						<FormField
 							control={form.control}
-							name='fixedCost'
+							name='costModel.fixedCost'
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel className='flex items-center gap-1'>
@@ -388,7 +380,7 @@ const FirstStageForm = () => {
 						/>
 						<FormField
 							control={form.control}
-							name='costPerKilometer'
+							name='costModel.costPerKilometer'
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel className='flex items-center gap-1'>
@@ -426,7 +418,7 @@ const FirstStageForm = () => {
 						/>
 						<FormField
 							control={form.control}
-							name='costPerHour'
+							name='costModel.costPerHour'
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel className='flex items-center gap-1'>
@@ -462,7 +454,7 @@ const FirstStageForm = () => {
 						/>
 						<FormField
 							control={form.control}
-							name='costPerTraveledHour'
+							name='costModel.costPerTraveledHour'
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel className='flex items-center gap-1'>
@@ -499,7 +491,7 @@ const FirstStageForm = () => {
 
 						<FormField
 							control={form.control}
-							name='travelDurationMultiple'
+							name='costModel.travelDurationMultiple'
 							render={({ field }) => (
 								<FormItem className='col-span-full'>
 									<FormLabel className='flex items-center gap-1'>
@@ -540,7 +532,7 @@ const FirstStageForm = () => {
 
 				<FormField
 					control={form.control}
-					name='routeModifiers'
+					name='modifiers'
 					render={() => (
 						<FormItem className='col-span-2'>
 							<FormLabel className='flex items-center gap-1'>
@@ -554,7 +546,7 @@ const FirstStageForm = () => {
 							<section className='flex flex-col gap-3'>
 								<FormField
 									control={form.control}
-									name='routeModifiers.avoidTolls'
+									name='modifiers.avoidTolls'
 									render={({ field }) => {
 										return (
 											<FormItem className='flex flex-row items-center space-x-2 space-y-0'>
@@ -574,7 +566,7 @@ const FirstStageForm = () => {
 
 								<FormField
 									control={form.control}
-									name='routeModifiers.avoidHighways'
+									name='modifiers.avoidHighways'
 									render={({ field }) => {
 										return (
 											<FormItem className='flex flex-row items-center space-x-2 space-y-0'>
@@ -594,7 +586,7 @@ const FirstStageForm = () => {
 
 								<FormField
 									control={form.control}
-									name='routeModifiers.avoidFerries'
+									name='modifiers.avoidFerries'
 									render={({ field }) => {
 										return (
 											<FormItem className='flex flex-row items-center space-x-2 space-y-0'>
@@ -606,6 +598,26 @@ const FirstStageForm = () => {
 												</FormControl>
 												<FormLabel className='font-normal'>
 													Evitar transbordadores
+												</FormLabel>
+											</FormItem>
+										)
+									}}
+								/>
+
+								<FormField
+									control={form.control}
+									name='modifiers.considerRoadTraffic'
+									render={({ field }) => {
+										return (
+											<FormItem className='flex flex-row items-center space-x-2 space-y-0'>
+												<FormControl>
+													<Checkbox
+														checked={field.value}
+														onCheckedChange={field.onChange}
+													/>
+												</FormControl>
+												<FormLabel className='font-normal'>
+													Considerar tráfico
 												</FormLabel>
 											</FormItem>
 										)
