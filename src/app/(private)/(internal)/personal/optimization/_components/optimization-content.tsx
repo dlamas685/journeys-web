@@ -13,7 +13,6 @@ const OptimizationContent = () => {
 		<section className='flex-grow'>
 			{currentStep === Steps.BASIC && <BasicOptimizationForm />}
 			{currentStep === Steps.ADVANCED && <AdvancedOptimizationForm />}
-			{/* {currentStep === Steps.ADDITIONAL && <AdditionalOptimizationForm />} */}
 			{currentStep === Steps.RESULTS && <ResultsOptimizationForm />}
 		</section>
 	)

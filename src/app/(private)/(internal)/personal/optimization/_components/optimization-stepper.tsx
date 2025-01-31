@@ -44,19 +44,6 @@ const OptimizationStepper = () => {
 					incorporar detalles específicos y ajustes estratégicos
 				</StepDescription>
 			</Step>
-			{/* <Step
-				activeStep={currentStep === Steps.ADDITIONAL}
-				completedStep={completedSteps.includes(Steps.ADDITIONAL)}>
-				<StepIndicator>
-					<Package />
-				</StepIndicator>
-				<StepLabel>Criterios Adicionales</StepLabel>
-				<StepDescription className='hidden sm:block'>
-					En este paso, podrás agregar una publicación para realizar entregas al
-					finalizar tu viaje. Además, podrás optimizar la ruta para una mejor
-					eficiencia e incorporando ganancias adicionales.
-				</StepDescription>
-			</Step> */}
 			<Step
 				activeStep={currentStep === Steps.RESULTS}
 				completedStep={completedSteps.includes(Steps.RESULTS)}>

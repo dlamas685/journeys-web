@@ -43,14 +43,6 @@ const OptimizationControls = () => {
 				})
 				handleNext()
 			}
-
-			// if (currentStep === Steps.ADDITIONAL) {
-			// 	setPresets({
-			// 		...presets,
-			// 		additional: undefined,
-			// 	})
-			// 	handleNext()
-			// }
 		}
 	}
 
@@ -61,11 +53,6 @@ const OptimizationControls = () => {
 					Omitir
 				</Button>
 			)}
-			{/* {(currentStep === Steps.ADVANCED || currentStep === Steps.ADDITIONAL) && (
-				<Button variant='link' type='button' onClick={handleOmit}>
-					Omitir
-				</Button>
-			)} */}
 
 			{/* {presets && (
 				<OptimizationPreview
