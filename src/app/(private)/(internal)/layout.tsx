@@ -9,7 +9,6 @@ import {
 	LayoutDashboard,
 	MapPinHouse,
 	MapPinned,
-	Newspaper,
 	NotepadTextDashed,
 	Route,
 	UsersRound,
@@ -116,13 +115,7 @@ export default async function InternalLayout({ children }: Readonly<Props>) {
 			href: `/${pathRoot}/${Pathnames.ROADMAPS}`,
 			userType: UserTypes.COMPANY,
 		},
-		{
-			id: uuid(),
-			icon: <Newspaper />,
-			label: 'Publicaciones',
-			href: `/${pathRoot}/${Pathnames.PUBLICATIONS}`,
-			userType: UserTypes.PERSONAL,
-		},
+
 		{
 			id: uuid(),
 			icon: <Layers />,
