@@ -50,7 +50,7 @@ const SearchBox = ({
 				type='button'
 				aria-label={
 					user.userType === UserTypes.PERSONAL
-						? 'Buscar publicaciones'
+						? 'Buscar viajes'
 						: 'Buscar hojas de ruta'
 				}
 				aria-disabled='false'
@@ -64,7 +64,7 @@ const SearchBox = ({
 				<Search className='h-4 w-4' />
 				<span className='inline-flex flex-grow'>
 					{user.userType === UserTypes.PERSONAL
-						? 'Buscar publicaciones'
+						? 'Buscar viajes'
 						: 'Buscar hojas de ruta'}
 				</span>
 				<kbd className='pointer-events-none hidden h-5 select-none items-center gap-1 rounded border bg-background px-1.5 font-secondary text-[10px] font-medium opacity-100 sm:flex'>
@@ -76,7 +76,7 @@ const SearchBox = ({
 				<CommandInput
 					placeholder={
 						user.userType === UserTypes.PERSONAL
-							? 'Escribe una dirección'
+							? 'Escribe el alias del viaje'
 							: 'Escribe el alias de una hoja de ruta'
 					}
 				/>
