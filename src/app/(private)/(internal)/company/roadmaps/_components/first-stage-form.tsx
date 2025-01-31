@@ -394,13 +394,15 @@ const FirstStageForm = () => {
 									<FormLabel className='flex items-center gap-1'>
 										{isDesktop ? 'CPK' : 'Costo por kilómetro'}
 										<FormTooltip>
-											Representa el costo por cada hora de uso del vehículo,
-											incluyendo tiempo en tránsito y tareas realizadas.
+											Representa el costo por cada kilómetro recorrido por el
+											vehículo, útil para incluir costos de combustible o
+											desgaste.
 										</FormTooltip>
 									</FormLabel>
 									<FormDescription className='sm:hidden'>
-										Representa el costo por cada hora de uso del vehículo,
-										incluyendo tiempo en tránsito y tareas realizadas.
+										Representa el costo por cada kilómetro recorrido por el
+										vehículo, útil para incluir costos de combustible o
+										desgaste.
 									</FormDescription>
 									<FormControl>
 										<InputMask
@@ -430,15 +432,13 @@ const FirstStageForm = () => {
 									<FormLabel className='flex items-center gap-1'>
 										{isDesktop ? 'CPH' : 'Costo por hora'}
 										<FormTooltip>
-											Representa el costo por cada kilómetro recorrido por el
-											vehículo, útil para incluir costos de combustible o
-											desgaste.
+											Representa el costo por cada hora de uso del vehículo,
+											incluyendo tiempo en tránsito y tareas realizadas.
 										</FormTooltip>
 									</FormLabel>
 									<FormDescription className='sm:hidden'>
-										Representa el costo por cada kilómetro recorrido por el
-										vehículo, útil para incluir costos de combustible o
-										desgaste.
+										Representa el costo por cada hora de uso del vehículo,
+										incluyendo tiempo en tránsito y tareas realizadas.
 									</FormDescription>
 									<FormControl>
 										<InputMask

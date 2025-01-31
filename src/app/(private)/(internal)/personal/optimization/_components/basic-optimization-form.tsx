@@ -107,12 +107,14 @@ const BasicOptimizationForm = () => {
 							<FormLabel className='flex items-center gap-1'>
 								Origen
 								<FormTooltip>
-									Indica la dirección o lugar desde donde comenzarás tu viaje.
+									Indica la dirección o lugar desde donde comenzarás tu viaje
+									(campo obligatorio).
 								</FormTooltip>
 							</FormLabel>
 
 							<FormDescription className='sm:hidden'>
-								Indica la dirección o lugar desde donde comenzarás tu viaje.
+								Indica la dirección o lugar desde donde comenzarás tu viaje
+								(campo obligatorio).
 							</FormDescription>
 							<FormControl>
 								<WaypointSetting
@@ -147,11 +149,11 @@ const BasicOptimizationForm = () => {
 							<FormLabel className='flex items-center gap-1'>
 								Destino
 								<FormTooltip>
-									Especifica el lugar al que deseas llegar.
+									Especifica el lugar al que deseas llegar (campo obligatorio).
 								</FormTooltip>
 							</FormLabel>
 							<FormDescription className='sm:hidden'>
-								Especifica el lugar al que deseas llegar.
+								Especifica el lugar al que deseas llegar (campo obligatorio).
 							</FormDescription>
 							<FormControl>
 								<WaypointSetting
@@ -184,10 +186,12 @@ const BasicOptimizationForm = () => {
 						<FormItem>
 							<FormLabel className='flex items-center gap-1'>
 								Fecha de salida
-								<FormTooltip>Selecciona la fecha de salida.</FormTooltip>
+								<FormTooltip>
+									Selecciona la fecha de salida (campo obligatorio).
+								</FormTooltip>
 							</FormLabel>
 							<FormDescription className='sm:hidden'>
-								Selecciona la fecha de salida.
+								Selecciona la fecha de salida (campo obligatorio).
 							</FormDescription>
 							<Popover>
 								<PopoverTrigger asChild>
@@ -242,10 +246,12 @@ const BasicOptimizationForm = () => {
 						<FormItem>
 							<FormLabel className='flex items-center gap-1'>
 								Hora de salida
-								<FormTooltip>Selecciona la hora de salida.</FormTooltip>
+								<FormTooltip>
+									Selecciona la hora de salida (campo obligatorio).
+								</FormTooltip>
 							</FormLabel>
 							<FormDescription className='sm:hidden'>
-								Selecciona la hora de salida.
+								Selecciona la hora de salida (campo obligatorio).
 							</FormDescription>
 							<FormControl>
 								<div className='relative w-full'>

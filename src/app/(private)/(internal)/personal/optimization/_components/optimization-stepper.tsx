@@ -52,9 +52,9 @@ const OptimizationStepper = () => {
 				</StepIndicator>
 				<StepLabel>Criterios Adicionales</StepLabel>
 				<StepDescription className='hidden sm:block'>
-					En este paso, podrás agregar funcionalidades avanzadas que enriquecen
-					tu experiencia de viaje y te permiten aprovechar al máximo cada
-					trayecto.
+					En este paso, podrás agregar una publicación para realizar entregas al
+					finalizar tu viaje. Además, podrás optimizar la ruta para una mejor
+					eficiencia e incorporarás ganancias adicionales.
 				</StepDescription>
 			</Step>
 			<Step

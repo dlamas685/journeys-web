@@ -157,16 +157,16 @@ const AdvancedOptimizationForm = () => {
 					render={() => (
 						<FormItem>
 							<FormLabel className='flex items-center gap-1'>
-								Cálculos adicionales<span className='text-orange-500'>*</span>
+								Cálculos adicionales
 								<FormTooltip>
-									Esto representa información adicional que se incluirá en tu
-									viaje.
+									Incorpora información adicional que se incluirá en tu viaje
+									(campo obligatorio).
 								</FormTooltip>
 							</FormLabel>
 
 							<FormDescription className='sm:hidden'>
-								Esto representa información adicional que se incluirá en tu
-								viaje.
+								Incorpora información adicional que se incluirá en tu viaje
+								(campo obligatorio).
 							</FormDescription>
 
 							{Object.entries(EXTRA_COMPUTATIONS).map(([key, value]) => {
@@ -241,15 +241,15 @@ const AdvancedOptimizationForm = () => {
 							<FormLabel className='flex items-center gap-1'>
 								Modelo de tráfico
 								<FormTooltip>
-									Determina como se evalúan las condiciones de tráfico para
-									calcular el tiempo estimado de viaje (solo en automóvil y
-									tráfico optimizado)
+									Determina como se evaluaran las condiciones de tráfico para
+									calcular el tiempo estimado de viaje (solo disponible en
+									automóvil y tráfico optimizado).
 								</FormTooltip>
 							</FormLabel>
 							<FormDescription className='sm:hidden'>
-								Determina como se evalúan las condiciones de tráfico para
-								calcular el tiempo estimado de viaje (solo en automóvil y
-								tráfico optimizado)
+								Determina como se evaluaran las condiciones de tráfico para
+								calcular el tiempo estimado de viaje (solo disponible en
+								automóvil y tráfico optimizado).
 							</FormDescription>
 							<FormControl>
 								<RadioGroup
@@ -291,13 +291,13 @@ const AdvancedOptimizationForm = () => {
 								<FormLabel className='flex items-center gap-1'>
 									Ruta de referencia
 									<FormTooltip>
-										Permite solicitar un ruta de referencia adicional, además de
-										la ruta principal (solo sin puntos de interés)
+										Añade de referencia la ruta con la distancia más corta,
+										además de la ruta principal (solo sin puntos de interés).
 									</FormTooltip>
 								</FormLabel>
 								<FormDescription className='sm:hidden'>
-									Permite solicitar un ruta de referencia adicional, además de
-									la ruta principal (solo sin puntos de interés)
+									Añade de referencia la ruta con la distancia más corta, además
+									de la ruta principal (solo sin puntos de interés).
 								</FormDescription>
 								<FormControl>
 									<FormItem className='flex flex-row items-center space-x-2 space-y-0'>
@@ -333,12 +333,12 @@ const AdvancedOptimizationForm = () => {
 									Rutas alternativas
 									<FormTooltip>
 										Indica si se deben calcular rutas alternativas además de la
-										ruta principal (solo sin puntos de interés)
+										ruta principal (solo sin puntos de interés).
 									</FormTooltip>
 								</FormLabel>
 								<FormDescription className='sm:hidden'>
 									Indica si se deben calcular rutas alternativas además de la
-									ruta principal (solo sin puntos de interés)
+									ruta principal (solo sin puntos de interés).
 								</FormDescription>
 								<FormControl>
 									<FormItem className='flex flex-row items-center space-x-2 space-y-0'>
@@ -366,12 +366,12 @@ const AdvancedOptimizationForm = () => {
 									Puntos de interés
 									<FormTooltip>
 										Indica si deseas optimizar el orden de los puntos de interés
-										(solo sin puntos de interés de paso y tráfico optimizado)
+										(solo sin puntos de interés de paso y tráfico optimizado).
 									</FormTooltip>
 								</FormLabel>
 								<FormDescription className='sm:hidden'>
 									Indica si deseas optimizar el orden de los puntos de interés
-									(solo sin puntos de interés de paso y tráfico optimizado)
+									(solo sin puntos de interés de paso y tráfico optimizado).
 								</FormDescription>
 								<FormControl>
 									<FormItem className='flex flex-row items-center space-x-2 space-y-0'>
