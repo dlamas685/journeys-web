@@ -34,5 +34,11 @@ export enum ApiEndpoints {
 	ACTIVITY_TEMPLATES = 'activity-templates',
 	ACTIVITIES = 'activities',
 
-	BASIC_OPTIMIZATION = 'optimization/basic',
+	OPTIMIZATION_BASIC = 'optimization/basic',
+
+	OPTIMIZATION_TOURS = 'optimization/tours',
+
+	COST_PROFILES = 'optimization/cost-profiles',
+
+	AVAILABLE_ROADMAP_ASSETS = 'available-roadmap-assets',
 }

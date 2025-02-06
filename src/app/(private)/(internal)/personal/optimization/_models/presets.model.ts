@@ -6,5 +6,4 @@ import {
 export interface PresetsModel {
 	basic: BasicOptimizationFormSchema
 	advanced?: AdvancedOptimizationFormSchema
-	additional?: any
 }

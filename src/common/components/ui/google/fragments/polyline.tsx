@@ -19,7 +19,7 @@ const Polyline = ({ encodedPolyline }: Readonly<Props>) => {
 
 		const poly = new maps.Polyline({
 			path: geometry.encoding.decodePath(encodedPolyline),
-			strokeColor: '#FF0000',
+			strokeColor: '#000',
 			strokeOpacity: 1.0,
 			strokeWeight: 2,
 		})

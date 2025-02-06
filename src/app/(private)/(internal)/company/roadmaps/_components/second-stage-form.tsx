@@ -7,6 +7,7 @@ import {
 import FormTooltip from '@/common/components/ui/form/form-tooltip'
 import InputMask from '@/common/components/ui/form/input-mask'
 import Autocomplete from '@/common/components/ui/google/autocomplete'
+import useResponse from '@/common/hooks/use-response'
 import { useLoading } from '@/common/stores/loading.store'
 import { useStepper } from '@/common/stores/stepper.store'
 import { sleep } from '@/common/utils'
@@ -21,7 +22,6 @@ import {
 } from '@/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Trash2 } from 'lucide-react'
-import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { v4 as uuid } from 'uuid'
 import { Steps } from '../_enums'
@@ -30,12 +30,7 @@ import { useOptimization } from '../_store/optimization.store'
 import ServicesSetting from './services-setting'
 
 const SecondStageForm = () => {
-	const form = useForm<SecondStageFormSchema>({
-		resolver: zodResolver(secondStageFormSchema),
-		defaultValues: {
-			services: [],
-		},
-	})
+	const response = useResponse()
 
 	const setLoading = useLoading(state => state.setLoading)
 
@@ -44,6 +39,13 @@ const SecondStageForm = () => {
 	const setPresets = useOptimization(state => state.setPresets)
 
 	const handleNext = useStepper(state => state.handleNext)
+
+	const form = useForm<SecondStageFormSchema>({
+		resolver: zodResolver(secondStageFormSchema),
+		defaultValues: {
+			services: presets?.secondStage.services ?? [],
+		},
+	})
 
 	const handleSubmit = async (values: SecondStageFormSchema) => {
 		setLoading(true)
@@ -66,25 +68,18 @@ const SecondStageForm = () => {
 				})
 				handleNext()
 			})
+			.catch(response.error)
 			.finally(() => {
 				setLoading(false)
 			})
 	}
-
-	useEffect(() => {
-		if (presets && presets.secondStage.services.length > 0) {
-			form.reset({
-				services: presets.secondStage.services,
-			})
-		}
-	}, [presets, form])
 
 	return (
 		<Form {...form}>
 			<form
 				id={Steps.SECOND_STAGE.toString()}
 				onSubmit={form.handleSubmit(handleSubmit)}
-				className='grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 sm:px-2'>
+				className='grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 sm:px-2'>
 				<h2 className='col-span-full text-base font-medium text-foreground sm:text-lg'>
 					Segunda Etapa
 				</h2>

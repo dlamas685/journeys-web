@@ -1,7 +1,6 @@
-export interface RouteModifiersModel {
+export interface ModifiersModel {
 	avoidFerries?: boolean
-
 	avoidHighways?: boolean
-
 	avoidTolls?: boolean
+	considerRoadTraffic?: boolean
 }

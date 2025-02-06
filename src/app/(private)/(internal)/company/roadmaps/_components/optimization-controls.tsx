@@ -10,6 +10,7 @@ import {
 	SaveAll,
 } from 'lucide-react'
 import { Steps } from '../_enums'
+import { useOptimization } from '../_store/optimization.store'
 
 const OptimizationControls = () => {
 	const currentStep = useStepper(state => state.currentStep)
@@ -17,9 +18,44 @@ const OptimizationControls = () => {
 	const handleBack = useStepper(state => state.handleBack)
 	const handleNext = useStepper(state => state.handleNext)
 	const isLoading = useLoading(state => state.loading)
+	const presets = useOptimization(state => state.presets)
+	const setPresets = useOptimization(state => state.setPresets)
+	const setResults = useOptimization(state => state.setResults)
+	const results = useOptimization(state => state.results)
+
+	const handleOmit = () => {
+		if (presets) {
+			if (currentStep === Steps.THIRD_STAGE) {
+				setPresets({
+					...presets,
+					thirdStage: undefined,
+				})
+				handleNext()
+			}
+		}
+	}
+
+	const handleBackResults = () => {
+		if (results) {
+			if (currentStep === Steps.RESULTS) {
+				setResults({
+					...results,
+					response: undefined,
+				})
+
+				handleBack()
+			}
+		}
+	}
 
 	return (
-		<section className='flex justify-end gap-3'>
+		<section className='flex justify-end gap-3 sm:px-2'>
+			{currentStep === Steps.THIRD_STAGE && (
+				<Button variant='link' type='button' onClick={handleOmit}>
+					Omitir
+				</Button>
+			)}
+
 			{currentStep === -1 && (
 				<Button onClick={handleReset} variant='destructive' type='button'>
 					<RotateCcw className='mr-1 size-5' />
@@ -43,9 +79,10 @@ const OptimizationControls = () => {
 					Siguiente
 				</Button>
 			)}
+
 			{currentStep === Steps.RESULTS && (
 				<>
-					<Button variant='outline' type='button' onClick={handleBack}>
+					<Button variant='outline' type='button' onClick={handleBackResults}>
 						<CircleChevronLeft className='mr-1 size-5' />
 						Atrás
 					</Button>

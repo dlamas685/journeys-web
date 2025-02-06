@@ -1,5 +1,6 @@
 export enum Steps {
 	FIRST_STAGE = 0,
 	SECOND_STAGE = 1,
-	RESULTS = 2,
+	THIRD_STAGE = 2,
+	RESULTS = 3,
 }

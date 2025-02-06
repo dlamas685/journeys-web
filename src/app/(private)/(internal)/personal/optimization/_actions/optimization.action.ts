@@ -7,7 +7,7 @@ const API_URL = process.env.API_URL
 
 export const computeBasicOptimization = async (basicCriteria: any) => {
 	try {
-		const URL = `${API_URL}/${ApiEndpoints.BASIC_OPTIMIZATION}`
+		const URL = `${API_URL}/${ApiEndpoints.OPTIMIZATION_BASIC}`
 
 		const response = await fetch(URL, {
 			method: 'POST',

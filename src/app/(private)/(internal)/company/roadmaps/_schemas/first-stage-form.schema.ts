@@ -49,15 +49,31 @@ export const firstStageFormSchema = z.object({
 				message: 'La hora no tiene un formato adecuado (HH:mm)',
 			}),
 	}),
-	costModel: z
-		.object({
-			fixedCost: z.number().positive().optional(),
-			costPerKilometer: z.number().positive().optional(),
-			costPerHour: z.number().positive().optional(),
-			costPerTraveledHour: z.number().positive().optional(),
-			travelDurationMultiple: z.array(z.number()).optional(),
+
+	fleetId: z
+		.string({
+			required_error: 'La flota es requerida',
 		})
-		.optional(),
+		.uuid({
+			message: 'La flota es requerida',
+		}),
+
+	driverId: z
+		.string({
+			required_error: 'El conductor es requerido',
+		})
+		.uuid({
+			message: 'El conductor es requerido',
+		}),
+
+	vehicleId: z
+		.string({
+			required_error: 'El vehículo es requerido',
+		})
+		.uuid({
+			message: 'El vehículo es requerido',
+		}),
+
 	modifiers: z
 		.object({
 			avoidTolls: z.boolean().optional(),

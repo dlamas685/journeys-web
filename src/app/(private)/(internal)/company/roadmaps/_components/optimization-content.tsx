@@ -5,6 +5,7 @@ import { Steps } from '../_enums'
 import FirstStageForm from './first-stage-form'
 import ResultsForm from './results-form'
 import SecondStageForm from './second-stage-form'
+import ThirdStageForm from './third-stage-form'
 
 const OptimizationContent = () => {
 	const currentStep = useStepper(state => state.currentStep)
@@ -13,6 +14,7 @@ const OptimizationContent = () => {
 		<section className='flex-grow'>
 			{currentStep === Steps.FIRST_STAGE && <FirstStageForm />}
 			{currentStep === Steps.SECOND_STAGE && <SecondStageForm />}
+			{currentStep === Steps.THIRD_STAGE && <ThirdStageForm />}
 			{currentStep === Steps.RESULTS && <ResultsForm />}
 		</section>
 	)

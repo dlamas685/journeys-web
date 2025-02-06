@@ -1,2 +1,5 @@
 export * from './first-stage-form.schema'
+export * from './results-form.schema'
 export * from './second-stage-form.schema'
+export * from './service.schema'
+export * from './third-stage-form.schema'

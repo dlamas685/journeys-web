@@ -1,17 +1,13 @@
 'use client'
 
-import {
-	Fieldset,
-	FieldsetContent,
-	FieldsetLegend,
-} from '@/common/components/ui/form/field-set'
 import FormTooltip from '@/common/components/ui/form/form-tooltip'
 import InputMask from '@/common/components/ui/form/input-mask'
 import Autocomplete from '@/common/components/ui/google/autocomplete'
-import { useMediaQuery } from '@/common/hooks/use-media-query'
+import { TIME } from '@/common/constants'
+import { Pathnames } from '@/common/enums'
 import { useLoading } from '@/common/stores/loading.store'
 import { useStepper } from '@/common/stores/stepper.store'
-import { sleep } from '@/common/utils'
+import { convertToUTCISO, sleep } from '@/common/utils'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -29,14 +25,25 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from '@/components/ui/popover'
-import { Slider } from '@/components/ui/slider'
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from '@/components/ui/select'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { format, parse } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { CalendarIcon, Clock } from 'lucide-react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { DriverModel } from '../../drivers/_models'
+import { FleetModel } from '../../fleets/_models'
+import { VehicleModel } from '../../vehicles/_models'
+import { findAvailableRoadmapAssets } from '../_actions/roadmaps.action'
 import { Steps } from '../_enums'
 import { firstStageFormSchema, FirstStageFormSchema } from '../_schemas'
 import { useOptimization } from '../_store/optimization.store'
@@ -47,19 +54,33 @@ const FirstStageForm = () => {
 		defaultValues: {
 			startWaypoint: undefined,
 			endWaypoint: undefined,
-			costModel: { travelDurationMultiple: [1] },
 		},
 	})
+
+	const [fleets, setFleets] = useState<FleetModel[]>([])
+
+	const [vehicles, setVehicles] = useState<VehicleModel[]>([])
+
+	const [drivers, setDrivers] = useState<DriverModel[]>([])
 
 	const setLoading = useLoading(state => state.setLoading)
 
 	const handleNext = useStepper(state => state.handleNext)
 
-	const isDesktop = useMediaQuery('(min-width: 640px)')
-
 	const presets = useOptimization(state => state.presets)
 
 	const setPresets = useOptimization(state => state.setPresets)
+
+	const date = form.watch('global.date')
+
+	const startTime = form.watch('global.startTime')
+
+	const endTime = form.watch('global.endTime')
+
+	const isDateNotCompleted =
+		date === undefined || !TIME.test(startTime) || !TIME.test(endTime)
+
+	const isFleetNotSelected = form.watch('fleetId') === undefined
 
 	const handleSubmit = async (values: FirstStageFormSchema) => {
 		setLoading(true)
@@ -80,18 +101,50 @@ const FirstStageForm = () => {
 	}
 
 	useEffect(() => {
-		if (presets)
+		const fetchFleets = async () => {
+			const fromDate = convertToUTCISO(date, startTime)
+			const toDate = convertToUTCISO(date, endTime)
+
+			console.log(fromDate, toDate)
+
+			const response = await findAvailableRoadmapAssets(
+				fromDate,
+				toDate,
+				Pathnames.ROADMAPS
+			)
+
+			setFleets(response)
+		}
+
+		if (isDateNotCompleted) {
+			setFleets([])
+			setVehicles([])
+			setDrivers([])
+			form.setValue('fleetId', '')
+			form.setValue('vehicleId', '')
+			form.setValue('driverId', '')
+			return
+		}
+
+		fetchFleets()
+	}, [date, startTime, endTime, isDateNotCompleted, form])
+
+	useEffect(() => {
+		if (presets) {
 			form.reset({
-				startWaypoint: presets?.firstStage.startWaypoint,
-				endWaypoint: presets?.firstStage.endWaypoint,
+				startWaypoint: presets.firstStage.startWaypoint,
+				endWaypoint: presets.firstStage.endWaypoint,
 				global: {
-					date: presets?.firstStage.global.date,
-					startTime: presets?.firstStage.global.startTime,
-					endTime: presets?.firstStage.global.endTime,
+					date: presets.firstStage.global.date,
+					startTime: presets.firstStage.global.startTime,
+					endTime: presets.firstStage.global.endTime,
 				},
-				costModel: presets.firstStage.costModel,
 				modifiers: presets.firstStage.modifiers,
+				fleetId: presets.firstStage.fleetId,
+				vehicleId: presets.firstStage.vehicleId,
+				driverId: presets.firstStage.driverId,
 			})
+		}
 	}, [form, presets])
 
 	return (
@@ -99,7 +152,7 @@ const FirstStageForm = () => {
 			<form
 				id={Steps.FIRST_STAGE.toString()}
 				onSubmit={form.handleSubmit(handleSubmit)}
-				className='flex flex-col gap-4 sm:grid sm:grid-cols-4 sm:gap-5 sm:px-2'>
+				className='flex flex-col gap-4 sm:grid sm:grid-cols-4 sm:gap-6 sm:px-2'>
 				<h2 className='col-span-full text-base font-medium text-foreground sm:text-lg'>
 					Primera Etapa
 				</h2>
@@ -107,7 +160,7 @@ const FirstStageForm = () => {
 				<FormField
 					control={form.control}
 					name='startWaypoint'
-					render={({ field, fieldState }) => (
+					render={({ field }) => (
 						<FormItem className='col-span-2'>
 							<FormLabel className='flex items-center gap-1'>
 								Ubicación inicial
@@ -124,7 +177,8 @@ const FirstStageForm = () => {
 								<Autocomplete
 									value={field.value?.address ?? ''}
 									placeholder='Ingresa la dirección inicial'
-									searchPlaceholder=''
+									searchType={['address']}
+									searchPlaceholder='Escribe la dirección'
 									onPlaceSelect={place => {
 										if (!place) return
 
@@ -169,7 +223,8 @@ const FirstStageForm = () => {
 								<Autocomplete
 									value={field.value?.address ?? ''}
 									placeholder='Ingresa la dirección final'
-									searchPlaceholder=''
+									searchPlaceholder='Escribe la dirección'
+									searchType={['address']}
 									onPlaceSelect={place => {
 										if (!place) return
 
@@ -242,8 +297,16 @@ const FirstStageForm = () => {
 												? parse(field.value, 'yyyy-MM-dd', new Date())
 												: undefined
 										}
-										onSelect={e => {
-											field.onChange(e ? format(e, 'yyyy-MM-dd') : e)
+										onSelect={value => {
+											if (!value) {
+												form.setValue('fleetId', '')
+												form.setValue('vehicleId', '')
+												form.setValue('driverId', '')
+											}
+
+											field.onChange(
+												value ? format(value, 'yyyy-MM-dd') : value
+											)
 										}}
 										disabled={date => date < new Date()}
 										initialFocus
@@ -283,6 +346,13 @@ const FirstStageForm = () => {
 										className='pl-10'
 										placeholder='HH:MM'
 										{...field}
+										onChange={event => {
+											const value = event.currentTarget.value
+												? event.currentTarget.value
+												: undefined
+
+											field.onChange(value)
+										}}
 									/>
 								</div>
 							</FormControl>
@@ -320,6 +390,13 @@ const FirstStageForm = () => {
 										className='pl-10'
 										placeholder='HH:MM'
 										{...field}
+										onChange={event => {
+											const value = event.currentTarget.value
+												? event.currentTarget.value
+												: undefined
+
+											field.onChange(value)
+										}}
 									/>
 								</div>
 							</FormControl>
@@ -329,206 +406,142 @@ const FirstStageForm = () => {
 					)}
 				/>
 
-				<Fieldset className='col-span-full'>
-					<FieldsetLegend>Costos</FieldsetLegend>
-					<FieldsetContent className='grid grid-cols-1 gap-4 sm:grid-cols-4 sm:gap-5'>
-						<FormField
-							control={form.control}
-							name='costModel.fixedCost'
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel className='flex items-center gap-1'>
-										{isDesktop ? 'CF' : 'Costo fijo'}
-										<FormTooltip>
-											Representa un costo fijo asociado al uso del vehículo,
-											independientemente de la distancia recorrida o el tiempo.
-										</FormTooltip>
-									</FormLabel>
-									<FormDescription className='sm:hidden'>
-										Representa un costo fijo asociado al uso del vehículo,
-										independientemente de la distancia recorrida o el tiempo.
-									</FormDescription>
-									<FormControl>
-										<InputMask
-											options={{
-												numeral: true,
-												numeralDecimalScale: 2,
-												numeralDecimalMark: '.',
-												numeralPositiveOnly: true,
-												numeralIntegerScale: 3,
-												delimiter: '',
-												numeralThousandsGroupStyle: 'thousand',
-											}}
-											placeholder='0.00'
-											{...field}
-											value={field.value}
-											onChange={event => {
-												const value = event.currentTarget.value
-													? parseFloat(event.target.value)
-													: undefined
+				<FormField
+					control={form.control}
+					name='fleetId'
+					render={({ field }) => (
+						<FormItem className='col-span-2'>
+							<FormLabel className='flex items-center gap-1'>
+								Flota
+								<FormTooltip>
+									Indica la flota que se utilizara para el recorrido
+									(obligatorio).
+								</FormTooltip>
+							</FormLabel>
+							<FormDescription className='sm:hidden'>
+								Indica la flota que se utilizara para el recorrido
+								(obligatorio).
+							</FormDescription>
 
-												console.log(value)
+							<Select
+								onValueChange={event => {
+									setVehicles(
+										fleets.find(fleet => fleet.id === event)?.vehicles ?? []
+									)
 
-												field.onChange(value)
-											}}
-										/>
-									</FormControl>
+									setDrivers(
+										fleets.find(fleet => fleet.id === event)?.drivers ?? []
+									)
+									form.setValue('vehicleId', '')
+									form.setValue('driverId', '')
+									field.onChange(event)
+								}}
+								defaultValue={field.value}
+								value={field.value}
+								disabled={fleets.length === 0}>
+								<FormControl>
+									<SelectTrigger>
+										<SelectValue placeholder='Seleccione una flota' />
+									</SelectTrigger>
+								</FormControl>
+								<SelectContent>
+									<SelectGroup>
+										{fleets.map(fleet => (
+											<SelectItem key={fleet.id} value={fleet.id}>
+												{fleet.name}
+											</SelectItem>
+										))}
+									</SelectGroup>
+								</SelectContent>
+							</Select>
 
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name='costModel.costPerKilometer'
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel className='flex items-center gap-1'>
-										{isDesktop ? 'CPK' : 'Costo por kilómetro'}
-										<FormTooltip>
-											Representa el costo por cada kilómetro recorrido por el
-											vehículo, útil para incluir costos de combustible o
-											desgaste.
-										</FormTooltip>
-									</FormLabel>
-									<FormDescription className='sm:hidden'>
-										Representa el costo por cada kilómetro recorrido por el
-										vehículo, útil para incluir costos de combustible o
-										desgaste.
-									</FormDescription>
-									<FormControl>
-										<InputMask
-											options={{
-												numeral: true,
-												numeralDecimalScale: 2,
-												numeralDecimalMark: '.',
-												numeralPositiveOnly: true,
-												numeralIntegerScale: 3,
-												delimiter: '',
-												numeralThousandsGroupStyle: 'thousand',
-											}}
-											placeholder='0.00'
-											{...field}
-										/>
-									</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
 
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name='costModel.costPerHour'
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel className='flex items-center gap-1'>
-										{isDesktop ? 'CPH' : 'Costo por hora'}
-										<FormTooltip>
-											Representa el costo por cada hora de uso del vehículo,
-											incluyendo tiempo en tránsito y tareas realizadas.
-										</FormTooltip>
-									</FormLabel>
-									<FormDescription className='sm:hidden'>
-										Representa el costo por cada hora de uso del vehículo,
-										incluyendo tiempo en tránsito y tareas realizadas.
-									</FormDescription>
-									<FormControl>
-										<InputMask
-											options={{
-												numeral: true,
-												numeralDecimalScale: 2,
-												numeralDecimalMark: '.',
-												numeralPositiveOnly: true,
-												numeralIntegerScale: 3,
-												delimiter: '',
-												numeralThousandsGroupStyle: 'thousand',
-											}}
-											placeholder='0.00'
-											{...field}
-										/>
-									</FormControl>
+				<FormField
+					control={form.control}
+					name='vehicleId'
+					render={({ field }) => (
+						<FormItem className='col-span-2'>
+							<FormLabel className='flex items-center gap-1'>
+								Vehículo
+								<FormTooltip>
+									Indica el vehículo que se utilizara para el recorrido
+									(obligatorio).
+								</FormTooltip>
+							</FormLabel>
+							<FormDescription className='sm:hidden'>
+								Indica el vehículo que se utilizara para el recorrido
+								(obligatorio).
+							</FormDescription>
+							<Select
+								onValueChange={field.onChange}
+								defaultValue={field.value}
+								value={field.value}
+								disabled={vehicles.length === 0}>
+								<FormControl>
+									<SelectTrigger>
+										<SelectValue placeholder='Seleccione un vehículo' />
+									</SelectTrigger>
+								</FormControl>
+								<SelectContent>
+									<SelectGroup>
+										{vehicles.map(vehicle => (
+											<SelectItem key={vehicle.id} value={vehicle.id}>
+												{vehicle.licensePlate}
+											</SelectItem>
+										))}
+									</SelectGroup>
+								</SelectContent>
+							</Select>
 
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name='costModel.costPerTraveledHour'
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel className='flex items-center gap-1'>
-										{isDesktop ? 'CPHR' : 'Costo por hora recorrida'}
-										<FormTooltip>
-											Representa el costo asociado únicamente al tiempo que el
-											vehículo pasa viajando entre ubicaciones
-										</FormTooltip>
-									</FormLabel>
-									<FormDescription className='sm:hidden'>
-										Representa el costo asociado únicamente al tiempo que el
-										vehículo pasa viajando entre ubicaciones
-									</FormDescription>
-									<FormControl>
-										<InputMask
-											options={{
-												numeral: true,
-												numeralDecimalScale: 2,
-												numeralDecimalMark: '.',
-												numeralPositiveOnly: true,
-												numeralIntegerScale: 3,
-												delimiter: '',
-												numeralThousandsGroupStyle: 'thousand',
-											}}
-											placeholder='0.00'
-											{...field}
-										/>
-									</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name='driverId'
+					render={({ field }) => (
+						<FormItem className='col-span-2'>
+							<FormLabel className='flex items-center gap-1'>
+								Conductor
+								<FormTooltip>
+									Indica el vehículo que se utilizara para el recorrido
+									(obligatorio).
+								</FormTooltip>
+							</FormLabel>
+							<FormDescription className='sm:hidden'>
+								Indica el vehículo que se utilizara para el recorrido
+								(obligatorio).
+							</FormDescription>
+							<Select
+								onValueChange={field.onChange}
+								defaultValue={field.value}
+								value={field.value}
+								disabled={drivers.length === 0}>
+								<FormControl>
+									<SelectTrigger>
+										<SelectValue placeholder='Seleccione un conductor' />
+									</SelectTrigger>
+								</FormControl>
+								<SelectContent>
+									<SelectGroup>
+										{drivers.map(driver => (
+											<SelectItem key={driver.id} value={driver.id}>
+												{driver.name}
+											</SelectItem>
+										))}
+									</SelectGroup>
+								</SelectContent>
+							</Select>
 
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-
-						<FormField
-							control={form.control}
-							name='costModel.travelDurationMultiple'
-							render={({ field }) => (
-								<FormItem className='col-span-full'>
-									<FormLabel className='flex items-center gap-1'>
-										Multiplicador de tiempo de tránsito
-										<FormTooltip>
-											Penaliza o da más peso al tiempo de tránsito en la
-											optimización. Valores mayores aumentan la importancia del
-											tiempo de tránsito.
-										</FormTooltip>
-									</FormLabel>
-									<FormDescription className='sm:hidden'>
-										Penaliza o da más peso al tiempo de tránsito en la
-										optimización. Valores mayores aumentan la importancia del
-										tiempo de tránsito.
-									</FormDescription>
-									<FormControl>
-										<div className='flex flex-col gap-2'>
-											<Slider
-												defaultValue={field.value}
-												value={field.value}
-												min={0.5}
-												max={2}
-												step={0.1}
-												onValueChange={field.onChange}
-											/>
-											<span className='font-secondary text-sm text-muted-foreground'>
-												Valor: {field.value?.at(0)}
-											</span>
-										</div>
-									</FormControl>
-
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-					</FieldsetContent>
-				</Fieldset>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
 
 				<FormField
 					control={form.control}
@@ -629,6 +642,8 @@ const FirstStageForm = () => {
 						</FormItem>
 					)}
 				/>
+
+				{/* <pre>{JSON.stringify(form.getValues(), null, 3)}</pre> */}
 			</form>
 		</Form>
 	)

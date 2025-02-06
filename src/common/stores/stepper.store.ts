@@ -16,7 +16,7 @@ const state: StateCreator<
 	StepperState,
 	[['zustand/devtools', never]]
 > = set => ({
-	currentStep: 0,
+	currentStep: 3,
 	setCurrent: (currentStep: number) =>
 		set({ currentStep }, false, 'setCurrent'),
 	stepsCompleted: [],

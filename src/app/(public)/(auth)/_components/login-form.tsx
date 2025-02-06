@@ -95,7 +95,11 @@ const LoginForm = () => {
 					render={({ field }) => (
 						<FormItem className='col-span-full'>
 							<FormControl>
-								<InputPassword {...field} placeholder='Ingresa tu contraseña' />
+								<InputPassword
+									{...field}
+									placeholder='Ingresa tu contraseña'
+									autoComplete='current-password'
+								/>
 							</FormControl>
 							<FormMessage className='max-w-sm' />
 						</FormItem>
