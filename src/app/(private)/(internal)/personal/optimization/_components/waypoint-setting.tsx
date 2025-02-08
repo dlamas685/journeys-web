@@ -55,16 +55,17 @@ import { FavoriteAddressModel } from '../../favorite-addresses/_models'
 import { FavoritePlaceModel } from '../../favorite-places/_models'
 import { WaypointSettingContext } from '../_contexts/WaypointSettingContext'
 import { useWaypointSetting } from '../_hooks/useWaypointSetting'
-import { LocationModel, WaypointModel } from '../_models'
+
+import { Location, Waypoint } from '../_types'
 import { ListBox, ListBoxItem } from './list-box'
 
 type WaypointSettingProps = {
 	title: string
 	description: string
 	children: ReactNode
-	value?: WaypointModel[]
+	value?: Waypoint[]
 	isMultipleSelection?: boolean
-	onReady?: (waypoints: WaypointModel[]) => void
+	onReady?: (waypoints: Waypoint[]) => void
 }
 
 const WaypointSetting = forwardRef<HTMLDivElement, WaypointSettingProps>(
@@ -85,7 +86,7 @@ const WaypointSetting = forwardRef<HTMLDivElement, WaypointSettingProps>(
 		const [open, setOpen] = useState<boolean>(false)
 
 		const [waypointsSelected, setWaypointsSelected] = useState<
-			WaypointModel[] | undefined
+			Waypoint[] | undefined
 		>([])
 
 		const [favoritePlaces, setFavoritePlaces] = useState<FavoritePlaceModel[]>(
@@ -317,7 +318,7 @@ const WaypointSettingTabs = ({}: Readonly<WaypointSettingTabsProps>) => {
 
 		const address = favoriteAddress.address
 
-		const location: LocationModel | undefined =
+		const location: Location | undefined =
 			latitude && longitude ? { latitude, longitude } : undefined
 
 		if (placeId && location && address) {
@@ -327,7 +328,7 @@ const WaypointSettingTabs = ({}: Readonly<WaypointSettingTabsProps>) => {
 
 			setCenterOnPlace(false)
 
-			const waypoint: WaypointModel = {
+			const waypoint: Waypoint = {
 				placeId,
 				location,
 				address,
@@ -368,7 +369,7 @@ const WaypointSettingTabs = ({}: Readonly<WaypointSettingTabsProps>) => {
 
 		const name = favoritePlace.name
 
-		const location: LocationModel | undefined =
+		const location: Location | undefined =
 			latitude && longitude ? { latitude, longitude } : undefined
 
 		if (placeId && location && address) {
@@ -378,7 +379,7 @@ const WaypointSettingTabs = ({}: Readonly<WaypointSettingTabsProps>) => {
 
 			setCenterOnPlace(false)
 
-			const waypoint: WaypointModel = {
+			const waypoint: Waypoint = {
 				placeId,
 				location,
 				address,
@@ -418,7 +419,7 @@ const WaypointSettingTabs = ({}: Readonly<WaypointSettingTabsProps>) => {
 
 		const address = place?.formatted_address
 
-		const location: LocationModel | undefined =
+		const location: Location | undefined =
 			latitude && longitude ? { latitude, longitude } : undefined
 
 		if (placeId && location && address) {
@@ -431,7 +432,7 @@ const WaypointSettingTabs = ({}: Readonly<WaypointSettingTabsProps>) => {
 
 			setCenterOnPlace(true)
 
-			const waypoint: WaypointModel = {
+			const waypoint: Waypoint = {
 				placeId,
 				location,
 				address,
@@ -459,7 +460,7 @@ const WaypointSettingTabs = ({}: Readonly<WaypointSettingTabsProps>) => {
 		}
 	}
 
-	const handleCenter = (waypoint: WaypointModel) => {
+	const handleCenter = (waypoint: Waypoint) => {
 		setMapCenter({
 			lat: waypoint.location.latitude ?? MAP_CENTER.lat,
 			lng: waypoint.location.longitude ?? MAP_CENTER.lng,
@@ -632,7 +633,7 @@ const WaypointSettingList = ({
 
 type WaypointSettingItemProps = ComponentProps<'li'> & {
 	onRemove?: (placeId: string) => void
-	waypoint: WaypointModel
+	waypoint: Waypoint
 }
 
 const WaypointSettingItem = ({

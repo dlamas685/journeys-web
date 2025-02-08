@@ -1,5 +1,5 @@
 import { TIME } from '@/common/constants'
-import { convertToSeconds } from '@/common/utils'
+import { hhmmToSeconds } from '@/common/utils'
 import { z } from 'zod'
 import { CostProfile } from '../_enums'
 
@@ -34,7 +34,7 @@ export const thirdStageFormSchema = z.object({
 		.refine(
 			data => {
 				if (!data || !data.routeDurationLimit) return true
-				const durationInSeconds = convertToSeconds(data.routeDurationLimit)
+				const durationInSeconds = hhmmToSeconds(data.routeDurationLimit)
 				return durationInSeconds >= 14400 && durationInSeconds <= 28800
 			},
 			{
@@ -45,7 +45,7 @@ export const thirdStageFormSchema = z.object({
 		.refine(
 			data => {
 				if (!data || !data.travelDurationLimit) return true
-				const durationInSeconds = convertToSeconds(data.travelDurationLimit)
+				const durationInSeconds = hhmmToSeconds(data.travelDurationLimit)
 				return durationInSeconds >= 1800 && durationInSeconds <= 14400
 			},
 			{

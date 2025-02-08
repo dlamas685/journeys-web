@@ -7,7 +7,7 @@ import SeeMore from '@/common/components/ui/misc/see-more'
 import RemovalAlert from '@/common/components/ui/overlay/removal-alert'
 import useResponse from '@/common/hooks/use-response'
 import { ActivityModel } from '@/common/models'
-import { convertToHHMM } from '@/common/utils'
+import { formatTime } from '@/common/utils'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import {
@@ -125,7 +125,7 @@ const Todo = ({ id, record }: Readonly<TodoProps>) => {
 				</SeeMore>
 				{record.duration && (
 					<span className='font-secondary text-muted-foreground'>
-						{convertToHHMM(record.duration)}
+						{formatTime(record.duration)}
 					</span>
 				)}
 			</section>

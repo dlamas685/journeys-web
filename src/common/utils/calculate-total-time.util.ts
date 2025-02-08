@@ -1,11 +1,10 @@
 import { ActivityModel } from '../models'
+import { formatTime } from './format-time.util'
 
 export const calculateTotalTime = (activities: ActivityModel[]) => {
-	const totalMinutes = activities.reduce(
+	const totalSeconds = activities.reduce(
 		(accumulator, activity) => accumulator + (activity.duration ?? 0),
 		0
 	)
-	const hours = Math.floor(totalMinutes / 60)
-	const minutes = totalMinutes % 60
-	return `${hours} horas ${minutes > 0 ? `con ${minutes} minutos` : ''}`
+	return formatTime(totalSeconds)
 }

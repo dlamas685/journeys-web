@@ -1,0 +1,25 @@
+import { Maneuver } from '../_enums'
+
+export const MANEUVER_ICONS: Record<Maneuver, string> = {
+	MANEUVER_UNSPECIFIED: '',
+	TURN_SLIGHT_LEFT: 'turn_slight_left',
+	TURN_SHARP_LEFT: 'turn_sharp_left',
+	UTURN_LEFT: 'u_turn_left',
+	TURN_LEFT: 'turn_left',
+	TURN_SLIGHT_RIGHT: 'turn_slight_right',
+	TURN_SHARP_RIGHT: 'turn_sharp_right',
+	UTURN_RIGHT: 'u_turn_right',
+	TURN_RIGHT: 'turn_right',
+	STRAIGHT: 'straight',
+	RAMP_LEFT: 'ramp_left',
+	RAMP_RIGHT: 'ramp_right',
+	MERGE: 'merge',
+	FORK_LEFT: 'fork_left',
+	FORK_RIGHT: 'fork_right',
+	FERRY: '',
+	FERRY_TRAIN: '',
+	ROUNDABOUT_LEFT: 'roundabout_left',
+	ROUNDABOUT_RIGHT: 'roundabout_right',
+	DEPART: '',
+	NAME_CHANGE: 'straight',
+}

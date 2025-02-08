@@ -8,11 +8,10 @@ import ResponsiveSheet from '@/common/components/ui/overlay/responsive-sheet'
 import { MAP_CENTER } from '@/common/constants'
 import useResponse from '@/common/hooks/use-response'
 import {
-	convertToHHMM,
-	convertToSeconds,
 	convertToUTCISO,
 	formatDistance,
-	formatTimeShort,
+	formatTime,
+	hhmmToSeconds,
 } from '@/common/utils'
 import { Form } from '@/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -70,7 +69,7 @@ const ResultsForm = () => {
 				secondStage: {
 					services: presets.secondStage.services.map(service => ({
 						...service,
-						duration: convertToSeconds(service.duration),
+						duration: hhmmToSeconds(service.duration),
 					})),
 				},
 				thirdStage: presets.thirdStage
@@ -92,13 +91,13 @@ const ResultsForm = () => {
 											presets.thirdStage.bounds.routeDistanceLimit,
 										routeDurationLimit: presets.thirdStage.bounds
 											.routeDurationLimit
-											? convertToSeconds(
+											? hhmmToSeconds(
 													presets.thirdStage.bounds.routeDurationLimit
 												)
 											: undefined,
 										travelDurationLimit: presets.thirdStage.bounds
 											.travelDurationLimit
-											? convertToSeconds(
+											? hhmmToSeconds(
 													presets.thirdStage.bounds.travelDurationLimit
 												)
 											: undefined,
@@ -109,13 +108,13 @@ const ResultsForm = () => {
 			}
 
 			await optimizeTours(setting)
-				.then(resp => {
-					if ('error' in resp) {
-						throw new ApiError(resp)
+				.then(response => {
+					if ('error' in response) {
+						throw new ApiError(response)
 					}
 
 					setResults({
-						response: resp,
+						response,
 					})
 				})
 				.catch(response.error)
@@ -197,15 +196,11 @@ const ResultsForm = () => {
 										</dd>
 										<dt>Duración en visitas:</dt>
 										<dd>
-											{formatTimeShort(
-												convertToHHMM(results.response.metrics.visitDuration)
-											)}
+											{formatTime(results.response.metrics.visitDuration)}
 										</dd>
 										<dt>Duración en transito:</dt>
 										<dd>
-											{formatTimeShort(
-												convertToHHMM(results.response.metrics.travelDuration)
-											)}
+											{formatTime(results.response.metrics.travelDuration)}
 										</dd>
 										<dt>Servicios incluidos:</dt>
 										<dd>{results.response.metrics.performedServiceCount}</dd>
@@ -294,7 +289,10 @@ const ResultsForm = () => {
 									label='Visitas'
 									title='Visitas'
 									icon={<VisitsIcon className='size-4' />}
-									description='Las visitas están representadas por los servicios a domicilio y métricas que se incluirán en la hoja de rutas.'>
+									description='Las visitas están representadas por los servicios a domicilio y métricas que se incluirán en la hoja de rutas.'
+									triggerProps={{
+										size: 'sm',
+									}}>
 									<Visits presets={presets} results={results} />
 								</ResponsiveSheet>
 
@@ -302,7 +300,10 @@ const ResultsForm = () => {
 									label='Transiciones'
 									title='Transiciones'
 									icon={<TransitionsIcon className='size-4' />}
-									description='Las transiciones representan el tiempo y distancia que se recorrerá entre cada visita.'>
+									description='Las transiciones representan el tiempo y distancia que se recorrerá entre cada visita.'
+									triggerProps={{
+										size: 'sm',
+									}}>
 									<Transitions results={results} />
 								</ResponsiveSheet>
 
@@ -310,7 +311,10 @@ const ResultsForm = () => {
 									label='Omitidos'
 									title='Omitidos'
 									icon={<TaskErrorIcon className='size-4' />}
-									description='Son los servicios desestimados y que no se incluirán en la hoja de rutas.'>
+									description='Son los servicios desestimados y que no se incluirán en la hoja de rutas.'
+									triggerProps={{
+										size: 'sm',
+									}}>
 									<Omitted presets={presets} results={results} />
 								</ResponsiveSheet>
 
@@ -318,7 +322,10 @@ const ResultsForm = () => {
 									label='Configuración'
 									title='Configuración'
 									icon={<SettingsIcon className='size-4' />}
-									description='En esta vista previa podrás ver las configuraciones establecidas para optimizar la hoja de rutas que has seleccionado.'>
+									description='En esta vista previa podrás ver las configuraciones establecidas para optimizar la hoja de rutas que has seleccionado.'
+									triggerProps={{
+										size: 'sm',
+									}}>
 									<Settings presets={presets} />
 								</ResponsiveSheet>
 							</section>

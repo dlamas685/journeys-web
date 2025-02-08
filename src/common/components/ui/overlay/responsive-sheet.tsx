@@ -25,6 +25,7 @@ type Props = {
 	description: string
 	icon: ReactNode
 	triggerProps?: ComponentProps<typeof Button>
+	triggerResponsiveProps?: ComponentProps<typeof Button>
 }
 
 const ResponsiveSheet = ({
@@ -34,6 +35,7 @@ const ResponsiveSheet = ({
 	children,
 	icon,
 	triggerProps,
+	triggerResponsiveProps,
 }: Readonly<Props>) => {
 	const [open, setOpen] = useState<boolean>(false)
 	const isDesktop = useMediaQuery('(min-width: 640px)')
@@ -61,7 +63,7 @@ const ResponsiveSheet = ({
 	return (
 		<Drawer open={open} onOpenChange={setOpen}>
 			<DrawerTrigger asChild>
-				<Button type='button' variant='secondary' {...triggerProps}>
+				<Button type='button' variant='secondary' {...triggerResponsiveProps}>
 					{icon}
 				</Button>
 			</DrawerTrigger>

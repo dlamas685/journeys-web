@@ -60,6 +60,8 @@ export default async function ActivityManagerPage(props: Readonly<Props>) {
 		activityTemplateId
 	)
 
+	console.log(activityTemplate)
+
 	return (
 		<Frame className='gap-5 sm:gap-4'>
 			<FrameHeader className='gap-2 sm:flex-col sm:gap-2'>

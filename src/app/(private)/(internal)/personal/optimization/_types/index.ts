@@ -1,0 +1,5 @@
+export * from './advanced-waypoint-activity.type'
+export * from './advanced-waypoint-config.type'
+export * from './advanced-waypoint.type'
+export * from './location.type'
+export * from './waypoint.type'

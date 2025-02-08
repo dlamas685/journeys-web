@@ -8,7 +8,7 @@ import { DialogContext } from '@/common/contexts/dialog-context'
 import useResponse from '@/common/hooks/use-response'
 import { CreateActivityModel } from '@/common/models'
 import { useLoading } from '@/common/stores/loading.store'
-import { convertToSeconds } from '@/common/utils'
+import { hhmmToSeconds } from '@/common/utils'
 import {
 	Form,
 	FormControl,
@@ -54,7 +54,7 @@ const UpsertForm = ({ activityTemplateId }: Readonly<Props>) => {
 		setLoading(true)
 
 		const activity: CreateActivityModel = {
-			duration: duration ? convertToSeconds(duration) : undefined,
+			duration: duration ? hhmmToSeconds(duration) : undefined,
 			...restValues,
 		}
 

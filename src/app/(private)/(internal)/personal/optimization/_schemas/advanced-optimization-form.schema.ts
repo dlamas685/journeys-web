@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { upsertFormSchema as activityFormSchema } from '../../activity-templates/[id]/activity-manager/_schemas/upsert-form.schema'
 import {
 	ExtraComputation,
 	ReferenceRoute,
@@ -7,12 +8,12 @@ import {
 } from '../_enums'
 import { waypointSchema } from './waypoint-schema-form.schema'
 
-const trafficModels = Object.values(TrafficModel) as [string, ...string[]]
+// const trafficModels = Object.values(TrafficModel) as [string, ...string[]]
 
-const vehicleEmissionTypes = Object.values(VehicleEmissionType) as [
-	string,
-	...string[],
-]
+// const vehicleEmissionTypes = Object.values(VehicleEmissionType) as [
+// 	string,
+// 	...string[],
+// ]
 
 export const advancedOptimizationFormSchema = z.object({
 	extraComputations: z
@@ -20,12 +21,35 @@ export const advancedOptimizationFormSchema = z.object({
 			required_error: 'Selecciona al menos una opción',
 		})
 		.min(1, 'Selecciona al menos una opción'),
-	trafficModel: z.enum(trafficModels).optional(),
+	trafficModel: z.nativeEnum(TrafficModel).optional(),
 	optimizeWaypointOrder: z.boolean().default(false).optional(),
 	computeAlternativeRoutes: z.boolean().default(false).optional(),
 	requestedReferenceRoutes: z.nativeEnum(ReferenceRoute).optional(),
-	emissionType: z.enum(vehicleEmissionTypes).optional(),
-	interestPoints: z.array(waypointSchema()).min(0).max(5).optional(),
+	emissionType: z.nativeEnum(VehicleEmissionType).optional(),
+	interestPoints: z
+		.array(
+			z.object({
+				...waypointSchema().shape,
+				activities: z
+					.array(
+						z.object({
+							id: z.string().uuid(),
+							...activityFormSchema.required().shape,
+						})
+					)
+					.min(0)
+					.optional(),
+				config: z
+					.object({
+						templateId: z.string().optional(),
+						mode: z.string(),
+					})
+					.optional(),
+			})
+		)
+		.min(0)
+		.max(5)
+		.optional(),
 })
 
 export type AdvancedOptimizationFormSchema = z.infer<

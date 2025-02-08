@@ -7,7 +7,7 @@ import { ApiEndpoints, Pathnames } from '@/common/enums'
 import { useMediaQuery } from '@/common/hooks/use-media-query'
 import { ActivityTemplateModel } from '@/common/models'
 import { useLoading } from '@/common/stores/loading.store'
-import { convertToHHMM, convertToSeconds, sleep } from '@/common/utils'
+import { hhmmToSeconds, secondsToHHMM, sleep } from '@/common/utils'
 import { Button } from '@/components/ui/button'
 import {
 	Dialog,
@@ -40,15 +40,12 @@ import {
 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
-import {
-	AdvancedWaypointActivityModel,
-	AdvancedWaypointModel,
-} from '../_models'
 import { useActivities } from '../_store/activities.store'
+import type { AdvancedWaypoint, AdvancedWaypointActivity } from '../_types'
 
 type Props = {
-	waypoint: AdvancedWaypointModel
-	onReady?: (waypoint: AdvancedWaypointModel) => void
+	waypoint: AdvancedWaypoint
+	onReady?: (waypoint: AdvancedWaypoint) => void
 }
 
 const ActivitiesSetting = ({ waypoint, onReady }: Readonly<Props>) => {
@@ -93,9 +90,9 @@ const ActivitiesSetting = ({ waypoint, onReady }: Readonly<Props>) => {
 						({
 							...activity,
 							duration: activity.duration
-								? convertToHHMM(activity.duration)
+								? secondsToHHMM(activity.duration)
 								: '',
-						}) as AdvancedWaypointActivityModel
+						}) as AdvancedWaypointActivity
 				) ?? []
 
 		setActivities(activities)
@@ -118,13 +115,11 @@ const ActivitiesSetting = ({ waypoint, onReady }: Readonly<Props>) => {
 
 		if (
 			activities.some(
-				activity =>
-					activity.duration && convertToSeconds(activity.duration) < 1800
+				activity => activity.duration && hhmmToSeconds(activity.duration) < 1800
 			)
 		) {
 			const errors = activities.filter(
-				activity =>
-					activity.duration && convertToSeconds(activity.duration) < 1800
+				activity => activity.duration && hhmmToSeconds(activity.duration) < 1800
 			)
 
 			toast.error('Criterios Avanzados', {
@@ -144,12 +139,12 @@ const ActivitiesSetting = ({ waypoint, onReady }: Readonly<Props>) => {
 					via: false,
 					vehicleStopover: activities.length > 0,
 					sideOfRoad: activities.length > 0,
-					activities: activities as AdvancedWaypointActivityModel[],
+					activities: activities as AdvancedWaypointActivity[],
 					config: {
 						mode: temporalMode,
-						template: temporalTemplate,
+						templateId: temporalTemplate,
 					},
-				} as AdvancedWaypointModel)
+				} as AdvancedWaypoint)
 				setOpen(false)
 			})
 			.then(() => {
@@ -193,14 +188,14 @@ const ActivitiesSetting = ({ waypoint, onReady }: Readonly<Props>) => {
 		if (open) {
 			setActivities(waypoint.activities || [])
 			setTemporalMode(waypoint.config?.mode || 'manual')
-			setTemporalTemplate(waypoint.config?.template || '')
+			setTemporalTemplate(waypoint.config?.templateId || '')
 		}
 	}, [
 		open,
 		waypoint.activities,
 		setActivities,
 		waypoint.config?.mode,
-		waypoint.config?.template,
+		waypoint.config?.templateId,
 	])
 
 	if (isDesktop) {

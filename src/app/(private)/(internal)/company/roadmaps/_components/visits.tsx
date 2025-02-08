@@ -1,4 +1,4 @@
-import { convertToHHMM, formatTimeShort } from '@/common/utils'
+import { formatTime } from '@/common/utils'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { PresetsModel, ResultsModel } from '../_models'
@@ -28,10 +28,6 @@ const Visits = ({ presets, results }: Readonly<Props>) => {
 						</span>
 						<ul role='list'>
 							<li role='listitem'>Servicio: {visit.visitName}</li>
-							{/* <li role='listitem'>
-								<SeeMore
-									lines={4}>{`Descripción: ${visit.visitDescription}`}</SeeMore>
-							</li> */}
 							<li role='listitem'>
 								Fecha de inicio:{' '}
 								{format(visit.startDateTime, 'PPP', { locale: es })}
@@ -43,12 +39,12 @@ const Visits = ({ presets, results }: Readonly<Props>) => {
 							<li role='listitem'>
 								Desvió:{' '}
 								{visit.detour !== 0
-									? formatTimeShort(convertToHHMM(visit.detour))
+									? formatTime(visit.detour)
 									: 'No registrado'}
 							</li>
 
 							<li role='listitem'>
-								Duración: {formatTimeShort(convertToHHMM(visit.visitDuration))}
+								Duración: {formatTime(visit.visitDuration)}
 							</li>
 						</ul>
 					</li>

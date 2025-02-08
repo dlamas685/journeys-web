@@ -68,11 +68,14 @@ const AdvancedOptimizationForm = () => {
 	})
 
 	const canHaveOptimizeWaypointOrder =
+		presets?.basic.interestPoints &&
+		presets.basic.interestPoints.length > 0 &&
 		form
 			.watch('interestPoints')
 			?.every(
 				waypoint => waypoint.via === false && waypoint.vehicleStopover == true
-			) && presets?.basic.trafficOption !== TrafficOption.TRAFFIC_AWARE_OPTIMAL
+			) &&
+		presets?.basic.trafficOption !== TrafficOption.TRAFFIC_AWARE_OPTIMAL
 
 	const canHaveShorterDistanceReferenceRoute =
 		presets?.basic.interestPoints?.length === 0
@@ -105,7 +108,6 @@ const AdvancedOptimizationForm = () => {
 				const newPresets: PresetsModel = {
 					...presets,
 					advanced: {
-						...presets.basic,
 						...values,
 					},
 				}
@@ -446,7 +448,7 @@ const AdvancedOptimizationForm = () => {
 				<FormField
 					control={form.control}
 					name='interestPoints'
-					render={({ field }) => (
+					render={({ field, formState }) => (
 						<FormItem className='col-span-full'>
 							<FormLabel className='flex items-center gap-1'>
 								Actividades
@@ -467,6 +469,8 @@ const AdvancedOptimizationForm = () => {
 												key={interestPoint.placeId}
 												waypoint={interestPoint}
 												onReady={waypoint => {
+													console.log(waypoint)
+
 													field.onChange(
 														field.value?.map(interestPoint =>
 															interestPoint.placeId === waypoint.placeId
@@ -485,6 +489,7 @@ const AdvancedOptimizationForm = () => {
 								</section>
 							</FormControl>
 							<FormMessage />
+							{/* <pre>{JSON.stringify(form.getValues(), null, 3)}</pre> */}
 						</FormItem>
 					)}
 				/>

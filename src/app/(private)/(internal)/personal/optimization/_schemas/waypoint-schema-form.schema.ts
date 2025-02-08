@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { upsertFormSchema as activityFormSchema } from '../../activity-templates/[id]/activity-manager/_schemas/upsert-form.schema'
 
 export const waypointSchema = (required_error?: string) =>
 	z.object(
@@ -22,21 +21,6 @@ export const waypointSchema = (required_error?: string) =>
 			sideOfRoad: z.boolean().optional(),
 			via: z.boolean().optional(),
 			vehicleStopover: z.boolean().optional(),
-			activities: z
-				.array(
-					z.object({
-						id: z.string().uuid(),
-						...activityFormSchema.required().shape,
-					})
-				)
-				.min(0)
-				.optional(),
-			config: z
-				.object({
-					template: z.string().optional(),
-					mode: z.string().optional(),
-				})
-				.optional(),
 		},
 		{
 			required_error,

@@ -6,7 +6,7 @@ import RemovalAlert from '@/common/components/ui/overlay/removal-alert'
 import { UPSERT_FORM_ID } from '@/common/constants'
 import { ApiEndpoints, Pathnames } from '@/common/enums'
 import type { ActivityTemplateModel } from '@/common/models'
-import { calculateTotalTime } from '@/common/utils'
+import { calculateTotalTime, formatTime } from '@/common/utils'
 import { Button } from '@/components/ui/button'
 import {
 	DropdownMenu,
@@ -218,7 +218,7 @@ const columns: ColumnDef<ActivityTemplateModel>[] = [
 														</span>
 														<span className='font-secondary text-sm'>
 															{activity.duration
-																? `${activity.duration} min`
+																? formatTime(activity.duration)
 																: '∞'}
 														</span>
 													</p>

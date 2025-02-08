@@ -1,5 +1,5 @@
-import { BasicOptimizationModel } from './basic-optimization.model'
+import { RouteModel } from './route.model'
 
 export interface ResultsModel {
-	basic?: BasicOptimizationModel
+	response: RouteModel[]
 }

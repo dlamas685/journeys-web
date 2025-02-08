@@ -5,7 +5,7 @@ import RemovalAlert from '@/common/components/ui/overlay/removal-alert'
 import { UPSERT_FORM_ID } from '@/common/constants'
 import { ApiEndpoints, Pathnames } from '@/common/enums'
 import type { ActivityTemplateModel } from '@/common/models'
-import { calculateTotalTime } from '@/common/utils'
+import { calculateTotalTime, formatTime } from '@/common/utils'
 import { Button } from '@/components/ui/button'
 import {
 	Card,
@@ -98,7 +98,9 @@ const ActivitiesTemplateCard = forwardRef(
 												{activity.name}
 											</span>
 											<span className='font-secondary text-sm'>
-												{activity.duration} min
+												{activity.duration
+													? formatTime(activity.duration)
+													: '-'}
 											</span>
 										</p>
 									</li>
@@ -146,7 +148,9 @@ const ActivitiesTemplateCard = forwardRef(
 													{activity.name}
 												</span>
 												<span className='font-secondary text-sm'>
-													{activity.duration} min
+													{activity.duration
+														? formatTime(activity.duration)
+														: '-'}
 												</span>
 											</p>
 										</li>

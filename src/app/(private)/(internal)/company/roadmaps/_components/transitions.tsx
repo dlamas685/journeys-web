@@ -1,4 +1,4 @@
-import { convertToHHMM, formatDistance, formatTimeShort } from '@/common/utils'
+import { formatDistance, formatTime } from '@/common/utils'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { ResultsModel } from '../_models'
@@ -31,12 +31,10 @@ const Transitions = ({ results }: Readonly<Props>) => {
 								{formatDistance(transition.travelDistanceMeters)}
 							</li>
 							<li role='listitem'>
-								Duración de transito:{' '}
-								{formatTimeShort(convertToHHMM(transition.travelDuration))}
+								Duración de transito: {formatTime(transition.travelDuration)}
 							</li>
 							<li role='listitem'>
-								Duración total:{' '}
-								{formatTimeShort(convertToHHMM(transition.totalDuration))}
+								Duración total: {formatTime(transition.totalDuration)}
 							</li>
 						</ul>
 					</li>

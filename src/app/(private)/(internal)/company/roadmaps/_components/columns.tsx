@@ -1,6 +1,6 @@
 'use client'
 import { ActivityModel } from '@/common/models'
-import { convertToHHMM, formatTimeShort } from '@/common/utils'
+import { formatTime } from '@/common/utils'
 import { Checkbox } from '@/components/ui/checkbox'
 import { ColumnDef, FilterFn, Row } from '@tanstack/react-table'
 
@@ -59,7 +59,7 @@ const columns: ColumnDef<ActivityModel>[] = [
 		cell: ({ row }) => {
 			const duration = row.getValue<number | undefined>('duration')
 
-			return duration ? formatTimeShort(convertToHHMM(duration)) : 'N/D'
+			return duration ? formatTime(duration) : 'N/D'
 		},
 	},
 ]

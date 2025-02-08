@@ -10,7 +10,7 @@ import Autocomplete from '@/common/components/ui/google/autocomplete'
 import useResponse from '@/common/hooks/use-response'
 import { useLoading } from '@/common/stores/loading.store'
 import { useStepper } from '@/common/stores/stepper.store'
-import { sleep } from '@/common/utils'
+import { secondsToHHMM, sleep } from '@/common/utils'
 import {
 	Form,
 	FormControl,
@@ -109,6 +109,9 @@ const SecondStageForm = () => {
 												...selected.map(activity => ({
 													...activity,
 													id: uuid(),
+													duration: activity.duration
+														? secondsToHHMM(activity.duration)
+														: undefined,
 												})),
 											])
 										}}

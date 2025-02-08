@@ -5,6 +5,7 @@ import EraserButton from '@/common/components/ui/misc/eraser-button'
 import RemovalAlert from '@/common/components/ui/overlay/removal-alert'
 import useResponse from '@/common/hooks/use-response'
 import { ActivityModel } from '@/common/models'
+import { formatTime } from '@/common/utils'
 import { Button } from '@/components/ui/button'
 import {
 	Table,
@@ -139,7 +140,7 @@ const DraggableRow = ({ id, record }: DraggableRowProps) => {
 			<TableCell>{record.name}</TableCell>
 			<TableCell>{record.description}</TableCell>
 			<TableCell>
-				{record.duration ? `${record.duration} min` : 'N/D'}
+				{record.duration ? formatTime(record.duration) : 'N/D'}
 			</TableCell>
 			<TableCell className='rounded-r-xl'>
 				<RemovalAlert

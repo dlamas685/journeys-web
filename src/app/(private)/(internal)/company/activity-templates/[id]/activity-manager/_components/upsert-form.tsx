@@ -8,7 +8,7 @@ import { DialogContext } from '@/common/contexts/dialog-context'
 import useResponse from '@/common/hooks/use-response'
 import { CreateActivityModel } from '@/common/models'
 import { useLoading } from '@/common/stores/loading.store'
-import { convertToSeconds } from '@/common/utils'
+import { hhmmToSeconds } from '@/common/utils'
 import {
 	Form,
 	FormControl,
@@ -54,7 +54,7 @@ const UpsertForm = ({ activityTemplateId }: Readonly<Props>) => {
 		setLoading(true)
 
 		const activity: CreateActivityModel = {
-			duration: duration ? convertToSeconds(duration) : undefined,
+			duration: duration ? hhmmToSeconds(duration) : undefined,
 			...restValues,
 		}
 
@@ -139,24 +139,22 @@ const UpsertForm = ({ activityTemplateId }: Readonly<Props>) => {
 							</FormDescription>
 							<FormControl>
 								<InputMask
-									type='number'
-									placeholder='Ingrese la duración estimada'
 									aria-label='Duración Estimada'
 									aria-describedby='duration-description'
 									aria-required='false'
+									placeholder='Ingrese la duración estimada'
 									options={{
-										numericOnly: true,
-										numeralPositiveOnly: true,
-										numeralDecimalScale: 0,
+										time: true,
+										timePattern: ['h', 'm'],
 									}}
 									{...field}
-									onChange={e => {
-										const value = e.target.value
-											? parseInt(e.target.value)
+									onChange={event => {
+										const value = event.currentTarget.value
+											? event.currentTarget.value
 											: undefined
+
 										field.onChange(value)
 									}}
-									value={field.value?.toString() || ''}
 								/>
 							</FormControl>
 							<FormMessage />

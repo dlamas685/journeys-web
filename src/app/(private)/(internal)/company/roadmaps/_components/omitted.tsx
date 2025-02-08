@@ -1,5 +1,5 @@
 import SeeMore from '@/common/components/ui/misc/see-more'
-import { formatTimeShort } from '@/common/utils'
+import { formatHHMM } from '@/common/utils/format-hhmm.util'
 import { PresetsModel, ResultsModel } from '../_models'
 
 type Props = {
@@ -26,9 +26,7 @@ const Omitted = ({ presets, results }: Readonly<Props>) => {
 									lines={4}>{`Descripción: ${service.description}`}</SeeMore>
 							</li>
 							<li role='listitem'>Ubicación: {service.waypoint.address}</li>
-							<li role='listitem'>
-								Duración: {formatTimeShort(service.duration)}
-							</li>
+							<li role='listitem'>Duración: {formatHHMM(service.duration)}</li>
 						</ul>
 					</li>
 				))}

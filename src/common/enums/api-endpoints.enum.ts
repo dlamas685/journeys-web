@@ -36,6 +36,8 @@ export enum ApiEndpoints {
 
 	OPTIMIZATION_BASIC = 'optimization/basic',
 
+	OPTIMIZATION_ADVANCED = 'optimization/advanced',
+
 	OPTIMIZATION_TOURS = 'optimization/tours',
 
 	COST_PROFILES = 'optimization/cost-profiles',

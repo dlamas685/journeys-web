@@ -5,7 +5,7 @@ import { ApiEndpoints, Pathnames } from '@/common/enums'
 import { useMediaQuery } from '@/common/hooks/use-media-query'
 import { ActivityModel, ActivityTemplateModel } from '@/common/models'
 import { useLoading } from '@/common/stores/loading.store'
-import { convertToHHMM, formatTimeShort, sleep } from '@/common/utils'
+import { formatTime, sleep } from '@/common/utils'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -368,7 +368,7 @@ const ServicesSetting = ({ onReady }: Readonly<Props>) => {
 										{activity.name}{' '}
 										<span className='text-sm font-normal text-muted-foreground'>
 											{activity.duration
-												? formatTimeShort(convertToHHMM(activity.duration))
+												? formatTime(activity.duration)
 												: 'N/D'}
 										</span>
 									</label>

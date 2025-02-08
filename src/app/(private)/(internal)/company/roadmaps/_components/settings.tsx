@@ -1,6 +1,7 @@
 import SeeMore from '@/common/components/ui/misc/see-more'
 import { useDependenciesContext } from '@/common/hooks/use-dependencies-context'
-import { formatDistance, formatTimeShort } from '@/common/utils'
+import { formatDistance } from '@/common/utils'
+import { formatHHMM } from '@/common/utils/format-hhmm.util'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { CostProfile } from '../_enums'
@@ -103,7 +104,7 @@ const Settings = ({ presets }: Readonly<Props>) => {
 									</li>
 									<li role='listitem'>Ubicación: {service.waypoint.address}</li>
 									<li role='listitem'>
-										Duración: {formatTimeShort(service.duration)}
+										Duración: {formatHHMM(service.duration)}
 									</li>
 								</ul>
 							</li>
@@ -183,16 +184,14 @@ const Settings = ({ presets }: Readonly<Props>) => {
 									<dt>Duración total:</dt>
 									<dd>
 										{presets.thirdStage.bounds.routeDurationLimit
-											? formatTimeShort(
-													presets.thirdStage.bounds.routeDurationLimit
-												)
+											? formatHHMM(presets.thirdStage.bounds.routeDurationLimit)
 											: '-'}
 									</dd>
 
 									<dt>Duración en transito:</dt>
 									<dd>
 										{presets.thirdStage.bounds.travelDurationLimit
-											? formatTimeShort(
+											? formatHHMM(
 													presets.thirdStage.bounds.travelDurationLimit
 												)
 											: '-'}
