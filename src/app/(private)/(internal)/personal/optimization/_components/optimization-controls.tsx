@@ -54,14 +54,6 @@ const OptimizationControls = () => {
 				</Button>
 			)}
 
-			{/* {presets && (
-				<OptimizationPreview
-					presets={presets}
-					label='Previsualizar'
-					title='Criterios de optimización'
-					description='En esta vista previa podrás ver los criterios de optimización que has seleccionado. Estos criterios son los que se utilizarán para optimizar tu viaje.'
-				/>
-			)} */}
 			{currentStep === -1 && (
 				<Button onClick={handleReset} variant='destructive' type='button'>
 					<RotateCcw className='mr-1 size-5' />
@@ -122,7 +114,7 @@ const OptimizationControls = () => {
 						) : (
 							<SaveAll className='mr-1 size-5' />
 						)}
-						Finalizar
+						Guardar
 					</Button>
 				</>
 			)}

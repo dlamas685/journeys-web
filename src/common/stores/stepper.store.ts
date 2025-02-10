@@ -1,5 +1,5 @@
 import { create, type StateCreator } from 'zustand'
-import { devtools } from 'zustand/middleware'
+import { createJSONStorage, devtools, persist } from 'zustand/middleware'
 
 interface StepperState {
 	stepsCompleted: number[]
@@ -16,7 +16,7 @@ const state: StateCreator<
 	StepperState,
 	[['zustand/devtools', never]]
 > = set => ({
-	currentStep: 2,
+	currentStep: 0,
 	setCurrent: (currentStep: number) =>
 		set({ currentStep }, false, 'setCurrent'),
 	stepsCompleted: [],
@@ -58,4 +58,12 @@ const state: StateCreator<
 		set({ currentStep: 0, stepsCompleted: [] }, false, 'handleReset'),
 })
 
-export const useStepper = create<StepperState>()(devtools(state))
+export const useStepper = create<StepperState>()(
+	devtools(
+		persist(state, {
+			name: 'stepper',
+			storage: createJSONStorage(() => sessionStorage),
+			skipHydration: true,
+		})
+	)
+)

@@ -1,5 +1,5 @@
 import { create, type StateCreator } from 'zustand'
-import { devtools, persist } from 'zustand/middleware'
+import { createJSONStorage, devtools, persist } from 'zustand/middleware'
 import { PresetsModel, ResultsModel } from '../_models'
 
 interface OptimizationState {
@@ -37,19 +37,9 @@ const state: StateCreator<
 export const useOptimization = create<OptimizationState>()(
 	devtools(
 		persist(state, {
-			name: 'tours-optimization',
-			storage: {
-				getItem: name => {
-					const data = localStorage.getItem(name)
-					return data ? JSON.parse(data) : undefined
-				},
-				setItem: (name, value) => {
-					localStorage.setItem(name, JSON.stringify(value))
-				},
-				removeItem: name => {
-					localStorage.removeItem(name)
-				},
-			},
+			name: 'fleet-management',
+			storage: createJSONStorage(() => sessionStorage),
+			skipHydration: true,
 		})
 	)
 )

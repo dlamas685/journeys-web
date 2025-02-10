@@ -60,6 +60,9 @@ const AdvancedOptimizationForm = () => {
 	const canHaveComputeAlternativeRoutes =
 		presets?.basic.interestPoints?.length === 0
 
+	const canHaveTrafficOnPolyline =
+		presets?.basic.trafficOption !== TrafficOption.TRAFFIC_UNAWARE
+
 	const form = useForm<AdvancedOptimizationFormSchema>({
 		resolver: zodResolver(advancedOptimizationFormSchema),
 		defaultValues: {
@@ -141,7 +144,7 @@ const AdvancedOptimizationForm = () => {
 					activities: [],
 				})),
 		})
-	}, [form, presets, canHaveTrafficModel])
+	}, [form, presets])
 
 	return (
 		<Form {...form}>
@@ -193,7 +196,10 @@ const AdvancedOptimizationForm = () => {
 																((parseKey ===
 																	ExtraComputation.FUEL_CONSUMPTION ||
 																	parseKey === ExtraComputation.TOLLS) &&
-																	!canHaveEmissionType)
+																	!canHaveEmissionType) ||
+																(parseKey ===
+																	ExtraComputation.TRAFFIC_ON_POLYLINE &&
+																	!canHaveTrafficOnPolyline)
 															}
 															onCheckedChange={checked => {
 																if (checked) {
@@ -207,6 +213,14 @@ const AdvancedOptimizationForm = () => {
 																		form.setValue(
 																			'emissionType',
 																			VehicleEmissionType.GASOLINE
+																		)
+
+																	parseKey ===
+																		ExtraComputation.TRAFFIC_ON_POLYLINE &&
+																		canHaveTrafficOnPolyline &&
+																		form.setValue(
+																			'trafficModel',
+																			TrafficModel.BEST_GUESS
 																		)
 																	return
 																}
@@ -245,7 +259,7 @@ const AdvancedOptimizationForm = () => {
 								<FormTooltip>
 									Determina como se evaluaran las condiciones de tráfico para
 									calcular el tiempo estimado de viaje (solo disponible en
-									automóvil y tráfico optimizado).
+									automóvil, tráfico optimizado y sin trafico en tiempo real).
 								</FormTooltip>
 							</FormLabel>
 							<FormDescription className='sm:hidden'>
@@ -266,12 +280,21 @@ const AdvancedOptimizationForm = () => {
 											<FormControl>
 												<RadioGroupItem
 													value={key}
-													disabled={!canHaveTrafficModel}
+													disabled={
+														!canHaveTrafficModel ||
+														form
+															.watch('extraComputations')
+															?.includes(ExtraComputation.TRAFFIC_ON_POLYLINE)
+													}
 												/>
 											</FormControl>
 											<FormLabel
 												className={cn('font-normal', {
-													'opacity-70': !canHaveTrafficModel,
+													'opacity-70':
+														!canHaveTrafficModel ||
+														form
+															.watch('extraComputations')
+															?.includes(ExtraComputation.TRAFFIC_ON_POLYLINE),
 												})}>
 												{value}
 											</FormLabel>
