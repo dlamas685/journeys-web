@@ -29,7 +29,6 @@ const OptimizationControls = () => {
 	const currentStep = useStepper(state => state.currentStep)
 	const presets = useOptimization(state => state.presets)
 	const setPresets = useOptimization(state => state.setPresets)
-	const handleReset = useStepper(state => state.handleReset)
 	const handleBack = useStepper(state => state.handleBack)
 	const handleNext = useStepper(state => state.handleNext)
 	const isLoading = useLoading(state => state.loading)
@@ -55,7 +54,15 @@ const OptimizationControls = () => {
 			)}
 
 			{currentStep === -1 && (
-				<Button onClick={handleReset} variant='destructive' type='button'>
+				<Button
+					onClick={() => {
+						useOptimization.persist.clearStorage()
+						useStepper.persist.clearStorage()
+						useStepper.setState({ currentStep: 0, stepsCompleted: [] })
+						useOptimization.setState({ presets: undefined, results: undefined })
+					}}
+					variant='destructive'
+					type='button'>
 					<RotateCcw className='mr-1 size-5' />
 					Reiniciar
 				</Button>

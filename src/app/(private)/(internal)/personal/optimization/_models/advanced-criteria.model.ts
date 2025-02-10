@@ -1,9 +1,4 @@
-import {
-	ExtraComputation,
-	ReferenceRoute,
-	TrafficModel,
-	VehicleEmissionType,
-} from '../_enums'
+import { ExtraComputation, ReferenceRoute, TrafficModel } from '../_enums'
 import { type AdvancedWaypointModel } from './advanced-waypoint.model'
 
 export interface AdvancedCriteriaModel {
@@ -13,5 +8,4 @@ export interface AdvancedCriteriaModel {
 	trafficModel?: TrafficModel
 	computeAlternativeRoutes?: boolean
 	optimizeWaypointOrder?: boolean
-	emissionType?: VehicleEmissionType
 }

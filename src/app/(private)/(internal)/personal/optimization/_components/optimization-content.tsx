@@ -6,6 +6,7 @@ import { Steps } from '../_enums'
 import { useOptimization } from '../_store/optimization.store'
 import AdvancedOptimizationForm from './advanced-optimization-form'
 import BasicOptimizationForm from './basic-optimization-form'
+import ImportantInformation from './important-information'
 import ResultsOptimizationForm from './results-optimization-form'
 
 const OptimizationContent = () => {
@@ -28,6 +29,7 @@ const OptimizationContent = () => {
 			{currentStep === Steps.BASIC && <BasicOptimizationForm />}
 			{currentStep === Steps.ADVANCED && <AdvancedOptimizationForm />}
 			{currentStep === Steps.RESULTS && <ResultsOptimizationForm />}
+			{currentStep === -1 && <ImportantInformation />}
 		</section>
 	)
 }

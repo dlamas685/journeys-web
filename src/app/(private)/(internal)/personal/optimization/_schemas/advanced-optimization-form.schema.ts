@@ -1,19 +1,7 @@
 import { z } from 'zod'
 import { upsertFormSchema as activityFormSchema } from '../../activity-templates/[id]/activity-manager/_schemas/upsert-form.schema'
-import {
-	ExtraComputation,
-	ReferenceRoute,
-	TrafficModel,
-	VehicleEmissionType,
-} from '../_enums'
+import { ExtraComputation, ReferenceRoute, TrafficModel } from '../_enums'
 import { waypointSchema } from './waypoint-schema-form.schema'
-
-// const trafficModels = Object.values(TrafficModel) as [string, ...string[]]
-
-// const vehicleEmissionTypes = Object.values(VehicleEmissionType) as [
-// 	string,
-// 	...string[],
-// ]
 
 export const advancedOptimizationFormSchema = z.object({
 	extraComputations: z
@@ -25,7 +13,6 @@ export const advancedOptimizationFormSchema = z.object({
 	optimizeWaypointOrder: z.boolean().default(false).optional(),
 	computeAlternativeRoutes: z.boolean().default(false).optional(),
 	requestedReferenceRoutes: z.nativeEnum(ReferenceRoute).optional(),
-	emissionType: z.nativeEnum(VehicleEmissionType).optional(),
 	interestPoints: z
 		.array(
 			z.object({

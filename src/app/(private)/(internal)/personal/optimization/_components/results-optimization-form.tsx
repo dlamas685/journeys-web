@@ -92,7 +92,6 @@ const ResultsOptimizationForm = () => {
 							optimizeWaypointOrder: presets.advanced.optimizeWaypointOrder,
 							computeAlternativeRoutes:
 								presets.advanced.computeAlternativeRoutes,
-							emissionType: presets.advanced.emissionType,
 							requestedReferenceRoutes: presets.advanced
 								.requestedReferenceRoutes
 								? [presets.advanced.requestedReferenceRoutes]
@@ -168,7 +167,6 @@ const ResultsOptimizationForm = () => {
 			destination: criteria.basicCriteria.destination.placeId,
 			departureTime: criteria.basicCriteria.departureTime,
 			criteria,
-			results: results.response,
 		}
 
 		await create<CreateTripModel, TripModel>(

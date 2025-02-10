@@ -1,4 +1,4 @@
-import { CriteriaModel, RouteModel } from '../../optimization/_models'
+import { CriteriaModel } from '../../optimization/_models'
 
 export interface CreateTripModel {
 	code: string
@@ -6,5 +6,4 @@ export interface CreateTripModel {
 	destination: string
 	departureTime: string
 	criteria: CriteriaModel
-	results: RouteModel[]
 }

@@ -39,9 +39,9 @@ export const computeBasicOptimization = async (
 
 		tags ? revalidateTags(tags) : revalidatePath('/')
 
-		const computed = (await response.json()) as RouteModel
+		const computed = (await response.json()) as RouteModel[]
 
-		return [computed]
+		return computed
 	} catch (error) {
 		throw error
 	}
