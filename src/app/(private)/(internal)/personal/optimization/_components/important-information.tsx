@@ -14,18 +14,9 @@ const ImportantInformation = () => {
 						Optimización
 					</AlertTitle>
 					<AlertDescription className='mt-2 text-muted-foreground'>
-						<ul className='list-disc'>
-							<li>
-								La optimización generada es aproximada y puede que varié
-								dependiendo de los criterios establecidos y el momento en el que
-								se visualice el viaje.
-							</li>
-							<li>
-								En el caso que no podamos obtener una optimización adecuada para
-								un viaje creado, le recomendamos que elimine el viaje y vuelva a
-								crear uno nuevo.
-							</li>
-						</ul>
+						En el caso que no podamos obtener una optimización adecuada para un
+						viaje creado, le recomendamos que elimine el viaje y vuelva a crear
+						uno nuevo.
 					</AlertDescription>
 				</Alert>
 
@@ -33,16 +24,29 @@ const ImportantInformation = () => {
 					<InfoIcon className='h-5 w-5 text-primary' />
 					<AlertTitle className='text-base font-semibold'>Viajes</AlertTitle>
 					<AlertDescription className='mt-2 text-muted-foreground'>
-						<ul className='list-disc'>
-							<li>
-								Un viaje solo almacena los criterios con los que obtiene una
-								optimización.
-							</li>
-							<li>
-								Cuando hayas finalizado tu viaje no podrás modificarlo, ni
-								reconstruir los resultados de optimización.
-							</li>
-						</ul>
+						Cuando hayas finalizado tu viaje no podrás modificarlo, ni
+						reconstruir los resultados de optimización.
+					</AlertDescription>
+				</Alert>
+
+				<Alert variant='default' className='border-primary/20 bg-primary/5'>
+					<InfoIcon className='h-5 w-5 text-primary' />
+					<AlertTitle className='text-base font-semibold'>
+						Optimización
+					</AlertTitle>
+					<AlertDescription className='mt-2 text-muted-foreground'>
+						La optimización generada es aproximada y puede que varié dependiendo
+						de los criterios establecidos y el momento en el que se visualice el
+						viaje.
+					</AlertDescription>
+				</Alert>
+
+				<Alert variant='default' className='border-primary/20 bg-primary/5'>
+					<InfoIcon className='h-5 w-5 text-primary' />
+					<AlertTitle className='text-base font-semibold'>Viajes</AlertTitle>
+					<AlertDescription className='mt-2 text-muted-foreground'>
+						Un viaje solo almacena los criterios con los que obtiene una
+						optimización.
 					</AlertDescription>
 				</Alert>
 			</section>

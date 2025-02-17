@@ -28,6 +28,7 @@ import { AdvancedMarker, Map, Pin } from '@vis.gl/react-google-maps'
 import { Route, SquareChartGantt } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import RiseLoader from 'react-spinners/RiseLoader'
 import { CreateTripModel, TripModel } from '../../trips/_models'
 import {
 	computeAdvancedOptimization,
@@ -67,6 +68,8 @@ const ResultsOptimizationForm = () => {
 	const [criteria, setCriteria] = useState<CriteriaModel>()
 
 	const response = useResponse()
+
+	const [resultsLoading, setResultsLoading] = useState<boolean>(false)
 
 	const handleFinish = useStepper(state => state.handleFinish)
 
@@ -117,6 +120,8 @@ const ResultsOptimizationForm = () => {
 
 			console.log(criteria)
 
+			setResultsLoading(true)
+
 			if (criteria.advancedCriteria) {
 				await computeAdvancedOptimization(criteria)
 					.then(response => {
@@ -133,6 +138,7 @@ const ResultsOptimizationForm = () => {
 						setCriteria(criteria)
 					})
 					.catch(response.error)
+					.finally(() => setResultsLoading(false))
 
 				return
 			}
@@ -152,7 +158,11 @@ const ResultsOptimizationForm = () => {
 					setCriteria(criteria)
 				})
 				.catch(response.error)
+				.finally(() => setResultsLoading(false))
+
+			return
 		}
+
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
@@ -203,27 +213,27 @@ const ResultsOptimizationForm = () => {
 					Resultados
 				</h2>
 
-				<FormField
-					control={form.control}
-					name='alias'
-					render={({ field }) => (
-						<FormItem className='max-w-56'>
-							<FormLabel>Alias</FormLabel>
-							<FormControl>
-								<Input
-									placeholder='Ingrese un alias para su viaje'
-									aria-label='Alias del viaje'
-									aria-required='true'
-									{...field}
-								/>
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-
 				{results && currentRoute && presets && (
 					<>
+						<FormField
+							control={form.control}
+							name='alias'
+							render={({ field }) => (
+								<FormItem className='max-w-56'>
+									<FormLabel>Alias</FormLabel>
+									<FormControl>
+										<Input
+											placeholder='Ingrese un alias para su viaje'
+											aria-label='Alias del viaje'
+											aria-required='true'
+											{...field}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
 						<Map
 							className='col-span-full h-72 w-full'
 							defaultCenter={{
@@ -390,16 +400,18 @@ const ResultsOptimizationForm = () => {
 										</ResponsiveSheet>
 									)}
 
-									<ResponsiveSheet
-										title='Instrucciones de navegación'
-										description='Recorrido detallado con las instrucciones de navegación para cada tramo de la ruta.'
-										label='Instrucciones'
-										icon={<DirectionIcon className='size-4' />}
-										triggerProps={{
-											size: 'sm',
-										}}>
-										<Indications route={currentRoute} />
-									</ResponsiveSheet>
+									{presets.advanced && (
+										<ResponsiveSheet
+											title='Instrucciones de navegación'
+											description='Recorrido detallado con las instrucciones de navegación para cada tramo de la ruta.'
+											label='Instrucciones'
+											icon={<DirectionIcon className='size-4' />}
+											triggerProps={{
+												size: 'sm',
+											}}>
+											<Indications route={currentRoute} />
+										</ResponsiveSheet>
+									)}
 
 									<ResponsiveSheet
 										title='Criterios de optimización'
@@ -415,6 +427,15 @@ const ResultsOptimizationForm = () => {
 							</section>
 						</section>
 					</>
+				)}
+
+				{resultsLoading && (
+					<section className='flex h-96 w-full flex-col items-center justify-center'>
+						<p className='mb-6 text-lg font-medium text-foreground'>
+							Generando optimización
+						</p>
+						<RiseLoader loading={resultsLoading} color='#f97316' />
+					</section>
 				)}
 			</form>
 		</Form>

@@ -199,6 +199,8 @@ const AdvancedOptimizationForm = () => {
 																		ExtraComputation.TRAFFIC_ON_POLYLINE &&
 																		presets?.basic.travelMode ===
 																			TravelMode.DRIVE &&
+																		presets.basic.trafficOption ===
+																			TrafficOption.TRAFFIC_AWARE_OPTIMAL &&
 																		form.setValue(
 																			'trafficModel',
 																			TrafficModel.BEST_GUESS

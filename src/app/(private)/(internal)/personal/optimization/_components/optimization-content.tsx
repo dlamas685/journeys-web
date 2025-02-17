@@ -11,6 +11,7 @@ import ResultsOptimizationForm from './results-optimization-form'
 
 const OptimizationContent = () => {
 	const currentStep = useStepper(state => state.currentStep)
+	const results = useOptimization(state => state.results)
 
 	useEffect(() => {
 		useOptimization.persist.rehydrate()

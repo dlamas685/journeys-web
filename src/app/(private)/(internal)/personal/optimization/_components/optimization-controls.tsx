@@ -48,7 +48,11 @@ const OptimizationControls = () => {
 	return (
 		<section className='flex justify-end gap-3'>
 			{currentStep === Steps.ADVANCED && (
-				<Button variant='link' type='button' onClick={handleOmit}>
+				<Button
+					variant='link'
+					type='button'
+					onClick={handleOmit}
+					disabled={isLoading}>
 					Omitir
 				</Button>
 			)}
@@ -70,7 +74,7 @@ const OptimizationControls = () => {
 			{currentStep > Steps.BASIC && currentStep < Steps.RESULTS && (
 				<AlertDialog>
 					<AlertDialogTrigger asChild>
-						<Button variant='outline' type='button'>
+						<Button variant='outline' type='button' disabled={isLoading}>
 							<CircleChevronLeft className='mr-1 size-5' />
 							Atrás
 						</Button>
@@ -100,7 +104,10 @@ const OptimizationControls = () => {
 			)}
 
 			{currentStep >= Steps.BASIC && currentStep < Steps.RESULTS && (
-				<Button form={currentStep.toString()} type='submit'>
+				<Button
+					form={currentStep.toString()}
+					type='submit'
+					disabled={isLoading}>
 					{isLoading ? (
 						<LoaderCircle className='mr-1 size-5 animate-spin' />
 					) : (
@@ -111,11 +118,18 @@ const OptimizationControls = () => {
 			)}
 			{currentStep === Steps.RESULTS && (
 				<>
-					<Button variant='outline' type='button' onClick={handleBack}>
+					<Button
+						variant='outline'
+						type='button'
+						onClick={handleBack}
+						disabled={isLoading}>
 						<CircleChevronLeft className='mr-1 size-5' />
 						Atrás
 					</Button>
-					<Button form={currentStep.toString()} type='submit'>
+					<Button
+						form={currentStep.toString()}
+						type='submit'
+						disabled={isLoading}>
 						{isLoading ? (
 							<LoaderCircle className='mr-1 size-5 animate-spin' />
 						) : (
