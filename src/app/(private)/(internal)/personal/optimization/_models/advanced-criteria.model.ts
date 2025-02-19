@@ -3,7 +3,7 @@ import { type AdvancedWaypointModel } from './advanced-waypoint.model'
 
 export interface AdvancedCriteriaModel {
 	interestPoints?: AdvancedWaypointModel[]
-	extraComputations?: ExtraComputation[]
+	extraComputations: ExtraComputation[]
 	requestedReferenceRoutes?: ReferenceRoute[]
 	trafficModel?: TrafficModel
 	computeAlternativeRoutes?: boolean
