@@ -1,28 +1,35 @@
 'use client'
 
+import { create } from '@/common/actions/crud.action'
 import { ApiError } from '@/common/classes/api-error.class'
 import Polyline from '@/common/components/ui/google/fragments/polyline'
 import DirectionIcon from '@/common/components/ui/icons/direction-icon'
 import SegmentIcon from '@/common/components/ui/icons/segment-icon'
 import StopIcon from '@/common/components/ui/icons/stop-icon'
 import ResponsiveSheet from '@/common/components/ui/overlay/responsive-sheet'
+import { ApiEndpoints } from '@/common/enums'
 import useResponse from '@/common/hooks/use-response'
 import { useLoading } from '@/common/stores/loading.store'
 import { useStepper } from '@/common/stores/stepper.store'
 import { convertToUTCISO, hhmmToSeconds } from '@/common/utils'
 import { Badge } from '@/components/ui/badge'
-import { Form } from '@/components/ui/form'
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
-import {
-	AdvancedMarker,
-	Map,
-	Pin,
-	useMapsLibrary,
-} from '@vis.gl/react-google-maps'
+import { AdvancedMarker, Map, Pin } from '@vis.gl/react-google-maps'
 import { Route, SquareChartGantt } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import RiseLoader from 'react-spinners/RiseLoader'
+import { CreateTripModel, TripModel } from '../../trips/_models'
 import {
 	computeAdvancedOptimization,
 	computeBasicOptimization,
@@ -43,6 +50,9 @@ import Stops from './stops'
 const ResultsOptimizationForm = () => {
 	const form = useForm<ResultsOptimizationFormSchema>({
 		resolver: zodResolver(resultsOptimizationFormSchema),
+		defaultValues: {
+			alias: '',
+		},
 	})
 
 	const setLoading = useLoading(state => state.setLoading)
@@ -55,9 +65,11 @@ const ResultsOptimizationForm = () => {
 
 	const [currentRoute, setCurrentRoute] = useState<RouteModel>()
 
-	const geometry = useMapsLibrary('geometry')
+	const [criteria, setCriteria] = useState<CriteriaModel>()
 
 	const response = useResponse()
+
+	const [resultsLoading, setResultsLoading] = useState<boolean>(false)
 
 	const handleFinish = useStepper(state => state.handleFinish)
 
@@ -83,7 +95,6 @@ const ResultsOptimizationForm = () => {
 							optimizeWaypointOrder: presets.advanced.optimizeWaypointOrder,
 							computeAlternativeRoutes:
 								presets.advanced.computeAlternativeRoutes,
-							emissionType: presets.advanced.emissionType,
 							requestedReferenceRoutes: presets.advanced
 								.requestedReferenceRoutes
 								? [presets.advanced.requestedReferenceRoutes]
@@ -107,6 +118,10 @@ const ResultsOptimizationForm = () => {
 					: undefined,
 			}
 
+			console.log(criteria)
+
+			setResultsLoading(true)
+
 			if (criteria.advancedCriteria) {
 				await computeAdvancedOptimization(criteria)
 					.then(response => {
@@ -119,8 +134,11 @@ const ResultsOptimizationForm = () => {
 						})
 
 						setCurrentRoute(response.at(0))
+
+						setCriteria(criteria)
 					})
 					.catch(response.error)
+					.finally(() => setResultsLoading(false))
 
 				return
 			}
@@ -136,14 +154,49 @@ const ResultsOptimizationForm = () => {
 					})
 
 					setCurrentRoute(response.at(0))
+
+					setCriteria(criteria)
 				})
 				.catch(response.error)
+				.finally(() => setResultsLoading(false))
+
+			return
 		}
+
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
 	const handleSubmit = async (values: ResultsOptimizationFormSchema) => {
-		handleFinish()
+		setLoading(true)
+
+		if (!criteria || !results) return
+
+		const createTripModel: CreateTripModel = {
+			code: values.alias,
+			origin: criteria.basicCriteria.origin.placeId,
+			destination: criteria.basicCriteria.destination.placeId,
+			departureTime: criteria.basicCriteria.departureTime,
+			criteria,
+		}
+
+		await create<CreateTripModel, TripModel>(
+			ApiEndpoints.TRIPS,
+			createTripModel
+		)
+			.then(resp => {
+				if ('error' in resp) {
+					throw new ApiError(resp)
+				}
+
+				response.success({
+					title: 'Optimización',
+					description: 'El viaje ha sido creado correctamente.',
+				})
+
+				handleFinish()
+			})
+			.catch(response.error)
+			.finally(() => setLoading(false))
 	}
 
 	useEffect(() => {
@@ -160,8 +213,27 @@ const ResultsOptimizationForm = () => {
 					Resultados
 				</h2>
 
-				{results && currentRoute && presets && geometry && (
+				{results && currentRoute && presets && (
 					<>
+						<FormField
+							control={form.control}
+							name='alias'
+							render={({ field }) => (
+								<FormItem className='max-w-56'>
+									<FormLabel>Alias</FormLabel>
+									<FormControl>
+										<Input
+											placeholder='Ingrese un alias para su viaje'
+											aria-label='Alias del viaje'
+											aria-required='true'
+											{...field}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
 						<Map
 							className='col-span-full h-72 w-full'
 							defaultCenter={{
@@ -318,7 +390,7 @@ const ResultsOptimizationForm = () => {
 									{currentRoute.legs.length > 1 && (
 										<ResponsiveSheet
 											title='Tramos de la ruta'
-											description='Segmentos entre cada parada en la ruta.'
+											description='Segmentos entre el origen, el destino y cada parada en la ruta.'
 											label='Tramos'
 											icon={<SegmentIcon className='size-4' />}
 											triggerProps={{
@@ -328,16 +400,18 @@ const ResultsOptimizationForm = () => {
 										</ResponsiveSheet>
 									)}
 
-									<ResponsiveSheet
-										title='Instrucciones de navegación'
-										description='Recorrido detallado con las instrucciones de navegación para cada tramo de la ruta.'
-										label='Instrucciones'
-										icon={<DirectionIcon className='size-4' />}
-										triggerProps={{
-											size: 'sm',
-										}}>
-										<Indications route={currentRoute} />
-									</ResponsiveSheet>
+									{presets.advanced && (
+										<ResponsiveSheet
+											title='Instrucciones de navegación'
+											description='Recorrido detallado con las instrucciones de navegación para cada tramo de la ruta.'
+											label='Instrucciones'
+											icon={<DirectionIcon className='size-4' />}
+											triggerProps={{
+												size: 'sm',
+											}}>
+											<Indications route={currentRoute} />
+										</ResponsiveSheet>
+									)}
 
 									<ResponsiveSheet
 										title='Criterios de optimización'
@@ -353,6 +427,15 @@ const ResultsOptimizationForm = () => {
 							</section>
 						</section>
 					</>
+				)}
+
+				{resultsLoading && (
+					<section className='flex h-96 w-full flex-col items-center justify-center'>
+						<p className='mb-6 text-lg font-medium text-foreground'>
+							Generando optimización
+						</p>
+						<RiseLoader loading={resultsLoading} color='#f97316' />
+					</section>
 				)}
 			</form>
 		</Form>

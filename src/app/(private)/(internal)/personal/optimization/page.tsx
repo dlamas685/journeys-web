@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 	description: 'Optimiza tus viajes de acuerdo a diferentes criterios',
 }
 
-export default async function OptimizationPage() {
+export default function OptimizationPage() {
 	return (
 		<Frame>
 			<FrameHeader>

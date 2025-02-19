@@ -69,7 +69,13 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 
 	const lng = form.watch('longitude')
 
-	const handleSubmit = async ({ id, name, ...rest }: UpsertFormSchema) => {
+	const handleSubmit = async ({
+		id,
+		name,
+		latitude,
+		longitude,
+		...rest
+	}: UpsertFormSchema) => {
 		setLoading(true)
 
 		if (id) {

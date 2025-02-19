@@ -43,4 +43,6 @@ export enum ApiEndpoints {
 	COST_PROFILES = 'optimization/cost-profiles',
 
 	AVAILABLE_ROADMAP_ASSETS = 'available-roadmap-assets',
+
+	TRIPS = 'trips',
 }

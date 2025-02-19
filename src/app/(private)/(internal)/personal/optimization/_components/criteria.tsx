@@ -7,14 +7,12 @@ import {
 	ROUTING_PREFERENCES,
 	TRAFFIC_MODELS,
 	TRAVEL_MODES,
-	VEHICLE_EMISSION_TYPES,
 } from '../_constants'
 import {
 	ReferenceRoute,
 	TrafficModel,
 	TrafficOption,
 	TravelMode,
-	VehicleEmissionType,
 } from '../_enums'
 import { PresetsModel } from '../_models'
 
@@ -128,17 +126,6 @@ const Criteria = ({ presets }: Readonly<Props>) => {
 								? presets.advanced.computeAlternativeRoutes
 									? 'Sí'
 									: 'No'
-								: 'No compatible'}
-						</dd>
-
-						<dt>Tipo de emisión del vehículo:</dt>
-						<dd>
-							{presets.basic.travelMode === TravelMode.DRIVE
-								? presets.advanced.emissionType
-									? VEHICLE_EMISSION_TYPES[
-											presets.advanced.emissionType as VehicleEmissionType
-										]
-									: 'No especifica consumo de combustible'
 								: 'No compatible'}
 						</dd>
 

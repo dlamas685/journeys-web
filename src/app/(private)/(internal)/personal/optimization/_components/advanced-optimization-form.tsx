@@ -27,7 +27,6 @@ import {
 	EXTRA_COMPUTATIONS,
 	REFERENCE_ROUTES,
 	TRAFFIC_MODELS,
-	VEHICLE_EMISSION_TYPES,
 } from '../_constants'
 import {
 	ExtraComputation,
@@ -36,7 +35,6 @@ import {
 	TrafficModel,
 	TrafficOption,
 	TravelMode,
-	VehicleEmissionType,
 } from '../_enums'
 import { PresetsModel } from '../_models'
 import {
@@ -79,12 +77,6 @@ const AdvancedOptimizationForm = () => {
 
 	const canHaveShorterDistanceReferenceRoute =
 		presets?.basic.interestPoints?.length === 0
-
-	const canHaveEmissionType = presets?.basic.travelMode === TravelMode.DRIVE
-
-	const isEnabledEmissionType = form
-		.watch('extraComputations')
-		?.includes(ExtraComputation.FUEL_CONSUMPTION)
 
 	const setLoading = useLoading(state => state.setLoading)
 
@@ -130,7 +122,6 @@ const AdvancedOptimizationForm = () => {
 			computeAlternativeRoutes: presets?.advanced?.computeAlternativeRoutes,
 			optimizeWaypointOrder: presets?.advanced?.optimizeWaypointOrder,
 			requestedReferenceRoutes: presets?.advanced?.requestedReferenceRoutes,
-			emissionType: presets?.advanced?.emissionType,
 			interestPoints:
 				presets?.advanced?.interestPoints?.map(interestPoint => ({
 					...interestPoint,
@@ -141,14 +132,14 @@ const AdvancedOptimizationForm = () => {
 					activities: [],
 				})),
 		})
-	}, [form, presets, canHaveTrafficModel])
+	}, [form, presets])
 
 	return (
 		<Form {...form}>
 			<form
 				id={Steps.ADVANCED.toString()}
 				onSubmit={form.handleSubmit(handleSubmit)}
-				className='grid grid-cols-1 gap-4 sm:grid-cols-[1.1fr_0.9fr] sm:gap-6 sm:px-2'>
+				className='grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 sm:px-2'>
 				<h2 className='col-span-full text-base font-medium text-foreground sm:text-lg'>
 					Criterios Avanzados
 				</h2>
@@ -157,7 +148,7 @@ const AdvancedOptimizationForm = () => {
 					control={form.control}
 					name='extraComputations'
 					render={() => (
-						<FormItem>
+						<FormItem className='col-span-full'>
 							<FormLabel className='flex items-center gap-1'>
 								Cálculos adicionales
 								<FormTooltip>
@@ -174,6 +165,15 @@ const AdvancedOptimizationForm = () => {
 							{Object.entries(EXTRA_COMPUTATIONS).map(([key, value]) => {
 								const parseKey = parseInt(key, 10)
 
+								const disabled =
+									(parseKey === ExtraComputation.TOLLS &&
+										(presets?.basic.modifiers?.avoidTolls ||
+											presets?.basic.travelMode !== TravelMode.DRIVE)) ||
+									(parseKey === ExtraComputation.TRAFFIC_ON_POLYLINE &&
+										(presets?.basic.trafficOption ===
+											TrafficOption.TRAFFIC_UNAWARE ||
+											presets?.basic.travelMode !== TravelMode.DRIVE))
+
 								return (
 									<FormField
 										key={key}
@@ -186,15 +186,8 @@ const AdvancedOptimizationForm = () => {
 													className='flex flex-row items-center space-x-2 space-y-0'>
 													<FormControl>
 														<Checkbox
+															disabled={disabled}
 															checked={field.value?.includes(parseKey)}
-															disabled={
-																(presets?.basic.modifiers?.avoidTolls &&
-																	parseKey === ExtraComputation.TOLLS) ||
-																((parseKey ===
-																	ExtraComputation.FUEL_CONSUMPTION ||
-																	parseKey === ExtraComputation.TOLLS) &&
-																	!canHaveEmissionType)
-															}
 															onCheckedChange={checked => {
 																if (checked) {
 																	field.onChange([
@@ -203,10 +196,14 @@ const AdvancedOptimizationForm = () => {
 																	])
 
 																	parseKey ===
-																		ExtraComputation.FUEL_CONSUMPTION &&
+																		ExtraComputation.TRAFFIC_ON_POLYLINE &&
+																		presets?.basic.travelMode ===
+																			TravelMode.DRIVE &&
+																		presets.basic.trafficOption ===
+																			TrafficOption.TRAFFIC_AWARE_OPTIMAL &&
 																		form.setValue(
-																			'emissionType',
-																			VehicleEmissionType.GASOLINE
+																			'trafficModel',
+																			TrafficModel.BEST_GUESS
 																		)
 																	return
 																}
@@ -216,10 +213,6 @@ const AdvancedOptimizationForm = () => {
 																		value => value !== parseKey
 																	)
 																)
-
-																parseKey ===
-																	ExtraComputation.FUEL_CONSUMPTION &&
-																	form.setValue('emissionType', undefined)
 															}}
 														/>
 													</FormControl>
@@ -230,55 +223,6 @@ const AdvancedOptimizationForm = () => {
 									/>
 								)
 							})}
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-
-				<FormField
-					control={form.control}
-					name='trafficModel'
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel className='flex items-center gap-1'>
-								Modelo de tráfico
-								<FormTooltip>
-									Determina como se evaluaran las condiciones de tráfico para
-									calcular el tiempo estimado de viaje (solo disponible en
-									automóvil y tráfico optimizado).
-								</FormTooltip>
-							</FormLabel>
-							<FormDescription className='sm:hidden'>
-								Determina como se evaluaran las condiciones de tráfico para
-								calcular el tiempo estimado de viaje (solo disponible en
-								automóvil y tráfico optimizado).
-							</FormDescription>
-							<FormControl>
-								<RadioGroup
-									onValueChange={field.onChange}
-									defaultValue={field.value}
-									value={field.value}
-									className='flex flex-col gap-3'>
-									{Object.entries(TRAFFIC_MODELS).map(([key, value]) => (
-										<FormItem
-											key={key}
-											className='flex items-center space-x-2 space-y-0'>
-											<FormControl>
-												<RadioGroupItem
-													value={key}
-													disabled={!canHaveTrafficModel}
-												/>
-											</FormControl>
-											<FormLabel
-												className={cn('font-normal', {
-													'opacity-70': !canHaveTrafficModel,
-												})}>
-												{value}
-											</FormLabel>
-										</FormItem>
-									))}
-								</RadioGroup>
-							</FormControl>
 							<FormMessage />
 						</FormItem>
 					)}
@@ -397,15 +341,21 @@ const AdvancedOptimizationForm = () => {
 
 				<FormField
 					control={form.control}
-					name='emissionType'
+					name='trafficModel'
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel className='flex items-center gap-1'>
-								Tipo de emisión del vehículo
-								<FormTooltip>Especifica información del vehículo.</FormTooltip>
+								Modelo de tráfico
+								<FormTooltip>
+									Determina como se evaluaran las condiciones de tráfico para
+									calcular el tiempo estimado de viaje (solo disponible en
+									automóvil, tráfico optimizado y sin trafico en tiempo real).
+								</FormTooltip>
 							</FormLabel>
 							<FormDescription className='sm:hidden'>
-								Especifica información del vehículo.
+								Determina como se evaluaran las condiciones de tráfico para
+								calcular el tiempo estimado de viaje (solo disponible en
+								automóvil, tráfico optimizado y sin trafico en tiempo real).
 							</FormDescription>
 							<FormControl>
 								<RadioGroup
@@ -413,31 +363,33 @@ const AdvancedOptimizationForm = () => {
 									defaultValue={field.value}
 									value={field.value}
 									className='flex flex-col gap-3'>
-									{Object.entries(VEHICLE_EMISSION_TYPES).map(
-										([key, value]) => (
-											<FormItem
-												key={key}
-												className='flex items-center space-x-2 space-y-0'>
-												<FormControl>
-													<RadioGroupItem
-														value={key}
-														disabled={
-															(canHaveEmissionType && !isEnabledEmissionType) ||
-															!canHaveEmissionType
-														}
-													/>
-												</FormControl>
-												<FormLabel
-													className={cn('font-normal', {
-														'opacity-70':
-															(canHaveEmissionType && !isEnabledEmissionType) ||
-															!canHaveEmissionType,
-													})}>
-													{value}
-												</FormLabel>
-											</FormItem>
-										)
-									)}
+									{Object.entries(TRAFFIC_MODELS).map(([key, value]) => (
+										<FormItem
+											key={key}
+											className='flex items-center space-x-2 space-y-0'>
+											<FormControl>
+												<RadioGroupItem
+													value={key}
+													disabled={
+														!canHaveTrafficModel ||
+														form
+															.watch('extraComputations')
+															?.includes(ExtraComputation.TRAFFIC_ON_POLYLINE)
+													}
+												/>
+											</FormControl>
+											<FormLabel
+												className={cn('font-normal', {
+													'opacity-70':
+														!canHaveTrafficModel ||
+														form
+															.watch('extraComputations')
+															?.includes(ExtraComputation.TRAFFIC_ON_POLYLINE),
+												})}>
+												{value}
+											</FormLabel>
+										</FormItem>
+									))}
 								</RadioGroup>
 							</FormControl>
 							<FormMessage />
@@ -448,7 +400,7 @@ const AdvancedOptimizationForm = () => {
 				<FormField
 					control={form.control}
 					name='interestPoints'
-					render={({ field, formState }) => (
+					render={({ field }) => (
 						<FormItem className='col-span-full'>
 							<FormLabel className='flex items-center gap-1'>
 								Actividades

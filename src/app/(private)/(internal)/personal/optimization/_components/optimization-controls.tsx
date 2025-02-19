@@ -29,7 +29,6 @@ const OptimizationControls = () => {
 	const currentStep = useStepper(state => state.currentStep)
 	const presets = useOptimization(state => state.presets)
 	const setPresets = useOptimization(state => state.setPresets)
-	const handleReset = useStepper(state => state.handleReset)
 	const handleBack = useStepper(state => state.handleBack)
 	const handleNext = useStepper(state => state.handleNext)
 	const isLoading = useLoading(state => state.loading)
@@ -49,21 +48,25 @@ const OptimizationControls = () => {
 	return (
 		<section className='flex justify-end gap-3'>
 			{currentStep === Steps.ADVANCED && (
-				<Button variant='link' type='button' onClick={handleOmit}>
+				<Button
+					variant='link'
+					type='button'
+					onClick={handleOmit}
+					disabled={isLoading}>
 					Omitir
 				</Button>
 			)}
 
-			{/* {presets && (
-				<OptimizationPreview
-					presets={presets}
-					label='Previsualizar'
-					title='Criterios de optimización'
-					description='En esta vista previa podrás ver los criterios de optimización que has seleccionado. Estos criterios son los que se utilizarán para optimizar tu viaje.'
-				/>
-			)} */}
 			{currentStep === -1 && (
-				<Button onClick={handleReset} variant='destructive' type='button'>
+				<Button
+					onClick={() => {
+						useOptimization.persist.clearStorage()
+						useStepper.persist.clearStorage()
+						useStepper.setState({ currentStep: 0, stepsCompleted: [] })
+						useOptimization.setState({ presets: undefined, results: undefined })
+					}}
+					variant='destructive'
+					type='button'>
 					<RotateCcw className='mr-1 size-5' />
 					Reiniciar
 				</Button>
@@ -71,7 +74,7 @@ const OptimizationControls = () => {
 			{currentStep > Steps.BASIC && currentStep < Steps.RESULTS && (
 				<AlertDialog>
 					<AlertDialogTrigger asChild>
-						<Button variant='outline' type='button'>
+						<Button variant='outline' type='button' disabled={isLoading}>
 							<CircleChevronLeft className='mr-1 size-5' />
 							Atrás
 						</Button>
@@ -101,7 +104,10 @@ const OptimizationControls = () => {
 			)}
 
 			{currentStep >= Steps.BASIC && currentStep < Steps.RESULTS && (
-				<Button form={currentStep.toString()} type='submit'>
+				<Button
+					form={currentStep.toString()}
+					type='submit'
+					disabled={isLoading}>
 					{isLoading ? (
 						<LoaderCircle className='mr-1 size-5 animate-spin' />
 					) : (
@@ -112,17 +118,24 @@ const OptimizationControls = () => {
 			)}
 			{currentStep === Steps.RESULTS && (
 				<>
-					<Button variant='outline' type='button' onClick={handleBack}>
+					<Button
+						variant='outline'
+						type='button'
+						onClick={handleBack}
+						disabled={isLoading}>
 						<CircleChevronLeft className='mr-1 size-5' />
 						Atrás
 					</Button>
-					<Button form={currentStep.toString()} type='submit'>
+					<Button
+						form={currentStep.toString()}
+						type='submit'
+						disabled={isLoading}>
 						{isLoading ? (
 							<LoaderCircle className='mr-1 size-5 animate-spin' />
 						) : (
 							<SaveAll className='mr-1 size-5' />
 						)}
-						Finalizar
+						Guardar
 					</Button>
 				</>
 			)}
