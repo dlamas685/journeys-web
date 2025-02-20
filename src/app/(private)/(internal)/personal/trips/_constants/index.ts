@@ -1,2 +1,2 @@
 export * from './default-filters.constants'
-export * from './trip-statuses.constant'
+export * from './trip-conditions.constant'

@@ -1,4 +1,4 @@
-import { LocationModel } from './location.model'
+import { LocationModel } from '@/common/models'
 
 export interface WaypointModel {
 	placeId: string

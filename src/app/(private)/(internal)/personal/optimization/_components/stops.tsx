@@ -1,5 +1,7 @@
 import SeeMore from '@/common/components/ui/misc/see-more'
 import { formatTime } from '@/common/utils'
+import { format } from 'date-fns'
+import { es } from 'date-fns/locale'
 import { RouteModel } from '../_models'
 
 type Props = {
@@ -18,6 +20,7 @@ const Stops = ({ route }: Readonly<Props>) => (
 				<ul role='list'>
 					<li role='listitem'>Dirección: {stop.address}</li>
 					<li role='listitem'>Duración: {formatTime(stop.duration)}</li>
+
 					<li role='listitem'>
 						Actividades incluidas:
 						<ul
@@ -30,6 +33,65 @@ const Stops = ({ route }: Readonly<Props>) => (
 									<p>Duración: {formatTime(activity.duration)}</p>
 								</li>
 							))}
+						</ul>
+					</li>
+
+					<li role='listitem'>
+						Notas:
+						<ul role='list' className='list-image-checkmark pl-6'>
+							<li role='listitem'>
+								Considerando el tráfico, llegarás a esta parada el{' '}
+								{format(stop.estimatedArrivalDateTimeWithTraffic, 'PPPp', {
+									locale: es,
+								})}{' '}
+								y saldrás el{' '}
+								{new Date(
+									stop.estimatedDepartureDateTimeWithTraffic
+								).getDay() ===
+								new Date(stop.estimatedArrivalDateTimeWithTraffic).getDay()
+									? 'mismo dia a las '
+									: ''}
+								{format(
+									stop.estimatedDepartureDateTimeWithTraffic,
+									new Date(
+										stop.estimatedDepartureDateTimeWithTraffic
+									).getDay() ===
+										new Date(stop.estimatedArrivalDateTimeWithTraffic).getDay()
+										? 'p'
+										: 'PPPp',
+									{
+										locale: es,
+									}
+								)}{' '}
+							</li>
+
+							<li role='listitem'>
+								Sin tener en cuenta el tráfico, llegarás a esta parada el{' '}
+								{format(stop.estimatedArrivalDateTimeWithoutTraffic, 'PPPp', {
+									locale: es,
+								})}{' '}
+								y saldrás el{' '}
+								{new Date(
+									stop.estimatedDepartureDateTimeWithoutTraffic
+								).getDay() ===
+								new Date(stop.estimatedArrivalDateTimeWithoutTraffic).getDay()
+									? 'mismo día a las '
+									: ''}
+								{format(
+									stop.estimatedDepartureDateTimeWithoutTraffic,
+									new Date(
+										stop.estimatedDepartureDateTimeWithoutTraffic
+									).getDay() ===
+										new Date(
+											stop.estimatedArrivalDateTimeWithoutTraffic
+										).getDay()
+										? 'p'
+										: 'PPPp',
+									{
+										locale: es,
+									}
+								)}{' '}
+							</li>
 						</ul>
 					</li>
 				</ul>

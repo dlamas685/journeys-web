@@ -1,4 +1,4 @@
-import { LocationModel } from '../_models/location.model'
+import { LocationModel } from '../../../../../../common/models/location.model'
 
 export type Waypoint = {
 	placeId: string

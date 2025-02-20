@@ -23,8 +23,7 @@ import Link from 'next/link'
 import { forwardRef, Ref, type ReactNode } from 'react'
 import Criteria from '../../optimization/_components/criteria'
 import { PresetsModel } from '../../optimization/_models'
-import { TRIP_STATUSES } from '../_constants'
-import { TripStatus } from '../_enums'
+import { TRIP_CONDITIONS } from '../_constants'
 import { TripModel } from '../_models'
 
 type Props = {
@@ -104,44 +103,41 @@ const TripCard = forwardRef(
 						<dt className='mt-2 font-medium'>Hora de salida</dt>
 						<dd>{format(record.departureTime, 'p', { locale: es })}</dd>
 
-						<dt className='mt-2 font-medium'>Estado</dt>
+						<dt className='mt-2 font-medium'>Condición</dt>
 						<dd className='mt-1'>
-							<Badge className={TRIP_STATUSES[record.tripStatus].className}>
-								{TRIP_STATUSES[record.tripStatus].label}
+							<Badge
+								className={
+									TRIP_CONDITIONS[record.isArchived.toString()].className
+								}>
+								{record.isArchived ? 'Usado' : 'Listo para usar'}
 							</Badge>
 						</dd>
 					</dl>
 
 					<section className='flex flex-col gap-2'>
-						{record.tripStatus === TripStatus.UPCOMING ||
-						record.tripStatus === TripStatus.ONGOING ? (
+						{!record.isArchived ? (
 							<Button variant='link' asChild>
 								<Link href={`${Pathnames.TRIPS}/${record.id}`}>
 									Guía de viaje
 								</Link>
 							</Button>
-						) : record.tripStatus === TripStatus.COMPLETED ? (
+						) : (
 							<Modal
-								title='Estadísticas del viaje'
+								title={`Estadísticas de ${record.code}`}
 								description='Visualiza las estadísticas generadas como resultado de haber completado el viaje.'
 								triggerProps={{
 									type: 'button',
 									variant: 'link',
-									'aria-label': `Estadísticas del viaje ${record.code}`,
+									'aria-label': `Estadísticas de la guía viaje ${record.code}`,
 									'aria-disabled': false,
 								}}
-								triggerLabel='Estadísticas del viaje'
+								triggerLabel='Estadísticas'
 								isReadonly>
 								<>
 									Lorem ipsum dolor, sit amet consectetur adipisicing elit.
 									Sint.
 								</>
 							</Modal>
-						) : (
-							<p className='text-center text-xs font-medium text-muted-foreground'>
-								Viaje cancelado, no puede visualizar la guía de viaje ni sus
-								estadísticas
-							</p>
 						)}
 
 						<ResponsiveSheet

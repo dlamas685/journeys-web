@@ -6,6 +6,7 @@ import Polyline from '@/common/components/ui/google/fragments/polyline'
 import DirectionIcon from '@/common/components/ui/icons/direction-icon'
 import SegmentIcon from '@/common/components/ui/icons/segment-icon'
 import StopIcon from '@/common/components/ui/icons/stop-icon'
+import Modal from '@/common/components/ui/overlay/modal'
 import ResponsiveSheet from '@/common/components/ui/overlay/responsive-sheet'
 import { ApiEndpoints } from '@/common/enums'
 import useResponse from '@/common/hooks/use-response'
@@ -25,7 +26,7 @@ import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AdvancedMarker, Map, Pin } from '@vis.gl/react-google-maps'
-import { Route, SquareChartGantt } from 'lucide-react'
+import { Route, SquareChartGantt, WandSparkles } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import RiseLoader from 'react-spinners/RiseLoader'
@@ -423,6 +424,16 @@ const ResultsOptimizationForm = () => {
 										}}>
 										<Criteria presets={presets} />
 									</ResponsiveSheet>
+
+									<Modal
+										title='Refinar criterios'
+										triggerProps={{
+											size: 'sm',
+										}}
+										triggerIcon={<WandSparkles className='mr-1 size-4' />}
+										triggerLabel='Refinar'>
+										<p>Modal</p>
+									</Modal>
 								</section>
 							</section>
 						</section>

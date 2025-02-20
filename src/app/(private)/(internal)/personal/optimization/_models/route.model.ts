@@ -1,5 +1,5 @@
+import { LocationModel } from '@/common/models'
 import { Maneuver, RouteLabel, Speed } from '../_enums'
-import { LocationModel } from './location.model'
 
 export interface RouteModel {
 	id: string
@@ -89,6 +89,10 @@ export interface StopModel {
 	address: string
 	placeId: string
 	duration: number
+	estimatedArrivalDateTimeWithTraffic: string
+	estimatedDepartureDateTimeWithTraffic: string
+	estimatedArrivalDateTimeWithoutTraffic: string
+	estimatedDepartureDateTimeWithoutTraffic: string
 }
 
 export interface ActivityModel {

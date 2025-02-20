@@ -13,8 +13,7 @@ export const upsertFormSchema = z.object({
 			message: 'La dirección es requerida',
 		})
 		.min(1, 'La dirección es requerida'),
-	latitude: z.number(),
-	longitude: z.number(),
+	location: z.object({ latitude: z.number(), longitude: z.number() }),
 	placeId: z.string(),
 })
 

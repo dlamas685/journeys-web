@@ -1,7 +1,6 @@
 export * from './advanced-criteria.model'
 export * from './basic-criteria.model'
 export * from './criteria.model'
-export * from './location.model'
 export * from './modifiers.model'
 export * from './presets.model'
 export * from './results.model'

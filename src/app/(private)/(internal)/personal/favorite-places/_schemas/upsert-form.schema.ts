@@ -7,8 +7,7 @@ export const upsertFormSchema = z.object({
 			message: 'El lugar es requerido',
 		})
 		.min(1, 'El lugar es requerido'),
-	latitude: z.number(),
-	longitude: z.number(),
+	location: z.object({ latitude: z.number(), longitude: z.number() }),
 	placeId: z.string(),
 })
 

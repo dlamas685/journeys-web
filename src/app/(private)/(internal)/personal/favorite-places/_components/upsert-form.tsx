@@ -37,8 +37,7 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 		defaultValues: {
 			id: record?.id ?? undefined,
 			name: record?.name ?? '',
-			latitude: record?.latitude ?? undefined,
-			longitude: record?.longitude ?? undefined,
+			location: record?.location ?? undefined,
 			placeId: record?.placeId ?? undefined,
 		},
 		resolver: zodResolver(upsertFormSchema),
@@ -53,27 +52,26 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 	const response = useResponse()
 
 	const [zoomLevel, setZoomLevel] = useState(
-		record?.latitude && record?.longitude ? 16 : 12
+		record?.location.latitude && record?.location.longitude ? 16 : 12
 	)
 
 	const [mapCenter, setMapCenter] = useState({
-		lat: record?.latitude ?? MAP_CENTER.lat,
-		lng: record?.longitude ?? MAP_CENTER.lng,
+		lat: record?.location.latitude ?? MAP_CENTER.lat,
+		lng: record?.location.longitude ?? MAP_CENTER.lng,
 	})
 
 	const [centerOnPlace, setCenterOnPlace] = useState(
-		!!(record?.latitude && record?.longitude)
+		!!(record?.location.latitude && record?.location.longitude)
 	)
 
-	const lat = form.watch('latitude')
+	const lat = form.watch('location.latitude')
 
-	const lng = form.watch('longitude')
+	const lng = form.watch('location.longitude')
 
 	const handleSubmit = async ({
 		id,
 		name,
-		latitude,
-		longitude,
+		location,
 		...rest
 	}: UpsertFormSchema) => {
 		setLoading(true)
@@ -151,12 +149,12 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 				setZoomLevel(16)
 				setMapCenter({ lat, lng })
 				setCenterOnPlace(true)
-				form.setValue('latitude', lat)
-				form.setValue('longitude', lng)
+				form.setValue('location.latitude', lat)
+				form.setValue('location.longitude', lng)
 			} else {
 				setZoomLevel(12)
-				form.resetField('latitude')
-				form.resetField('longitude')
+				form.resetField('location.latitude')
+				form.resetField('location.longitude')
 			}
 		}
 	}

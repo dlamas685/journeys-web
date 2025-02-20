@@ -1,14 +1,14 @@
+import { LocationModel } from '@/common/models'
+
 export interface FavoritePlaceModel {
 	id: string
 	userId: string
 	name: string
 	placeId: string
 	address: string
+	location: LocationModel
 	types: string[]
-	iconUrl: string
-	iconBackgroundColor: string
-	latitude: number
-	longitude: number
+
 	createdAt: Date
 	updatedAt: Date | null
 }
