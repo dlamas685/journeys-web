@@ -204,7 +204,7 @@ const ActivitiesSetting = ({ waypoint, onReady }: Readonly<Props>) => {
 				<DialogTrigger asChild>
 					<Button variant='secondary' size='sm'>
 						<LocateFixed className='mr-1 size-3' />
-						{waypoint.address} ({waypoint.activities?.length})
+						{waypoint.name} - {waypoint.address} ({waypoint.activities?.length})
 					</Button>
 				</DialogTrigger>
 				<DialogContent>

@@ -9,6 +9,7 @@ export const waypointSchema = (required_error?: string) =>
 			address: z.string({
 				required_error: 'La dirección es requerida',
 			}),
+			name: z.string(),
 			location: z.object(
 				{
 					latitude: z.number(),

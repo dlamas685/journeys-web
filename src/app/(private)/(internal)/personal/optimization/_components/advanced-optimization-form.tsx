@@ -421,8 +421,6 @@ const AdvancedOptimizationForm = () => {
 												key={interestPoint.placeId}
 												waypoint={interestPoint}
 												onReady={waypoint => {
-													console.log(waypoint)
-
 													field.onChange(
 														field.value?.map(interestPoint =>
 															interestPoint.placeId === waypoint.placeId

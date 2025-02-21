@@ -28,10 +28,15 @@ const Criteria = ({ presets }: Readonly<Props>) => {
 
 				<dl className='grid grid-cols-[0.5fr_1fr] gap-x-6 gap-y-2 text-sm text-muted-foreground'>
 					<dt>Origen:</dt>
-					<dd>{presets.basic.origin?.address}</dd>
+					<dd>
+						{presets.basic.origin.name} - {presets.basic.origin?.address}
+					</dd>
 
 					<dt>Destino:</dt>
-					<dd>{presets.basic.destination?.address}</dd>
+					<dd>
+						{presets.basic.destination.name} -{' '}
+						{presets.basic.destination?.address}
+					</dd>
 
 					<dt>Fecha de salida:</dt>
 					<dd>
@@ -49,7 +54,9 @@ const Criteria = ({ presets }: Readonly<Props>) => {
 						presets.basic.interestPoints.length > 0 ? (
 							<ul role='list'>
 								{presets.basic.interestPoints?.map(interestPoint => (
-									<li key={interestPoint.placeId}>{interestPoint.address}</li>
+									<li key={interestPoint.placeId}>
+										{interestPoint.name} - {interestPoint.address}
+									</li>
 								))}
 							</ul>
 						) : (
@@ -143,7 +150,7 @@ const Criteria = ({ presets }: Readonly<Props>) => {
 												.filter(interestPoint => interestPoint.vehicleStopover)
 												.map(interestPoint => (
 													<li role='listitem' key={interestPoint.placeId}>
-														{interestPoint.address} (
+														{interestPoint.name} - {interestPoint.address} (
 														{interestPoint.activities &&
 															formatTime(
 																interestPoint.activities.reduce(
@@ -173,7 +180,7 @@ const Criteria = ({ presets }: Readonly<Props>) => {
 												.filter(interestPoint => !interestPoint.vehicleStopover)
 												.map(interestPoint => (
 													<li role='listitem' key={interestPoint.placeId}>
-														{interestPoint.address}
+														{interestPoint.name} - {interestPoint.address}
 													</li>
 												))}
 										</ul>

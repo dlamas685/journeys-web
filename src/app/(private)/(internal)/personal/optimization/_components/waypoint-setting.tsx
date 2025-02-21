@@ -310,13 +310,15 @@ const WaypointSettingTabs = ({}: Readonly<WaypointSettingTabsProps>) => {
 	const handleSelectedFavoriteAddress = (
 		favoriteAddress: FavoriteAddressModel
 	) => {
-		const latitude = favoriteAddress.latitude
+		const latitude = favoriteAddress.location.latitude
 
-		const longitude = favoriteAddress.longitude
+		const longitude = favoriteAddress.location.longitude
 
 		const placeId = favoriteAddress.placeId
 
 		const address = favoriteAddress.address
+
+		const name = favoriteAddress.alias
 
 		const location: Location | undefined =
 			latitude && longitude ? { latitude, longitude } : undefined
@@ -332,6 +334,7 @@ const WaypointSettingTabs = ({}: Readonly<WaypointSettingTabsProps>) => {
 				placeId,
 				location,
 				address,
+				name,
 			}
 
 			if (isMultipleSelection) {
@@ -359,9 +362,9 @@ const WaypointSettingTabs = ({}: Readonly<WaypointSettingTabsProps>) => {
 	}
 
 	const handleSelectedFavoritePlaces = (favoritePlace: FavoritePlaceModel) => {
-		const latitude = favoritePlace.latitude
+		const latitude = favoritePlace.location.latitude
 
-		const longitude = favoritePlace.longitude
+		const longitude = favoritePlace.location.longitude
 
 		const placeId = favoritePlace.placeId
 
@@ -419,10 +422,12 @@ const WaypointSettingTabs = ({}: Readonly<WaypointSettingTabsProps>) => {
 
 		const address = place?.formatted_address
 
+		const name = place?.name
+
 		const location: Location | undefined =
 			latitude && longitude ? { latitude, longitude } : undefined
 
-		if (placeId && location && address) {
+		if (placeId && location && address && name) {
 			setMapCenter({
 				lat: latitude as number,
 				lng: longitude as number,
@@ -436,6 +441,7 @@ const WaypointSettingTabs = ({}: Readonly<WaypointSettingTabsProps>) => {
 				placeId,
 				location,
 				address,
+				name,
 			}
 
 			if (isMultipleSelection) {
@@ -655,12 +661,14 @@ const WaypointSettingItem = ({
 	return (
 		<li
 			className={cn(
-				'grid grid-cols-[auto_1fr_auto] items-center gap-1 font-secondary text-sm text-muted-foreground',
+				'grid grid-cols-[auto_1fr_auto] items-start gap-1 font-secondary text-sm text-muted-foreground',
 				className
 			)}
 			{...restProps}>
 			<LocateFixed className='mr-1 size-4' />
-			<span>{waypoint.address}</span>
+			<span>
+				{waypoint.name} - {waypoint.address}
+			</span>
 			<CircleMinus
 				className='size-4 cursor-pointer text-destructive'
 				onClick={handleRemove}
