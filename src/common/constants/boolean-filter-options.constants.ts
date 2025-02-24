@@ -1,6 +1,6 @@
 import { FilterRules } from '../enums'
 
-export const RELATION_FILTER_OPTIONS = [
+export const BOOLEAN_FILTER_OPTIONS = [
 	{
 		label: 'Igual a',
 		value: FilterRules.EQUALS,

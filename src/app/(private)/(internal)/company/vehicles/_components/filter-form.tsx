@@ -10,7 +10,7 @@ import {
 	DATE_FILTER_OPTIONS,
 	FILTER_FORM_ID,
 	NUMBER_FILTER_OPTIONS,
-	RELATION_FILTER_OPTION,
+	RELATION_FILTER_OPTIONS,
 	TEXT_FILTER_OPTIONS,
 } from '@/common/constants'
 import { DialogContext } from '@/common/contexts/dialog-context'
@@ -434,7 +434,7 @@ const FilterForm = ({ queryParams, fleets }: Readonly<Props>) => {
 											</SelectTrigger>
 										</FormControl>
 										<SelectContent>
-											{RELATION_FILTER_OPTION.map(option => (
+											{RELATION_FILTER_OPTIONS.map(option => (
 												<SelectItem key={option.value} value={option.value}>
 													{option.label}
 												</SelectItem>

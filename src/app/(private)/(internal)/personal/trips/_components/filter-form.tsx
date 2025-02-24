@@ -5,12 +5,18 @@ import {
 	FieldsetContent,
 	FieldsetLegend,
 } from '@/common/components/ui/form/field-set'
-import { FILTER_FORM_ID, TEXT_FILTER_OPTIONS } from '@/common/constants'
+import {
+	BOOLEAN_FILTER_OPTIONS,
+	DATE_FILTER_OPTIONS,
+	FILTER_FORM_ID,
+	TEXT_FILTER_OPTIONS,
+} from '@/common/constants'
 import { DialogContext } from '@/common/contexts/dialog-context'
 import { FilterTypes } from '@/common/enums'
 import type { FilterFieldModel, QueryParamsModel } from '@/common/models'
 import { fromQueryToFilterForm, jsonToBase64 } from '@/common/utils'
 import { Button } from '@/components/ui/button'
+import { Calendar } from '@/components/ui/calendar'
 import {
 	Form,
 	FormControl,
@@ -21,6 +27,11 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from '@/components/ui/popover'
+import {
 	Select,
 	SelectContent,
 	SelectItem,
@@ -29,7 +40,9 @@ import {
 } from '@/components/ui/select'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Eraser } from 'lucide-react'
+import { format } from 'date-fns'
+import { es } from 'date-fns/locale'
+import { CalendarIcon, Eraser } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
@@ -57,7 +70,10 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 
 	const handleSubmit = async (values: FilterFormSchema) => {
 		const filters = Object.values(values)
-			.filter(filter => filter.rule && filter.value)
+			.filter(
+				filter =>
+					filter.rule && filter.value !== undefined && filter.value !== null
+			)
 			.map(
 				filter =>
 					({
@@ -89,7 +105,7 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 				onSubmit={form.handleSubmit(handleSubmit)}>
 				<Fieldset className='gap-0.5'>
 					<FieldsetLegend className='FilterFieldSetLegend'>
-						Nombre
+						Alias
 						<Button
 							className='text-orange-700 hover:text-orange-700/90'
 							size='icon'
@@ -98,8 +114,8 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 							onClick={() => {
 								form.reset({
 									...form.getValues(),
-									name: {
-										field: 'name',
+									alias: {
+										field: 'code',
 										type: FilterTypes.STRING,
 										rule: undefined,
 										value: undefined,
@@ -112,7 +128,7 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 					<FieldsetContent className='grid-cols-1 sm:grid-cols-2'>
 						<FormField
 							control={form.control}
-							name='name.rule'
+							name='alias.rule'
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Regla</FormLabel>
@@ -142,7 +158,7 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 						/>
 						<FormField
 							control={form.control}
-							name='name.value'
+							name='alias.value'
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Valor</FormLabel>
@@ -158,7 +174,7 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 
 				<Fieldset className='gap-0.5'>
 					<FieldsetLegend className='FilterFieldSetLegend'>
-						Descripción
+						Fecha de salida
 						<Button
 							className='text-orange-700 hover:text-orange-700/90'
 							size='icon'
@@ -167,9 +183,9 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 							onClick={() => {
 								form.reset({
 									...form.getValues(),
-									description: {
-										field: 'description',
-										type: FilterTypes.STRING,
+									departureTime: {
+										field: 'departureTime',
+										type: FilterTypes.DATE,
 										rule: undefined,
 										value: undefined,
 									},
@@ -181,7 +197,7 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 					<FieldsetContent className='grid-cols-1 sm:grid-cols-2'>
 						<FormField
 							control={form.control}
-							name='description.rule'
+							name='departureTime.rule'
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Regla</FormLabel>
@@ -197,7 +213,7 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 											</SelectTrigger>
 										</FormControl>
 										<SelectContent>
-											{TEXT_FILTER_OPTIONS.map(option => (
+											{DATE_FILTER_OPTIONS.map(option => (
 												<SelectItem key={option.value} value={option.value}>
 													{option.label}
 												</SelectItem>
@@ -211,13 +227,223 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 						/>
 						<FormField
 							control={form.control}
-							name='description.value'
+							name='departureTime.value'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Valor</FormLabel>
+									<Popover>
+										<PopoverTrigger asChild>
+											<FormControl>
+												<Button
+													variant='secondary'
+													className={cn(
+														'h-10 w-full justify-start border-none text-left font-normal',
+														!field.value && 'text-muted-foreground'
+													)}>
+													<CalendarIcon className='mr-2 size-4' />
+													{field.value ? (
+														format(field.value, 'PPP', { locale: es })
+													) : (
+														<span>Seleccione una fecha</span>
+													)}
+												</Button>
+											</FormControl>
+										</PopoverTrigger>
+										<PopoverContent className='w-auto p-0' align='start'>
+											<Calendar
+												lang='es'
+												locale={es}
+												mode='single'
+												selected={field.value}
+												onSelect={field.onChange}
+												disabled={date => date > new Date()}
+												initialFocus
+											/>
+										</PopoverContent>
+									</Popover>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+					</FieldsetContent>
+				</Fieldset>
+
+				<Fieldset className='gap-0.5'>
+					<FieldsetLegend className='FilterFieldSetLegend'>
+						Condición
+						<Button
+							className='text-orange-700 hover:text-orange-700/90'
+							size='icon'
+							variant='ghost'
+							type='button'
+							onClick={() => {
+								form.reset({
+									...form.getValues(),
+									isArchived: {
+										field: 'isArchived',
+										type: FilterTypes.BOOLEAN,
+										rule: undefined,
+										value: undefined,
+									},
+								})
+							}}>
+							<Eraser className='size-4' />
+						</Button>
+					</FieldsetLegend>
+					<FieldsetContent className='grid-cols-1 sm:grid-cols-2'>
+						<FormField
+							control={form.control}
+							name='isArchived.rule'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Regla</FormLabel>
+									<Select
+										onValueChange={field.onChange}
+										defaultValue={field.value}>
+										<FormControl>
+											<SelectTrigger
+												className={cn({
+													SelectPlaceHolder: !field.value,
+												})}>
+												<SelectValue placeholder='Seleccione una regla' />
+											</SelectTrigger>
+										</FormControl>
+										<SelectContent>
+											{BOOLEAN_FILTER_OPTIONS.map(option => (
+												<SelectItem key={option.value} value={option.value}>
+													{option.label}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
+
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name='isArchived.value'
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Valor</FormLabel>
 									<FormControl>
-										<Input placeholder='Ingrese un valor' {...field} />
+										<Select
+											onValueChange={(value: string) => {
+												field.onChange(value === 'true')
+											}}
+											defaultValue={field.value?.toString()}>
+											<FormControl>
+												<SelectTrigger
+													className={cn({
+														SelectPlaceHolder:
+															field.value === undefined || field.value === null,
+													})}>
+													<SelectValue placeholder='Seleccione una condición' />
+												</SelectTrigger>
+											</FormControl>
+											<SelectContent>
+												<SelectItem value='false'>Listo para usar</SelectItem>
+												<SelectItem value='true'>Usado</SelectItem>
+											</SelectContent>
+										</Select>
 									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+					</FieldsetContent>
+				</Fieldset>
+
+				<Fieldset className='gap-0.5'>
+					<FieldsetLegend className='FilterFieldSetLegend'>
+						Creado
+						<Button
+							className='text-orange-700 hover:text-orange-700/90'
+							size='icon'
+							variant='ghost'
+							type='button'
+							onClick={() => {
+								form.reset({
+									...form.getValues(),
+									createdAt: {
+										field: 'createdAt',
+										type: FilterTypes.DATE,
+										rule: undefined,
+										value: undefined,
+									},
+								})
+							}}>
+							<Eraser className='size-4' />
+						</Button>
+					</FieldsetLegend>
+					<FieldsetContent className='grid-cols-1 sm:grid-cols-2'>
+						<FormField
+							control={form.control}
+							name='createdAt.rule'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Regla</FormLabel>
+									<Select
+										onValueChange={field.onChange}
+										defaultValue={field.value}>
+										<FormControl>
+											<SelectTrigger
+												className={cn({
+													SelectPlaceHolder: !field.value,
+												})}>
+												<SelectValue placeholder='Seleccione una regla' />
+											</SelectTrigger>
+										</FormControl>
+										<SelectContent>
+											{DATE_FILTER_OPTIONS.map(option => (
+												<SelectItem key={option.value} value={option.value}>
+													{option.label}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
+
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name='createdAt.value'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Valor</FormLabel>
+									<Popover>
+										<PopoverTrigger asChild>
+											<FormControl>
+												<Button
+													variant='secondary'
+													className={cn(
+														'h-10 w-full justify-start border-none text-left font-normal',
+														!field.value && 'text-muted-foreground'
+													)}>
+													<CalendarIcon className='mr-2 size-4' />
+													{field.value ? (
+														format(field.value, 'PPP', { locale: es })
+													) : (
+														<span>Seleccione una fecha</span>
+													)}
+												</Button>
+											</FormControl>
+										</PopoverTrigger>
+										<PopoverContent className='w-auto p-0' align='start'>
+											<Calendar
+												lang='es'
+												locale={es}
+												mode='single'
+												selected={field.value}
+												onSelect={field.onChange}
+												disabled={date => date > new Date()}
+												initialFocus
+											/>
+										</PopoverContent>
+									</Popover>
 									<FormMessage />
 								</FormItem>
 							)}

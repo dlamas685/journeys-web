@@ -18,6 +18,7 @@ import { CirclePlus, Filter, FilterX, SearchCheck } from 'lucide-react'
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
+import FilterForm from './_components/filter-form'
 import TripsGrid from './_components/trips-grid'
 import { TripModel } from './_models'
 
@@ -96,9 +97,7 @@ export default async function TripsPage(props: Readonly<Props>) {
 							'aria-label': 'Aplicar filtro',
 							'aria-disabled': false,
 						}}>
-						<>
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi!
-						</>
+						<FilterForm queryParams={queryParams} />
 					</Modal>
 
 					{hasFilters && (

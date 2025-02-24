@@ -165,6 +165,8 @@ export const findAll = async <ResModel>(
 
 		url = url.slice(0, -1)
 
+		console.log(url)
+
 		const response = await fetch(url, {
 			method: 'GET',
 			headers: {

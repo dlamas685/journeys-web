@@ -1,3 +1,4 @@
+export * from './boolean-filter.schema'
 export * from './date-filter.schema'
 export * from './number-filter.schema'
 export * from './search-filter.schema'
