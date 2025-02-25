@@ -1,18 +1,34 @@
 'use client'
 
-import { UserTypes } from '@/common/enums'
-import { UserModel } from '@/common/models'
+import { findAll } from '@/common/actions/crud.action'
+import {
+	ApiEndpoints,
+	FilterRules,
+	FilterTypes,
+	Pathnames,
+	UserTypes,
+} from '@/common/enums'
+import {
+	ActivityTemplateModel,
+	QueryParamsModel,
+	UserModel,
+} from '@/common/models'
 import { Button } from '@/components/ui/button'
 import {
 	CommandDialog,
 	CommandEmpty,
+	CommandGroup,
 	CommandInput,
+	CommandItem,
 	CommandList,
 } from '@/components/ui/command'
 import { cn } from '@/lib/utils'
 import { DialogTitle } from '@radix-ui/react-dialog'
 import { Search } from 'lucide-react'
+import { usePathname, useRouter } from 'next/navigation'
 import { ComponentProps, useEffect, useState } from 'react'
+import { useDebouncedCallback } from 'use-debounce'
+import { TripModel } from '../../personal/trips/_models'
 
 type Props = ComponentProps<typeof Button> & {
 	placeholder?: string
@@ -26,6 +42,18 @@ const SearchBox = ({
 	...rest
 }: Readonly<Props>) => {
 	const [open, setOpen] = useState(false)
+
+	const [searchTerm, setSearchTerm] = useState('')
+
+	const [foundTrips, setFoundTrips] = useState<TripModel[]>([])
+
+	const [foundActivityTemplates, setFoundActivityTemplates] = useState<
+		ActivityTemplateModel[]
+	>([])
+
+	const pathname = usePathname()
+
+	const router = useRouter()
 
 	useEffect(() => {
 		const down = (e: KeyboardEvent) => {
@@ -43,6 +71,58 @@ const SearchBox = ({
 		setOpen(false)
 		command()
 	}
+
+	const handleSearch = useDebouncedCallback(async (term: string) => {
+		console.log(`Searching... ${term}`)
+
+		if (term.trim() === '') {
+			setFoundTrips([])
+			setFoundActivityTemplates([])
+			return
+		}
+
+		const tripParams: QueryParamsModel = {
+			filters: [
+				{
+					field: 'code',
+					rule: FilterRules.CONTAINS,
+					type: FilterTypes.STRING,
+					value: term,
+				},
+			],
+		}
+
+		const activityTemplateParams: QueryParamsModel = {
+			filters: [
+				{
+					field: 'name',
+					rule: FilterRules.CONTAINS,
+					type: FilterTypes.STRING,
+					value: term,
+				},
+			],
+		}
+
+		if (user.userType === UserTypes.PERSONAL) {
+			const foundTrips = await findAll<TripModel>(
+				ApiEndpoints.TRIPS,
+				tripParams,
+				pathname
+			).then(response => response.data)
+
+			const foundActivityTemplates = await findAll<ActivityTemplateModel>(
+				ApiEndpoints.ACTIVITY_TEMPLATES,
+				activityTemplateParams,
+				pathname
+			).then(response => response.data)
+
+			setFoundTrips(foundTrips)
+
+			setFoundActivityTemplates(foundActivityTemplates)
+
+			return
+		}
+	}, 300)
 
 	return (
 		<>
@@ -64,7 +144,7 @@ const SearchBox = ({
 				<Search className='h-4 w-4' />
 				<span className='inline-flex flex-grow'>
 					{user.userType === UserTypes.PERSONAL
-						? 'Buscar viajes'
+						? 'Buscar viajes o plantillas de actividades'
 						: 'Buscar hojas de ruta'}
 				</span>
 				<kbd className='pointer-events-none hidden h-5 select-none items-center gap-1 rounded border bg-background px-1.5 font-secondary text-[10px] font-medium opacity-100 sm:flex'>
@@ -76,12 +156,61 @@ const SearchBox = ({
 				<CommandInput
 					placeholder={
 						user.userType === UserTypes.PERSONAL
-							? 'Escribe el alias del viaje'
+							? 'Escribe el alias del viaje o el nombre de la plantilla'
 							: 'Escribe el alias de una hoja de ruta'
 					}
+					value={searchTerm}
+					onValueChange={(value: string) => {
+						setSearchTerm(value)
+						handleSearch(value)
+					}}
 				/>
 				<CommandList>
 					<CommandEmpty>No se encontraron resultados</CommandEmpty>
+
+					{user.userType === UserTypes.PERSONAL ? (
+						<>
+							{foundTrips.length > 0 && (
+								<CommandGroup heading='Viajes'>
+									{foundTrips.map(trip => (
+										<CommandItem
+											key={trip.id}
+											onSelect={() => {
+												runCommand(() => {
+													router.push(
+														`/${UserTypes.PERSONAL.toLowerCase()}/${Pathnames.TRIPS}/${trip.id}`
+													)
+												})
+											}}>
+											{trip.code}
+										</CommandItem>
+									))}
+								</CommandGroup>
+							)}
+
+							{foundActivityTemplates.length > 0 && (
+								<CommandGroup heading='Plantillas de actividades'>
+									{foundActivityTemplates.map(activityTemplate => (
+										<CommandItem
+											key={activityTemplate.id}
+											onSelect={() => {
+												runCommand(() => {
+													router.push(
+														`/${UserTypes.PERSONAL.toLowerCase()}/${Pathnames.ACTIVITY_TEMPLATES}/${activityTemplate.id}/${Pathnames.ACTIVITY_MANAGER}`
+													)
+												})
+											}}>
+											{activityTemplate.name}
+										</CommandItem>
+									))}
+								</CommandGroup>
+							)}
+						</>
+					) : (
+						<></>
+					)}
+
+					{/* <pre>{JSON.stringify(foundTrips, null, 3)}</pre> */}
 				</CommandList>
 			</CommandDialog>
 		</>
