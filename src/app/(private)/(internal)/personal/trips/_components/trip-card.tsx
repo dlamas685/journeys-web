@@ -147,7 +147,7 @@ const TripCard = forwardRef(
 						eraserButton={({ setOpen }) => (
 							<EraserButton
 								recordId={record.id}
-								endpoint={ApiEndpoints.ACTIVITY_TEMPLATES}
+								endpoint={ApiEndpoints.TRIPS}
 								setAlertOpen={setOpen}
 								title='Viajes'
 								description='Viaje eliminado correctamente.'
