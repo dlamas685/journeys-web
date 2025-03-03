@@ -22,6 +22,8 @@ import {
 import { Microphone } from './microphone'
 import SoundWave from './sound-wave'
 
+type PermissionState = 'granted' | 'denied'
+
 type Props = {
 	tripId: string
 }
@@ -50,6 +52,8 @@ export default function WebRTCAudio({ tripId }: Props) {
 	const setLoading = useLoading(state => state.setLoading)
 
 	const isLoading = useLoading(state => state.loading)
+
+	const [permission, setPermission] = useState<PermissionState | null>(null)
 
 	const handleCreateSession = async () => {
 		setLoading(true)
@@ -148,9 +152,6 @@ export default function WebRTCAudio({ tripId }: Props) {
 				setMediaStream(stream)
 				setSelectedDeviceId(value)
 			})
-			.catch(error => {
-				console.error(error)
-			})
 	}
 
 	const handleMicrophone = async () => {
@@ -247,22 +248,23 @@ export default function WebRTCAudio({ tripId }: Props) {
 	}, [mediaStream])
 
 	useEffect(() => {
-		navigator.mediaDevices.enumerateDevices().then(mediaDevices => {
-			const audioDevices = mediaDevices.filter(
-				device => device.kind === 'audioinput'
-			)
+		navigator.mediaDevices
+			.getUserMedia({ audio: true })
+			.then(mediaStream => {
+				setMediaStream(mediaStream)
+				setPermission('granted')
 
-			setDevices(audioDevices)
-		})
+				return navigator.mediaDevices.enumerateDevices().then(mediaDevices => {
+					const audioDevices = mediaDevices.filter(
+						device => device.kind === 'audioinput'
+					)
 
-		navigator.mediaDevices.getUserMedia({ audio: true }).then(mediaStream => {
-			setMediaStream(mediaStream)
-		})
-
-		return () => {
-			handleCloseConnection()
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+					setDevices(audioDevices)
+				})
+			})
+			.catch(error => {
+				setPermission('denied')
+			})
 	}, [])
 
 	useEffect(() => {
@@ -285,72 +287,90 @@ export default function WebRTCAudio({ tripId }: Props) {
 		<section className='flex flex-grow flex-col items-center justify-center gap-5'>
 			<h2 className='text-lg font-semibold'>Asistente Inteligente</h2>
 
-			{peerConnectionRef.current && (
+			{permission === 'granted' && (
 				<>
-					<Microphone loop={isSpeaking} />
-					<SoundWave loop={isAssistantSpeaking} />
+					{peerConnectionRef.current && (
+						<>
+							<Microphone loop={isSpeaking} />
+							<SoundWave loop={isAssistantSpeaking} />
+						</>
+					)}
+
+					<section className='flex flex-col items-center gap-4 rounded-md sm:grid sm:grid-cols-[auto_1fr_auto] sm:p-2 sm:shadow-bento'>
+						{!peerConnectionRef.current && (
+							<>
+								<Button
+									className='h-10'
+									onClick={handleStartSession}
+									disabled={isLoading}>
+									{isLoading ? (
+										<LoaderCircle className='mr-1 size-5 animate-spin' />
+									) : (
+										<PlayCircle className='mr-1 size-5' />
+									)}
+									Iniciar sesión
+								</Button>
+
+								<Select
+									value={selectedDeviceId ?? undefined}
+									onValueChange={handleValueChange}>
+									<SelectTrigger className='max-w-64 whitespace-pre-wrap text-left sm:max-w-xs'>
+										<SelectValue placeholder='Selecciona un dispositivo' />
+									</SelectTrigger>
+									<SelectContent className='max-w-64 sm:max-w-none'>
+										<SelectGroup>
+											<SelectLabel>Entrada de voz</SelectLabel>
+											{devices.map(device => (
+												<SelectItem
+													key={device.deviceId}
+													value={device.deviceId}>
+													{device.label}
+												</SelectItem>
+											))}
+										</SelectGroup>
+									</SelectContent>
+								</Select>
+							</>
+						)}
+
+						<Button
+							variant='ghost'
+							className='size-10'
+							size='icon'
+							onClick={handleMicrophone}>
+							{isMuted ? (
+								<MicOff className='size-5' />
+							) : (
+								<Mic className='size-5' />
+							)}
+						</Button>
+
+						<audio ref={audioRef} className='hidden' />
+
+						{peerConnectionRef.current && (
+							<>
+								<div className='flex items-center justify-between gap-2 px-4'>
+									<span className='font-secondary font-medium text-muted-foreground'>
+										{handleFormatTime(currentTime)}
+									</span>
+								</div>
+								<Button variant='ghost' onClick={handleCloseConnection}>
+									<CircleX className='mr-1 size-5' />
+									Cerrar sesión
+								</Button>
+							</>
+						)}
+					</section>
 				</>
 			)}
 
-			<section className='flex flex-col items-center gap-4 rounded-md sm:grid sm:grid-cols-[auto_1fr_auto] sm:p-2 sm:shadow-bento'>
-				{!peerConnectionRef.current && (
-					<>
-						<Button
-							className='h-10'
-							onClick={handleStartSession}
-							disabled={isLoading}>
-							{isLoading ? (
-								<LoaderCircle className='mr-1 size-5 animate-spin' />
-							) : (
-								<PlayCircle className='mr-1 size-5' />
-							)}
-							Iniciar sesión
-						</Button>
-
-						<Select
-							value={selectedDeviceId ?? undefined}
-							onValueChange={handleValueChange}>
-							<SelectTrigger className='max-w-64 whitespace-pre-wrap text-left sm:max-w-xs'>
-								<SelectValue placeholder='Selecciona un dispositivo' />
-							</SelectTrigger>
-							<SelectContent className='max-w-64 sm:max-w-none'>
-								<SelectGroup>
-									<SelectLabel>Entrada de voz</SelectLabel>
-									{devices.map(device => (
-										<SelectItem key={device.deviceId} value={device.deviceId}>
-											{device.label}
-										</SelectItem>
-									))}
-								</SelectGroup>
-							</SelectContent>
-						</Select>
-					</>
-				)}
-
-				<Button
-					variant='ghost'
-					className='size-10'
-					size='icon'
-					onClick={handleMicrophone}>
-					{isMuted ? <MicOff className='size-5' /> : <Mic className='size-5' />}
-				</Button>
-
-				<audio ref={audioRef} className='hidden' />
-
-				{peerConnectionRef.current && (
-					<>
-						<div className='flex items-center justify-between gap-2 px-4'>
-							<span className='font-secondary font-medium text-muted-foreground'>
-								{handleFormatTime(currentTime)}
-							</span>
-						</div>
-						<Button variant='ghost' onClick={handleCloseConnection}>
-							<CircleX className='mr-1 size-5' />
-							Cerrar sesión
-						</Button>
-					</>
-				)}
-			</section>
+			{permission !== 'granted' && (
+				<p className='font-secondary text-base text-muted-foreground'>
+					{permission === 'denied'
+						? 'Oops! No se ha podido acceder a la entrada de voz. Revisa los permisos de tu navegador.'
+						: 'Obteniendo permisos de entrada de voz...'}
+				</p>
+			)}
 		</section>
 	)
 }

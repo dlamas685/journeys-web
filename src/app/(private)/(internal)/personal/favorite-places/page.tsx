@@ -144,7 +144,7 @@ export default async function FavoritePlacesPage(props: Readonly<Props>) {
 					/>
 				) : (
 					<p className='text-center leading-[18.75rem] text-gray-400'>
-						No ha agregado ningún lugar favorito
+						No se ha encontrado ningún lugar favorito.
 					</p>
 				)}
 			</FrameBody>

@@ -4,6 +4,7 @@ import DirectionIcon from '@/common/components/ui/icons/direction-icon'
 import SegmentIcon from '@/common/components/ui/icons/segment-icon'
 import StopIcon from '@/common/components/ui/icons/stop-icon'
 import ResponsiveSheet from '@/common/components/ui/overlay/responsive-sheet'
+import { useMediaQuery } from '@/common/hooks/use-media-query'
 import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 import { AdvancedMarker, Map, Pin } from '@vis.gl/react-google-maps'
@@ -27,12 +28,20 @@ const Results = ({ criteria, routes }: Readonly<Props>) => {
 
 	const presets = toPresets(criteria)
 
+	const isDesktop = useMediaQuery('(min-width: 640px)')
+
 	return (
 		<section className='grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 sm:px-2'>
 			<section className='grid grid-cols-1 gap-4 sm:grid-cols-[auto_1fr] sm:gap-6'>
 				<ul
 					role='list'
-					className='flex divide-y divide-accent font-secondary text-sm font-medium text-muted-foreground sm:block'>
+					className={cn(
+						'flex flex-wrap divide-accent font-secondary text-sm font-medium text-muted-foreground sm:block',
+						{
+							'divide-y': isDesktop,
+							'divide-x': !isDesktop,
+						}
+					)}>
 					{routes.map((route, index) => (
 						<li
 							key={route.id}

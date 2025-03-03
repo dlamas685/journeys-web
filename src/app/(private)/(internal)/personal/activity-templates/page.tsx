@@ -146,7 +146,7 @@ export default async function ActivitiesTemplatesPage(props: Readonly<Props>) {
 					/>
 				) : (
 					<p className='text-center leading-[18.75rem] text-gray-400'>
-						No ha agregado ninguna plantilla de actividades.
+						No se ha encontrado ninguna plantilla de actividades.
 					</p>
 				)}
 			</FrameBody>

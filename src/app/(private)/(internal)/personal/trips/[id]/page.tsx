@@ -52,7 +52,7 @@ export default async function TripPage(props: Readonly<Props>) {
 					</Breadcrumb>
 				</section>
 			</FrameHeader>
-			<FrameBody className='gap-0 sm:gap-4'>
+			<FrameBody className='gap-0 sm:gap-6'>
 				<WebRTCAudio tripId={tripId} />
 				<Results criteria={trip.criteria} routes={trip.results} />
 			</FrameBody>

@@ -63,8 +63,6 @@ export default async function TripsPage(props: Readonly<Props>) {
 		(queryParams.filters && queryParams.filters.length > 0) ||
 		(queryParams.logicalFilters && queryParams.logicalFilters.length > 0)
 
-	console.log(response)
-
 	return (
 		<Frame>
 			<FrameHeader>
@@ -135,7 +133,7 @@ export default async function TripsPage(props: Readonly<Props>) {
 					/>
 				) : (
 					<p className='text-center leading-[18.75rem] text-gray-400'>
-						No ha agregado ningún viaje.
+						No se ha encontrado ningún viaje.
 					</p>
 				)}
 			</FrameBody>

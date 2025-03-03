@@ -144,7 +144,7 @@ export default async function FavoriteAddressesPage(props: Readonly<Props>) {
 					/>
 				) : (
 					<p className='text-center leading-[18.75rem] text-gray-400'>
-						No ha agregado ninguna dirección a favoritos
+						No se ha encontrado ninguna dirección favorita.
 					</p>
 				)}
 			</FrameBody>
