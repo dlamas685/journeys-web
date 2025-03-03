@@ -45,14 +45,14 @@ const UpdateForm = ({ record }: Readonly<Props>) => {
 	const handleSubmit = async ({ id, alias }: UpdateFormSchema) => {
 		setLoading(true)
 
-		const trip: UpdateTripModel = {
+		const updateModel: UpdateTripModel = {
 			code: alias,
 		}
 
 		await update<UpdateTripModel, TripModel>(
-			ApiEndpoints.ACTIVITY_TEMPLATES,
+			ApiEndpoints.TRIPS,
 			id,
-			trip
+			updateModel
 		)
 			.then(resp => {
 				if ('error' in resp) {
