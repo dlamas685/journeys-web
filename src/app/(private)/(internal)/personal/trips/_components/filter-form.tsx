@@ -357,7 +357,7 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 
 				<Fieldset className='gap-0.5'>
 					<FieldsetLegend className='FilterFieldSetLegend'>
-						Creado
+						Fecha de creación
 						<Button
 							className='text-orange-700 hover:text-orange-700/90'
 							size='icon'

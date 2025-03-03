@@ -8,6 +8,7 @@ import SegmentIcon from '@/common/components/ui/icons/segment-icon'
 import StopIcon from '@/common/components/ui/icons/stop-icon'
 import ResponsiveSheet from '@/common/components/ui/overlay/responsive-sheet'
 import { ApiEndpoints } from '@/common/enums'
+import { useMediaQuery } from '@/common/hooks/use-media-query'
 import useResponse from '@/common/hooks/use-response'
 import { useLoading } from '@/common/stores/loading.store'
 import { useStepper } from '@/common/stores/stepper.store'
@@ -54,6 +55,8 @@ const ResultsOptimizationForm = () => {
 			alias: '',
 		},
 	})
+
+	const isDesktop = useMediaQuery('(min-width: 640px)')
 
 	const setLoading = useLoading(state => state.setLoading)
 
@@ -306,7 +309,13 @@ const ResultsOptimizationForm = () => {
 						<section className='grid grid-cols-1 gap-4 sm:grid-cols-[auto_1fr] sm:gap-6'>
 							<ul
 								role='list'
-								className='flex divide-y divide-accent font-secondary text-sm font-medium text-muted-foreground sm:block'>
+								className={cn(
+									'flex divide-accent font-secondary text-sm font-medium text-muted-foreground sm:block',
+									{
+										'divide-y': isDesktop,
+										'divide-x': !isDesktop,
+									}
+								)}>
 								{results.response.map((route, index) => (
 									<li
 										key={route.id}

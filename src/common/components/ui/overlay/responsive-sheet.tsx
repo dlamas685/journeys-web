@@ -65,6 +65,7 @@ const ResponsiveSheet = ({
 			<DrawerTrigger asChild>
 				<Button type='button' variant='secondary' {...triggerResponsiveProps}>
 					{icon}
+					<span className='ml-1'>{label}</span>
 				</Button>
 			</DrawerTrigger>
 			<DrawerContent>

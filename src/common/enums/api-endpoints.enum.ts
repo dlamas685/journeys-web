@@ -45,4 +45,6 @@ export enum ApiEndpoints {
 	AVAILABLE_ROADMAP_ASSETS = 'available-roadmap-assets',
 
 	TRIPS = 'trips',
+
+	ASSISTANT_SESSION = 'assistant/session',
 }

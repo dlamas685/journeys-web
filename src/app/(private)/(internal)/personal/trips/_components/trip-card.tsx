@@ -5,7 +5,6 @@ import RemovalAlert from '@/common/components/ui/overlay/removal-alert'
 import ResponsiveSheet from '@/common/components/ui/overlay/responsive-sheet'
 import { UPDATE_FORM_ID } from '@/common/constants'
 import { ApiEndpoints, Pathnames } from '@/common/enums'
-import { secondsToHHMM } from '@/common/utils'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -22,9 +21,9 @@ import { CircleX, Pencil, Save, SquareChartGantt, Trash2 } from 'lucide-react'
 import Link from 'next/link'
 import { forwardRef, Ref, type ReactNode } from 'react'
 import Criteria from '../../optimization/_components/criteria'
-import { PresetsModel } from '../../optimization/_models'
 import { TRIP_CONDITIONS } from '../_constants'
 import { TripModel } from '../_models'
+import { toPresets } from '../_utils'
 
 type Props = {
 	record: TripModel
@@ -33,52 +32,7 @@ type Props = {
 
 const TripCard = forwardRef(
 	({ record, updaterForm }: Readonly<Props>, ref: Ref<HTMLDivElement>) => {
-		const presets: PresetsModel = {
-			basic: {
-				origin: record.criteria.basicCriteria.origin,
-				destination: record.criteria.basicCriteria.destination,
-				departure: {
-					date: record.criteria.basicCriteria.departureTime,
-					time: format(record.criteria.basicCriteria.departureTime, 'p', {
-						locale: es,
-					}),
-				},
-				travelMode: record.criteria.basicCriteria.travelMode,
-				interestPoints: record.criteria.basicCriteria.interestPoints,
-				trafficOption: record.criteria.basicCriteria.trafficOption,
-				modifiers: {
-					avoidTolls:
-						record.criteria.basicCriteria.modifiers?.avoidTolls ?? false,
-					avoidHighways:
-						record.criteria.basicCriteria.modifiers?.avoidHighways ?? false,
-					avoidFerries:
-						record.criteria.basicCriteria.modifiers?.avoidFerries ?? false,
-				},
-			},
-
-			advanced: record.criteria.advancedCriteria
-				? {
-						extraComputations:
-							record.criteria.advancedCriteria.extraComputations,
-						computeAlternativeRoutes:
-							record.criteria.advancedCriteria.computeAlternativeRoutes,
-						optimizeWaypointOrder:
-							record.criteria.advancedCriteria.optimizeWaypointOrder,
-						trafficModel: record.criteria.advancedCriteria.trafficModel,
-						requestedReferenceRoutes:
-							record.criteria.advancedCriteria.requestedReferenceRoutes?.at(0),
-						interestPoints:
-							record.criteria.advancedCriteria.interestPoints?.map(point => ({
-								...point,
-								activities: point.activities?.map(activity => ({
-									...activity,
-									description: activity.description ?? '',
-									duration: secondsToHHMM(activity.duration),
-								})),
-							})),
-					}
-				: undefined,
-		}
+		const presets = toPresets(record.criteria)
 
 		return (
 			<Card

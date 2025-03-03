@@ -135,7 +135,7 @@ export default async function TripsPage(props: Readonly<Props>) {
 					/>
 				) : (
 					<p className='text-center leading-[18.75rem] text-gray-400'>
-						No ha agregado ninguna plantilla de actividades.
+						No ha agregado ningún viaje.
 					</p>
 				)}
 			</FrameBody>

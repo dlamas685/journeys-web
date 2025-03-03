@@ -14,7 +14,10 @@ type Props = {
 
 const Indications = ({ route }: Readonly<Props>) => {
 	return (
-		<Accordion type='single' collapsible>
+		<Accordion
+			className='sm:overflow-[inherit] max-h-96 overflow-auto px-4 sm:max-h-[inherit] sm:px-0'
+			type='single'
+			collapsible>
 			{route.legs.map((leg, index) => (
 				<AccordionItem key={index} value={index.toString()}>
 					<AccordionTrigger className='font-normal text-muted-foreground hover:no-underline'>
