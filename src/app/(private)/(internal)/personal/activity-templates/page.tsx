@@ -6,6 +6,7 @@ import {
 	FrameHeader,
 	FrameTitle,
 } from '@/common/components/layout/frame'
+import ScrollToTopButton from '@/common/components/ui/misc/scroll-top'
 import SortingButtons from '@/common/components/ui/misc/sorting-buttons'
 import Modal from '@/common/components/ui/overlay/modal'
 import { FILTER_FORM_ID, UPSERT_FORM_ID } from '@/common/constants'
@@ -149,6 +150,8 @@ export default async function ActivitiesTemplatesPage(props: Readonly<Props>) {
 						No se ha encontrado ninguna plantilla de actividades.
 					</p>
 				)}
+
+				<ScrollToTopButton />
 			</FrameBody>
 		</Frame>
 	)
