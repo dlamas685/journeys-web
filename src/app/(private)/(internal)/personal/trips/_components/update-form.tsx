@@ -7,7 +7,15 @@ import { DialogContext } from '@/common/contexts/dialog-context'
 import { ApiEndpoints } from '@/common/enums'
 import useResponse from '@/common/hooks/use-response'
 import { useLoading } from '@/common/stores/loading.store'
-import { Form } from '@/components/ui/form'
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
@@ -22,8 +30,8 @@ type Props = {
 const UpdateForm = ({ record }: Readonly<Props>) => {
 	const form = useForm<UpdateFormSchema>({
 		defaultValues: {
-			id: record.id ?? undefined,
-			alias: record.code ?? '',
+			id: record.id,
+			alias: record.code,
 		},
 		resolver: zodResolver(updateFormSchema),
 	})
@@ -70,8 +78,25 @@ const UpdateForm = ({ record }: Readonly<Props>) => {
 			<form
 				id={UPDATE_FORM_ID}
 				onSubmit={form.handleSubmit(handleSubmit)}
-				className='grid max-h-96 grid-cols-2 gap-3 overflow-y-auto px-4 pb-2 sm:max-h-[inherit] sm:px-1'>
-				<>Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa.</>
+				className='grid max-h-96 grid-cols-1 gap-3 overflow-y-auto px-4 pb-2 sm:max-h-[inherit] sm:px-1'>
+				<FormField
+					control={form.control}
+					name='alias'
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Alias</FormLabel>
+							<FormControl>
+								<Input
+									placeholder='Ingrese un alias para su viaje'
+									aria-label='Alias del viaje'
+									aria-required='true'
+									{...field}
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
 			</form>
 		</Form>
 	)
