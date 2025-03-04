@@ -17,12 +17,25 @@ import {
 	BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
 import { capitalCase } from 'change-case'
+import { Metadata } from 'next'
 import { TripModel } from '../_models'
 import Results from './_components/results'
 import WebRTCAudio from './_components/web-rtc-audio'
 
 type Props = {
 	params: Promise<Params>
+}
+
+export async function generateMetadata(props: Props): Promise<Metadata> {
+	const params = await props.params
+	const tripId = params['id']
+
+	const trip = await findOne<TripModel>(ApiEndpoints.TRIPS, tripId)
+
+	return {
+		title: `Journeys • Guía de Viaje - ${capitalCase(trip.code)}`,
+		description: `Recibe asistencia en la guía de viaje: ${trip.code}.`,
+	}
 }
 
 export default async function TripPage(props: Readonly<Props>) {
