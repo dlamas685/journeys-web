@@ -46,10 +46,10 @@ const TripCard = forwardRef(
 				<CardContent className='flex flex-grow flex-col justify-between gap-5 p-0'>
 					<dl className='text-sm text-muted-foreground'>
 						<dt className='font-medium'>Origen</dt>
-						<dd>{record.origin}</dd>
+						<dd>{record.criteria.basicCriteria.origin.address}</dd>
 
 						<dt className='mt-2 font-medium'>Destino</dt>
-						<dd>{record.destination}</dd>
+						<dd>{record.criteria.basicCriteria.destination.address}</dd>
 
 						<dt className='mt-2 font-medium'>Fecha de salida</dt>
 						<dd>{format(record.departureTime, 'PPP', { locale: es })}</dd>

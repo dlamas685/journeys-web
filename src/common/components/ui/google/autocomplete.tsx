@@ -233,6 +233,16 @@ const Autocomplete = ({
 								{description}
 							</CommandItem>
 						))}
+
+						{/* <Image
+							className='col-span-2 mt-auto'
+							src='/google/desktop/google_on_white_hdpi.png'
+							alt=''
+							role='presentation'
+							width={50}
+							height={20}
+							sizes='(max-width: 640px) 100vw, 150px'
+						/> */}
 					</CommandList>
 				</Command>
 			</DrawerContent>

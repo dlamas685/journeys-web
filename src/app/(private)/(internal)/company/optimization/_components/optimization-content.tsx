@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import { Steps } from '../_enums'
 import { useOptimization } from '../_store/optimization.store'
 import FirstStageForm from './first-stage-form'
+import ImportantInformation from './important-information'
 import ResultsForm from './results-form'
 import SecondStageForm from './second-stage-form'
 import ThirdStageForm from './third-stage-form'
@@ -30,6 +31,7 @@ const OptimizationContent = () => {
 			{currentStep === Steps.SECOND_STAGE && <SecondStageForm />}
 			{currentStep === Steps.THIRD_STAGE && <ThirdStageForm />}
 			{currentStep === Steps.RESULTS && <ResultsForm />}
+			{currentStep === -1 && <ImportantInformation />}
 		</section>
 	)
 }

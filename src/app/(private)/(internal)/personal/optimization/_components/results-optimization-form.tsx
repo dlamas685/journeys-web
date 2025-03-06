@@ -176,8 +176,6 @@ const ResultsOptimizationForm = () => {
 
 		const createTripModel: CreateTripModel = {
 			code: values.alias,
-			origin: criteria.basicCriteria.origin.placeId,
-			destination: criteria.basicCriteria.destination.placeId,
 			departureTime: criteria.basicCriteria.departureTime,
 			criteria,
 		}

@@ -20,8 +20,7 @@ export enum Pathnames {
 	FLEETS = 'fleets',
 	VEHICLES = 'vehicles',
 	DRIVERS = 'drivers',
-	ROADMAPS = 'roadmaps', //trips
-	HISTORY = 'history',
+	ROADMAPS = 'roadmaps',
 
 	// Common
 

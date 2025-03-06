@@ -365,9 +365,9 @@ export default function WebRTCAudio({ tripId }: Props) {
 			)}
 
 			{permission !== 'granted' && (
-				<p className='font-secondary text-base text-muted-foreground'>
+				<p className='text-center font-secondary text-base text-muted-foreground'>
 					{permission === 'denied'
-						? 'Oops! No se ha podido acceder a la entrada de voz. Revisa los permisos de tu navegador.'
+						? 'Oops! No se ha podido acceder a la entrada de voz. Revisa los permisos de tu navegador o comprueba que los dispositivos no estén desconectados o deshabilitados.'
 						: 'Obteniendo permisos de entrada de voz...'}
 				</p>
 			)}

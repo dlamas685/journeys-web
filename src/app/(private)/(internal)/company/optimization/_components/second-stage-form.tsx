@@ -220,7 +220,12 @@ const SecondStageForm = () => {
 								</section>
 							</FormControl>
 
-							{formState.errors?.services?.root?.message ? (
+							{Array.isArray(formState.errors?.services) &&
+							formState.errors?.services.filter(Boolean).length > 0 ? (
+								<p className='text-[0.8rem] font-medium text-destructive'>
+									Oops! Parece que hay un error en los servicios
+								</p>
+							) : formState.errors?.services?.root?.message ? (
 								<p className='text-[0.8rem] font-medium text-destructive'>
 									{formState.errors?.services?.root?.message}
 								</p>

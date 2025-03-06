@@ -1,0 +1,231 @@
+{
+    "presets": {
+        "firstStage": {
+            "startWaypoint": {
+                "placeId": "ChIJRUCfJavDG5QRcy9X1tOE9g8",
+                "address": "Cnel. Moldes 950, A4400 Salta, Argentina",
+                "location": {
+                    "latitude": -24.8004685,
+                    "longitude": -65.427388
+                }
+            },
+            "endWaypoint": {
+                "placeId": "ChIJRUCfJavDG5QRcy9X1tOE9g8",
+                "address": "Cnel. Moldes 950, A4400 Salta, Argentina",
+                "location": {
+                    "latitude": -24.8004685,
+                    "longitude": -65.427388
+                }
+            },
+            "global": {
+                "date": "2025-03-05",
+                "startTime": "08:00",
+                "endTime": "18:00"
+            },
+            "fleetId": "5832e232-b9e3-4427-accd-4967acb46740",
+            "driverId": "d90aad0d-97d4-4c90-9fdb-8484b8bf2901",
+            "vehicleId": "da7d6545-b01b-418e-85ec-6f86000220a0",
+            "modifiers": {
+                "avoidTolls": true,
+                "avoidHighways": true,
+                "avoidFerries": true,
+                "considerRoadTraffic": true
+            }
+        },
+        "secondStage": {
+            "services": [
+                {
+                    "id": "9a8aa38e-ab23-4089-a29f-33d9c7be0545",
+                    "name": "fowl",
+                    "description": "Andy shoes are designed to keeping in mind durability as well as trends, the most stylish range of shoes & sandals",
+                    "duration": "02:44",
+                    "waypoint": {
+                        "placeId": "ChIJKS0eW7vDG5QR4h4060m-vkI",
+                        "address": "Bartolomé Mitre 77, A4400 Salta, Argentina",
+                        "location": {
+                            "latitude": -24.7890355,
+                            "longitude": -65.4110295
+                        }
+                    }
+                },
+                {
+                    "id": "848db409-009d-47f9-99f9-96b7cf078f90",
+                    "name": "certification",
+                    "description": "New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart",
+                    "duration": "00:46",
+                    "waypoint": {
+                        "placeId": "ChIJjcaTJKvDG5QROs_60rhgtgU",
+                        "address": "Cnel. Moldes 945, A4404 Salta, Argentina",
+                        "location": {
+                            "latitude": -24.8003577,
+                            "longitude": -65.4271816
+                        }
+                    }
+                },
+                {
+                    "id": "f3683521-3abd-4b65-9791-1c31c3b1af12",
+                    "name": "outset",
+                    "description": "Ergonomic executive chair upholstered in bonded black leather and PVC padded seat and back for all-day comfort and support",
+                    "duration": "01:06",
+                    "waypoint": {
+                        "placeId": "ChIJx55UCk_CG5QR5N4EmEhpN74",
+                        "address": "Av. San Martín 2555, A4400 Salta, Argentina",
+                        "location": {
+                            "latitude": -24.7916199,
+                            "longitude": -65.4384105
+                        }
+                    }
+                },
+                {
+                    "id": "64865f32-08c1-4a96-9e15-943376aec4a1",
+                    "name": "pilot",
+                    "description": "Ergonomic executive chair upholstered in bonded black leather and PVC padded seat and back for all-day comfort and support",
+                    "duration": "02:08",
+                    "waypoint": {
+                        "placeId": "ChIJK7BVO6PDG5QRaakxVGzTX5g",
+                        "address": "Córdoba 33, A4400 Salta, Argentina",
+                        "location": {
+                            "latitude": -24.7903894,
+                            "longitude": -65.4082684
+                        }
+                    }
+                },
+                {
+                    "id": "3425bb6c-e379-4c87-b4a0-60cd375c4f1b",
+                    "name": "switchboard",
+                    "description": "The Football Is Good For Training And Recreational Purposes",
+                    "duration": "00:36",
+                    "waypoint": {
+                        "placeId": "EiNDw7NyZG9iYSA0MywgQTQ0MDAgU2FsdGEsIEFyZ2VudGluYSIwEi4KFAoSCfXHnz2jwxuUEZ8AGR114jLKECsqFAoSCYX1HTwKwxuUEeCECs4RFUko",
+                        "address": "Córdoba 43, A4400 Salta, Argentina",
+                        "location": {
+                            "latitude": -24.7905365,
+                            "longitude": -65.40818999999999
+                        }
+                    }
+                }
+            ]
+        },
+        "thirdStage": {
+            "costProfile": "optimized_balance",
+            "costModel": {
+                "travelDurationMultiple": [
+                    1
+                ]
+            },
+            "bounds": {}
+        }
+    },
+    "results": {
+        "response": {
+            "visits": [
+                {
+                    "visitId": "9a8aa38e-ab23-4089-a29f-33d9c7be0545",
+                    "visitName": "fowl",
+                    "visitDescription": "Andy shoes are designed to keeping in mind durability as well as trends, the most stylish range of shoes & sandals",
+                    "visitDuration": 9840,
+                    "startDateTime": "2025-03-05T08:09:49-03:00",
+                    "detour": 0
+                },
+                {
+                    "visitId": "64865f32-08c1-4a96-9e15-943376aec4a1",
+                    "visitName": "pilot",
+                    "visitDescription": "Ergonomic executive chair upholstered in bonded black leather and PVC padded seat and back for all-day comfort and support",
+                    "visitDuration": 7680,
+                    "startDateTime": "2025-03-05T10:56:03-03:00",
+                    "detour": 9918
+                },
+                {
+                    "visitId": "3425bb6c-e379-4c87-b4a0-60cd375c4f1b",
+                    "visitName": "switchboard",
+                    "visitDescription": "The Football Is Good For Training And Recreational Purposes",
+                    "visitDuration": 2160,
+                    "startDateTime": "2025-03-05T13:04:07-03:00",
+                    "detour": 17598
+                },
+                {
+                    "visitId": "f3683521-3abd-4b65-9791-1c31c3b1af12",
+                    "visitName": "outset",
+                    "visitDescription": "Ergonomic executive chair upholstered in bonded black leather and PVC padded seat and back for all-day comfort and support",
+                    "visitDuration": 3960,
+                    "startDateTime": "2025-03-05T13:50:59-03:00",
+                    "detour": 20665
+                },
+                {
+                    "visitId": "848db409-009d-47f9-99f9-96b7cf078f90",
+                    "visitName": "certification",
+                    "visitDescription": "New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart",
+                    "visitDuration": 2760,
+                    "startDateTime": "2025-03-05T15:02:04-03:00",
+                    "detour": 25197
+                }
+            ],
+            "transitions": [
+                {
+                    "startDateTime": "2025-03-05T08:00:23-03:00",
+                    "travelDistanceMeters": 3194,
+                    "travelDuration": 566,
+                    "totalDuration": 566,
+                    "encodedPolyline": "xyjvClwinKpB[U_CUcCUaCEe@AMMmAUcCUaCUeCU_CUeCUcCScCWaC_@aEWwCBc@Bk@LeE\\sGTyGZ}G\\sGwGWA?sAGwCO}BEcCIcG[gCG_AE[C}FU_BGcDMuFUQ?ML]CqAAiBC?RCxAI`AEp@ZBz@D",
+                    "token": "CuQBCngydhpbChoCFgYowByVcQYPwBvQz4gB_5_IAeKPF7BPABIYXn1uC3FZDfUpxkd2F-YdGzaCGOZknck3GgYAGFEJBwIqBjhjXlpcAT3u5Qg_RaDQOz9IgtmVi7OMt-e0ASIXRjEzSFotYWJJNnUxazc0UDgtX3ZrUXcQBRpPCk0KGAoNCgIIAREAAAAAAIBmQBGBlUOLbP2DQBIUEAEQABACGAJCCgoIEMfdoL4GGAEiGQoXRjEzSFo1eUpJNnUxazc0UDgtX3ZrUXcoASIVANIYyLer-PYQ_lw5YX_9U0903dCh"
+                },
+                {
+                    "startDateTime": "2025-03-05T10:53:49-03:00",
+                    "travelDistanceMeters": 383,
+                    "travelDuration": 134,
+                    "totalDuration": 134,
+                    "encodedPolyline": "prhvC|pfnKT?n@FZBD?PEHCDQDu@BiA@qALMN_E@WBu@nAD",
+                    "token": "Cr8BClMyURo2Cg4CFgIQ9PmZcQYPkM0DABIIZJ3JN54AGR0aAgBZKgI-FT2g0Ds_RUqb6j5I36-s77bwjpRWIhdGMTNIWjgyWkpMeTdrNzRQNTZXeG1RSRAFGk8KTQoYCg0KAggBEQAAAAAAgGZAEfHSTWIQkJ5AEhQQARAAEAIYAkIKCggQ7a6hvgYYASIZChdGMTNIWi1faUk3eTdrNzRQNTZXeG1RSSgBIhUA0hjIt_uIBYU-EbTKDJzpre3lP-k"
+                },
+                {
+                    "startDateTime": "2025-03-05T13:04:03-03:00",
+                    "travelDistanceMeters": 16,
+                    "travelDuration": 4,
+                    "totalDuration": 4,
+                    "encodedPolyline": "zzhvCdafnK\\@",
+                    "token": "CsIBClYyVBo5CgwCFgIQgCeecQYPVAASCJ4AGR2eABkdGgYA_____w8qAj0BPUqb6j5FTIseP0jwweLG57S-5fUBIhdGMTNIWl9mdEpJM2FrNzRQM2RhcGlBYxAFGk8KTQoYCg0KAggBEQAAAAAAgGZAEU1iEFg5J6xAEhQQARAAEAIYAkIKCggQ8-uhvgYYASIZChdGMTNIWjY3Z0pJM2FrNzRQM2RhcGlBYygBIhUA0hjIt70zKOeajZ4grihy5GTStps"
+                },
+                {
+                    "startDateTime": "2025-03-05T13:40:07-03:00",
+                    "travelDistanceMeters": 3385,
+                    "travelDuration": 652,
+                    "totalDuration": 652,
+                    "encodedPolyline": "x{hvCfafnK`ABvAFzFVzFRGzDA^Ar@InCCN[lBG^APWtCANAXCf@KlDG`BKdGK|GKxDErBAp@Ah@G`DYrGOnGSxGOrGWrGOpGC^MpFQvGClAGdBAb@Cx@Cn@QzHSbIC|@EpASvGK~C",
+                    "token": "CskBCl0yWxpAChICFgMWlSeecQYPhsgEz4-fBAASDJ4AGR1yXf43fgM-MhoDACsCKgM9GwA9TIseP0XYKxI_SP2U1P_Iy5zKUyIXRjEzSFpfTzhKZHFrazc0UHZLbXV3UWcQBRpPCk0KGAoNCgIIAREAAAAAAIBmQBFU46WbBFijQBIUEAEQABACGAJCCgoIEOf8ob4GGAEiGQoXRjEzSFo1cWpKZHFrazc0UHZLbXV3UWcoASIVANIYyLd6uTVuxyO01C4Ry9AbnW7q"
+                },
+                {
+                    "startDateTime": "2025-03-05T14:56:59-03:00",
+                    "travelDistanceMeters": 2203,
+                    "travelDuration": 305,
+                    "totalDuration": 305,
+                    "encodedPolyline": "`civCb}knKGvBATA\\VR`IrFLTRMbAo@t@i@~A}@b@SXSlBgAISBWDiANeGLqEH}BFyBNsGRsGJmCBmCDwB?O@WJsBTmG^?bBU~B]@?dFu@pB[pBWtB[",
+                    "token": "CvQBCocBMoQBGmkKHwIWCDTFNTlxBg_zQfKSAaDxAvPxAfi6K9O-K_TEBQASHH4DPjKCZUrCb8wicjIq4qTnP-sX6X7uXl59bgsaBwAEBgUBBwAqB1xmYVsIHAAyAQU92CsSP0Ufs_Q-SNyblcHkwrOC5QEiF0YxM0haOWVmSnAtZms3NFBxWWEyZ0FZEAUaTwpNChgKDQoCCAERAAAAAACAZkARCtejcL3UoEASFBABEAAQAhgCQgoKCBDroKK-BhgBIhkKF0YxM0haNktFSnAtZms3NFBxWWEyZ0FZKAEiFQDSGMi3QCjp6SSjNF2VXUHgSoV7IA"
+                },
+                {
+                    "startDateTime": "2025-03-05T15:48:04-03:00",
+                    "travelDistanceMeters": 8,
+                    "travelDuration": 1,
+                    "totalDuration": 1,
+                    "encodedPolyline": "jyjvCpwinKLC",
+                    "token": "Cr4BClIyUBo1CgwCFgIQkRyVcQYPFAASCF59bgtefW4LGgIAACoCOHQ9H7P0PkXu5Qg_SMnxlPrA67SsrgEiF0YxM0haX3o5SnAzRms3NFA2ZUd4NkF3EAUaTwpNChgKDQoCCAERAAAAAACAZkARexSuR2ElnEASFBABEAAQAhgCQgoKCBDkuKK-BhgBIhkKF0YxM0haOEx3SnAzRms3NFA2ZUd4NkF3KAEiFQDSGMi3Mzxz1gaVwAtqzlS3ijW0XQ"
+                }
+            ],
+            "metrics": {
+                "performedServiceCount": 5,
+                "travelDuration": 1662,
+                "visitDuration": 26400,
+                "travelDistanceMeters": 9189,
+                "totalFixedCost": 20,
+                "totalCostPerHour": 779.5,
+                "totalCostPerKilometer": 918.9,
+                "totalCostPerTraveledHour": 23.083333333333332,
+                "totalCost": 1741.4833333333333
+            },
+            "label": "Flota: meal - Vehículo: CJ-141-UG - Conductor: Amelia Mueller",
+            "startDateTime": "2025-03-05T08:00:23-03:00",
+            "endDateTime": "2025-03-05T15:48:05-03:00",
+            "encodedPolyline": "xyjvClwinKpB[U_CUcCUaCEe@AMMmAUcCUaCUeCU_CUeCUcCScCWaC_@aEWwCBc@Bk@LeE\\sGTyGZ}G\\sGwGWA?sAGwCO}BEcCIcG[gCG_AE[C}FU_BGcDMuFUQ?ML]CqAAiBC?RCxAI`AEp@ZBz@DT?n@FZBD?PEHCDQDu@BiA@qALMN_E@WBu@nAD\\@`ABvAFzFVzFRGzDA^Ar@InCCN[lBG^APWtCANAXCf@KlDG`BKdGK|GKxDErBAp@Ah@G`DYrGOnGSxGOrGWrGOpGC^MpFQvGClAGdBAb@Cx@Cn@QzHSbIC|@EpASvGK~CGvBATA\\VR`IrFLTRMbAo@t@i@~A}@b@SXSlBgAISBWDiANeGLqEH}BFyBNsGRsGJmCBmCDwB?O@WJsBTmG^?bBU~B]@?dFu@pB[pBWtB[LC",
+            "skipped": []
+        }
+    }
+}

@@ -1,4 +1,5 @@
 'use client'
+import { create } from '@/common/actions/crud.action'
 import { ApiError } from '@/common/classes/api-error.class'
 import Polyline from '@/common/components/ui/google/fragments/polyline'
 import TaskErrorIcon from '@/common/components/ui/icons/task-error-icon'
@@ -6,24 +7,36 @@ import TransitionsIcon from '@/common/components/ui/icons/transitions-icon'
 import VisitsIcon from '@/common/components/ui/icons/visits-icon'
 import ResponsiveSheet from '@/common/components/ui/overlay/responsive-sheet'
 import { MAP_CENTER } from '@/common/constants'
+import { ApiEndpoints } from '@/common/enums'
 import useResponse from '@/common/hooks/use-response'
+import { useLoading } from '@/common/stores/loading.store'
+import { useStepper } from '@/common/stores/stepper.store'
 import {
 	convertToUTCISO,
 	formatDistance,
 	formatTime,
 	hhmmToSeconds,
 } from '@/common/utils'
-import { Form } from '@/components/ui/form'
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AdvancedMarker, Map, Pin } from '@vis.gl/react-google-maps'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { SettingsIcon } from 'lucide-react'
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import RiseLoader from 'react-spinners/RiseLoader'
 import { optimizeTours } from '../_actions/roadmaps.action'
 import { Steps } from '../_enums'
-import { SettingModel } from '../_models'
+import { CreateRoadmapModel, RoadmapModel, SettingModel } from '../_models'
 import { resultsFormSchema, ResultsFormSchema } from '../_schemas'
 import { useOptimization } from '../_store/optimization.store'
 import Omitted from './omitted'
@@ -40,12 +53,53 @@ const ResultsForm = () => {
 
 	const results = useOptimization(state => state.results)
 
+	const [resultsLoading, setResultsLoading] = useState<boolean>(false)
+
+	const setLoading = useLoading(state => state.setLoading)
+
+	const [setting, setSetting] = useState<SettingModel | null>(null)
+
+	const handleFinish = useStepper(state => state.handleFinish)
+
 	const form = useForm<ResultsFormSchema>({
 		resolver: zodResolver(resultsFormSchema),
-		defaultValues: {},
+		defaultValues: { alias: '' },
 	})
 
-	const handleSubmit = (values: ResultsFormSchema) => {}
+	const handleSubmit = async (values: ResultsFormSchema) => {
+		setLoading(true)
+
+		if (!setting || !results?.response) return
+
+		const createRoadmapModel: CreateRoadmapModel = {
+			code: values.alias,
+			startDateTime: setting.firstStage.startDateTime,
+			endDateTime: setting.firstStage.endDateTime,
+			fleetId: setting.firstStage.fleetId,
+			driverId: setting.firstStage.driverId,
+			vehicleId: setting.firstStage.vehicleId,
+			setting,
+		}
+
+		await create<CreateRoadmapModel, RoadmapModel>(
+			ApiEndpoints.ROADMAPS,
+			createRoadmapModel
+		)
+			.then(resp => {
+				if ('error' in resp) {
+					throw new ApiError(resp)
+				}
+
+				response.success({
+					title: 'Hoja de Ruta',
+					description: 'La hoja de ruta ha sido creada exitosamente',
+				})
+
+				handleFinish()
+			})
+			.catch(response.error)
+			.finally(() => setLoading(false))
+	}
 
 	const getResults = useCallback(async () => {
 		if (presets) {
@@ -107,6 +161,8 @@ const ResultsForm = () => {
 					: undefined,
 			}
 
+			setResultsLoading(true)
+
 			await optimizeTours(setting)
 				.then(response => {
 					if ('error' in response) {
@@ -116,8 +172,11 @@ const ResultsForm = () => {
 					setResults({
 						response,
 					})
+
+					setSetting(setting)
 				})
 				.catch(response.error)
+				.finally(() => setResultsLoading(false))
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
@@ -138,6 +197,24 @@ const ResultsForm = () => {
 
 				{results?.response && presets && (
 					<>
+						<FormField
+							control={form.control}
+							name='alias'
+							render={({ field }) => (
+								<FormItem className='max-w-72'>
+									<FormLabel>Alias</FormLabel>
+									<FormControl>
+										<Input
+											placeholder='Ingrese un alias para la hoja de ruta'
+											aria-label='Alias de la hoja de rutas'
+											aria-required='true'
+											{...field}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
 						<Map
 							className='col-span-full h-72 w-full'
 							defaultCenter={MAP_CENTER}
@@ -307,16 +384,18 @@ const ResultsForm = () => {
 									<Transitions results={results} />
 								</ResponsiveSheet>
 
-								<ResponsiveSheet
-									label='Omitidos'
-									title='Omitidos'
-									icon={<TaskErrorIcon className='size-4' />}
-									description='Son los servicios desestimados y que no se incluirán en la hoja de rutas.'
-									triggerProps={{
-										size: 'sm',
-									}}>
-									<Omitted presets={presets} results={results} />
-								</ResponsiveSheet>
+								{results.response.skipped.length > 0 && (
+									<ResponsiveSheet
+										label='Omitidos'
+										title='Omitidos'
+										icon={<TaskErrorIcon className='size-4' />}
+										description='Son los servicios desestimados y que no se incluirán en la hoja de rutas.'
+										triggerProps={{
+											size: 'sm',
+										}}>
+										<Omitted presets={presets} results={results} />
+									</ResponsiveSheet>
+								)}
 
 								<ResponsiveSheet
 									label='Configuración'
@@ -331,6 +410,15 @@ const ResultsForm = () => {
 							</section>
 						</section>
 					</>
+				)}
+
+				{resultsLoading && (
+					<section className='col-span-full flex h-96 w-full flex-col items-center justify-center'>
+						<p className='mb-6 text-lg font-medium text-foreground'>
+							Generando optimización
+						</p>
+						<RiseLoader loading={resultsLoading} color='#f97316' />
+					</section>
 				)}
 			</form>
 		</Form>

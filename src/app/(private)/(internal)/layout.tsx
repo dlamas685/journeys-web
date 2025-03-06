@@ -51,6 +51,28 @@ export default async function InternalLayout({ children }: Readonly<Props>) {
 			href: `/${pathRoot}/${Pathnames.DASHBOARD}`,
 			userType: UserTypes.COMPANY,
 		},
+
+		{
+			id: uuid(),
+			icon: <CarTaxiFront />,
+			label: 'Viajes',
+			href: `/${pathRoot}/${Pathnames.TRIPS}`,
+			userType: UserTypes.PERSONAL,
+		},
+		{
+			id: uuid(),
+			icon: <Layers />,
+			label: 'Hojas de Ruta',
+			href: `/${pathRoot}/${Pathnames.ROADMAPS}`,
+			userType: UserTypes.COMPANY,
+		},
+		{
+			id: uuid(),
+			icon: <Route />,
+			label: 'Optimización',
+			href: `/${pathRoot}/${Pathnames.OPTIMIZATION}`,
+		},
+
 		{
 			id: uuid(),
 			icon: <MapPinHouse />,
@@ -68,15 +90,17 @@ export default async function InternalLayout({ children }: Readonly<Props>) {
 
 		{
 			id: uuid(),
-			icon: <NotepadTextDashed />,
-			label: 'Plantillas de Actividades',
-			href: `/${pathRoot}/${Pathnames.ACTIVITY_TEMPLATES}`,
-		},
-		{
-			id: uuid(),
 			icon: <CarFront />,
 			label: 'Flotas',
 			href: `/${pathRoot}/${Pathnames.FLEETS}`,
+			userType: UserTypes.COMPANY,
+		},
+
+		{
+			id: uuid(),
+			icon: <UsersRound />,
+			label: 'Conductores',
+			href: `/${pathRoot}/${Pathnames.DRIVERS}`,
 			userType: UserTypes.COMPANY,
 		},
 		{
@@ -86,42 +110,12 @@ export default async function InternalLayout({ children }: Readonly<Props>) {
 			href: `/${pathRoot}/${Pathnames.VEHICLES}`,
 			userType: UserTypes.COMPANY,
 		},
-		{
-			id: uuid(),
-			icon: <UsersRound />,
-			label: 'Conductores',
-			href: `/${pathRoot}/${Pathnames.DRIVERS}`,
-			userType: UserTypes.COMPANY,
-		},
 
 		{
 			id: uuid(),
-			icon: <CarTaxiFront />,
-			label: 'Viajes',
-			href: `/${pathRoot}/${Pathnames.TRIPS}`,
-			userType: UserTypes.PERSONAL,
-		},
-		{
-			id: uuid(),
-			icon: <Route />,
-			label: 'Optimización',
-			href: `/${pathRoot}/${Pathnames.OPTIMIZATION}`,
-			userType: UserTypes.PERSONAL,
-		},
-		{
-			id: uuid(),
-			icon: <Route />,
-			label: 'Hojas de Ruta',
-			href: `/${pathRoot}/${Pathnames.ROADMAPS}`,
-			userType: UserTypes.COMPANY,
-		},
-
-		{
-			id: uuid(),
-			icon: <Layers />,
-			label: 'Historial',
-			href: `/${pathRoot}/${Pathnames.HISTORY}`,
-			userType: UserTypes.COMPANY,
+			icon: <NotepadTextDashed />,
+			label: 'Plantillas de Actividades',
+			href: `/${pathRoot}/${Pathnames.ACTIVITY_TEMPLATES}`,
 		},
 	]
 
