@@ -4,7 +4,7 @@ import EraserButton from '@/common/components/ui/misc/eraser-button'
 import Modal from '@/common/components/ui/overlay/modal'
 import RemovalAlert from '@/common/components/ui/overlay/removal-alert'
 import ResponsiveSheet from '@/common/components/ui/overlay/responsive-sheet'
-import { UPSERT_FORM_ID } from '@/common/constants'
+import { UPDATE_FORM_ID } from '@/common/constants'
 import { ApiEndpoints, Pathnames } from '@/common/enums'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -183,8 +183,8 @@ const columns: ColumnDef<RoadmapModel>[] = [
 
 						<DropdownMenuItem asChild>
 							<Modal
-								title='Editar Dirección Favorita'
-								description='Modifica los datos de la dirección favorita. Ten en cuenta que algunos campos son opcionales.'
+								title='Editar Hoja de Ruta'
+								description='Modifica los datos de la hoja de ruta. Ten en cuenta que el alias es un campo obligatorio.'
 								triggerIcon={<Pencil className='mr-1 size-3.5' />}
 								triggerProps={{
 									className:
@@ -195,7 +195,7 @@ const columns: ColumnDef<RoadmapModel>[] = [
 								submitLabel='Guardar'
 								submitIcon={<Save className='mr-1 size-4' />}
 								submitProps={{
-									form: UPSERT_FORM_ID,
+									form: UPDATE_FORM_ID,
 								}}>
 								<UpdateForm record={record} />
 							</Modal>

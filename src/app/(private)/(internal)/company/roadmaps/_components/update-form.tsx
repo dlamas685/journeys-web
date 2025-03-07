@@ -2,12 +2,20 @@
 
 import { update } from '@/common/actions/crud.action'
 import { ApiError } from '@/common/classes/api-error.class'
-import { UPSERT_FORM_ID } from '@/common/constants'
+import { UPDATE_FORM_ID } from '@/common/constants'
 import { DialogContext } from '@/common/contexts/dialog-context'
 import { ApiEndpoints } from '@/common/enums'
 import useResponse from '@/common/hooks/use-response'
 import { useLoading } from '@/common/stores/loading.store'
-import { Form } from '@/components/ui/form'
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
@@ -67,12 +75,27 @@ const UpdateForm = ({ record }: Readonly<Props>) => {
 	return (
 		<Form {...form}>
 			<form
-				id={UPSERT_FORM_ID}
+				id={UPDATE_FORM_ID}
 				onSubmit={form.handleSubmit(handleSubmit)}
-				className='grid max-h-96 grid-cols-1 gap-3 overflow-y-auto px-4 pb-2 sm:max-h-[inherit] sm:grid-cols-2 sm:px-1'>
-				<p>
-					Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officiis!
-				</p>
+				className='grid max-h-96 grid-cols-1 gap-3 overflow-y-auto px-4 pb-2 sm:max-h-[inherit] sm:grid-cols-1 sm:px-1'>
+				<FormField
+					control={form.control}
+					name='alias'
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Alias</FormLabel>
+							<FormControl>
+								<Input
+									placeholder='Ingrese un alias para la hoja de ruta'
+									aria-label='Alias de la hoja de ruta'
+									aria-required='true'
+									{...field}
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
 			</form>
 		</Form>
 	)
