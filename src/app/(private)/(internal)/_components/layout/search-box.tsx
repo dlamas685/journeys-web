@@ -28,6 +28,7 @@ import { Search } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { ComponentProps, useEffect, useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
+import { RoadmapModel } from '../../company/roadmaps/_models'
 import { TripModel } from '../../personal/trips/_models'
 
 type Props = ComponentProps<typeof Button> & {
@@ -50,6 +51,8 @@ const SearchBox = ({
 	const [foundActivityTemplates, setFoundActivityTemplates] = useState<
 		ActivityTemplateModel[]
 	>([])
+
+	const [foundRoadmaps, setFoundRoadmaps] = useState<RoadmapModel[]>([])
 
 	const pathname = usePathname()
 
@@ -78,18 +81,8 @@ const SearchBox = ({
 		if (term.trim() === '') {
 			setFoundTrips([])
 			setFoundActivityTemplates([])
+			setFoundRoadmaps([])
 			return
-		}
-
-		const tripParams: QueryParamsModel = {
-			filters: [
-				{
-					field: 'code',
-					rule: FilterRules.CONTAINS,
-					type: FilterTypes.STRING,
-					value: term,
-				},
-			],
 		}
 
 		const activityTemplateParams: QueryParamsModel = {
@@ -103,22 +96,56 @@ const SearchBox = ({
 			],
 		}
 
+		const foundActivityTemplates = await findAll<ActivityTemplateModel>(
+			ApiEndpoints.ACTIVITY_TEMPLATES,
+			activityTemplateParams,
+			pathname
+		).then(response => response.data)
+
+		setFoundActivityTemplates(foundActivityTemplates)
+
 		if (user.userType === UserTypes.PERSONAL) {
+			const tripParams: QueryParamsModel = {
+				filters: [
+					{
+						field: 'code',
+						rule: FilterRules.CONTAINS,
+						type: FilterTypes.STRING,
+						value: term,
+					},
+				],
+			}
+
 			const foundTrips = await findAll<TripModel>(
 				ApiEndpoints.TRIPS,
 				tripParams,
 				pathname
 			).then(response => response.data)
 
-			const foundActivityTemplates = await findAll<ActivityTemplateModel>(
-				ApiEndpoints.ACTIVITY_TEMPLATES,
-				activityTemplateParams,
+			setFoundTrips(foundTrips)
+
+			return
+		}
+
+		if (user.userType === UserTypes.COMPANY) {
+			const roadmapsParams: QueryParamsModel = {
+				filters: [
+					{
+						field: 'code',
+						rule: FilterRules.CONTAINS,
+						type: FilterTypes.STRING,
+						value: term,
+					},
+				],
+			}
+
+			const foundRoadmaps = await findAll<RoadmapModel>(
+				ApiEndpoints.ROADMAPS,
+				roadmapsParams,
 				pathname
 			).then(response => response.data)
 
-			setFoundTrips(foundTrips)
-
-			setFoundActivityTemplates(foundActivityTemplates)
+			setFoundRoadmaps(foundRoadmaps)
 
 			return
 		}
@@ -145,7 +172,7 @@ const SearchBox = ({
 				<span className='inline-flex flex-grow truncate'>
 					{user.userType === UserTypes.PERSONAL
 						? 'Buscar en la plataforma'
-						: 'Buscar hojas de ruta'}
+						: 'Buscar en la plataforma'}
 				</span>
 				<kbd className='pointer-events-none hidden h-5 select-none items-center gap-1 rounded border bg-background px-1.5 font-secondary text-[10px] font-medium opacity-100 sm:flex'>
 					<span className='text-xs'>⌘</span>K
@@ -157,7 +184,7 @@ const SearchBox = ({
 					placeholder={
 						user.userType === UserTypes.PERSONAL
 							? 'Escribe para encontrar viajes y/o plantillas...'
-							: 'Escribe para encontrar lo que necesitas…'
+							: 'Escribe para encontrar hojas de ruta y/o plantillas…'
 					}
 					value={searchTerm}
 					onValueChange={(value: string) => {
@@ -207,7 +234,43 @@ const SearchBox = ({
 							)}
 						</>
 					) : (
-						<></>
+						<>
+							{foundRoadmaps.length > 0 && (
+								<CommandGroup heading='Hojas de ruta'>
+									{foundRoadmaps.map(trip => (
+										<CommandItem
+											key={trip.id}
+											onSelect={() => {
+												runCommand(() => {
+													router.push(
+														`/${UserTypes.COMPANY.toLowerCase()}/${Pathnames.ROADMAPS}/${trip.id}`
+													)
+												})
+											}}>
+											{trip.code}
+										</CommandItem>
+									))}
+								</CommandGroup>
+							)}
+
+							{foundActivityTemplates.length > 0 && (
+								<CommandGroup heading='Plantillas de actividades'>
+									{foundActivityTemplates.map(activityTemplate => (
+										<CommandItem
+											key={activityTemplate.id}
+											onSelect={() => {
+												runCommand(() => {
+													router.push(
+														`/${UserTypes.COMPANY.toLowerCase()}/${Pathnames.ACTIVITY_TEMPLATES}/${activityTemplate.id}/${Pathnames.ACTIVITY_MANAGER}`
+													)
+												})
+											}}>
+											{activityTemplate.name}
+										</CommandItem>
+									))}
+								</CommandGroup>
+							)}
+						</>
 					)}
 
 					{/* <pre>{JSON.stringify(foundTrips, null, 3)}</pre> */}

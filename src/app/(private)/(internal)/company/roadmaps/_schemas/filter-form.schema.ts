@@ -1,10 +1,12 @@
 import { FilterRules } from '@/common/enums'
 import {
 	dateFilterSchema,
+	enumFilterSchema,
 	textFilterSchema,
 	uuidFilterSchema,
 } from '@/common/schemas'
 import { z } from 'zod'
+import { RoadmapStatus } from '../_enums/roadmap-status.enum'
 
 const textRules = [
 	FilterRules.CONTAINS,
@@ -13,6 +15,11 @@ const textRules = [
 	FilterRules.LIKE,
 	FilterRules.STARTS_WITH,
 ] as [string, ...string[]]
+
+const enumRules = [FilterRules.NOT_EQUALS, FilterRules.EQUALS] as [
+	string,
+	...string[],
+]
 
 const dateRules = [
 	FilterRules.EQUALS,
@@ -28,9 +35,12 @@ const uuidRules = [FilterRules.EQUALS, FilterRules.NOT_EQUALS] as [
 ]
 
 export const filterFormSchema = z.object({
-	name: textFilterSchema(textRules),
-	licenseNumber: textFilterSchema(textRules),
+	alias: textFilterSchema(textRules),
+	date: dateFilterSchema(dateRules),
+	status: enumFilterSchema(enumRules, RoadmapStatus),
 	fleetId: uuidFilterSchema(uuidRules),
+	vehicleId: uuidFilterSchema(uuidRules),
+	driverId: uuidFilterSchema(uuidRules),
 	createdAt: dateFilterSchema(dateRules),
 })
 

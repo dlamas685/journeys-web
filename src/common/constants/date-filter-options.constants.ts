@@ -1,10 +1,10 @@
 import { FilterRules } from '../enums'
 
 export const DATE_FILTER_OPTIONS = [
-	{
-		label: 'Igual a',
-		value: FilterRules.EQUALS,
-	},
+	// {
+	// 	label: 'Igual a',
+	// 	value: FilterRules.EQUALS,
+	// },
 	{
 		label: 'Mayor a',
 		value: FilterRules.GREATER_THAN,

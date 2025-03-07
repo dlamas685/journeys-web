@@ -406,7 +406,7 @@ const FilterForm = ({ queryParams, fleets }: Readonly<Props>) => {
 									...form.getValues(),
 									fleetId: {
 										field: 'fleetId',
-										type: FilterTypes.STRING,
+										type: FilterTypes.UUID,
 										rule: undefined,
 										value: undefined,
 									},

@@ -16,7 +16,7 @@ import {
 
 export default function Loading() {
 	return (
-		<Frame className='gap-5 sm:gap-3'>
+		<Frame>
 			<FrameHeader>
 				<FrameTitle>Vehículos</FrameTitle>
 			</FrameHeader>

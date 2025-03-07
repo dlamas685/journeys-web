@@ -17,7 +17,7 @@ import {
 
 export default function Loading() {
 	return (
-		<Frame className='gap-5 sm:gap-3'>
+		<Frame>
 			<FrameHeader>
 				<FrameTitle>Flotas</FrameTitle>
 			</FrameHeader>
@@ -31,7 +31,7 @@ export default function Loading() {
 					</section>
 				</header>
 
-				<section className='w-full'>
+				<section className='w-full flex-grow'>
 					<Table className='border-separate border-spacing-y-3 font-secondary'>
 						<TableHeader>
 							<TableRow className='border-none hover:bg-inherit'>

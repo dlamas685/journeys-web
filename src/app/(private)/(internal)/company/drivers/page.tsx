@@ -90,7 +90,7 @@ export default async function DriversPage(props: Readonly<Props>) {
 		(queryParams.logicalFilters && queryParams.logicalFilters.length > 0)
 
 	return (
-		<Frame className='gap-5 sm:gap-3'>
+		<Frame>
 			<FrameHeader>
 				<FrameTitle>Conductores</FrameTitle>
 			</FrameHeader>

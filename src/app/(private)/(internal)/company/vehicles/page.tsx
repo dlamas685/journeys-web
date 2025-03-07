@@ -90,7 +90,7 @@ export default async function FleetsPage(props: Readonly<Props>) {
 		(queryParams.logicalFilters && queryParams.logicalFilters.length > 0)
 
 	return (
-		<Frame className='gap-5 sm:gap-3'>
+		<Frame>
 			<FrameHeader>
 				<FrameTitle>Vehículos</FrameTitle>
 			</FrameHeader>
