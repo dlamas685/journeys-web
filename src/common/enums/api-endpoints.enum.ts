@@ -48,5 +48,7 @@ export enum ApiEndpoints {
 
 	ROADMAPS = 'roadmaps',
 
+	ROADMAP_STATUS = 'roadmaps/status',
+
 	ASSISTANT_SESSION = 'assistant/session',
 }

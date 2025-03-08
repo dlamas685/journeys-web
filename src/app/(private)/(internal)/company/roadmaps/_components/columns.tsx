@@ -23,6 +23,7 @@ import {
 	ClipboardCopy,
 	MoreHorizontal,
 	Pencil,
+	Replace,
 	Save,
 	SettingsIcon,
 	Trash2,
@@ -38,6 +39,7 @@ import { ROADMAP_STATUS } from '../_constants'
 import { RoadmapStatus } from '../_enums/roadmap-status.enum'
 import { RoadmapModel } from '../_models'
 import { toPresets } from '../_utils'
+import ChangeStatusForm from './change-status-form'
 import UpdateForm from './update-form'
 
 const columns: ColumnDef<RoadmapModel>[] = [
@@ -178,6 +180,26 @@ const columns: ColumnDef<RoadmapModel>[] = [
 								Ver detalles
 							</Link>
 						</DropdownMenuItem>
+
+						{record.status !== RoadmapStatus.DISMISSED && (
+							<Modal
+								title='Cambiar Estado de Hoja de Ruta'
+								description='Modifica el estado de la hoja de ruta de forma manual.'
+								triggerIcon={<Replace className='mr-1 size-3.5' />}
+								triggerProps={{
+									className:
+										'w-full font-normal h-auto justify-start relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 font-secondary',
+									variant: 'ghost',
+								}}
+								triggerLabel='Cambiar estado'
+								submitLabel='Guardar'
+								submitIcon={<Save className='mr-1 size-4' />}
+								submitProps={{
+									form: UPDATE_FORM_ID,
+								}}>
+								<ChangeStatusForm record={record} />
+							</Modal>
+						)}
 
 						<DropdownMenuSeparator />
 
