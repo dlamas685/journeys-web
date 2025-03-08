@@ -21,7 +21,7 @@ import { format } from 'date-fns'
 import {
 	CircleX,
 	ClipboardCopy,
-	Map,
+	ListCollapse,
 	MoreHorizontal,
 	Pencil,
 	Replace,
@@ -176,8 +176,8 @@ const columns: ColumnDef<RoadmapModel>[] = [
 
 						<DropdownMenuItem asChild>
 							<Link href={`${Pathnames.ROADMAPS}/${record.id}`}>
-								<Map className='mr-1 size-4' />
-								Mapa
+								<ListCollapse className='mr-1 size-4' />
+								Detalles
 							</Link>
 						</DropdownMenuItem>
 

@@ -6,7 +6,6 @@ import TaskErrorIcon from '@/common/components/ui/icons/task-error-icon'
 import TransitionsIcon from '@/common/components/ui/icons/transitions-icon'
 import VisitsIcon from '@/common/components/ui/icons/visits-icon'
 import ResponsiveSheet from '@/common/components/ui/overlay/responsive-sheet'
-import { MAP_CENTER } from '@/common/constants'
 import { ApiEndpoints } from '@/common/enums'
 import useResponse from '@/common/hooks/use-response'
 import { useLoading } from '@/common/stores/loading.store'
@@ -218,7 +217,10 @@ const ResultsForm = () => {
 						/>
 						<Map
 							className='col-span-full h-72 w-full'
-							defaultCenter={MAP_CENTER}
+							defaultCenter={{
+								lat: presets.firstStage.startWaypoint.location.latitude,
+								lng: presets.firstStage.startWaypoint.location.longitude,
+							}}
 							defaultZoom={12}
 							disableDefaultUI={true}
 							zoomControl={true}
