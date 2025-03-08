@@ -61,7 +61,7 @@ export default async function RoadmapPage(props: Readonly<Props>) {
 							<BreadcrumbItem>
 								<BreadcrumbLink
 									href={`/${user?.userType?.toLocaleLowerCase()}/${Pathnames.ROADMAPS}`}>
-									Hoja de Rutas
+									Hojas de Ruta
 								</BreadcrumbLink>
 							</BreadcrumbItem>
 							<BreadcrumbSeparator />
