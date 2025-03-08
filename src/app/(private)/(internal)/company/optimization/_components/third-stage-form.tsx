@@ -200,8 +200,6 @@ const ThirdStageForm = () => {
 																	? parseFloat(event.target.value)
 																	: undefined
 
-																console.log(value)
-
 																field.onChange(value)
 															}}
 														/>

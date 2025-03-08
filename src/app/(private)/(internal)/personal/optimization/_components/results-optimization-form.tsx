@@ -121,8 +121,6 @@ const ResultsOptimizationForm = () => {
 					: undefined,
 			}
 
-			console.log(criteria)
-
 			setResultsLoading(true)
 
 			if (criteria.advancedCriteria) {

@@ -21,13 +21,13 @@ import { format } from 'date-fns'
 import {
 	CircleX,
 	ClipboardCopy,
+	Map,
 	MoreHorizontal,
 	Pencil,
 	Replace,
 	Save,
 	SettingsIcon,
 	Trash2,
-	UsersRound,
 } from 'lucide-react'
 import Link from 'next/link'
 import { toast } from 'sonner'
@@ -176,8 +176,8 @@ const columns: ColumnDef<RoadmapModel>[] = [
 
 						<DropdownMenuItem asChild>
 							<Link href={`${Pathnames.ROADMAPS}/${record.id}`}>
-								<UsersRound className='mr-1 size-4' />
-								Ver detalles
+								<Map className='mr-1 size-4' />
+								Mapa
 							</Link>
 						</DropdownMenuItem>
 
@@ -191,7 +191,7 @@ const columns: ColumnDef<RoadmapModel>[] = [
 										'w-full font-normal h-auto justify-start relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 font-secondary',
 									variant: 'ghost',
 								}}
-								triggerLabel='Cambiar estado'
+								triggerLabel='Estado'
 								submitLabel='Guardar'
 								submitIcon={<Save className='mr-1 size-4' />}
 								submitProps={{
@@ -222,34 +222,36 @@ const columns: ColumnDef<RoadmapModel>[] = [
 								<UpdateForm record={record} />
 							</Modal>
 						</DropdownMenuItem>
-						<DropdownMenuItem asChild>
-							<RemovalAlert
-								triggerLabel='Eliminar'
-								triggerIcon={<Trash2 className='mr-1 size-3.5' />}
-								triggerProps={{
-									className:
-										'w-full font-normal h-auto justify-start relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 font-secondary',
-									variant: 'ghost',
-								}}
-								cancelIcon={<CircleX className='mr-1 size-4' />}
-								description={
-									<>
-										¿Estás seguro de que deseas eliminar la flota{' '}
-										<b className='capitalize'>{record.code}</b>? Esta acción no
-										se puede deshacer.
-									</>
-								}
-								eraserButton={({ setOpen }) => (
-									<EraserButton
-										recordId={record.id}
-										endpoint={ApiEndpoints.FLEETS}
-										setAlertOpen={setOpen}
-										title='Flotas'
-										description='Flota eliminada correctamente.'
-									/>
-								)}
-							/>
-						</DropdownMenuItem>
+						{record.status !== RoadmapStatus.ONGOING && (
+							<DropdownMenuItem asChild>
+								<RemovalAlert
+									triggerLabel='Eliminar'
+									triggerIcon={<Trash2 className='mr-1 size-3.5' />}
+									triggerProps={{
+										className:
+											'w-full font-normal h-auto justify-start relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 font-secondary',
+										variant: 'ghost',
+									}}
+									cancelIcon={<CircleX className='mr-1 size-4' />}
+									description={
+										<>
+											¿Estás seguro de que deseas eliminar la hoja de ruta{' '}
+											<b className='capitalize'>{record.code}</b>? Esta acción
+											no se puede deshacer.
+										</>
+									}
+									eraserButton={({ setOpen }) => (
+										<EraserButton
+											recordId={record.id}
+											endpoint={ApiEndpoints.ROADMAPS}
+											setAlertOpen={setOpen}
+											title='Hojas de Ruta'
+											description='Hoja de ruta eliminada correctamente.'
+										/>
+									)}
+								/>
+							</DropdownMenuItem>
+						)}
 					</DropdownMenuContent>
 				</DropdownMenu>
 			)

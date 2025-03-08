@@ -45,6 +45,13 @@ const OptimizationControls = () => {
 		}
 	}
 
+	const handleResetAll = () => {
+		useOptimization.persist.clearStorage()
+		useStepper.persist.clearStorage()
+		useStepper.setState({ currentStep: 0, stepsCompleted: [] })
+		useOptimization.setState({ presets: undefined, results: undefined })
+	}
+
 	return (
 		<section className='flex justify-end gap-3'>
 			{currentStep === Steps.ADVANCED && (
@@ -58,15 +65,7 @@ const OptimizationControls = () => {
 			)}
 
 			{currentStep === -1 && (
-				<Button
-					onClick={() => {
-						useOptimization.persist.clearStorage()
-						useStepper.persist.clearStorage()
-						useStepper.setState({ currentStep: 0, stepsCompleted: [] })
-						useOptimization.setState({ presets: undefined, results: undefined })
-					}}
-					variant='destructive'
-					type='button'>
+				<Button onClick={handleResetAll} variant='destructive' type='button'>
 					<RotateCcw className='mr-1 size-5' />
 					Reiniciar
 				</Button>

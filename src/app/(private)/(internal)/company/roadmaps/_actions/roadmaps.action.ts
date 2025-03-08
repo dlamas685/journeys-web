@@ -33,8 +33,6 @@ export const changeStatus = async (
 			body: JSON.stringify(changeStatusModel),
 		})
 
-		console.log(response)
-
 		if (!response.ok) {
 			const error = (await response.json()) as ErrorModel
 			return error

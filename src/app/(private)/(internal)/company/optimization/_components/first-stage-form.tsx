@@ -105,8 +105,6 @@ const FirstStageForm = () => {
 			const fromDate = convertToUTCISO(date, startTime)
 			const toDate = convertToUTCISO(date, endTime)
 
-			console.log(fromDate, toDate)
-
 			const response = await findAvailableRoadmapAssets(
 				fromDate,
 				toDate,

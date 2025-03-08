@@ -76,8 +76,6 @@ const SearchBox = ({
 	}
 
 	const handleSearch = useDebouncedCallback(async (term: string) => {
-		console.log(`Searching... ${term}`)
-
 		if (term.trim() === '') {
 			setFoundTrips([])
 			setFoundActivityTemplates([])
