@@ -16,6 +16,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { cn } from '@/lib/utils'
 import { ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
 import {
@@ -54,16 +55,14 @@ const columns: ColumnDef<RoadmapModel>[] = [
 		enableHiding: false,
 		header: () => <SortingButton field='startDateTime'>Fecha</SortingButton>,
 		cell: ({ row }) => {
-			const startDateTime = row.getValue<Date>('startDateTime')
+			const startDateTime = row.getValue<string>('startDateTime')
 
 			return format(startDateTime, 'dd/MM/yyyy')
 		},
 	},
 	{
 		accessorKey: 'startDateTime',
-		header: () => (
-			<SortingButton field='startDateTime'>Hora de inicio</SortingButton>
-		),
+		header: 'Hora de inicio',
 		cell: ({ row }) => {
 			const startDateTime = row.original.startDateTime
 
@@ -73,9 +72,7 @@ const columns: ColumnDef<RoadmapModel>[] = [
 
 	{
 		accessorKey: 'endDateTime',
-		header: () => (
-			<SortingButton field='endDateTime'>Hora de fin</SortingButton>
-		),
+		header: 'Hora de fin',
 		cell: ({ row }) => {
 			const endDateTime = row.original.endDateTime
 
@@ -103,7 +100,9 @@ const columns: ColumnDef<RoadmapModel>[] = [
 
 	{
 		accessorKey: 'vehicle',
-		header: () => <SortingButton field='vehicle.name'>Vehículo</SortingButton>,
+		header: () => (
+			<SortingButton field='vehicle.licensePlate'>Vehículo</SortingButton>
+		),
 		cell: ({ row }) => {
 			const vehicle = row.getValue<VehicleModel>('vehicle')
 			return vehicle.licensePlate
@@ -117,7 +116,11 @@ const columns: ColumnDef<RoadmapModel>[] = [
 		cell: ({ row }) => {
 			const status = row.getValue<RoadmapStatus>('status')
 			return (
-				<Badge className={ROADMAP_STATUS[status].className}>
+				<Badge
+					className={cn(
+						'w-24 justify-center',
+						ROADMAP_STATUS[status].className
+					)}>
 					{ROADMAP_STATUS[status].label}
 				</Badge>
 			)

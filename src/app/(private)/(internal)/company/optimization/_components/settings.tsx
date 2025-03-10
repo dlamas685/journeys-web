@@ -4,6 +4,10 @@ import { formatDistance } from '@/common/utils'
 import { formatHHMM } from '@/common/utils/format-hhmm.util'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
+import { useState } from 'react'
+import { DriverModel } from '../../drivers/_models'
+import { FleetModel } from '../../fleets/_models'
+import { VehicleModel } from '../../vehicles/_models'
 import { CostProfile } from '../_enums'
 import { CostProfileModel, PresetsModel } from '../_models'
 
@@ -12,12 +16,28 @@ type Props = {
 }
 
 const Settings = ({ presets }: Readonly<Props>) => {
+	const [costProfiles, setCostProfiles] = useState<CostProfileModel[]>([])
+
 	const { dependencies } = useDependenciesContext()
 
-	const costProfiles = dependencies?.costProfiles as CostProfileModel[]
+	const fleets = dependencies?.fleets as FleetModel[]
+
+	const drivers = dependencies?.drivers as DriverModel[]
+
+	const vehicles = dependencies?.vehicles as VehicleModel[]
 
 	const costProfile = costProfiles.find(
 		costProfile => costProfile.id === presets.thirdStage?.costProfile
+	)
+
+	const fleet = fleets.find(fleet => fleet.id === presets.firstStage.fleetId)
+
+	const driver = drivers.find(
+		driver => driver.id === presets.firstStage.driverId
+	)
+
+	const vehicle = vehicles.find(
+		vehicle => vehicle.id === presets.firstStage.vehicleId
 	)
 
 	return (
@@ -48,13 +68,13 @@ const Settings = ({ presets }: Readonly<Props>) => {
 					<dd>{presets.firstStage.global.endTime}</dd>
 
 					<dt>Flota:</dt>
-					<dd>No completado</dd>
+					<dd>{fleet?.name}</dd>
 
 					<dt>Vehículo:</dt>
-					<dd>No completado</dd>
+					<dd>{vehicle?.licensePlate}</dd>
 
 					<dt>Conductor:</dt>
-					<dd>No completado</dd>
+					<dd>{driver?.name}</dd>
 
 					<dt>Otras consideraciones:</dt>
 					<dd>

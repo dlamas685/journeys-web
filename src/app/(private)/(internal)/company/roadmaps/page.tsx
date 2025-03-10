@@ -113,6 +113,9 @@ export default async function RoadmapsPage(props: Readonly<Props>) {
 				<DependenciesProvider
 					dependencies={{
 						costProfiles,
+						fleets,
+						drivers,
+						vehicles,
 					}}>
 					<DataTableProvider
 						data={response.data}

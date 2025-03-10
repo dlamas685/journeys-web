@@ -306,7 +306,7 @@ const FirstStageForm = () => {
 												value ? format(value, 'yyyy-MM-dd') : value
 											)
 										}}
-										disabled={date => date < new Date()}
+										// disabled={date => date < new Date()}
 										initialFocus
 									/>
 								</PopoverContent>

@@ -1,4 +1,4 @@
-import { findOne } from '@/common/actions/crud.action'
+import { findAll, findOne } from '@/common/actions/crud.action'
 import { getServerUser } from '@/common/actions/session.action'
 import {
 	Frame,
@@ -19,7 +19,10 @@ import {
 } from '@/components/ui/breadcrumb'
 import { capitalCase } from 'change-case'
 import { Metadata } from 'next'
+import { DriverModel } from '../../drivers/_models'
+import { FleetModel } from '../../fleets/_models'
 import { findAllCostProfiles } from '../../optimization/_actions/roadmaps.action'
+import { VehicleModel } from '../../vehicles/_models'
 import Results from '../_components/results'
 import { RoadmapModel } from '../_models'
 
@@ -49,6 +52,24 @@ export default async function RoadmapPage(props: Readonly<Props>) {
 		roadmapId
 	)
 
+	const fleets = await findAll<FleetModel>(
+		ApiEndpoints.FLEETS,
+		{},
+		Pathnames.ROADMAPS
+	).then(response => response.data)
+
+	const drivers = await findAll<DriverModel>(
+		ApiEndpoints.DRIVERS,
+		{},
+		Pathnames.ROADMAPS
+	).then(response => response.data)
+
+	const vehicles = await findAll<VehicleModel>(
+		ApiEndpoints.VEHICLES,
+		{},
+		Pathnames.ROADMAPS
+	).then(response => response.data)
+
 	const costProfiles = await findAllCostProfiles(Pathnames.ROADMAPS)
 
 	return (
@@ -76,6 +97,9 @@ export default async function RoadmapPage(props: Readonly<Props>) {
 				<DependenciesProvider
 					dependencies={{
 						costProfiles,
+						fleets,
+						drivers,
+						vehicles,
 					}}>
 					<Results setting={roadmap.setting} results={roadmap.results} />
 				</DependenciesProvider>

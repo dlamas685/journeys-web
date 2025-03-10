@@ -17,8 +17,8 @@ export interface RoadmapModel {
 	vehicle: VehicleModel
 
 	code: string
-	startDateTime: Date
-	endDateTime: Date
+	startDateTime: string
+	endDateTime: string
 	status: RoadmapStatus
 	setting: SettingModel
 	results: RoadmapOptimizationModel
