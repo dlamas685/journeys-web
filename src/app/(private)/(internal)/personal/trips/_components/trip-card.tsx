@@ -1,10 +1,24 @@
 'use client'
+import { update } from '@/common/actions/crud.action'
+import { ApiError } from '@/common/classes/api-error.class'
 import EraserButton from '@/common/components/ui/misc/eraser-button'
 import Modal from '@/common/components/ui/overlay/modal'
 import RemovalAlert from '@/common/components/ui/overlay/removal-alert'
 import ResponsiveSheet from '@/common/components/ui/overlay/responsive-sheet'
 import { UPDATE_FORM_ID } from '@/common/constants'
 import { ApiEndpoints, Pathnames } from '@/common/enums'
+import useResponse from '@/common/hooks/use-response'
+import { useLoading } from '@/common/stores/loading.store'
+import {
+	AlertDialog,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -17,12 +31,22 @@ import {
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { motion } from 'framer-motion'
-import { CircleX, Pencil, Save, SquareChartGantt, Trash2 } from 'lucide-react'
+import {
+	Archive,
+	CircleCheck,
+	CircleX,
+	LoaderCircle,
+	Pencil,
+	Save,
+	SquareChartGantt,
+	Trash2,
+} from 'lucide-react'
 import Link from 'next/link'
-import { forwardRef, Ref, type ReactNode } from 'react'
+import { forwardRef, Ref, useState, type ReactNode } from 'react'
 import Criteria from '../../optimization/_components/criteria'
 import { TRIP_CONDITIONS } from '../_constants'
 import { TripModel } from '../_models'
+import { UpdateTripModel } from '../_models/update-trip.model'
 import { toPresets } from '../_utils'
 
 type Props = {
@@ -33,6 +57,34 @@ type Props = {
 const TripCard = forwardRef(
 	({ record, updaterForm }: Readonly<Props>, ref: Ref<HTMLDivElement>) => {
 		const presets = toPresets(record.criteria)
+		const isLoading = useLoading(state => state.loading)
+		const setLoading = useLoading(state => state.setLoading)
+		const response = useResponse()
+		const [open, setOpen] = useState<boolean>(false)
+		const currentDate = new Date()
+		const departureTime = new Date(record.departureTime)
+
+		const handleToArchive = async () => {
+			setLoading(true)
+
+			await update<UpdateTripModel, TripModel>(ApiEndpoints.TRIPS, record.id, {
+				isArchived: true,
+			})
+				.then(resp => {
+					if ('error' in resp) {
+						throw new ApiError(resp)
+					}
+
+					response.success({
+						title: 'Viajes',
+						description: 'Viaje marcado como usado correctamente.',
+					})
+
+					setOpen(false)
+				})
+				.catch(response.error)
+				.finally(() => setLoading(false))
+		}
 
 		return (
 			<Card
@@ -42,6 +94,39 @@ const TripCard = forwardRef(
 					<CardTitle className='font-secondary text-sm capitalize'>
 						{record.code}
 					</CardTitle>
+					{!record.isArchived && currentDate > departureTime && (
+						<AlertDialog open={open} onOpenChange={setOpen}>
+							<AlertDialogTrigger asChild>
+								<Archive className='size-4 cursor-pointer' />
+							</AlertDialogTrigger>
+							<AlertDialogContent>
+								<AlertDialogHeader>
+									<AlertDialogTitle>
+										Confirmar cambio de condición
+									</AlertDialogTitle>
+									<AlertDialogDescription>
+										¿Estás seguro de que deseas marcar como usado el viaje{' '}
+										<b>{record.code}</b>? Una vez marcado como usado, no se
+										podrá regresar a su condición anterior.
+									</AlertDialogDescription>
+								</AlertDialogHeader>
+								<AlertDialogFooter>
+									<AlertDialogCancel>
+										<CircleX className='mr-1 size-4' />
+										Cancelar
+									</AlertDialogCancel>
+									<Button onClick={handleToArchive}>
+										{isLoading ? (
+											<LoaderCircle className='mr-1 size-4 animate-spin' />
+										) : (
+											<CircleCheck className='mr-1 size-4' />
+										)}
+										Confirmar
+									</Button>
+								</AlertDialogFooter>
+							</AlertDialogContent>
+						</AlertDialog>
+					)}
 				</CardHeader>
 				<CardContent className='flex flex-grow flex-col justify-between gap-5 p-0'>
 					<dl className='text-sm text-muted-foreground'>
@@ -93,7 +178,6 @@ const TripCard = forwardRef(
 								</>
 							</Modal>
 						)}
-
 						<ResponsiveSheet
 							title='Criterios de optimización'
 							description='Criterios que se han seleccionado y aplicado en la optimización.'

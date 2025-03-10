@@ -21,9 +21,10 @@ import { toPresets } from '../../_utils'
 type Props = {
 	criteria: CriteriaModel
 	routes: RouteModel[]
+	className?: string
 }
 
-const Results = ({ criteria, routes }: Readonly<Props>) => {
+const Results = ({ criteria, routes, className }: Readonly<Props>) => {
 	const [currentRoute, setCurrentRoute] = useState<RouteModel>(routes[0])
 
 	const presets = toPresets(criteria)
@@ -31,7 +32,11 @@ const Results = ({ criteria, routes }: Readonly<Props>) => {
 	const isDesktop = useMediaQuery('(min-width: 640px)')
 
 	return (
-		<section className='grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 sm:px-2'>
+		<section
+			className={cn(
+				'grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 sm:px-2',
+				className
+			)}>
 			<section className='grid grid-cols-1 gap-4 sm:grid-cols-[auto_1fr] sm:gap-6'>
 				<ul
 					role='list'

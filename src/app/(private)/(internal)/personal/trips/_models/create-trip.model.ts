@@ -4,4 +4,5 @@ export interface CreateTripModel {
 	code: string
 	departureTime: string
 	criteria: CriteriaModel
+	isArchived?: boolean
 }

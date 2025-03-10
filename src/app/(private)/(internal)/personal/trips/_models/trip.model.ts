@@ -5,7 +5,7 @@ export interface TripModel {
 	userId: string
 	code: string
 	isArchived: boolean
-	departureTime: Date
+	departureTime: string
 	criteria: CriteriaModel
 	results: RouteModel[]
 
