@@ -5,7 +5,7 @@ import EraserButton from '@/common/components/ui/misc/eraser-button'
 import Modal from '@/common/components/ui/overlay/modal'
 import RemovalAlert from '@/common/components/ui/overlay/removal-alert'
 import ResponsiveSheet from '@/common/components/ui/overlay/responsive-sheet'
-import { UPDATE_FORM_ID } from '@/common/constants'
+import { REPLICATE_FORM_ID, UPDATE_FORM_ID } from '@/common/constants'
 import { ApiEndpoints, Pathnames } from '@/common/enums'
 import useResponse from '@/common/hooks/use-response'
 import { useLoading } from '@/common/stores/loading.store'
@@ -33,6 +33,7 @@ import { es } from 'date-fns/locale'
 import { motion } from 'framer-motion'
 import {
 	Archive,
+	CheckCircle2,
 	CircleCheck,
 	CircleX,
 	LoaderCircle,
@@ -44,10 +45,12 @@ import {
 import Link from 'next/link'
 import { forwardRef, Ref, useState, type ReactNode } from 'react'
 import Criteria from '../../optimization/_components/criteria'
+import Results from '../[id]/_components/results'
 import { TRIP_CONDITIONS } from '../_constants'
 import { TripModel } from '../_models'
 import { UpdateTripModel } from '../_models/update-trip.model'
 import { toPresets } from '../_utils'
+import ReplicationForm from './replication-form'
 
 type Props = {
 	record: TripModel
@@ -154,30 +157,80 @@ const TripCard = forwardRef(
 					</dl>
 
 					<section className='flex flex-col gap-2'>
-						{!record.isArchived ? (
-							<Button variant='link' asChild>
-								<Link href={`${Pathnames.TRIPS}/${record.id}`}>
-									Guía de viaje
-								</Link>
-							</Button>
-						) : (
-							<Modal
-								title={`Estadísticas de ${record.code}`}
-								description='Visualiza las estadísticas generadas como resultado de haber completado el viaje.'
-								triggerProps={{
-									type: 'button',
-									variant: 'link',
-									'aria-label': `Estadísticas de la guía viaje ${record.code}`,
-									'aria-disabled': false,
-								}}
-								triggerLabel='Estadísticas'
-								isReadonly>
-								<>
-									Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-									Sint.
-								</>
-							</Modal>
-						)}
+						{record.isArchived &&
+							(record.results ? (
+								<Modal
+									title={`Resultados de ${record.code}`}
+									description='Visualiza los resultados de la guía de viaje.'
+									triggerProps={{
+										type: 'button',
+										variant: 'link',
+										'aria-label': `Resultados de la guía viaje ${record.code}`,
+										'aria-disabled': false,
+									}}
+									triggerLabel='Resultados'
+									isReadonly>
+									<Results
+										className='sm:grid-cols-1'
+										criteria={record.criteria}
+										routes={record.results}
+									/>
+								</Modal>
+							) : (
+								<p className='text-center font-secondary text-sm text-muted-foreground'>
+									No hemos encontrado los resultados por algún motivo{' '}
+									<Modal
+										title={`Replica el viaje ${record.code}`}
+										description='Establece  el alias y la nueva fecha de salida para replicar el viaje.'
+										triggerProps={{
+											type: 'button',
+											variant: 'link',
+											'aria-label': `Replica el viaje ${record.code}`,
+											'aria-disabled': false,
+											className: 'p-0',
+										}}
+										triggerLabel='replicar viaje'
+										submitLabel='Listo'
+										submitIcon={<CheckCircle2 className='mr-1 size-4' />}
+										submitProps={{
+											form: REPLICATE_FORM_ID,
+										}}>
+										<ReplicationForm record={record} />
+									</Modal>
+								</p>
+							))}
+
+						{!record.isArchived &&
+							(departureTime < currentDate && !record.results ? (
+								<p className='text-center font-secondary text-sm text-muted-foreground'>
+									No hemos encontrado la guía por algún motivo{' '}
+									<Modal
+										title={`Replica el viaje ${record.code}`}
+										description='Establece  el alias y la nueva fecha de salida para replicar el viaje.'
+										triggerProps={{
+											type: 'button',
+											variant: 'link',
+											'aria-label': `Replica el viaje ${record.code}`,
+											'aria-disabled': false,
+											className: 'p-0',
+										}}
+										triggerLabel='replicar viaje'
+										submitLabel='Listo'
+										submitIcon={<CheckCircle2 className='mr-1 size-4' />}
+										submitProps={{
+											form: REPLICATE_FORM_ID,
+										}}>
+										<ReplicationForm record={record} />
+									</Modal>
+								</p>
+							) : (
+								<Button variant='link' asChild>
+									<Link href={`${Pathnames.TRIPS}/${record.id}`}>
+										Guía de viaje
+									</Link>
+								</Button>
+							))}
+
 						<ResponsiveSheet
 							title='Criterios de optimización'
 							description='Criterios que se han seleccionado y aplicado en la optimización.'

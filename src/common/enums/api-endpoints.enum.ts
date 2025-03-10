@@ -46,6 +46,8 @@ export enum ApiEndpoints {
 
 	TRIPS = 'trips',
 
+	TRIPS_REPLICATE = 'trips/replicate',
+
 	ROADMAPS = 'roadmaps',
 
 	ROADMAP_STATUS = 'roadmaps/status',
