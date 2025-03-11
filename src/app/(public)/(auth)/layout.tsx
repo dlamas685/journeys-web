@@ -1,4 +1,3 @@
-import { Waypoints } from 'lucide-react'
 import Image from 'next/image'
 import { ReactNode } from 'react'
 import CustomCarousel from './_components/custom-carousel'
@@ -11,8 +10,15 @@ export default function AuthLayout({ children }: Readonly<Props>) {
 	return (
 		<section className='mx-auto flex h-full md:max-w-7xl'>
 			<section className='hidden w-2/4 bg-orange-50 md:flex md:flex-col md:items-center md:justify-center'>
-				<section className='flex w-full items-center gap-2 p-5 text-orange-600'>
-					<Waypoints size={20} />
+				<section className='flex w-full items-center gap-2 p-5 text-foreground'>
+					{/* <Waypoints size={20} /> */}
+					<Image
+						src='/icons/icon-512x512.png'
+						width={20}
+						height={20}
+						alt='Journeys'
+						sizes='(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw'
+					/>
 					<span className='font-secondary font-bold'>JOURNEYS</span>
 				</section>
 				<CustomCarousel />

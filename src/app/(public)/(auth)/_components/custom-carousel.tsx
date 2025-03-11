@@ -48,8 +48,8 @@ const CustomCarousel = () => {
 					</CarouselItem>
 					<CarouselItem>
 						<Image
-							src='/illustrations/presentation/deliveries.svg'
-							alt='Deliveries'
+							src='/illustrations/presentation/assistant-02.svg'
+							alt='Assistant'
 							width={512}
 							height={512}
 							className='h-96'
@@ -99,16 +99,17 @@ const CustomCarousel = () => {
 					</CarouselItem>
 					<CarouselItem>
 						<p className='font-primary text-base font-medium'>
-							&quot;Obtén ingresos adicionales publicando tus viajes y aceptando
-							encargos de entrega. Convierte el final del trayecto en una
-							oportunidad para ganar, mientras ayudas a otros.&quot;
+							&quot;Recibe asistencia personalizada con un asistente impulsado
+							por inteligencia artificial. Consulta los detalles de tu viaje,
+							conoce los criterios establecidos y obtén recomendaciones, además
+							de indicaciones claras para cada etapa del recorrido.&quot;
 						</p>
 					</CarouselItem>
 					<CarouselItem>
 						<p className='font-primary text-base font-medium'>
 							&quot;Da el primer paso para transformar tu negocio en una empresa
-							exitosa con nuestra plataforma. Incorpora un monitoreo a tus hojas
-							de rutas y planifica tus entregas.&quot;
+							exitosa con nuestra plataforma. Gestiona tus flotas mediante hojas
+							de rutas con servicios a domicilio.&quot;
 						</p>
 					</CarouselItem>
 				</CarouselContent>
