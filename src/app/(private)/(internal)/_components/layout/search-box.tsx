@@ -235,17 +235,17 @@ const SearchBox = ({
 						<>
 							{foundRoadmaps.length > 0 && (
 								<CommandGroup heading='Hojas de ruta'>
-									{foundRoadmaps.map(trip => (
+									{foundRoadmaps.map(roadmap => (
 										<CommandItem
-											key={trip.id}
+											key={roadmap.id}
 											onSelect={() => {
 												runCommand(() => {
 													router.push(
-														`/${UserTypes.COMPANY.toLowerCase()}/${Pathnames.ROADMAPS}/${trip.id}`
+														`/${UserTypes.COMPANY.toLowerCase()}/${Pathnames.ROADMAPS}/${roadmap.id}`
 													)
 												})
 											}}>
-											{trip.code}
+											{roadmap.code}
 										</CommandItem>
 									))}
 								</CommandGroup>
