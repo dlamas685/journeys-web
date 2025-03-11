@@ -1,4 +1,12 @@
 'use client'
+import { remove } from '@/common/actions/crud.action'
+import { markAsRead } from '@/common/actions/notificationts.action'
+import { ApiError } from '@/common/classes/api-error.class'
+import { NOTIFICATIONS_ICON } from '@/common/constants'
+import { ApiEndpoints } from '@/common/enums'
+import { useNotifications } from '@/common/hooks/use-notificationts'
+import useResponse from '@/common/hooks/use-response'
+import { MarkAsReadModel, NotificationModel } from '@/common/models'
 import { Button } from '@/components/ui/button'
 import {
 	Popover,
@@ -7,14 +15,8 @@ import {
 } from '@/components/ui/popover'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { cn } from '@/lib/utils'
-import {
-	Bell,
-	CarTaxiFront,
-	CheckCheck,
-	Newspaper,
-	TicketPercent,
-} from 'lucide-react'
-import { ReactNode, useState } from 'react'
+import { Bell, CheckCheck, MailCheck, MailWarning, Trash2 } from 'lucide-react'
+import { cloneElement, ReactElement, ReactNode, useMemo } from 'react'
 
 interface Notification {
 	id: number
@@ -25,55 +27,75 @@ interface Notification {
 }
 
 type Props = {
+	recipientId: string
+	data: NotificationModel[]
 	className?: string
 }
 
-const Notifications = ({ className }: Readonly<Props>) => {
-	const [notifications, setNotifications] = useState<Notification[]>([
-		{
-			id: 1,
-			title: 'Viajes',
-			message: 'To próximo viaje está a punto de comenzar',
-			icon: <CarTaxiFront className='size-5' />,
-			read: false,
-		},
-		{
-			id: 2,
-			title: 'Publicaciones',
-			message: 'Han realizado un encargo en tu publicación',
-			icon: <Newspaper className='size-5' />,
-			read: false,
-		},
-		{
-			id: 3,
-			title: 'Viajes',
-			message: 'La ruta de tu viaje ha sido actualizada',
-			icon: <CarTaxiFront className='size-5' />,
-			read: true,
-		},
-		{
-			id: 4,
-			title: 'Publicaciones',
-			message: 'Tu publicación ha sido completada',
-			icon: <Newspaper className='size-5' />,
-			read: false,
-		},
-		{
-			id: 5,
-			title: 'Suscripciones',
-			message:
-				'Adquiere tu membresía premium con un 50% de descuento por tiempo limitado',
-			icon: <TicketPercent className='size-5' />,
-			read: true,
-		},
-	])
+const Notifications = ({ className, data, recipientId }: Readonly<Props>) => {
+	const { notifications } = useNotifications(recipientId, data)
 
-	const unreadCount = notifications.filter(n => !n.read).length
+	const unreadCount = useMemo(
+		() => notifications.filter(notification => !notification.readAt).length,
+		[notifications]
+	)
 
-	const markAsRead = (id: number) => {
-		setNotifications(
-			notifications.map(n => (n.id === id ? { ...n, read: true } : n))
+	const response = useResponse()
+
+	const handleMarkAsRead = async (id: string) => {
+		const notification = notifications.find(
+			notification => notification.id === id
 		)
+
+		if (!notification || notification.readAt) return
+
+		const markAsReadModel: MarkAsReadModel = {
+			ids: [id],
+			markAll: false,
+		}
+
+		await markAsRead(markAsReadModel)
+			.then(resp => {
+				if ('error' in resp) {
+					throw new ApiError(resp)
+				}
+			})
+			.catch(response.error)
+	}
+
+	const handleAllMarkAsRead = async () => {
+		const markAsReadModel: MarkAsReadModel = {
+			ids: notifications.map(notification => notification.id),
+			markAll: true,
+		}
+
+		await markAsRead(markAsReadModel)
+			.then(resp => {
+				if ('error' in resp) {
+					throw new ApiError(resp)
+				}
+			})
+			.catch(response.error)
+	}
+
+	const handleRemove = async (id: string) => {
+		const notification = notifications.find(
+			notification => notification.id === id
+		)
+
+		if (!notification) return
+
+		await remove(ApiEndpoints.NOTIFICATIONS, id)
+			.then(resp => {
+				if (typeof resp !== 'boolean') {
+					throw new ApiError(resp)
+				}
+				response.success({
+					title: 'Notificaciones',
+					description: 'La notificación fue eliminada correctamente.',
+				})
+			})
+			.catch(response.error)
 	}
 
 	return (
@@ -94,35 +116,70 @@ const Notifications = ({ className }: Readonly<Props>) => {
 					)}
 				</Button>
 			</PopoverTrigger>
-			<PopoverContent className='w-80' align='end'>
-				<ScrollArea className='h-[300px] overflow-y-auto'>
-					<section className='pr-3'>
+			<PopoverContent
+				className='flex w-80 flex-col items-center justify-center gap-4'
+				align='end'>
+				<ScrollArea className='max-h-[350px] overflow-y-auto'>
+					<ul className='pr-3' role='list'>
 						{notifications.map(notification => (
-							<div
+							<li
 								key={notification.id}
-								className={`mb-2 grid cursor-pointer grid-cols-[auto_1fr] items-center gap-1 rounded-lg p-3 ${notification.read ? 'bg-muted' : 'bg-orange-50'}`}
-								onClick={() => markAsRead(notification.id)}>
-								{notification.icon}
+								role='listitem'
+								className={cn(
+									'mb-2 grid grid-cols-[auto_1fr_auto] items-center gap-1 rounded-lg p-3',
+									notification.readAt
+										? 'bg-muted'
+										: 'pointer-events-none cursor-pointer bg-orange-50'
+								)}
+								onClick={() => handleMarkAsRead(notification.id)}>
+								{NOTIFICATIONS_ICON[notification.type]
+									? cloneElement(
+											NOTIFICATIONS_ICON[notification.type] as ReactElement,
+											{
+												className: 'size-4',
+											}
+										)
+									: null}
 								<h4 className='font-secondary text-sm font-semibold'>
-									{notification.title}
+									{notification.subject}
 								</h4>
+								<Button
+									className='p-0 text-foreground'
+									variant='link'
+									onClick={() => handleRemove(notification.id)}>
+									<Trash2 className='size-4' />
+								</Button>
 								<p className='col-span-full font-secondary text-sm text-gray-600'>
 									{notification.message}
 								</p>
 								<span
 									className={cn(
 										'col-span-full flex items-center gap-1 justify-self-end font-secondary text-xs',
-										notification.read
+										notification.readAt
 											? 'text-orange-500'
 											: 'text-muted-foreground'
 									)}>
-									{notification.read ? 'Leído' : 'No leído'}
-									<CheckCheck className='size-4' />
+									{notification.readAt ? 'Leído' : 'No leído'}
+									{notification.readAt ? (
+										<MailCheck className='size-4' />
+									) : (
+										<MailWarning className='size-4' />
+									)}
 								</span>
-							</div>
+							</li>
 						))}
-					</section>
+					</ul>
 				</ScrollArea>
+
+				{unreadCount > 0 && (
+					<Button
+						className='p-0 hover:no-underline'
+						variant='link'
+						onClick={handleAllMarkAsRead}>
+						<CheckCheck className='mr-1 size-4' />
+						Marcar todas como leídas
+					</Button>
+				)}
 			</PopoverContent>
 		</Popover>
 	)

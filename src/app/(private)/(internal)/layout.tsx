@@ -1,5 +1,12 @@
+import { findAll } from '@/common/actions/crud.action'
 import { getServerUser } from '@/common/actions/session.action'
-import { Pathnames, UserTypes } from '@/common/enums'
+import {
+	ApiEndpoints,
+	Pathnames,
+	SortDirections,
+	UserTypes,
+} from '@/common/enums'
+import { NotificationModel, QueryParamsModel } from '@/common/models'
 import {
 	Car,
 	CarFront,
@@ -123,6 +130,19 @@ export default async function InternalLayout({ children }: Readonly<Props>) {
 		item => item.userType === user.userType || !item.userType
 	)
 
+	const queryParams: QueryParamsModel = {
+		sorts: [{ field: 'createdAt', direction: SortDirections.DESC }],
+	}
+
+	const fallbackUrl =
+		user.userType === 'COMPANY' ? Pathnames.DASHBOARD : Pathnames.HOME
+
+	const notifications = await findAll<NotificationModel>(
+		ApiEndpoints.NOTIFICATIONS,
+		queryParams,
+		fallbackUrl
+	).then(resp => resp.data)
+
 	return (
 		<section className='mx-auto flex min-h-dvh w-full flex-col md:max-w-7xl'>
 			<header className='grid grid-cols-[auto_1fr_auto] items-center gap-4 border-b p-4 sm:grid-cols-[auto_1fr_repeat(2,auto)] sm:p-6'>
@@ -146,7 +166,11 @@ export default async function InternalLayout({ children }: Readonly<Props>) {
 					className='col-start-2 col-end-3 justify-self-center sm:col-auto'
 					user={user}
 				/>
-				<Notifications className='col-start-1 col-end-2 row-start-1 row-end-2 sm:col-auto sm:row-auto' />
+				<Notifications
+					recipientId={user.id}
+					data={notifications}
+					className='col-start-1 col-end-2 row-start-1 row-end-2 sm:col-auto sm:row-auto'
+				/>
 				<Profile user={user} />
 			</header>
 			<main className='relative mx-auto flex w-full max-w-4xl flex-grow flex-col gap-0 p-4 sm:static sm:gap-8 sm:p-8 md:p-10'>
