@@ -102,7 +102,7 @@ export default function WebRTCAudio({ tripId }: Props) {
 		const dataChannel = peerConnection.createDataChannel('oai-events')
 
 		dataChannel.addEventListener('message', e => {
-			console.log(e)
+			console.log('Message received:', e)
 		})
 
 		const offer = await peerConnection.createOffer()
@@ -170,14 +170,18 @@ export default function WebRTCAudio({ tripId }: Props) {
 	}
 
 	const handlePlay = () => {
-		if (audioRef.current) {
-			audioRef.current.play()
-		}
+		const audio = audioRef.current
+
+		if (!audio) return
+
+		audio.play()
 	}
 
 	const handlePause = () => {
-		if (audioRef.current) {
-			audioRef.current.pause()
+		const audio = audioRef.current
+
+		if (audio) {
+			audio.pause()
 		}
 	}
 
@@ -248,6 +252,20 @@ export default function WebRTCAudio({ tripId }: Props) {
 	}, [mediaStream])
 
 	useEffect(() => {
+		const audio = audioRef.current
+
+		if (!audio) return
+
+		const updateTime = () => setCurrentTime(audio.currentTime)
+
+		audio.addEventListener('timeupdate', updateTime)
+
+		return () => {
+			audio.removeEventListener('timeupdate', updateTime)
+		}
+	}, [audioRef])
+
+	useEffect(() => {
 		navigator.mediaDevices
 			.getUserMedia({ audio: true })
 			.then(mediaStream => {
@@ -266,22 +284,6 @@ export default function WebRTCAudio({ tripId }: Props) {
 				setPermission('denied')
 			})
 	}, [])
-
-	useEffect(() => {
-		const audio = audioRef.current
-
-		if (!audio) return
-
-		const updateTime = () => {
-			setCurrentTime(audio.currentTime)
-		}
-
-		audio.addEventListener('timeupdate', updateTime)
-
-		return () => {
-			audio.removeEventListener('timeupdate', updateTime)
-		}
-	}, [audioRef])
 
 	return (
 		<section className='flex flex-grow flex-col items-center justify-center gap-5'>

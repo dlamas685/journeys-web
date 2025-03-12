@@ -129,7 +129,7 @@ const Notifications = ({ className, data, recipientId }: Readonly<Props>) => {
 									'mb-2 grid grid-cols-[auto_1fr_auto] items-center gap-1 rounded-lg p-3',
 									notification.readAt
 										? 'bg-muted'
-										: 'pointer-events-none cursor-pointer bg-orange-50'
+										: 'cursor-pointer bg-orange-50'
 								)}
 								onClick={() => handleMarkAsRead(notification.id)}>
 								{NOTIFICATIONS_ICON[notification.type]
