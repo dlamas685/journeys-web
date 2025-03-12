@@ -91,14 +91,14 @@ const CustomCarousel = () => {
 						</p>
 					</CarouselItem>
 					<CarouselItem>
-						<p className='font-primary text-base font-medium'>
+						<p className='font-primary text-base font-medium italic'>
 							&quot;Incorpora fácilmente todas las actividades que realizarás
 							durante tu viaje, asegurando que cada momento esté perfectamente
 							organizado.&quot;
 						</p>
 					</CarouselItem>
 					<CarouselItem>
-						<p className='font-primary text-base font-medium'>
+						<p className='font-primary text-base font-medium italic'>
 							&quot;Recibe asistencia personalizada con un asistente impulsado
 							por inteligencia artificial. Consulta los detalles de tu viaje,
 							conoce los criterios establecidos y obtén recomendaciones, además
@@ -106,7 +106,7 @@ const CustomCarousel = () => {
 						</p>
 					</CarouselItem>
 					<CarouselItem>
-						<p className='font-primary text-base font-medium'>
+						<p className='font-primary text-base font-medium italic'>
 							&quot;Da el primer paso para transformar tu negocio en una empresa
 							exitosa con nuestra plataforma. Gestiona tus flotas mediante hojas
 							de rutas con servicios a domicilio.&quot;

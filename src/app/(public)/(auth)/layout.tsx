@@ -11,7 +11,6 @@ export default function AuthLayout({ children }: Readonly<Props>) {
 		<section className='mx-auto flex h-full md:max-w-7xl'>
 			<section className='hidden w-2/4 bg-orange-50 md:flex md:flex-col md:items-center md:justify-center'>
 				<section className='flex w-full items-center gap-2 p-5 text-foreground'>
-					{/* <Waypoints size={20} /> */}
 					<Image
 						src='/icons/icon-512x512.png'
 						width={20}
