@@ -1,7 +1,7 @@
 import { createContext, Dispatch, SetStateAction } from 'react'
 import { FavoriteAddressModel } from '../../favorite-addresses/_models'
 import { FavoritePlaceModel } from '../../favorite-places/_models'
-import { Waypoint } from '../_models'
+import { Waypoint } from '../_types'
 
 export type WaypointSettingContextValue = {
 	open: boolean

@@ -164,6 +164,7 @@ export default function WebRTCAudio({ tripId }: Props) {
 	}
 
 	const handleFormatTime = (seconds: number) => {
+		console.log(seconds)
 		const minutes = Math.floor(seconds / 60)
 		const secs = Math.floor(seconds % 60)
 		return `${minutes}:${secs < 10 ? '0' : ''}${secs}`
@@ -175,14 +176,24 @@ export default function WebRTCAudio({ tripId }: Props) {
 		if (!audio) return
 
 		audio.play()
+
+		const updateTime = () => setCurrentTime(audio.currentTime)
+
+		audio.removeEventListener('timeupdate', updateTime)
+
+		audio.addEventListener('timeupdate', updateTime)
 	}
 
 	const handlePause = () => {
 		const audio = audioRef.current
 
-		if (audio) {
-			audio.pause()
-		}
+		if (!audio) return
+
+		audio.pause()
+
+		const updateTime = () => setCurrentTime(audio.currentTime)
+
+		audio.removeEventListener('timeupdate', updateTime)
 	}
 
 	const detectAssistantSpeaking = (stream: MediaStream) => {
@@ -252,20 +263,6 @@ export default function WebRTCAudio({ tripId }: Props) {
 	}, [mediaStream])
 
 	useEffect(() => {
-		const audio = audioRef.current
-
-		if (!audio) return
-
-		const updateTime = () => setCurrentTime(audio.currentTime)
-
-		audio.addEventListener('timeupdate', updateTime)
-
-		return () => {
-			audio.removeEventListener('timeupdate', updateTime)
-		}
-	}, [audioRef])
-
-	useEffect(() => {
 		navigator.mediaDevices
 			.getUserMedia({ audio: true })
 			.then(mediaStream => {
@@ -283,6 +280,20 @@ export default function WebRTCAudio({ tripId }: Props) {
 			.catch(error => {
 				setPermission('denied')
 			})
+	}, [])
+
+	useEffect(() => {
+		const audio = audioRef.current
+
+		if (!audio) return
+
+		const updateTime = () => setCurrentTime(audio.currentTime)
+
+		audio.addEventListener('timeupdate', updateTime)
+
+		return () => {
+			audio.removeEventListener('timeupdate', updateTime)
+		}
 	}, [])
 
 	return (
