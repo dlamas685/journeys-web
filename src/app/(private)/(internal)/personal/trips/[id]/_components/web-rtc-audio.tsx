@@ -101,9 +101,7 @@ export default function WebRTCAudio({ tripId }: Props) {
 
 		const dataChannel = peerConnection.createDataChannel('oai-events')
 
-		dataChannel.addEventListener('message', e => {
-			console.log('Message received:', e)
-		})
+		dataChannel.addEventListener('message', e => {})
 
 		const offer = await peerConnection.createOffer()
 
@@ -164,7 +162,6 @@ export default function WebRTCAudio({ tripId }: Props) {
 	}
 
 	const handleFormatTime = (seconds: number) => {
-		console.log(seconds)
 		const minutes = Math.floor(seconds / 60)
 		const secs = Math.floor(seconds % 60)
 		return `${minutes}:${secs < 10 ? '0' : ''}${secs}`

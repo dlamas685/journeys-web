@@ -31,11 +31,6 @@ export default async function HomePage(props: Readonly<Props>) {
 
 	const statsByMonth = await getStatsByMonth()
 
-	console.log({
-		stats,
-		statsByMonth,
-	})
-
 	return (
 		<Frame>
 			<FrameHeader>

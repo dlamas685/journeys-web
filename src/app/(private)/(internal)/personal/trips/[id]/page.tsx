@@ -44,8 +44,6 @@ export default async function TripPage(props: Readonly<Props>) {
 	const user = await getServerUser()
 	const trip = await findOne<Required<TripModel>>(ApiEndpoints.TRIPS, tripId)
 
-	console.log(trip)
-
 	return (
 		<Frame className='gap-5 sm:gap-4'>
 			<FrameHeader className='gap-2 sm:flex-col sm:gap-2'>

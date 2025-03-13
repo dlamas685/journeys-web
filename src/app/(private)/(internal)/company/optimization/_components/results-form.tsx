@@ -81,8 +81,6 @@ const ResultsForm = () => {
 			setting,
 		}
 
-		console.log({ createRoadmapModel })
-
 		await create<CreateRoadmapModel, RoadmapModel>(
 			ApiEndpoints.ROADMAPS,
 			createRoadmapModel
