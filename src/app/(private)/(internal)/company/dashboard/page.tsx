@@ -44,7 +44,7 @@ export default async function DashboardPage(props: Readonly<Props>) {
 			<FrameHeader>
 				<FrameTitle>Panel de Control</FrameTitle>
 			</FrameHeader>
-			<FrameBody className='grid grid-cols-1 sm:grid-cols-2'>
+			<FrameBody className='grid flex-grow-0 grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8'>
 				<HistoricalRoadmapsChart companyStats={companyStats} />
 				<DriverRoadmapHistoryChart topDrivers={companyTopDrivers} />
 				<RoadmapCompletionDistributionChart

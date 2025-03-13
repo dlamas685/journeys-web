@@ -83,8 +83,8 @@ const RoadmapCompletionDistributionChart = ({
 			<CardHeader>
 				<CardTitle>Distribución de Hojas de Ruta - Estado Completado</CardTitle>
 				<CardDescription>
-					Resumen por mes en {companyStatsByMonth[0]?.year || 'Año Actual'} de
-					hojas de rutas con estado completado
+					Resumen por mes en {companyStatsByMonth[0]?.year} de hojas de rutas
+					con estado completado
 				</CardDescription>
 			</CardHeader>
 			<CardContent>

@@ -5,11 +5,7 @@ import { ApiError } from '@/common/classes/api-error.class'
 import { ApiEndpoints } from '@/common/enums'
 import { ErrorModel } from '@/common/models'
 import { notFound } from 'next/navigation'
-import {
-	CompanyStatsByMonthModel,
-	CompanyStatsModel,
-	TopDriversModel,
-} from '../_models'
+import { StatsByMonthModel, StatsModel } from '../_models'
 
 const API_URL = process.env.API_URL
 
@@ -18,14 +14,14 @@ const HEADERS: HeadersInit = {
 	'Content-Type': 'application/json',
 }
 
-export const getCompanyStats = async (
+export const getStats = async (
 	next?: NextFetchRequestConfig,
 	headers: HeadersInit = HEADERS
 ) => {
 	try {
 		const token = await getServerToken()
 
-		const URL = `${API_URL}/${ApiEndpoints.STATS_COMPANY}`
+		const URL = `${API_URL}/${ApiEndpoints.STATS}`
 
 		const response = await fetch(URL, {
 			method: 'GET',
@@ -46,7 +42,7 @@ export const getCompanyStats = async (
 			throw new ApiError(error)
 		}
 
-		const found = (await response.json()) as CompanyStatsModel
+		const found = (await response.json()) as StatsModel
 
 		return found
 	} catch (error) {
@@ -54,7 +50,7 @@ export const getCompanyStats = async (
 	}
 }
 
-export const getCompanyStatsByMonth = async (
+export const getStatsByMonth = async (
 	year?: number,
 	month?: number,
 	next?: NextFetchRequestConfig,
@@ -63,7 +59,7 @@ export const getCompanyStatsByMonth = async (
 	try {
 		const token = await getServerToken()
 
-		const URL = `${API_URL}/${ApiEndpoints.STATS_COMPANY_BY_MONTH}?year=${year}&month=${month}`
+		const URL = `${API_URL}/${ApiEndpoints.STATS_BY_MONTH}?year=${year}&month=${month}`
 
 		const response = await fetch(URL, {
 			method: 'GET',
@@ -84,43 +80,7 @@ export const getCompanyStatsByMonth = async (
 			throw new ApiError(error)
 		}
 
-		const found = (await response.json()) as CompanyStatsByMonthModel[]
-
-		return found
-	} catch (error) {
-		throw error
-	}
-}
-
-export const getCompanyTopDrivers = async (
-	next?: NextFetchRequestConfig,
-	headers: HeadersInit = HEADERS
-) => {
-	try {
-		const token = await getServerToken()
-
-		const URL = `${API_URL}/${ApiEndpoints.STATS_COMPANY_TOP_DRIVERS}`
-
-		const response = await fetch(URL, {
-			method: 'GET',
-			headers: {
-				...headers,
-				Authorization: `Bearer ${token}`,
-			},
-			next,
-		})
-
-		if (!response.ok) {
-			const error = (await response.json()) as ErrorModel
-
-			if (error.statusCode === 404) {
-				notFound()
-			}
-
-			throw new ApiError(error)
-		}
-
-		const found = (await response.json()) as TopDriversModel[]
+		const found = (await response.json()) as StatsByMonthModel[]
 
 		return found
 	} catch (error) {
