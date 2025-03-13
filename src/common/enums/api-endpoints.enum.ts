@@ -57,4 +57,14 @@ export enum ApiEndpoints {
 	NOTIFICATIONS = 'notifications',
 
 	NOTIFICATIONS_READ = 'notifications/read',
+
+	STATS = 'stats',
+
+	STATS_BY_MONTH = 'stats/by-month',
+
+	STATS_COMPANY = 'stats/company',
+
+	STATS_COMPANY_BY_MONTH = 'stats/company/by-month',
+
+	STATS_COMPANY_TOP_DRIVERS = 'stats/company/top-drivers',
 }
