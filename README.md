@@ -21,7 +21,7 @@
 
 ## Description
 
-This project defines the frontend for the Journeys web system.. The frontend is based on the Next.js framework.
+This project defines the frontend for the Journeys web system. The frontend is based on the Next.js framework.
 
 ## Installation and running the app
 
