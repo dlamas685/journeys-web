@@ -19,7 +19,7 @@ import { parseParam } from './_utils/parse-param.util'
 export const metadata: Metadata = {
 	title: 'Journeys • Panel de Control',
 	description:
-		'Administra tus vehículos para usar en tus flotas y hojas de ruta.',
+		'Visualiza estadísticas y métricas de las hojas de ruta de tu empresa',
 }
 
 type Props = {
