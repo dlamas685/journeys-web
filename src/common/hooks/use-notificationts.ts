@@ -32,6 +32,10 @@ export const useNotifications = (
 			WEBSOCKET_EVENTS.NEW_NOTIFICATION,
 			(notification: NotificationModel) => {
 				setNotifications(prev => [notification, ...prev])
+				// toast.info(notification.subject, {
+				// 	description: notification.message,
+				// 	duration: 1500,
+				// })
 			}
 		)
 

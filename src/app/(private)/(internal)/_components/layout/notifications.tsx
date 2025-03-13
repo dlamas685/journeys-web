@@ -119,57 +119,64 @@ const Notifications = ({ className, data, recipientId }: Readonly<Props>) => {
 			<PopoverContent
 				className='flex w-80 flex-col items-center justify-center gap-4'
 				align='end'>
-				<ScrollArea className='max-h-[350px] overflow-y-auto'>
-					<ul className='pr-3' role='list'>
-						{notifications.map(notification => (
-							<li
-								key={notification.id}
-								role='listitem'
-								className={cn(
-									'mb-2 grid grid-cols-[auto_1fr_auto] items-center gap-1 rounded-lg p-3',
-									notification.readAt
-										? 'bg-muted'
-										: 'cursor-pointer bg-orange-50'
-								)}
-								onClick={() => handleMarkAsRead(notification.id)}>
-								{NOTIFICATIONS_ICON[notification.type]
-									? cloneElement(
-											NOTIFICATIONS_ICON[notification.type] as ReactElement,
-											{
-												className: 'size-4',
-											}
-										)
-									: null}
-								<h4 className='font-secondary text-sm font-semibold'>
-									{notification.subject}
-								</h4>
-								<Button
-									className='p-0 text-foreground'
-									variant='link'
-									onClick={() => handleRemove(notification.id)}>
-									<Trash2 className='size-4' />
-								</Button>
-								<p className='col-span-full font-secondary text-sm text-gray-600'>
-									{notification.message}
-								</p>
-								<span
+				{notifications.length > 0 && (
+					<ScrollArea className='max-h-[350px] overflow-y-auto'>
+						<ul className='pr-3' role='list'>
+							{notifications.map(notification => (
+								<li
+									key={notification.id}
+									role='listitem'
 									className={cn(
-										'col-span-full flex items-center gap-1 justify-self-end font-secondary text-xs',
+										'mb-2 grid grid-cols-[auto_1fr_auto] items-center gap-1 rounded-lg p-3',
 										notification.readAt
-											? 'text-orange-500'
-											: 'text-muted-foreground'
-									)}>
-									{notification.readAt ? 'Leído' : 'No leído'}
-									{notification.readAt ? (
-										<MailCheck className='size-4' />
-									) : (
-										<MailWarning className='size-4' />
+											? 'bg-muted'
+											: 'cursor-pointer bg-orange-50'
 									)}
-								</span>
-							</li>
-						))}
-					</ul>
-				</ScrollArea>
+									onClick={() => handleMarkAsRead(notification.id)}>
+									{NOTIFICATIONS_ICON[notification.type]
+										? cloneElement(
+												NOTIFICATIONS_ICON[notification.type] as ReactElement,
+												{
+													className: 'size-4',
+												}
+											)
+										: null}
+									<h4 className='font-secondary text-sm font-semibold'>
+										{notification.subject}
+									</h4>
+									<Button
+										className='p-0 text-foreground'
+										variant='link'
+										onClick={() => handleRemove(notification.id)}>
+										<Trash2 className='size-4' />
+									</Button>
+									<p className='col-span-full font-secondary text-sm text-gray-600'>
+										{notification.message}
+									</p>
+									<span
+										className={cn(
+											'col-span-full flex items-center gap-1 justify-self-end font-secondary text-xs',
+											notification.readAt
+												? 'text-orange-500'
+												: 'text-muted-foreground'
+										)}>
+										{notification.readAt ? 'Leído' : 'No leído'}
+										{notification.readAt ? (
+											<MailCheck className='size-4' />
+										) : (
+											<MailWarning className='size-4' />
+										)}
+									</span>
+								</li>
+							))}
+						</ul>
+					</ScrollArea>
+				)}
+				{notifications.length === 0 && (
+					<p className='text-center font-secondary text-sm text-gray-500'>
+						No hay notificaciones
+					</p>
+				)}
 
 				{unreadCount > 0 && (
 					<Button
