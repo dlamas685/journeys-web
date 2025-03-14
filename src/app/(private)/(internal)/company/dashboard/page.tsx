@@ -4,7 +4,8 @@ import {
 	FrameHeader,
 	FrameTitle,
 } from '@/common/components/layout/frame'
-import { SearchParams } from '@/common/types'
+import { format } from 'date-fns'
+import { es } from 'date-fns/locale'
 import { Metadata } from 'next'
 import {
 	getCompanyStats,
@@ -14,7 +15,6 @@ import {
 import DriverRoadmapHistoryChart from './_components/driver-roadmap-history-chart'
 import HistoricalRoadmapsChart from './_components/historical-roadmaps-chart'
 import RoadmapCompletionDistributionChart from './_components/roadmap-completion-distribution-chart'
-import { parseParam } from './_utils/parse-param.util'
 
 export const metadata: Metadata = {
 	title: 'Journeys • Panel de Control',
@@ -22,22 +22,20 @@ export const metadata: Metadata = {
 		'Visualiza estadísticas y métricas de las hojas de ruta de tu empresa',
 }
 
-type Props = {
-	searchParams: Promise<SearchParams>
-}
-
-export default async function DashboardPage(props: Readonly<Props>) {
-	const searchParams = await props.searchParams
-
-	const year = parseParam(searchParams['year'])
-
-	const month = parseParam(searchParams['month'])
-
-	const companyStatsByMonth = await getCompanyStatsByMonth(year, month)
-
+export default async function DashboardPage() {
 	const companyStats = await getCompanyStats()
 
 	const companyTopDrivers = await getCompanyTopDrivers()
+
+	const companyStatsByMonth = await getCompanyStatsByMonth()
+
+	const currentDate = new Date()
+
+	const currentYear = new Date().getFullYear()
+
+	const currentFormattedDate = format(currentDate, 'PPP', {
+		locale: es,
+	})
 
 	return (
 		<Frame>
@@ -45,10 +43,18 @@ export default async function DashboardPage(props: Readonly<Props>) {
 				<FrameTitle>Panel de Control</FrameTitle>
 			</FrameHeader>
 			<FrameBody className='grid flex-grow-0 grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8'>
-				<HistoricalRoadmapsChart companyStats={companyStats} />
-				<DriverRoadmapHistoryChart topDrivers={companyTopDrivers} />
+				<HistoricalRoadmapsChart
+					companyStats={companyStats}
+					currentFormattedDate={currentFormattedDate}
+				/>
+				<DriverRoadmapHistoryChart
+					topDrivers={companyTopDrivers}
+					currentFormattedDate={currentFormattedDate}
+				/>
 				<RoadmapCompletionDistributionChart
 					companyStatsByMonth={companyStatsByMonth}
+					currentFormattedDate={currentFormattedDate}
+					currentYear={currentYear}
 				/>
 			</FrameBody>
 		</Frame>

@@ -16,8 +16,6 @@ import {
 	ChartTooltip,
 	ChartTooltipContent,
 } from '@/components/ui/chart'
-import { format } from 'date-fns'
-import { es } from 'date-fns/locale'
 import { TopDriversModel } from '../_models'
 
 const formatChartData = (topDrivers: TopDriversModel[]) => {
@@ -38,9 +36,13 @@ const chartConfig = {
 
 type Props = {
 	topDrivers: TopDriversModel[]
+	currentFormattedDate: string
 }
 
-const DriverRoadmapHistoryChart = ({ topDrivers }: Readonly<Props>) => {
+const DriverRoadmapHistoryChart = ({
+	topDrivers,
+	currentFormattedDate,
+}: Readonly<Props>) => {
 	const chartData = formatChartData(topDrivers)
 
 	return (
@@ -82,10 +84,7 @@ const DriverRoadmapHistoryChart = ({ topDrivers }: Readonly<Props>) => {
 						: 'No hay conductores con hojas de ruta completadas'}
 				</p>
 				<div className='leading-none text-muted-foreground'>
-					Datos actualizados al{' '}
-					{format(new Date(), 'PPP', {
-						locale: es,
-					})}
+					Datos actualizados al {currentFormattedDate}
 				</div>
 			</CardFooter>
 		</Card>

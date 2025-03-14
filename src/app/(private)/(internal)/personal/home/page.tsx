@@ -4,9 +4,9 @@ import {
 	FrameHeader,
 	FrameTitle,
 } from '@/common/components/layout/frame'
-import { SearchParams } from '@/common/types'
+import { format } from 'date-fns'
+import { es } from 'date-fns/locale'
 import { Metadata } from 'next'
-import { parseParam } from '../../company/dashboard/_utils/parse-param.util'
 import { getStats, getStatsByMonth } from './_actions/stats.action'
 import HistoricalTripsChart from './_components/historical-trips-chart'
 import TripConditionDistributionChart from './_components/trip-condition-distribution-chart'
@@ -16,20 +16,18 @@ export const metadata: Metadata = {
 	description: 'Bienvenido a Journeys, disfruta de tu estancia',
 }
 
-type Props = {
-	searchParams: Promise<SearchParams>
-}
-
-export default async function HomePage(props: Readonly<Props>) {
-	const searchParams = await props.searchParams
-
-	const year = parseParam(searchParams['year'])
-
-	const month = parseParam(searchParams['month'])
-
+export default async function HomePage() {
 	const stats = await getStats()
 
 	const statsByMonth = await getStatsByMonth()
+
+	const currentDate = new Date()
+
+	const currentFormattedDate = format(currentDate, 'PPP', {
+		locale: es,
+	})
+
+	const currentYear = currentDate.getFullYear()
 
 	return (
 		<Frame>
@@ -37,8 +35,15 @@ export default async function HomePage(props: Readonly<Props>) {
 				<FrameTitle>Inicio</FrameTitle>
 			</FrameHeader>
 			<FrameBody className='grid flex-grow-0 grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8'>
-				<HistoricalTripsChart stats={stats} />
-				<TripConditionDistributionChart statsByMonth={statsByMonth} />
+				<HistoricalTripsChart
+					stats={stats}
+					currentFormattedDate={currentFormattedDate}
+				/>
+				<TripConditionDistributionChart
+					statsByMonth={statsByMonth}
+					currentFormattedDate={currentFormattedDate}
+					currentYear={currentYear}
+				/>
 			</FrameBody>
 		</Frame>
 	)

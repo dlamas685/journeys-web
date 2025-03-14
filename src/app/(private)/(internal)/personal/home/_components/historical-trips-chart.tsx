@@ -16,8 +16,6 @@ import {
 	ChartTooltip,
 	ChartTooltipContent,
 } from '@/components/ui/chart'
-import { format } from 'date-fns'
-import { es } from 'date-fns/locale'
 import { StatsModel } from '../_models'
 const chartData = [
 	{ month: 'january', countArchived: 1260, countNotArchived: 570 },
@@ -46,9 +44,13 @@ const formatData = (stats: StatsModel) => {
 
 type Props = {
 	stats: StatsModel
+	currentFormattedDate: string
 }
 
-const HistoricalTripsChart = ({ stats }: Readonly<Props>) => {
+const HistoricalTripsChart = ({
+	stats,
+	currentFormattedDate,
+}: Readonly<Props>) => {
 	const chartData = formatData(stats)
 
 	return (
@@ -114,12 +116,9 @@ const HistoricalTripsChart = ({ stats }: Readonly<Props>) => {
 				</ChartContainer>
 			</CardContent>
 			<CardFooter className='flex-col gap-2 text-sm'>
-				<div className='leading-none text-muted-foreground'>
-					Datos actualizados al{' '}
-					{format(new Date(), 'PPP', {
-						locale: es,
-					})}{' '}
-				</div>
+				<p className='leading-none text-muted-foreground'>
+					Datos actualizados al {currentFormattedDate}
+				</p>
 			</CardFooter>
 		</Card>
 	)

@@ -69,10 +69,14 @@ const chartConfig: ChartConfig = {
 
 type Props = {
 	companyStatsByMonth: CompanyStatsByMonthModel[]
+	currentFormattedDate: string
+	currentYear: number
 }
 
 const RoadmapCompletionDistributionChart = ({
 	companyStatsByMonth,
+	currentFormattedDate,
+	currentYear,
 }: Readonly<Props>) => {
 	const chartData = formatChartData(companyStatsByMonth)
 	const trend = calculateTrend(chartData)
@@ -83,8 +87,8 @@ const RoadmapCompletionDistributionChart = ({
 			<CardHeader>
 				<CardTitle>Distribución de Hojas de Ruta - Estado Completado</CardTitle>
 				<CardDescription>
-					Resumen por mes en {companyStatsByMonth[0]?.year} de hojas de rutas
-					con estado completado
+					Resumen por mes en {currentYear} de hojas de rutas con estado
+					completado
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
@@ -127,10 +131,7 @@ const RoadmapCompletionDistributionChart = ({
 					</div>
 				)}
 				<div className='leading-none text-muted-foreground'>
-					Datos actualizados al{' '}
-					{format(new Date(), 'PPP', {
-						locale: es,
-					})}{' '}
+					Datos actualizados al {currentFormattedDate}
 				</div>
 			</CardFooter>
 		</Card>

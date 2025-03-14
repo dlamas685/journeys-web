@@ -17,8 +17,6 @@ import {
 	ChartTooltip,
 	ChartTooltipContent,
 } from '@/components/ui/chart'
-import { format } from 'date-fns'
-import { es } from 'date-fns/locale'
 import { useMemo } from 'react'
 import { CompanyStatsModel } from '../_models'
 
@@ -105,10 +103,12 @@ const formatData = (companyStats: CompanyStatsModel) => {
 
 type Props = {
 	companyStats: CompanyStatsModel
+	currentFormattedDate: string
 }
 
 const HistoricalRoadmapsChart = ({
-	companyStats: companyStats,
+	companyStats,
+	currentFormattedDate,
 }: Readonly<Props>) => {
 	const chartData = formatData(companyStats)
 
@@ -179,10 +179,7 @@ const HistoricalRoadmapsChart = ({
 					{statusInfo.message} {statusInfo.icon}
 				</p>
 				<p className='leading-none text-muted-foreground'>
-					Datos actualizados al{' '}
-					{format(new Date(), 'PPP', {
-						locale: es,
-					})}
+					Datos actualizados al {currentFormattedDate}
 				</p>
 			</CardFooter>
 		</Card>

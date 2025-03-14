@@ -58,9 +58,15 @@ const chartConfig = {
 
 type Props = {
 	statsByMonth: StatsByMonthModel[]
+	currentYear: number
+	currentFormattedDate: string
 }
 
-const TripConditionDistributionChart = ({ statsByMonth }: Readonly<Props>) => {
+const TripConditionDistributionChart = ({
+	statsByMonth,
+	currentYear,
+	currentFormattedDate,
+}: Readonly<Props>) => {
 	const chartData = formatChartData(statsByMonth)
 
 	return (
@@ -68,8 +74,7 @@ const TripConditionDistributionChart = ({ statsByMonth }: Readonly<Props>) => {
 			<CardHeader>
 				<CardTitle>Distribución de Viajes - Condición</CardTitle>
 				<CardDescription>
-					Resumen por mes en {statsByMonth[0]?.year} de viajes para ambas
-					condiciones
+					Resumen por mes en {currentYear} de viajes para ambas condiciones
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
@@ -102,10 +107,7 @@ const TripConditionDistributionChart = ({ statsByMonth }: Readonly<Props>) => {
 			</CardContent>
 			<CardFooter className='flex-col items-start gap-2 text-sm'>
 				<div className='leading-none text-muted-foreground'>
-					Datos actualizados al{' '}
-					{format(new Date(), 'PPP', {
-						locale: es,
-					})}
+					Datos actualizados al {currentFormattedDate}
 				</div>
 			</CardFooter>
 		</Card>
