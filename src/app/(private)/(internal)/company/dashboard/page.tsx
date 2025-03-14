@@ -23,12 +23,6 @@ export const metadata: Metadata = {
 }
 
 export default async function DashboardPage() {
-	const companyStats = await getCompanyStats()
-
-	const companyTopDrivers = await getCompanyTopDrivers()
-
-	const companyStatsByMonth = await getCompanyStatsByMonth()
-
 	const currentDate = new Date()
 
 	const currentYear = new Date().getFullYear()
@@ -36,6 +30,12 @@ export default async function DashboardPage() {
 	const currentFormattedDate = format(currentDate, 'PPP', {
 		locale: es,
 	})
+
+	const companyStats = await getCompanyStats()
+
+	const companyTopDrivers = await getCompanyTopDrivers()
+
+	const companyStatsByMonth = await getCompanyStatsByMonth(currentYear)
 
 	return (
 		<Frame>

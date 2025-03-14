@@ -17,10 +17,6 @@ export const metadata: Metadata = {
 }
 
 export default async function HomePage() {
-	const stats = await getStats()
-
-	const statsByMonth = await getStatsByMonth()
-
 	const currentDate = new Date()
 
 	const currentFormattedDate = format(currentDate, 'PPP', {
@@ -28,6 +24,10 @@ export default async function HomePage() {
 	})
 
 	const currentYear = currentDate.getFullYear()
+
+	const stats = await getStats()
+
+	const statsByMonth = await getStatsByMonth(currentYear)
 
 	return (
 		<Frame>
