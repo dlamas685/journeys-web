@@ -76,9 +76,11 @@ const DriverRoadmapHistoryChart = ({ topDrivers }: Readonly<Props>) => {
 				</ChartContainer>
 			</CardContent>
 			<CardFooter className='flex-col items-start gap-2 text-sm'>
-				<div className='flex gap-2 font-medium leading-none'>
-					Los 5 conductores con más hojas de ruta completadas
-				</div>
+				<p className='font-medium leading-none'>
+					{topDrivers.length > 0
+						? 'Los 5 conductores con más hojas de ruta completadas'
+						: 'No hay conductores con hojas de ruta completadas'}
+				</p>
 				<div className='leading-none text-muted-foreground'>
 					Datos actualizados al{' '}
 					{format(new Date(), 'PPP', {

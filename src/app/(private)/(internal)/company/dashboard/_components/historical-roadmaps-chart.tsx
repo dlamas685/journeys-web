@@ -1,6 +1,6 @@
 'use client'
 
-import { Activity, TrendingDown, TrendingUp, XCircle } from 'lucide-react'
+import { Activity, TrendingDown, TrendingUp } from 'lucide-react'
 import { Label, Pie, PieChart } from 'recharts'
 
 import {
@@ -73,7 +73,7 @@ const getStatusMessage = (
 	} else {
 		return {
 			message: 'No hay suficientes datos para evaluar',
-			icon: <XCircle className='h-4 w-4' />,
+			icon: null,
 		}
 	}
 }
@@ -178,12 +178,12 @@ const HistoricalRoadmapsChart = ({
 				<p className='flex items-center gap-2 font-medium leading-none'>
 					{statusInfo.message} {statusInfo.icon}
 				</p>
-				<div className='leading-none text-muted-foreground'>
+				<p className='leading-none text-muted-foreground'>
 					Datos actualizados al{' '}
 					{format(new Date(), 'PPP', {
 						locale: es,
 					})}
-				</div>
+				</p>
 			</CardFooter>
 		</Card>
 	)
