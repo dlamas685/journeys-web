@@ -177,12 +177,14 @@ const columns: ColumnDef<RoadmapModel>[] = [
 							</ResponsiveSheet>
 						</DropdownMenuItem>
 
-						<DropdownMenuItem asChild>
-							<Link href={`${Pathnames.ROADMAPS}/${record.id}`}>
-								<ListCollapse className='mr-1 size-4' />
-								Detalles
-							</Link>
-						</DropdownMenuItem>
+						{record.results && (
+							<DropdownMenuItem asChild>
+								<Link href={`${Pathnames.ROADMAPS}/${record.id}`}>
+									<ListCollapse className='mr-1 size-4' />
+									Detalles
+								</Link>
+							</DropdownMenuItem>
+						)}
 
 						{record.status !== RoadmapStatus.DISMISSED && (
 							<Modal
