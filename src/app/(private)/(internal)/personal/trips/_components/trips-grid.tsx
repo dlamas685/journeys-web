@@ -49,7 +49,7 @@ const TripsGrid = ({
 
 	return (
 		<>
-			<section className='grid grid-cols-1 gap-4 sm:grid-cols-3'>
+			<section className='grid w-full grid-cols-1 gap-4 sm:grid-cols-3'>
 				{records.map((record, index) => (
 					<TripCard
 						key={index}
