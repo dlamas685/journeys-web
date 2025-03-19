@@ -28,27 +28,43 @@ export const firstStageFormSchema = z.object({
 			required_error: 'La ubicación final es requerida',
 		}
 	),
-	global: z.object({
-		date: z
-			.string({
-				required_error: 'La fecha de inicio es requerida',
-			})
-			.date('La fecha no tiene un formato adecuado'),
-		startTime: z
-			.string({
-				required_error: 'La hora de inicio es requerida',
-			})
-			.regex(TIME, {
-				message: 'La hora no tiene un formato adecuado (HH:mm)',
-			}),
-		endTime: z
-			.string({
-				required_error: 'La hora de fin es requerida',
-			})
-			.regex(TIME, {
-				message: 'La hora no tiene un formato adecuado (HH:mm)',
-			}),
-	}),
+	global: z
+		.object({
+			date: z
+				.string({
+					required_error: 'La fecha de inicio es requerida',
+				})
+				.date('La fecha no tiene un formato adecuado'),
+			startTime: z
+				.string({
+					required_error: 'La hora de inicio es requerida',
+				})
+				.regex(TIME, {
+					message: 'La hora no tiene un formato adecuado (HH:mm)',
+				}),
+			endTime: z
+				.string({
+					required_error: 'La hora de fin es requerida',
+				})
+				.regex(TIME, {
+					message: 'La hora no tiene un formato adecuado (HH:mm)',
+				}),
+		})
+		.refine(
+			data => {
+				const startTime = new Date(
+					`${data.date}T${data.startTime}:00`
+				).getTime()
+
+				const endTime = new Date(`${data.date}T${data.endTime}:00`).getTime()
+
+				return startTime < endTime
+			},
+			{
+				path: ['endTime'],
+				message: 'La hora de fin debe ser mayor a la hora de inicio',
+			}
+		),
 
 	fleetId: z
 		.string({

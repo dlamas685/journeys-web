@@ -76,6 +76,8 @@ const ResultsOptimizationForm = () => {
 
 	const handleFinish = useStepper(state => state.handleFinish)
 
+	const handleBack = useStepper(state => state.handleBack)
+
 	const getResults = useCallback(async () => {
 		if (presets) {
 			const criteria: CriteriaModel = {
@@ -138,7 +140,10 @@ const ResultsOptimizationForm = () => {
 
 						setCriteria(criteria)
 					})
-					.catch(response.error)
+					.catch(error => {
+						response.error(error)
+						handleBack()
+					})
 					.finally(() => setResultsLoading(false))
 
 				return
@@ -158,7 +163,10 @@ const ResultsOptimizationForm = () => {
 
 					setCriteria(criteria)
 				})
-				.catch(response.error)
+				.catch(error => {
+					response.error(error)
+					handleBack()
+				})
 				.finally(() => setResultsLoading(false))
 
 			return
@@ -306,7 +314,7 @@ const ResultsOptimizationForm = () => {
 							<ul
 								role='list'
 								className={cn(
-									'flex divide-accent font-secondary text-sm font-medium text-muted-foreground sm:block',
+									'flex flex-wrap divide-accent font-secondary text-sm font-medium text-muted-foreground sm:block',
 									{
 										'divide-y': isDesktop,
 										'divide-x': !isDesktop,

@@ -171,7 +171,7 @@ const TripCard = forwardRef(
 									triggerLabel='Resultados'
 									isReadonly>
 									<Results
-										className='sm:grid-cols-1'
+										className='sm:overflow-[inherit] max-h-96 overflow-auto px-4 sm:max-h-[inherit] sm:grid-cols-1 sm:px-0'
 										criteria={record.criteria}
 										routes={record.results}
 									/>

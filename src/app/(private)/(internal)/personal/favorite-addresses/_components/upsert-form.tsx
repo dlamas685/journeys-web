@@ -95,7 +95,7 @@ const UpsertForm = ({ record }: Readonly<Props>) => {
 
 					response.success({
 						title: 'Direcciones favoritas',
-						description: 'La dirección ha sido actualizado',
+						description: 'La dirección favorita ha sido actualizada',
 					})
 
 					form.reset()

@@ -253,7 +253,7 @@ const FirstStageForm = () => {
 					render={({ field }) => (
 						<FormItem className='col-span-2'>
 							<FormLabel className='flex items-center gap-1'>
-								Fecha de inicio
+								Fecha
 								<FormTooltip>
 									Representa la fecha en la que se realizara el recorrido
 									(obligatorio).

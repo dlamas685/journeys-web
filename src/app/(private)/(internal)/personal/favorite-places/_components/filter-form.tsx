@@ -155,7 +155,7 @@ const FilterForm = ({ queryParams }: Readonly<Props>) => {
 									<FormLabel>Valor</FormLabel>
 									<FormDescription>
 										Este campo de entrada permite buscar direcciones mediante la
-										API de Google Text Search.
+										API de Google Autocomplete.
 									</FormDescription>
 									<FormControl>
 										<Input

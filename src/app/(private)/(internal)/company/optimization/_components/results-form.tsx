@@ -61,6 +61,8 @@ const ResultsForm = () => {
 
 	const handleFinish = useStepper(state => state.handleFinish)
 
+	const handleBack = useStepper(state => state.handleBack)
+
 	const form = useForm<ResultsFormSchema>({
 		resolver: zodResolver(resultsFormSchema),
 		defaultValues: { alias: '' },
@@ -175,7 +177,10 @@ const ResultsForm = () => {
 
 					setSetting(setting)
 				})
-				.catch(response.error)
+				.catch(error => {
+					response.error(error)
+					handleBack()
+				})
 				.finally(() => setResultsLoading(false))
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps

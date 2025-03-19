@@ -40,7 +40,7 @@ export const profileSchema = z.object({
 		})
 		.refine(
 			value => calculateAge(value) > MINIMUM_USER_AGE,
-			'Debes tener al menos 14 años para registrarte.'
+			'Debes tener al menos 14 años, cambia la fecha.'
 		)
 		.optional(),
 })
