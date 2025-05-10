@@ -140,7 +140,9 @@ const ReplicationForm = ({ record }: Readonly<Props>) => {
 										<FormControl>
 											<RadioGroupItem value='current' />
 										</FormControl>
-										<FormLabel className='font-normal'>Salir ahora</FormLabel>
+										<FormLabel className='font-normal'>
+											Salir en 30 minutos
+										</FormLabel>
 									</FormItem>
 									<FormItem className='flex items-center gap-2 space-y-0'>
 										<FormControl>

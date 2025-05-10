@@ -82,7 +82,7 @@ export default async function FleetsPage(props: Readonly<Props>) {
 	).then(response => response.data.sort((a, b) => a.name.localeCompare(b.name)))
 
 	const underAllocatedFleets = fleets.filter(
-		fleet => fleet.maxVehicles < fleet.vehicles.length
+		fleet => fleet.maxVehicles > fleet.vehicles.length
 	)
 
 	const hasFilters =

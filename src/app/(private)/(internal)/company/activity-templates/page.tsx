@@ -82,10 +82,7 @@ export default async function ActivityTemplatesPage(props: Readonly<Props>) {
 		(queryParams.logicalFilters && queryParams.logicalFilters.length > 0)
 
 	return (
-		<Frame
-
-		// className='gap-5 sm:gap-3'
-		>
+		<Frame>
 			<FrameHeader>
 				<FrameTitle>Plantillas de Actividades</FrameTitle>
 			</FrameHeader>

@@ -10,5 +10,5 @@ export const COLUMN_LABELS: Record<keyof RoadmapModel | string, string> = {
 	vehicle: 'Vehículo',
 	status: 'Estado',
 	setting: 'Configuración',
-	createdAt: 'Creado el',
+	createdAt: 'Creado',
 }

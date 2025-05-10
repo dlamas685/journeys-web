@@ -93,8 +93,8 @@ const ResultsForm = () => {
 				}
 
 				response.success({
-					title: 'Hoja de Ruta',
-					description: 'La hoja de ruta ha sido creada exitosamente',
+					title: 'Optimización',
+					description: 'La hoja de ruta ha sido creada exitosamente.',
 				})
 
 				handleFinish()

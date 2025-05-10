@@ -159,26 +159,49 @@ const TripCard = forwardRef(
 					<section className='flex flex-col gap-2'>
 						{record.isArchived &&
 							(record.results ? (
-								<Modal
-									title={`Resultados de ${record.code}`}
-									description='Visualiza los resultados de la guía de viaje.'
-									triggerProps={{
-										type: 'button',
-										variant: 'link',
-										'aria-label': `Resultados de la guía viaje ${record.code}`,
-										'aria-disabled': false,
-									}}
-									triggerLabel='Resultados'
-									isReadonly>
-									<Results
-										className='sm:overflow-[inherit] max-h-96 overflow-auto px-4 sm:max-h-[inherit] sm:grid-cols-1 sm:px-0'
-										criteria={record.criteria}
-										routes={record.results}
-									/>
-								</Modal>
+								<>
+									<Modal
+										title={`Resultados de ${record.code}`}
+										description='Visualiza los resultados de la guía de viaje.'
+										triggerProps={{
+											type: 'button',
+											variant: 'link',
+											'aria-label': `Resultados de la guía viaje ${record.code}`,
+											'aria-disabled': false,
+										}}
+										triggerLabel='Resultados'
+										isReadonly>
+										<Results
+											className='sm:overflow-[inherit] max-h-96 overflow-auto px-4 pb-2 sm:max-h-[inherit] sm:grid-cols-1 sm:px-0 sm:pb-0'
+											criteria={record.criteria}
+											routes={record.results}
+										/>
+									</Modal>
+									<p className='text-center font-secondary text-sm text-muted-foreground'>
+										Enhorabuena! Has completado el viaje y ahora puedes{' '}
+										<Modal
+											title={`Replica el viaje ${record.code}`}
+											description='Establece  el alias y la nueva fecha de salida para replicar el viaje.'
+											triggerProps={{
+												type: 'button',
+												variant: 'link',
+												'aria-label': `Replica el viaje ${record.code}`,
+												'aria-disabled': false,
+												className: 'p-0',
+											}}
+											triggerLabel='replicarlo'
+											submitLabel='Listo'
+											submitIcon={<CheckCircle2 className='mr-1 size-4' />}
+											submitProps={{
+												form: REPLICATE_FORM_ID,
+											}}>
+											<ReplicationForm record={record} />
+										</Modal>
+									</p>
+								</>
 							) : (
 								<p className='text-center font-secondary text-sm text-muted-foreground'>
-									No hemos encontrado los resultados por algún motivo{' '}
+									Oops! No hemos encontrado los resultados por algún motivo{' '}
 									<Modal
 										title={`Replica el viaje ${record.code}`}
 										description='Establece  el alias y la nueva fecha de salida para replicar el viaje.'
@@ -201,9 +224,9 @@ const TripCard = forwardRef(
 							))}
 
 						{!record.isArchived &&
-							(departureTime < currentDate && !record.results ? (
+							(currentDate > departureTime && !record.results ? (
 								<p className='text-center font-secondary text-sm text-muted-foreground'>
-									No hemos encontrado la guía por algún motivo{' '}
+									Oops! No hemos encontrado la guía por algún motivo{' '}
 									<Modal
 										title={`Replica el viaje ${record.code}`}
 										description='Establece  el alias y la nueva fecha de salida para replicar el viaje.'
@@ -222,6 +245,12 @@ const TripCard = forwardRef(
 										}}>
 										<ReplicationForm record={record} />
 									</Modal>
+								</p>
+							) : currentDate <
+							  new Date(departureTime.getTime() - 10 * 60 * 1000) ? (
+								<p className='text-center font-secondary text-sm text-muted-foreground'>
+									La guía de viaje estará disponible 10 minutos antes de la
+									salida.
 								</p>
 							) : (
 								<Button variant='link' asChild>

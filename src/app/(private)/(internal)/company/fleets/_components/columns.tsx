@@ -76,7 +76,7 @@ const columns: ColumnDef<FleetModel>[] = [
 		enableHiding: false,
 		cell: ({ row }) => {
 			const maxDrivers = row.getValue<number | null>('maxDrivers')
-			const amountLinkedDrivers = row.original.vehicles.length
+			const amountLinkedDrivers = row.original.drivers.length
 
 			return maxDrivers ? (
 				<TooltipProvider>

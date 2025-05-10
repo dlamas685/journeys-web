@@ -82,7 +82,7 @@ export default async function DriversPage(props: Readonly<Props>) {
 	).then(response => response.data.sort((a, b) => a.name.localeCompare(b.name)))
 
 	const underAllocatedFleets = fleets.filter(
-		fleet => fleet.maxDrivers < fleet.drivers.length
+		fleet => fleet.maxDrivers > fleet.drivers.length
 	)
 
 	const hasFilters =

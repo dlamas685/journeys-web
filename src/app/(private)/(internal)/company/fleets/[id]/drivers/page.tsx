@@ -181,7 +181,7 @@ export default async function DriversPage(props: Readonly<Props>) {
 								triggerIcon={<Link2 className='mr-1 size-4' />}
 								triggerLabel='Vincular'
 								triggerProps={{
-									disabled: fleet.maxVehicles <= response.meta.total,
+									disabled: fleet.maxDrivers <= response.meta.total,
 								}}
 								submitLabel='Guardar'
 								submitIcon={<Save className='mr-1 size-4' />}

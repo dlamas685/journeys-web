@@ -21,7 +21,7 @@ export default function Loading() {
 					<Skeleton className='h-4 w-20' />
 				</section>
 			</FrameHeader>
-			<FrameBody className='gap-0 sm:gap-4'>
+			<FrameBody className='sm:gap-4'>
 				<section className='flex justify-between gap-2'>
 					<Skeleton className='h-9 w-24' />
 

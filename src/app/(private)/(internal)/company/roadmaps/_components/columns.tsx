@@ -126,6 +126,16 @@ const columns: ColumnDef<RoadmapModel>[] = [
 			)
 		},
 	},
+	{
+		accessorKey: 'createdAt',
+		enableHiding: true,
+		header: () => <SortingButton field='createdAt'>Creado</SortingButton>,
+		cell: ({ row }) => {
+			const createdAt = row.original.createdAt
+
+			return format(createdAt, 'dd/MM/yyyy')
+		},
+	},
 
 	{
 		id: 'actions',
@@ -227,6 +237,7 @@ const columns: ColumnDef<RoadmapModel>[] = [
 								<UpdateForm record={record} />
 							</Modal>
 						</DropdownMenuItem>
+
 						{record.status !== RoadmapStatus.ONGOING && (
 							<DropdownMenuItem asChild>
 								<RemovalAlert
