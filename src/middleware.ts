@@ -12,57 +12,83 @@ const publicPaths = [
 	`/${Pathnames.ERROR}`,
 ]
 
-export const middleware = async ({ cookies, nextUrl }: NextRequest) => {
-	const token = cookies.get('session.token')?.value
-	const user = JSON.parse(
-		cookies.get('session.user')?.value || '{}'
-	) as UserModel
-	const pathname = nextUrl.pathname
-	const isLoggedIn = Boolean(token)
-	const isOnLogin = pathname.startsWith(`/${Pathnames.LOGIN}`)
-	const isFirstSteps = pathname.startsWith(`/${Pathnames.FIRST_STEPS}`)
-	const isPublic = publicPaths.includes(pathname)
-	const defaultPath =
-		user.userType && user.userType === UserTypes.PERSONAL
-			? Pathnames.HOME
-			: Pathnames.DASHBOARD
+export const middleware = async ({
+	cookies,
+	nextUrl,
+	headers,
+}: NextRequest) => {
+	const authHeaders = headers.get('authorization') ?? ''
 
-	if (isLoggedIn) {
-		if (!user.userType && !isFirstSteps) {
-			return NextResponse.redirect(
-				new URL(`/${Pathnames.FIRST_STEPS}`, nextUrl)
-			)
-		}
+	if (authHeaders) {
+		const authValue = authHeaders.split(' ').at(-1) ?? 'user:pass'
 
-		if (user.userType && isFirstSteps) {
-			return NextResponse.redirect(
-				new URL(`/${user.userType.toLowerCase()}/${defaultPath}`, nextUrl)
-			)
-		}
+		const decodedValue = atob(authValue).split(':')
 
-		if (isOnLogin && user.userType) {
-			return NextResponse.redirect(
-				new URL(`/${user.userType.toLowerCase()}/${defaultPath}`, nextUrl)
-			)
-		}
+		const [user, password] = decodedValue
 
 		if (
-			user.userType &&
-			!pathname.includes(`/${user.userType.toLowerCase()}`)
+			user === process.env.JOURNEYS_USER &&
+			password === process.env.JOURNEYS_PASSWORD
 		) {
-			return NextResponse.redirect(
-				new URL(`/${user.userType.toLowerCase()}/${defaultPath}`, nextUrl)
-			)
+			const token = cookies.get('session.token')?.value
+			const user = JSON.parse(
+				cookies.get('session.user')?.value || '{}'
+			) as UserModel
+			const pathname = nextUrl.pathname
+			const isLoggedIn = Boolean(token)
+			const isOnLogin = pathname.startsWith(`/${Pathnames.LOGIN}`)
+			const isFirstSteps = pathname.startsWith(`/${Pathnames.FIRST_STEPS}`)
+			const isPublic = publicPaths.includes(pathname)
+			const defaultPath =
+				user.userType && user.userType === UserTypes.PERSONAL
+					? Pathnames.HOME
+					: Pathnames.DASHBOARD
+
+			if (isLoggedIn) {
+				if (!user.userType && !isFirstSteps) {
+					return NextResponse.redirect(
+						new URL(`/${Pathnames.FIRST_STEPS}`, nextUrl)
+					)
+				}
+
+				if (user.userType && isFirstSteps) {
+					return NextResponse.redirect(
+						new URL(`/${user.userType.toLowerCase()}/${defaultPath}`, nextUrl)
+					)
+				}
+
+				if (isOnLogin && user.userType) {
+					return NextResponse.redirect(
+						new URL(`/${user.userType.toLowerCase()}/${defaultPath}`, nextUrl)
+					)
+				}
+
+				if (
+					user.userType &&
+					!pathname.includes(`/${user.userType.toLowerCase()}`)
+				) {
+					return NextResponse.redirect(
+						new URL(`/${user.userType.toLowerCase()}/${defaultPath}`, nextUrl)
+					)
+				}
+
+				return NextResponse.next()
+			}
+
+			if (!isPublic) {
+				return NextResponse.redirect(new URL(`/${Pathnames.LOGIN}`, nextUrl))
+			}
+
+			return NextResponse.next()
 		}
-
-		return NextResponse.next()
 	}
 
-	if (!isPublic) {
-		return NextResponse.redirect(new URL(`/${Pathnames.LOGIN}`, nextUrl))
-	}
-
-	return NextResponse.next()
+	return new Response('Autenticación necesaria', {
+		status: 401,
+		headers: {
+			'WWW-Authenticate': 'Basic real="Secure Area"',
+		},
+	})
 }
 
 export const config = {
