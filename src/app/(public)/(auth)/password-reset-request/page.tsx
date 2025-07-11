@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 		'Ingresa tu dirección de correo electrónico y te enviaremos un enlace para restablecer tu contraseña',
 }
 
-export default function PassworResetRequestPage() {
+export default function PasswordResetRequestPage() {
 	return (
 		<AuthFrame
 			title='¿Olvidaste tu contraseña?'
