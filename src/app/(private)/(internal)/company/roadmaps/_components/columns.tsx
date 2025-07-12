@@ -198,7 +198,7 @@ const columns: ColumnDef<RoadmapModel>[] = [
 
 						{record.status !== RoadmapStatus.DISMISSED && (
 							<Modal
-								title='Cambiar Estado de Hoja de Ruta'
+								title={`Cambiar Estado de Hoja de Ruta ${record.code}`}
 								description='Modifica el estado de la hoja de ruta de forma manual.'
 								triggerIcon={<Replace className='mr-1 size-3.5' />}
 								triggerProps={{
@@ -220,7 +220,7 @@ const columns: ColumnDef<RoadmapModel>[] = [
 
 						<DropdownMenuItem asChild>
 							<Modal
-								title='Editar Hoja de Ruta'
+								title={`Editar Hoja de Ruta ${record.code}`}
 								description='Modifica los datos de la hoja de ruta. Ten en cuenta que el alias es un campo obligatorio.'
 								triggerIcon={<Pencil className='mr-1 size-3.5' />}
 								triggerProps={{

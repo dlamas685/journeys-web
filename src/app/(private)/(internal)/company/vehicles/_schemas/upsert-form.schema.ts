@@ -18,7 +18,6 @@ export const upsertFormSchema = z.object({
 		.optional(),
 	vin: z
 		.string()
-
 		.regex(VIN_PATTERN, {
 			message:
 				'El VIN debe tener 17 caracteres alfanuméricos sin la letra I, O, Q',
