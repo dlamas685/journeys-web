@@ -187,8 +187,8 @@ const columns: ColumnDef<FleetModel>[] = [
 						<DropdownMenuSeparator />
 						<DropdownMenuItem asChild>
 							<Modal
-								title='Editar Dirección Favorita'
-								description='Modifica los datos de la dirección favorita. Ten en cuenta que algunos campos son opcionales.'
+								title='Editar Flota'
+								description='Modifica los datos de la flota. Ten en cuenta que algunos campos son opcionales.'
 								triggerIcon={<Pencil className='mr-1 size-3.5' />}
 								triggerProps={{
 									className:
