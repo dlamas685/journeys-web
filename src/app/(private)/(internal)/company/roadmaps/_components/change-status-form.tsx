@@ -14,7 +14,6 @@ import {
 	FormLabel,
 	FormMessage,
 } from '@/components/ui/form'
-import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useContext } from 'react'
@@ -88,10 +87,7 @@ const ChangeStatusForm = ({ record }: Readonly<Props>) => {
 				onSubmit={form.handleSubmit(handleSubmit)}
 				className='grid max-h-96 grid-cols-1 gap-3 overflow-y-auto px-4 pb-2 sm:max-h-[inherit] sm:grid-cols-1 sm:px-1'>
 				<dl className='flex flex-col gap-2 font-secondary text-sm font-medium text-foreground'>
-					<dt>Alias</dt>
-					<dd>
-						<Label>{record.code}</Label>
-					</dd>
+					<dt>Alias: {record.code}</dt>
 					<dt>Estado Actual</dt>
 					<dd>
 						<Badge className={status.className}>{status.label}</Badge>
