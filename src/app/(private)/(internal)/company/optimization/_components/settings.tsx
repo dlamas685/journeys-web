@@ -20,6 +20,7 @@ const Settings = ({ presets }: Readonly<Props>) => {
 
 	const { dependencies } = useDependenciesContext()
 
+
 	const fleets = dependencies?.fleets as FleetModel[]
 
 	const drivers = dependencies?.drivers as DriverModel[]
@@ -146,51 +147,51 @@ const Settings = ({ presets }: Readonly<Props>) => {
 
 							<dl className='grid grid-cols-2'>
 								<dt>Nombre:</dt>
-								<dd>{costProfile?.name}</dd>
+								<dd>{costProfile?.name ?? 'Optimización equilibrada'}</dd>
 
 								<dt>Descripción:</dt>
-								<dd>{costProfile?.description}</dd>
+								<dd>{costProfile?.description ?? 'Balancea la distancia y el tiempo total de cada servicio, garantizando un uso eficiente del tiempo sin afectar la planificación de visitas.'}</dd>
 
 								<dt>Costo fijo (CF):</dt>
 								<dd>
 									{presets.thirdStage.costProfile ===
-									CostProfile.optimized_custom
+										CostProfile.optimized_custom
 										? (presets.thirdStage.costModel?.fixedCost ?? '-')
-										: costProfile?.fixedCost}
+										: costProfile?.fixedCost ?? 20}
 								</dd>
 
 								<dt>Costo por kilómetro (CPK):</dt>
 								<dd>
 									{presets.thirdStage.costProfile ===
-									CostProfile.optimized_custom
+										CostProfile.optimized_custom
 										? (presets.thirdStage.costModel?.costPerKilometer ?? '-')
-										: costProfile?.costPerKilometer}
+										: costProfile?.costPerKilometer ?? 100}
 								</dd>
 
 								<dt>Costo por hora (CPH):</dt>
 								<dd>
 									{presets.thirdStage.costProfile ===
-									CostProfile.optimized_custom
+										CostProfile.optimized_custom
 										? (presets.thirdStage.costModel?.costPerHour ?? '-')
-										: costProfile?.costPerHour}
+										: costProfile?.costPerHour ?? 100}
 								</dd>
 
 								<dt>Costo por hora recorrida (CPHR):</dt>
 								<dd>
 									{presets.thirdStage.costProfile ===
-									CostProfile.optimized_custom
+										CostProfile.optimized_custom
 										? (presets.thirdStage.costModel?.costPerTraveledHour ?? '-')
-										: costProfile?.costPerTraveledHour}
+										: costProfile?.costPerTraveledHour ?? 50}
 								</dd>
 
 								<dt>Multiplicador de tiempo de tránsito:</dt>
 								<dd>
 									{presets.thirdStage.costProfile ===
-									CostProfile.optimized_custom
+										CostProfile.optimized_custom
 										? (presets.thirdStage.costModel?.travelDurationMultiple?.at(
-												0
-											) ?? '1')
-										: costProfile?.travelDurationMultiple}
+											0
+										) ?? '1')
+										: costProfile?.travelDurationMultiple ?? 1}
 								</dd>
 							</dl>
 						</dd>
@@ -212,8 +213,8 @@ const Settings = ({ presets }: Readonly<Props>) => {
 									<dd>
 										{presets.thirdStage.bounds.travelDurationLimit
 											? formatHHMM(
-													presets.thirdStage.bounds.travelDurationLimit
-												)
+												presets.thirdStage.bounds.travelDurationLimit
+											)
 											: '-'}
 									</dd>
 
@@ -221,8 +222,8 @@ const Settings = ({ presets }: Readonly<Props>) => {
 									<dd>
 										{presets.thirdStage.bounds.routeDistanceLimit
 											? formatDistance(
-													presets.thirdStage.bounds.routeDistanceLimit
-												)
+												presets.thirdStage.bounds.routeDistanceLimit
+											)
 											: '-'}
 									</dd>
 								</dl>

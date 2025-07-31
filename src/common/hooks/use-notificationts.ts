@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { io, Socket } from 'socket.io-client'
+import { toast } from 'sonner'
 import { WEBSOCKET_EVENTS } from '../constants'
 import { NotificationModel } from '../models'
 
@@ -32,10 +33,10 @@ export const useNotifications = (
 			WEBSOCKET_EVENTS.NEW_NOTIFICATION,
 			(notification: NotificationModel) => {
 				setNotifications(prev => [notification, ...prev])
-				// toast.info(notification.subject, {
-				// 	description: notification.message,
-				// 	duration: 1500,
-				// })
+				toast.info(notification.subject, {
+					description: notification.message,
+					duration: 3000,
+				})
 			}
 		)
 

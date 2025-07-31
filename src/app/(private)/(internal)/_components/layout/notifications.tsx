@@ -16,15 +16,7 @@ import {
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { cn } from '@/lib/utils'
 import { Bell, CheckCheck, MailCheck, MailWarning, Trash2 } from 'lucide-react'
-import { cloneElement, ReactElement, ReactNode, useMemo } from 'react'
-
-interface Notification {
-	id: number
-	title: string
-	message: string
-	icon: ReactNode
-	read: boolean
-}
+import { cloneElement, ReactElement, useMemo } from 'react'
 
 type Props = {
 	recipientId: string
@@ -135,11 +127,11 @@ const Notifications = ({ className, data, recipientId }: Readonly<Props>) => {
 									onClick={() => handleMarkAsRead(notification.id)}>
 									{NOTIFICATIONS_ICON[notification.type]
 										? cloneElement(
-												NOTIFICATIONS_ICON[notification.type] as ReactElement,
-												{
-													className: 'size-4',
-												}
-											)
+											NOTIFICATIONS_ICON[notification.type] as ReactElement,
+											{
+												className: 'size-4',
+											}
+										)
 										: null}
 									<h4 className='font-secondary text-sm font-semibold'>
 										{notification.subject}

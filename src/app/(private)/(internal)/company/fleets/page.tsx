@@ -76,7 +76,6 @@ export default async function FleetsPage(props: Readonly<Props>) {
 		queryParams,
 		Pathnames.FLEETS
 	)
-	console.log({ response })
 
 	const hasFilters =
 		(queryParams.filters && queryParams.filters.length > 0) ||
